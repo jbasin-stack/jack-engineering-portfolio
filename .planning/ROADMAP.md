@@ -12,7 +12,7 @@ This roadmap delivers a high-performance, minimalist single-page portfolio that 
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation, Navigation, and Hero** - Scaffold Vite 8 + React 19 project with Lenis, Motion, Tailwind v4, glassmorphic nav, and typography-first hero
+- [x] **Phase 1: Foundation, Navigation, and Hero** - Scaffold Vite 8 + React 19 project with Lenis, Motion, Tailwind v4, glassmorphic nav, and typography-first hero (completed 2026-03-22)
 - [ ] **Phase 2: Content Sections** - Build all data-driven sections: Skills, Lab/Tooling, Coursework, Timeline, and Contact
 - [ ] **Phase 3: Interactive Features** - Bento grid project cards with inline expansion and in-browser PDF viewer for papers and resume
 - [ ] **Phase 4: Polish and Deployment** - Responsive QA, Lighthouse 90+, accessibility, semantic HTML, and Vercel deployment
@@ -29,12 +29,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Navigation collapses to a mobile-friendly hamburger menu at small breakpoints
   4. Page scrolls with a weighted, physical Lenis smooth-scroll feel, and all section entries animate with weighted Motion transitions (no bounce or spring)
   5. All content data structures (projects, papers, skills, courses, tooling, timeline, nav items) are defined as typed TypeScript data files separate from JSX
-**Plans:** 2/3 plans executed
+**Plans:** 3/3 plans complete
 
 Plans:
 - [x] 01-01-PLAN.md — Scaffold Vite project, design system, typed data layer, scroll infrastructure, and test suite
-- [ ] 01-02-PLAN.md — Typography-first hero section with staggered animation, social icons, and scroll indicator
-- [ ] 01-03-PLAN.md — Glassmorphic navigation with dropdown, scroll-spy, mobile hamburger overlay
+- [x] 01-02-PLAN.md — Typography-first hero section with staggered animation, social icons, and scroll indicator
+- [x] 01-03-PLAN.md — Glassmorphic navigation with dropdown, scroll-spy, mobile hamburger overlay
 
 ### Phase 2: Content Sections
 **Goal**: Visitor can browse all informational sections — skills grouped by domain, lab tooling proficiency, coursework highlights, engineering timeline, and contact links — all rendered from data files with consistent animation and semantic markup
@@ -90,7 +90,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation, Navigation, and Hero | 2/3 | In Progress|  |
+| 1. Foundation, Navigation, and Hero | 3/3 | Complete   | 2026-03-22 |
 | 2. Content Sections | 0/3 | Not started | - |
 | 3. Interactive Features | 0/2 | Not started | - |
 | 4. Polish and Deployment | 0/1 | Not started | - |

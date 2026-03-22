@@ -18,11 +18,11 @@
 
 ### Navigation
 
-- [ ] **NAV-01**: User sees a fixed glassmorphic header with backdrop-blur, visible on all scroll positions
-- [ ] **NAV-02**: Navigation contains links to: Skills, Projects, Papers, Contact/Resume
-- [ ] **NAV-03**: Active section is highlighted in nav via Intersection Observer scroll-spy
-- [ ] **NAV-04**: Clicking a nav link smooth-scrolls to the target section via Lenis
-- [ ] **NAV-05**: Nav collapses to mobile-friendly menu at small breakpoints (hamburger on mobile only)
+- [x] **NAV-01**: User sees a fixed glassmorphic header with backdrop-blur, visible on all scroll positions
+- [x] **NAV-02**: Navigation contains links to: Skills, Projects, Papers, Contact/Resume
+- [x] **NAV-03**: Active section is highlighted in nav via Intersection Observer scroll-spy
+- [x] **NAV-04**: Clicking a nav link smooth-scrolls to the target section via Lenis
+- [x] **NAV-05**: Nav collapses to mobile-friendly menu at small breakpoints (hamburger on mobile only)
 
 ### Hero
 
@@ -127,11 +127,11 @@
 | FNDN-06 | Phase 1 | Complete |
 | FNDN-07 | Phase 1 | Complete |
 | FNDN-08 | Phase 1 | Pending |
-| NAV-01 | Phase 1 | Pending |
-| NAV-02 | Phase 1 | Pending |
-| NAV-03 | Phase 1 | Pending |
-| NAV-04 | Phase 1 | Pending |
-| NAV-05 | Phase 1 | Pending |
+| NAV-01 | Phase 1 | Complete |
+| NAV-02 | Phase 1 | Complete |
+| NAV-03 | Phase 1 | Complete |
+| NAV-04 | Phase 1 | Complete |
+| NAV-05 | Phase 1 | Complete |
 | HERO-01 | Phase 1 | Complete |
 | HERO-02 | Phase 1 | Complete |
 | HERO-03 | Phase 1 | Complete |
