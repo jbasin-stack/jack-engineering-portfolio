@@ -7,13 +7,13 @@
 
 ### Foundation
 
-- [ ] **FNDN-01**: Project uses Vite 8 + React 19 with TypeScript, Tailwind CSS v4, and Motion (framer-motion successor)
-- [ ] **FNDN-02**: All content (projects, papers, skills, coursework, tooling, timeline) stored in typed TypeScript data files, not hardcoded in JSX
-- [ ] **FNDN-03**: Lenis smooth scroll wraps entire page with weighted easing and physical feel
-- [ ] **FNDN-04**: Lenis and Motion frame loops are synced (Lenis autoRaf disabled, driven by Motion's frame.update)
-- [ ] **FNDN-05**: Framer Motion weighted animations on all section entries and interactive hover states — no bounce or springy defaults
-- [ ] **FNDN-06**: 0.5px border design system with 1px fallback for non-Retina displays via HiDPI media query
-- [ ] **FNDN-07**: prefers-reduced-motion support disables Lenis smooth scroll and non-essential Motion animations
+- [x] **FNDN-01**: Project uses Vite 8 + React 19 with TypeScript, Tailwind CSS v4, and Motion (framer-motion successor)
+- [x] **FNDN-02**: All content (projects, papers, skills, coursework, tooling, timeline) stored in typed TypeScript data files, not hardcoded in JSX
+- [x] **FNDN-03**: Lenis smooth scroll wraps entire page with weighted easing and physical feel
+- [x] **FNDN-04**: Lenis and Motion frame loops are synced (Lenis autoRaf disabled, driven by Motion's frame.update)
+- [x] **FNDN-05**: Framer Motion weighted animations on all section entries and interactive hover states — no bounce or springy defaults
+- [x] **FNDN-06**: 0.5px border design system with 1px fallback for non-Retina displays via HiDPI media query
+- [x] **FNDN-07**: prefers-reduced-motion support disables Lenis smooth scroll and non-essential Motion animations
 - [ ] **FNDN-08**: 21st.dev MCP server used as primary source for sourcing premium React components
 
 ### Navigation
@@ -119,13 +119,13 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FNDN-01 | Phase 1 | Pending |
-| FNDN-02 | Phase 1 | Pending |
-| FNDN-03 | Phase 1 | Pending |
-| FNDN-04 | Phase 1 | Pending |
-| FNDN-05 | Phase 1 | Pending |
-| FNDN-06 | Phase 1 | Pending |
-| FNDN-07 | Phase 1 | Pending |
+| FNDN-01 | Phase 1 | Complete |
+| FNDN-02 | Phase 1 | Complete |
+| FNDN-03 | Phase 1 | Complete |
+| FNDN-04 | Phase 1 | Complete |
+| FNDN-05 | Phase 1 | Complete |
+| FNDN-06 | Phase 1 | Complete |
+| FNDN-07 | Phase 1 | Complete |
 | FNDN-08 | Phase 1 | Pending |
 | NAV-01 | Phase 1 | Pending |
 | NAV-02 | Phase 1 | Pending |

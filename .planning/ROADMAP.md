@@ -32,7 +32,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans:** 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Scaffold Vite project, design system, typed data layer, scroll infrastructure, and test suite
+- [x] 01-01-PLAN.md — Scaffold Vite project, design system, typed data layer, scroll infrastructure, and test suite
 - [ ] 01-02-PLAN.md — Typography-first hero section with staggered animation, social icons, and scroll indicator
 - [ ] 01-03-PLAN.md — Glassmorphic navigation with dropdown, scroll-spy, mobile hamburger overlay
 
