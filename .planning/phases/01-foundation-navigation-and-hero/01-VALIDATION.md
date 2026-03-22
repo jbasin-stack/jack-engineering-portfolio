@@ -62,9 +62,9 @@ created: 2026-03-20
 ## Wave 0 Requirements
 
 - [ ] `vitest.config.ts` — test framework configuration
-- [ ] `tests/data/navigation.test.ts` — validates nav data structure and types
-- [ ] `tests/data/hero.test.ts` — validates hero data exports
-- [ ] `tests/styles/motion.test.ts` — validates animation config uses tween, not spring
+- [ ] `src/data/__tests__/navigation.test.ts` — validates nav data structure and types
+- [ ] `src/data/__tests__/hero.test.ts` — validates hero data exports
+- [ ] `src/styles/__tests__/motion.test.ts` — validates animation config uses tween, not spring
 - [ ] Framework install: `npm install -D vitest @testing-library/react @testing-library/jest-dom jsdom`
 
 ---
