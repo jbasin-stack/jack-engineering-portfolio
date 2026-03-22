@@ -29,7 +29,7 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. Navigation collapses to a mobile-friendly hamburger menu at small breakpoints
   4. Page scrolls with a weighted, physical Lenis smooth-scroll feel, and all section entries animate with weighted Motion transitions (no bounce or spring)
   5. All content data structures (projects, papers, skills, courses, tooling, timeline, nav items) are defined as typed TypeScript data files separate from JSX
-**Plans:** 3 plans
+**Plans:** 2/3 plans executed
 
 Plans:
 - [x] 01-01-PLAN.md — Scaffold Vite project, design system, typed data layer, scroll infrastructure, and test suite
@@ -90,7 +90,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation, Navigation, and Hero | 0/3 | Planning complete | - |
+| 1. Foundation, Navigation, and Hero | 2/3 | In Progress|  |
 | 2. Content Sections | 0/3 | Not started | - |
 | 3. Interactive Features | 0/2 | Not started | - |
 | 4. Polish and Deployment | 0/1 | Not started | - |

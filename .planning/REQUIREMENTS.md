@@ -26,9 +26,9 @@
 
 ### Hero
 
-- [ ] **HERO-01**: User sees a typography-first hero section as the landing view
-- [ ] **HERO-02**: Hero communicates Jack's identity: ECE student at UW, semiconductor fabrication × system design
-- [ ] **HERO-03**: Hero uses high-quality sans-serif typography with generous whitespace
+- [x] **HERO-01**: User sees a typography-first hero section as the landing view
+- [x] **HERO-02**: Hero communicates Jack's identity: ECE student at UW, semiconductor fabrication × system design
+- [x] **HERO-03**: Hero uses high-quality sans-serif typography with generous whitespace
 
 ### Skills
 
@@ -132,9 +132,9 @@
 | NAV-03 | Phase 1 | Pending |
 | NAV-04 | Phase 1 | Pending |
 | NAV-05 | Phase 1 | Pending |
-| HERO-01 | Phase 1 | Pending |
-| HERO-02 | Phase 1 | Pending |
-| HERO-03 | Phase 1 | Pending |
+| HERO-01 | Phase 1 | Complete |
+| HERO-02 | Phase 1 | Complete |
+| HERO-03 | Phase 1 | Complete |
 | SKIL-01 | Phase 2 | Pending |
 | SKIL-02 | Phase 2 | Pending |
 | SKIL-03 | Phase 2 | Pending |
