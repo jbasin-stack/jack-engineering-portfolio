@@ -19,6 +19,20 @@
   --color-ink: oklch(0.15 0.01 250);
   --color-accent: oklch(0.55 0.15 250);
 
+  /* UW accent scale */
+  --color-uw-purple: oklch(0.385 0.136 295);
+  --color-uw-purple-soft: oklch(0.55 0.133 298);
+  --color-uw-purple-light: oklch(0.75 0.083 304);
+  --color-uw-purple-faint: oklch(0.917 0.029 306);
+  --color-uw-gold: oklch(0.567 0.060 89);
+
+  /* Aurora animation */
+  --animate-aurora: aurora 60s linear infinite;
+  @keyframes aurora {
+    from { background-position: 50% 50%, 50% 50%; }
+    to { background-position: 350% 50%, 350% 50%; }
+  }
+
   /* Tracking */
   --tracking-architectural: 0.08em;
 
