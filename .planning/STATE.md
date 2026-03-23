@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: in-progress
-stopped_at: Completed 05-02-PLAN.md
-last_updated: "2026-03-23T22:01:35Z"
-last_activity: 2026-03-23 — Plan 05-02 executed (Section visual effects integration)
+status: verifying
+stopped_at: Completed 05-03-PLAN.md
+last_updated: "2026-03-23T22:18:53.303Z"
+last_activity: 2026-03-23 — Plan 05-03 executed (Timeline grid pattern + project card spotlight)
 progress:
   total_phases: 5
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 16
-  completed_plans: 14
-  percent: 88
+  completed_plans: 15
+  percent: 94
 ---
 
 # Project State
@@ -21,23 +21,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-20)
 
 **Core value:** Every visitor immediately understands Jack's range and depth as an electrical engineer, and can access the evidence without friction.
-**Current focus:** Phase 5 in progress. Plans 01-02 complete, Plan 03 pending
+**Current focus:** Phase 5 complete. All 3 plans executed. Visual design overhaul finished.
 
 ## Current Position
 
 Phase: 5 of 5 (Visual Design Overhaul)
-Plan: 2 of 3 in current phase (2 complete, 1 remaining)
-Status: Plan 05-02 complete, ready for Plan 05-03
-Last activity: 2026-03-23 — Plan 05-02 executed (Section visual effects integration)
+Plan: 3 of 3 in current phase (3 complete, 0 remaining)
+Status: Phase 5 complete. All visual effects integrated and verified.
+Last activity: 2026-03-23 — Plan 05-03 executed (Timeline grid pattern + project card spotlight)
 
-Progress: [█████████░] 88%
+Progress: [█████████░] 94%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 14
+- Total plans completed: 15
 - Average duration: 4.0 min
-- Total execution time: 0.94 hours
+- Total execution time: 1.0 hours
 
 **By Phase:**
 
@@ -47,13 +47,14 @@ Progress: [█████████░] 88%
 | 2 | 4 | 12 min | 3.0 min |
 | 3 | 4 | 16 min | 4.0 min |
 | 4 | 1 | 6 min | 6.0 min |
-| 5 | 2 | 11 min | 5.5 min |
+| 5 | 3 | 15 min | 5.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 03-04 (3min), 04-01 (6min), 05-01 (8min), 05-02 (3min)
-- Trend: Consistent execution, Phase 5 plans 01-02 complete
+- Last 5 plans: 04-01 (6min), 05-01 (8min), 05-02 (3min), 05-03 (4min)
+- Trend: Consistent execution, Phase 5 complete (all 3 plans)
 
 *Updated after each plan completion*
+| Phase 05 P03 | 4 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -105,6 +106,9 @@ Recent decisions affecting current work:
 - [05-02]: Hero uses 3-layer z-index stacking: Aurora (z-0), Particles (z-[1]), Content (z-10).
 - [05-02]: Contact uses CSS gradient only (no NoisyBackground) for subtle hero echo at low intensity.
 - [05-02]: Papers section deliberately untouched as visual breathing room in the intensity curve.
+- [05-03]: CardSpotlight placed INSIDE motion.div with layout prop to avoid breaking Motion layout animations.
+- [05-03]: AnimatedGridPattern uses radial-gradient mask for vignette fade (visible center, transparent edges).
+- [05-03]: Timeline content wrapped in relative z-10 div to render above grid pattern background.
 
 ### Pending Todos
 
@@ -121,6 +125,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-23T22:01:35Z
-Stopped at: Completed 05-02-PLAN.md
+Last session: 2026-03-23T22:18:53.298Z
+Stopped at: Completed 05-03-PLAN.md
 Resume file: None
