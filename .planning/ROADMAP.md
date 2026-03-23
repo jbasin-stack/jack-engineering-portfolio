@@ -46,12 +46,13 @@ Plans:
   3. Visitor can view key UW ECE courses with brief descriptors signaling domain relevance
   4. Visitor can view a vertical timeline of 6-10 engineering milestones that fills progressively as they scroll down the page
   5. Visitor can access email link, LinkedIn, GitHub profiles, and download resume as PDF from the contact section
-**Plans**: TBD
+**Plans:** 4 plans
 
 Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
-- [ ] 02-03: TBD
+- [ ] 02-01-PLAN.md — Typed data layer: interfaces, 5 content data files, animation variants, and data integrity tests
+- [ ] 02-02-PLAN.md — Skills, Tooling, and Coursework section components with column grid and vertical list layouts
+- [ ] 02-03-PLAN.md — Timeline with scroll-driven progressive fill and Contact CTA section
+- [ ] 02-04-PLAN.md — Wire all sections into App.tsx and visual verification checkpoint
 
 ### Phase 3: Interactive Features
 **Goal**: Visitor can explore 3-5 projects via an interactive bento grid with inline card expansion, and view academic papers and resume in-browser via a PDF viewer — the two flagship interactive experiences of the portfolio
@@ -91,6 +92,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation, Navigation, and Hero | 3/3 | Complete   | 2026-03-22 |
-| 2. Content Sections | 0/3 | Not started | - |
+| 2. Content Sections | 0/4 | Not started | - |
 | 3. Interactive Features | 0/2 | Not started | - |
 | 4. Polish and Deployment | 0/1 | Not started | - |
