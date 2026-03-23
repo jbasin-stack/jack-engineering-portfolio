@@ -10,7 +10,7 @@ import { MobileMenu } from './MobileMenu';
 import { easing } from '../../styles/motion';
 
 // All section IDs for scroll-spy tracking
-const sectionIds = ['skills', 'coursework', 'tooling', 'projects', 'papers', 'contact'];
+const sectionIds = ['skills', 'tooling', 'coursework', 'timeline', 'projects', 'papers', 'contact'];
 
 export function Navigation() {
   const isVisible = useScrollVisibility(400);

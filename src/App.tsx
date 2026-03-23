@@ -2,6 +2,11 @@ import { MotionConfig } from 'motion/react';
 import { SmoothScroll } from './components/layout/SmoothScroll';
 import { Hero } from './components/hero/Hero';
 import { Navigation } from './components/layout/Navigation';
+import { Skills } from './components/sections/Skills';
+import { Tooling } from './components/sections/Tooling';
+import { Coursework } from './components/sections/Coursework';
+import { Timeline } from './components/sections/Timeline';
+import { Contact } from './components/sections/Contact';
 
 function App() {
   return (
@@ -10,29 +15,24 @@ function App() {
         <Navigation />
         <main>
           <Hero />
+          <Skills />
+          <Tooling />
+          <Coursework />
+          <Timeline />
 
-          {/* Placeholder sections for scrolling and nav targets */}
-          <section id="background" className="min-h-screen px-6 py-24">
-            <h2 className="text-2xl font-bold text-ink">Background</h2>
+          {/* Phase 3 placeholders */}
+          <section id="projects" className="px-6 py-24">
+            <div className="mx-auto max-w-5xl">
+              <h2 className="text-2xl font-bold text-ink">Projects</h2>
+            </div>
           </section>
-          <section id="skills" className="min-h-screen px-6 py-24">
-            <h2 className="text-2xl font-bold text-ink">Skills</h2>
+          <section id="papers" className="px-6 py-24">
+            <div className="mx-auto max-w-5xl">
+              <h2 className="text-2xl font-bold text-ink">Papers</h2>
+            </div>
           </section>
-          <section id="coursework" className="min-h-screen px-6 py-24">
-            <h2 className="text-2xl font-bold text-ink">Coursework</h2>
-          </section>
-          <section id="tooling" className="min-h-screen px-6 py-24">
-            <h2 className="text-2xl font-bold text-ink">Lab & Tooling</h2>
-          </section>
-          <section id="projects" className="min-h-screen px-6 py-24">
-            <h2 className="text-2xl font-bold text-ink">Projects</h2>
-          </section>
-          <section id="papers" className="min-h-screen px-6 py-24">
-            <h2 className="text-2xl font-bold text-ink">Papers</h2>
-          </section>
-          <section id="contact" className="min-h-screen px-6 py-24">
-            <h2 className="text-2xl font-bold text-ink">Contact</h2>
-          </section>
+
+          <Contact />
         </main>
       </SmoothScroll>
     </MotionConfig>
