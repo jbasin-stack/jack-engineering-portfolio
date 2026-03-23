@@ -2,9 +2,9 @@ import { MotionConfig } from 'motion/react';
 import { SmoothScroll } from './components/layout/SmoothScroll';
 import { Hero } from './components/hero/Hero';
 import { Navigation } from './components/layout/Navigation';
+import { WhoAmI } from './components/sections/WhoAmI';
 import { Skills } from './components/sections/Skills';
 import { Tooling } from './components/sections/Tooling';
-import { Coursework } from './components/sections/Coursework';
 import { Timeline } from './components/sections/Timeline';
 import { Contact } from './components/sections/Contact';
 
@@ -15,9 +15,9 @@ function App() {
         <Navigation />
         <main>
           <Hero />
+          <WhoAmI />
           <Skills />
           <Tooling />
-          <Coursework />
           <Timeline />
 
           {/* Phase 3 placeholders */}

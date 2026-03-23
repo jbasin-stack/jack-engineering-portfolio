@@ -3,10 +3,9 @@ import type { NavItem } from '../types/data';
 export const navItems: NavItem[] = [
   {
     label: 'Background',
-    href: '#background',
+    href: '#about',
     children: [
       { label: 'Skills', href: '#skills' },
-      { label: 'Coursework', href: '#coursework' },
       { label: 'Lab & Tooling', href: '#tooling' },
     ],
   },
