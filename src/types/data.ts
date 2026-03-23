@@ -16,3 +16,32 @@ export interface SocialLink {
   url: string;
   icon: string;
 }
+
+export interface SkillGroup {
+  domain: string;
+  skills: string[];
+}
+
+export interface ToolingGroup {
+  category: string;
+  items: string[];
+}
+
+export interface Course {
+  code: string;
+  name: string;
+  descriptor: string;
+}
+
+export interface TimelineMilestone {
+  date: string;
+  title: string;
+  description: string;
+}
+
+export interface ContactData {
+  tagline: string;
+  email: string;
+  resumePath: string;
+  socialLinks: SocialLink[];
+}
