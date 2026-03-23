@@ -144,3 +144,9 @@
     opacity: 1;
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-aurora {
+    animation: none;
+  }
+}
