@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import type { Project } from '../../types/data';
 import { easing, layoutTransition } from '../../styles/motion';
 
@@ -19,8 +19,8 @@ export function ProjectCard({
   return (
     <motion.div
       layout
-      className={`rounded-xl bg-cleanroom shadow-md overflow-hidden ${
-        project.featured ? 'col-span-1 md:col-span-2' : ''
+      className={`rounded-xl bg-white shadow-lg overflow-hidden ${
+        isExpanded ? 'col-span-1 md:col-span-3' : ''
       }`}
       whileHover={{
         y: -2,
@@ -37,32 +37,20 @@ export function ProjectCard({
         className="cursor-pointer"
         onClick={onToggle}
       >
-        <img
-          src={project.thumbnail}
-          alt={project.title}
-          className="w-full aspect-video object-cover"
-        />
-        <div className="p-5">
-          <h3 className="font-bold text-ink">{project.title}</h3>
-          <p className="text-silicon-600 mt-1">{project.brief}</p>
-          <span className="inline-block rounded-full bg-silicon-50 px-3 py-1 text-xs font-medium text-silicon-600 mt-3">
-            {project.domain}
-          </span>
-        </div>
-      </motion.div>
-
-      {/* Expanded content -- conditional, fades in/out */}
-      <AnimatePresence>
-        {isExpanded && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="px-5 pb-5"
-          >
-            <div className="border-t border-silicon-200/30 pt-4 mt-2">
-              <p className="text-silicon-600 leading-relaxed">
+        {/* When expanded, use side-by-side layout: image left, details right */}
+        {isExpanded ? (
+          <div className="flex flex-col md:flex-row">
+            <img
+              src={project.thumbnail}
+              alt={project.title}
+              className="w-full md:w-2/5 aspect-video object-cover md:aspect-auto md:min-h-[280px]"
+            />
+            <div className="p-6 flex-1">
+              <h3 className="text-lg font-bold text-ink">{project.title}</h3>
+              <span className="inline-block rounded-full bg-silicon-50 px-3 py-1 text-xs font-medium text-silicon-600 mt-2">
+                {project.domain}
+              </span>
+              <p className="text-silicon-600 leading-relaxed mt-4">
                 {project.summary}
               </p>
 
@@ -79,7 +67,7 @@ export function ProjectCard({
               </div>
 
               {/* Action buttons */}
-              <div className="flex items-center gap-3 mt-4">
+              <div className="flex items-center gap-3 mt-5">
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
@@ -100,9 +88,24 @@ export function ProjectCard({
                 </button>
               </div>
             </div>
-          </motion.div>
+          </div>
+        ) : (
+          <>
+            <img
+              src={project.thumbnail}
+              alt={project.title}
+              className="w-full aspect-video object-cover"
+            />
+            <div className="p-5">
+              <h3 className="font-bold text-ink">{project.title}</h3>
+              <p className="text-silicon-600 mt-1">{project.brief}</p>
+              <span className="inline-block rounded-full bg-silicon-50 px-3 py-1 text-xs font-medium text-silicon-600 mt-3">
+                {project.domain}
+              </span>
+            </div>
+          </>
         )}
-      </AnimatePresence>
+      </motion.div>
     </motion.div>
   );
 }
