@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in-progress
-stopped_at: Completed 05-01-PLAN.md
-last_updated: "2026-03-23T21:30:43Z"
-last_activity: 2026-03-23 — Plan 05-01 executed (UW color tokens + 5 effect components)
+stopped_at: Completed 05-02-PLAN.md
+last_updated: "2026-03-23T22:01:35Z"
+last_activity: 2026-03-23 — Plan 05-02 executed (Section visual effects integration)
 progress:
   total_phases: 5
   completed_phases: 3
   total_plans: 16
-  completed_plans: 13
-  percent: 81
+  completed_plans: 14
+  percent: 88
 ---
 
 # Project State
@@ -21,23 +21,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-20)
 
 **Core value:** Every visitor immediately understands Jack's range and depth as an electrical engineer, and can access the evidence without friction.
-**Current focus:** Phase 5 in progress. Plan 01 complete (Color tokens + effect components), Plans 02-03 pending
+**Current focus:** Phase 5 in progress. Plans 01-02 complete, Plan 03 pending
 
 ## Current Position
 
 Phase: 5 of 5 (Visual Design Overhaul)
-Plan: 1 of 3 in current phase (1 complete, 2 remaining)
-Status: Plan 05-01 complete, ready for Plan 05-02
-Last activity: 2026-03-23 — Plan 05-01 executed (UW color tokens + 5 effect components)
+Plan: 2 of 3 in current phase (2 complete, 1 remaining)
+Status: Plan 05-02 complete, ready for Plan 05-03
+Last activity: 2026-03-23 — Plan 05-02 executed (Section visual effects integration)
 
-Progress: [████████░░] 81%
+Progress: [█████████░] 88%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 13
-- Average duration: 4.1 min
-- Total execution time: 0.89 hours
+- Total plans completed: 14
+- Average duration: 4.0 min
+- Total execution time: 0.94 hours
 
 **By Phase:**
 
@@ -47,11 +47,11 @@ Progress: [████████░░] 81%
 | 2 | 4 | 12 min | 3.0 min |
 | 3 | 4 | 16 min | 4.0 min |
 | 4 | 1 | 6 min | 6.0 min |
-| 5 | 1 | 8 min | 8.0 min |
+| 5 | 2 | 11 min | 5.5 min |
 
 **Recent Trend:**
-- Last 5 plans: 03-03 (2min), 03-04 (3min), 04-01 (6min), 05-01 (8min)
-- Trend: Consistent execution, Phase 5 plan 01 complete
+- Last 5 plans: 03-04 (3min), 04-01 (6min), 05-01 (8min), 05-02 (3min)
+- Trend: Consistent execution, Phase 5 plans 01-02 complete
 
 *Updated after each plan completion*
 
@@ -102,6 +102,9 @@ Recent decisions affecting current work:
 - [05-01]: SVG feTurbulence for NoisyBackground instead of canvas -- zero JS runtime cost, static grain sufficient per design spec.
 - [05-01]: React useId() hook for unique SVG filter IDs in NoisyBackground to prevent ID collisions across instances.
 - [05-01]: Added @/ resolve alias to vitest.config.ts for component imports in test environment.
+- [05-02]: Hero uses 3-layer z-index stacking: Aurora (z-0), Particles (z-[1]), Content (z-10).
+- [05-02]: Contact uses CSS gradient only (no NoisyBackground) for subtle hero echo at low intensity.
+- [05-02]: Papers section deliberately untouched as visual breathing room in the intensity curve.
 
 ### Pending Todos
 
@@ -118,6 +121,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-23T21:30:43Z
-Stopped at: Completed 05-01-PLAN.md
+Last session: 2026-03-23T22:01:35Z
+Stopped at: Completed 05-02-PLAN.md
 Resume file: None
