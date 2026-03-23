@@ -48,10 +48,10 @@
 
 ### Papers & Documents
 
-- [ ] **DOCS-01**: User sees a papers section listing academic papers and technical reports with titles and summaries
-- [ ] **DOCS-02**: User can click a paper to view the PDF in-browser via a Shadcn Dialog (desktop) or Drawer (mobile)
-- [ ] **DOCS-03**: User can download any PDF directly as a fallback
-- [ ] **DOCS-04**: Resume is viewable in the same in-browser PDF viewer
+- [x] **DOCS-01**: User sees a papers section listing academic papers and technical reports with titles and summaries
+- [x] **DOCS-02**: User can click a paper to view the PDF in-browser via a Shadcn Dialog (desktop) or Drawer (mobile)
+- [x] **DOCS-03**: User can download any PDF directly as a fallback
+- [x] **DOCS-04**: Resume is viewable in the same in-browser PDF viewer
 - [x] **DOCS-05**: react-pdf integration works in both dev and production Vite builds
 
 ### Lab & Tooling
@@ -145,10 +145,10 @@
 | PROJ-04 | Phase 3 | Pending |
 | PROJ-05 | Phase 3 | Complete |
 | PROJ-06 | Phase 3 | Pending |
-| DOCS-01 | Phase 3 | Pending |
-| DOCS-02 | Phase 3 | Pending |
-| DOCS-03 | Phase 3 | Pending |
-| DOCS-04 | Phase 3 | Pending |
+| DOCS-01 | Phase 3 | Complete |
+| DOCS-02 | Phase 3 | Complete |
+| DOCS-03 | Phase 3 | Complete |
+| DOCS-04 | Phase 3 | Complete |
 | DOCS-05 | Phase 3 | Complete |
 | TOOL-01 | Phase 2 | Complete |
 | TOOL-02 | Phase 2 | Complete |

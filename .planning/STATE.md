@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in-progress
-stopped_at: Plan 03-01 complete
-last_updated: "2026-03-23T16:42:57Z"
-last_activity: 2026-03-23 — Plan 03-01 executed (Phase 3 foundation: shadcn, react-pdf, data layer)
+stopped_at: Completed 03-03-PLAN.md
+last_updated: "2026-03-23T16:50:24Z"
+last_activity: "2026-03-23 — Plan 03-03 executed (Papers section + PDF viewer components)"
 progress:
   total_phases: 4
   completed_phases: 2
   total_plans: 11
-  completed_plans: 8
-  percent: 73
+  completed_plans: 9
+  percent: 82
 ---
 
 # Project State
@@ -21,23 +21,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-20)
 
 **Core value:** Every visitor immediately understands Jack's range and depth as an electrical engineer, and can access the evidence without friction.
-**Current focus:** Phase 3 in progress: Interactive Features (foundation complete, bento grid and PDF viewer next)
+**Current focus:** Phase 3 in progress: Interactive Features (papers + PDF viewer complete, wiring plan next)
 
 ## Current Position
 
 Phase: 3 of 4 (Interactive Features) -- IN PROGRESS
-Plan: 1 of 4 in current phase
-Status: Plan 03-01 complete, ready for 03-02
-Last activity: 2026-03-23 — Plan 03-01 executed (Phase 3 foundation: shadcn, react-pdf, data layer)
+Plan: 3 of 4 in current phase
+Status: Plan 03-03 complete, ready for 03-04
+Last activity: 2026-03-23 — Plan 03-03 executed (Papers section + PDF viewer components)
 
-Progress: [███████░░░] 73%
+Progress: [████████░░] 82%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
-- Average duration: 4.4 min
-- Total execution time: 0.52 hours
+- Total plans completed: 9
+- Average duration: 3.8 min
+- Total execution time: 0.57 hours
 
 **By Phase:**
 
@@ -45,11 +45,11 @@ Progress: [███████░░░] 73%
 |-------|-------|-------|----------|
 | 1 | 3 | 13 min | 4.3 min |
 | 2 | 3 | 12 min | 4.0 min |
-| 3 | 1 | 7 min | 7.0 min |
+| 3 | 3 | 9 min | 3.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-03 (5min), 02-01 (4min), 02-02 (4min), 02-03 (4min), 03-01 (7min)
-- Trend: Consistent (03-01 slightly longer due to shadcn init + CSS merge complexity)
+- Last 5 plans: 02-02 (4min), 02-03 (4min), 03-01 (7min), 03-02 (skip), 03-03 (2min)
+- Trend: 03-03 fast execution -- clean plan with no deviations needed
 
 *Updated after each plan completion*
 
@@ -82,6 +82,10 @@ Recent decisions affecting current work:
 - [03-01]: PDF worker copied to public/pdf.worker.min.mjs for stable production path (not import.meta.url).
 - [03-01]: Removed Geist font import from shadcn init, preserved Inter as font-sans.
 - [03-01]: Dark theme block removed -- portfolio is light-only.
+- [03-03]: PdfViewer uses useLenis() from lenis/react for scroll lock (matching MobileMenu pattern, not window.__lenis).
+- [03-03]: DialogTitle/DrawerTitle rendered as sr-only since toolbar provides visible title context.
+- [03-03]: Download button as pure anchor tag works independently of PDF render state.
+- [03-03]: showCloseButton=false on Dialog since toolbar has its own close button.
 
 ### Pending Todos
 
@@ -94,6 +98,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-23T16:42:57Z
-Stopped at: Completed 03-01-PLAN.md
-Resume file: .planning/phases/03-interactive-features/03-01-SUMMARY.md
+Last session: 2026-03-23T16:50:24Z
+Stopped at: Completed 03-03-PLAN.md
+Resume file: .planning/phases/03-interactive-features/03-03-SUMMARY.md
