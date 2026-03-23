@@ -68,17 +68,17 @@
 
 ### Timeline
 
-- [ ] **TIME-01**: User sees a vertical timeline visualizing engineering journey and progression
+- [x] **TIME-01**: User sees a vertical timeline visualizing engineering journey and progression
 - [x] **TIME-02**: Timeline contains 6–10 key milestones (courses, projects, research experiences)
-- [ ] **TIME-03**: Timeline features scroll-driven animation (fill line progresses as user scrolls)
+- [x] **TIME-03**: Timeline features scroll-driven animation (fill line progresses as user scrolls)
 - [x] **TIME-04**: Timeline data is driven from a TypeScript data file
 
 ### Contact
 
-- [ ] **CONT-01**: User sees a contact section with direct email link
-- [ ] **CONT-02**: User sees links to LinkedIn and GitHub profiles
+- [x] **CONT-01**: User sees a contact section with direct email link
+- [x] **CONT-02**: User sees links to LinkedIn and GitHub profiles
 - [x] **CONT-03**: User can download resume as a PDF via a prominent button
-- [ ] **CONT-04**: Contact section uses semantic markup for scraper readability
+- [x] **CONT-04**: Contact section uses semantic markup for scraper readability
 
 ### Performance & Deployment
 
@@ -156,14 +156,14 @@
 | CRSE-01 | Phase 2 | Complete |
 | CRSE-02 | Phase 2 | Complete |
 | CRSE-03 | Phase 2 | Complete |
-| TIME-01 | Phase 2 | Pending |
+| TIME-01 | Phase 2 | Complete |
 | TIME-02 | Phase 2 | Complete |
-| TIME-03 | Phase 2 | Pending |
+| TIME-03 | Phase 2 | Complete |
 | TIME-04 | Phase 2 | Complete |
-| CONT-01 | Phase 2 | Pending |
-| CONT-02 | Phase 2 | Pending |
+| CONT-01 | Phase 2 | Complete |
+| CONT-02 | Phase 2 | Complete |
 | CONT-03 | Phase 2 | Complete |
-| CONT-04 | Phase 2 | Pending |
+| CONT-04 | Phase 2 | Complete |
 | PERF-01 | Phase 4 | Pending |
 | PERF-02 | Phase 4 | Pending |
 | PERF-03 | Phase 4 | Pending |

@@ -74,6 +74,8 @@ Recent decisions affecting current work:
 - [02-01]: sectionVariants and fadeUpVariant use hidden/visible naming for whileInView prop consumption.
 - [Phase 02-02]: Skills uses lg:grid-cols-4 and Tooling uses lg:grid-cols-3 to match their respective data group counts
 - [Phase 02-02]: Coursework uses vertical list with middle-dot separator per CONTEXT.md locked decision, distinct from Skills/Tooling grid
+- [02-03]: Timeline uses CSS transitions (not Motion whileInView) for node activation because state is scroll-progress driven, not viewport driven.
+- [02-03]: Timeline fill line has no grey track -- accent line scales from 0 via scaleY against transparent background.
 
 ### Pending Todos
 
@@ -88,5 +90,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-23T01:19:30.426Z
-Stopped at: Completed 02-02-PLAN.md
+Stopped at: Completed 02-03-PLAN.md
 Resume file: None
