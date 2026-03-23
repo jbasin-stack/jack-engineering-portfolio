@@ -7,6 +7,7 @@ import {
 } from 'motion/react';
 import { milestones } from '../../data/timeline';
 import type { TimelineMilestone } from '../../types/data';
+import { AnimatedGridPattern } from '../effects/AnimatedGridPattern';
 
 // Individual timeline node -- activates when scroll progress reaches its threshold
 function TimelineNode({
@@ -67,8 +68,18 @@ export function Timeline() {
   });
 
   return (
-    <section id="timeline" className="px-6 py-24">
-      <div className="mx-auto max-w-5xl">
+    <section id="timeline" className="relative px-6 py-24 overflow-hidden">
+      {/* Animated engineering grid background with vignette fade */}
+      <AnimatedGridPattern
+        width={40}
+        height={40}
+        numSquares={30}
+        maxOpacity={0.15}
+        duration={4}
+        className="absolute inset-0 fill-uw-purple/15 stroke-uw-purple/15 [mask-image:radial-gradient(500px_circle_at_center,white,transparent)]"
+      />
+
+      <div className="relative z-10 mx-auto max-w-5xl">
         <h2 className="text-2xl font-bold text-ink">Timeline</h2>
 
         <div ref={containerRef} className="relative mt-12 pl-8">
