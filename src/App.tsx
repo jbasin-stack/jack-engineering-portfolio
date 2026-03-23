@@ -24,9 +24,10 @@ function App() {
 
           <ProjectsSection />
           <PapersSection />
-
-          <Contact />
         </main>
+        <footer>
+          <Contact />
+        </footer>
       </SmoothScroll>
     </MotionConfig>
   );
