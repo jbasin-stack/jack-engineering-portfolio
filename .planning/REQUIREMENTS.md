@@ -32,10 +32,10 @@
 
 ### Skills
 
-- [ ] **SKIL-01**: User can view technical skills as a clean typography-driven list
-- [ ] **SKIL-02**: Skills are grouped by domain: Fabrication, RF, Analog, Digital
+- [x] **SKIL-01**: User can view technical skills as a clean typography-driven list
+- [x] **SKIL-02**: Skills are grouped by domain: Fabrication, RF, Analog, Digital
 - [x] **SKIL-03**: Skills are rendered from a TypeScript data file for easy updates
-- [ ] **SKIL-04**: Skills section uses semantic HTML so AI scrapers and recruiters can parse skill keywords
+- [x] **SKIL-04**: Skills section uses semantic HTML so AI scrapers and recruiters can parse skill keywords
 
 ### Projects
 
@@ -56,14 +56,14 @@
 
 ### Lab & Tooling
 
-- [ ] **TOOL-01**: User sees a section displaying hands-on lab and tooling proficiency
-- [ ] **TOOL-02**: Tooling is grouped by category (EDA tools, lab equipment, fabrication processes)
+- [x] **TOOL-01**: User sees a section displaying hands-on lab and tooling proficiency
+- [x] **TOOL-02**: Tooling is grouped by category (EDA tools, lab equipment, fabrication processes)
 - [x] **TOOL-03**: Tooling data is driven from a TypeScript data file
 
 ### Coursework
 
-- [ ] **CRSE-01**: User sees a section highlighting key UW ECE courses
-- [ ] **CRSE-02**: Courses include brief descriptors signaling domain relevance
+- [x] **CRSE-01**: User sees a section highlighting key UW ECE courses
+- [x] **CRSE-02**: Courses include brief descriptors signaling domain relevance
 - [x] **CRSE-03**: Coursework data is driven from a TypeScript data file
 
 ### Timeline
@@ -135,10 +135,10 @@
 | HERO-01 | Phase 1 | Complete |
 | HERO-02 | Phase 1 | Complete |
 | HERO-03 | Phase 1 | Complete |
-| SKIL-01 | Phase 2 | Pending |
-| SKIL-02 | Phase 2 | Pending |
+| SKIL-01 | Phase 2 | Complete |
+| SKIL-02 | Phase 2 | Complete |
 | SKIL-03 | Phase 2 | Complete |
-| SKIL-04 | Phase 2 | Pending |
+| SKIL-04 | Phase 2 | Complete |
 | PROJ-01 | Phase 3 | Pending |
 | PROJ-02 | Phase 3 | Pending |
 | PROJ-03 | Phase 3 | Pending |
@@ -150,11 +150,11 @@
 | DOCS-03 | Phase 3 | Pending |
 | DOCS-04 | Phase 3 | Pending |
 | DOCS-05 | Phase 3 | Pending |
-| TOOL-01 | Phase 2 | Pending |
-| TOOL-02 | Phase 2 | Pending |
+| TOOL-01 | Phase 2 | Complete |
+| TOOL-02 | Phase 2 | Complete |
 | TOOL-03 | Phase 2 | Complete |
-| CRSE-01 | Phase 2 | Pending |
-| CRSE-02 | Phase 2 | Pending |
+| CRSE-01 | Phase 2 | Complete |
+| CRSE-02 | Phase 2 | Complete |
 | CRSE-03 | Phase 2 | Complete |
 | TIME-01 | Phase 2 | Pending |
 | TIME-02 | Phase 2 | Complete |
