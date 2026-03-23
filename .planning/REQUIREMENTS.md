@@ -82,10 +82,10 @@
 
 ### Performance & Deployment
 
-- [ ] **PERF-01**: Site is fully responsive at mobile, tablet, and desktop breakpoints
-- [ ] **PERF-02**: Semantic HTML with proper heading hierarchy (H1 > H2 > H3) and semantic elements (header, nav, main, section, footer)
-- [ ] **PERF-03**: OpenGraph meta tags for polished social previews when shared
-- [ ] **PERF-04**: Lighthouse performance score 90+ (optimized images, lazy loading, minimal JS bundle)
+- [x] **PERF-01**: Site is fully responsive at mobile, tablet, and desktop breakpoints
+- [x] **PERF-02**: Semantic HTML with proper heading hierarchy (H1 > H2 > H3) and semantic elements (header, nav, main, section, footer)
+- [x] **PERF-03**: OpenGraph meta tags for polished social previews when shared
+- [x] **PERF-04**: Lighthouse performance score 90+ (optimized images, lazy loading, minimal JS bundle)
 - [ ] **PERF-05**: Site deployed on Vercel free tier with auto-deploy on push
 
 ## v2 Requirements
@@ -164,10 +164,10 @@
 | CONT-02 | Phase 2 | Complete |
 | CONT-03 | Phase 2 | Complete |
 | CONT-04 | Phase 2 | Complete |
-| PERF-01 | Phase 4 | Pending |
-| PERF-02 | Phase 4 | Pending |
-| PERF-03 | Phase 4 | Pending |
-| PERF-04 | Phase 4 | Pending |
+| PERF-01 | Phase 4 | Complete |
+| PERF-02 | Phase 4 | Complete |
+| PERF-03 | Phase 4 | Complete |
+| PERF-04 | Phase 4 | Complete |
 | PERF-05 | Phase 4 | Pending |
 
 **Coverage:**

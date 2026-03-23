@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Phase 4 context gathered
-last_updated: "2026-03-23T19:39:17.149Z"
-last_activity: 2026-03-23 — Plan 03-04 executed (Final integration and visual verification)
+stopped_at: Completed 04-01-PLAN.md
+last_updated: "2026-03-23T20:23:27.770Z"
+last_activity: 2026-03-23 — Plan 04-01 executed (Production polish and optimization)
 progress:
   total_phases: 4
   completed_phases: 3
-  total_plans: 11
-  completed_plans: 11
-  percent: 100
+  total_plans: 13
+  completed_plans: 12
+  percent: 92
 ---
 
 # Project State
@@ -21,23 +21,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-20)
 
 **Core value:** Every visitor immediately understands Jack's range and depth as an electrical engineer, and can access the evidence without friction.
-**Current focus:** Phase 3 complete. Ready for Phase 4: Polish and Deployment
+**Current focus:** Phase 4 in progress. Plan 01 complete (Production Polish), Plan 02 pending (Deployment)
 
 ## Current Position
 
-Phase: 3 of 4 (Interactive Features) -- COMPLETE
-Plan: 4 of 4 in current phase (all complete)
-Status: Phase 3 complete, ready for Phase 4
-Last activity: 2026-03-23 — Plan 03-04 executed (Final integration and visual verification)
+Phase: 4 of 4 (Polish and Deployment)
+Plan: 1 of 2 in current phase (1 complete, 1 remaining)
+Status: Plan 04-01 complete, ready for Plan 04-02
+Last activity: 2026-03-23 — Plan 04-01 executed (Production polish and optimization)
 
-Progress: [██████████] 100%
+Progress: [█████████ ] 92%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 11
-- Average duration: 3.7 min
-- Total execution time: 0.68 hours
+- Total plans completed: 12
+- Average duration: 3.8 min
+- Total execution time: 0.78 hours
 
 **By Phase:**
 
@@ -46,10 +46,11 @@ Progress: [██████████] 100%
 | 1 | 3 | 13 min | 4.3 min |
 | 2 | 4 | 12 min | 3.0 min |
 | 3 | 4 | 16 min | 4.0 min |
+| 4 | 1 | 6 min | 6.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 03-01 (7min), 03-02 (4min), 03-03 (2min), 03-04 (3min)
-- Trend: Consistent execution, Phase 3 completed in 16 min total
+- Last 5 plans: 03-02 (4min), 03-03 (2min), 03-04 (3min), 04-01 (6min)
+- Trend: Consistent execution, Phase 4 plan 01 complete
 
 *Updated after each plan completion*
 
@@ -93,6 +94,10 @@ Recent decisions affecting current work:
 - [Phase 03-04]: Uniform tile sizing: removed featured col-span-2 so all project cards are equal size for cleaner grid
 - [Phase 03-04]: Expanded cards span full row (md:col-span-3) with side-by-side image+details layout
 - [Phase 03-04]: Cards use bg-white with shadow-lg to visually offset from site background
+- [04-01]: Self-hosted Inter via @fontsource-variable/inter replaces Google Fonts CDN (zero external font requests).
+- [04-01]: LazyPdfViewer uses .then(m => ({default: m.PdfViewer})) for named export compatibility with React.lazy.
+- [04-01]: OG image is typography-only (no geometric elements), generated via sharp SVG-to-PNG pipeline.
+- [04-01]: Skills/Tooling grids use md: breakpoint directly (skip sm:grid-cols-2 intermediate step).
 
 ### Pending Todos
 
@@ -105,6 +110,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-23T19:39:17.145Z
-Stopped at: Phase 4 context gathered
-Resume file: .planning/phases/04-polish-and-deployment/04-CONTEXT.md
+Last session: 2026-03-23T20:23:27.767Z
+Stopped at: Completed 04-01-PLAN.md
+Resume file: None
