@@ -39,12 +39,12 @@
 
 ### Projects
 
-- [ ] **PROJ-01**: User sees 3–5 projects displayed in a bento grid with variable-size cards
-- [ ] **PROJ-02**: Each project card shows thumbnail/preview, title, and brief description
-- [ ] **PROJ-03**: User can click a project card to see an inline expansion with full description, visuals, tech stack, and links
-- [ ] **PROJ-04**: Card expansion/collapse uses Framer Motion layout animations for smooth transitions
+- [x] **PROJ-01**: User sees 3–5 projects displayed in a bento grid with variable-size cards
+- [x] **PROJ-02**: Each project card shows thumbnail/preview, title, and brief description
+- [x] **PROJ-03**: User can click a project card to see an inline expansion with full description, visuals, tech stack, and links
+- [x] **PROJ-04**: Card expansion/collapse uses Framer Motion layout animations for smooth transitions
 - [x] **PROJ-05**: Project data (title, description, images, skills, links) is driven from TypeScript data files
-- [ ] **PROJ-06**: Bento grid collapses gracefully to single-column on mobile
+- [x] **PROJ-06**: Bento grid collapses gracefully to single-column on mobile
 
 ### Papers & Documents
 
@@ -139,12 +139,12 @@
 | SKIL-02 | Phase 2 | Complete |
 | SKIL-03 | Phase 2 | Complete |
 | SKIL-04 | Phase 2 | Complete |
-| PROJ-01 | Phase 3 | Pending |
-| PROJ-02 | Phase 3 | Pending |
-| PROJ-03 | Phase 3 | Pending |
-| PROJ-04 | Phase 3 | Pending |
+| PROJ-01 | Phase 3 | Complete |
+| PROJ-02 | Phase 3 | Complete |
+| PROJ-03 | Phase 3 | Complete |
+| PROJ-04 | Phase 3 | Complete |
 | PROJ-05 | Phase 3 | Complete |
-| PROJ-06 | Phase 3 | Pending |
+| PROJ-06 | Phase 3 | Complete |
 | DOCS-01 | Phase 3 | Complete |
 | DOCS-02 | Phase 3 | Complete |
 | DOCS-03 | Phase 3 | Complete |

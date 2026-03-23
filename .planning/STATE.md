@@ -10,8 +10,8 @@ progress:
   total_phases: 4
   completed_phases: 2
   total_plans: 11
-  completed_plans: 9
-  percent: 82
+  completed_plans: 10
+  percent: 91
 ---
 
 # Project State
@@ -30,14 +30,14 @@ Plan: 3 of 4 in current phase
 Status: Plan 03-03 complete, ready for 03-04
 Last activity: 2026-03-23 — Plan 03-03 executed (Papers section + PDF viewer components)
 
-Progress: [████████░░] 82%
+Progress: [█████████░] 91%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 9
+- Total plans completed: 10
 - Average duration: 3.8 min
-- Total execution time: 0.57 hours
+- Total execution time: 0.63 hours
 
 **By Phase:**
 
@@ -45,11 +45,11 @@ Progress: [████████░░] 82%
 |-------|-------|-------|----------|
 | 1 | 3 | 13 min | 4.3 min |
 | 2 | 3 | 12 min | 4.0 min |
-| 3 | 3 | 9 min | 3.0 min |
+| 3 | 3 | 13 min | 4.3 min |
 
 **Recent Trend:**
-- Last 5 plans: 02-02 (4min), 02-03 (4min), 03-01 (7min), 03-02 (skip), 03-03 (2min)
-- Trend: 03-03 fast execution -- clean plan with no deviations needed
+- Last 5 plans: 02-03 (4min), 03-01 (7min), 03-02 (4min), 03-03 (2min)
+- Trend: Consistent execution, 03-02 bento grid plan completed in 4min
 
 *Updated after each plan completion*
 
@@ -82,6 +82,10 @@ Recent decisions affecting current work:
 - [03-01]: PDF worker copied to public/pdf.worker.min.mjs for stable production path (not import.meta.url).
 - [03-01]: Removed Geist font import from shadcn init, preserved Inter as font-sans.
 - [03-01]: Dark theme block removed -- portfolio is light-only.
+- [03-02]: Used layout prop with layout="position" on inner children to prevent scale distortion during expand/collapse.
+- [03-02]: Featured card gets col-span-1 md:col-span-2 applied directly in ProjectCard via className conditional.
+- [03-02]: Lenis scroll lock on Dialog/Drawer open via useLenis hook (same pattern as MobileMenu).
+- [03-02]: LayoutGroup wraps bento grid to coordinate layout animations across all cards.
 - [03-03]: PdfViewer uses useLenis() from lenis/react for scroll lock (matching MobileMenu pattern, not window.__lenis).
 - [03-03]: DialogTitle/DrawerTitle rendered as sr-only since toolbar provides visible title context.
 - [03-03]: Download button as pure anchor tag works independently of PDF render state.
@@ -98,6 +102,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-23T16:50:24Z
-Stopped at: Completed 03-03-PLAN.md
-Resume file: .planning/phases/03-interactive-features/03-03-SUMMARY.md
+Last session: 2026-03-23T16:50:48Z
+Stopped at: Completed 03-02-PLAN.md (retroactive execution)
+Resume file: .planning/phases/03-interactive-features/03-02-SUMMARY.md

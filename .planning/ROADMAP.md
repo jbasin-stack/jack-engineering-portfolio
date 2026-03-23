@@ -46,13 +46,13 @@ Plans:
   3. Visitor can view key UW ECE courses with brief descriptors signaling domain relevance
   4. Visitor can view a vertical timeline of 6-10 engineering milestones that fills progressively as they scroll down the page
   5. Visitor can access email link, LinkedIn, GitHub profiles, and download resume as PDF from the contact section
-**Plans:** 3/4 plans executed
+**Plans:** 4/4 plans complete
 
 Plans:
 - [x] 02-01-PLAN.md — Typed data layer: interfaces, 5 content data files, animation variants, and data integrity tests
-- [ ] 02-02-PLAN.md — Skills, Tooling, and Coursework section components with column grid and vertical list layouts
-- [ ] 02-03-PLAN.md — Timeline with scroll-driven progressive fill and Contact CTA section
-- [ ] 02-04-PLAN.md — Wire all sections into App.tsx and visual verification checkpoint
+- [x] 02-02-PLAN.md — Skills, Tooling, and Coursework section components with column grid and vertical list layouts
+- [x] 02-03-PLAN.md — Timeline with scroll-driven progressive fill and Contact CTA section
+- [x] 02-04-PLAN.md — Wire all sections into App.tsx and visual verification checkpoint
 
 ### Phase 3: Interactive Features
 **Goal**: Visitor can explore 3-5 projects via an interactive bento grid with inline card expansion, and view academic papers and resume in-browser via a PDF viewer — the two flagship interactive experiences of the portfolio
@@ -64,12 +64,12 @@ Plans:
   3. Bento grid collapses gracefully to single-column on mobile
   4. Visitor can click any paper or the resume to view the PDF in-browser (Dialog on desktop, Drawer on mobile) with a direct download fallback
   5. PDF viewer works correctly in both development and production Vite builds
-**Plans:** 4 plans
+**Plans:** 3/4 plans complete
 
 Plans:
 - [x] 03-01-PLAN.md — Foundation: shadcn/ui init, react-pdf setup, type interfaces, data files, useIsMobile hook, layout transition config
-- [ ] 03-02-PLAN.md — Bento grid Projects section with inline card expansion and project detail Dialog/Drawer
-- [ ] 03-03-PLAN.md — Papers section with row listing and shared PDF viewer component
+- [x] 03-02-PLAN.md — Bento grid Projects section with inline card expansion and project detail Dialog/Drawer
+- [x] 03-03-PLAN.md — Papers section with row listing and shared PDF viewer component
 - [ ] 03-04-PLAN.md — Wire sections into App.tsx, connect resume to PDF viewer, production build verification
 
 ### Phase 4: Polish and Deployment
@@ -94,6 +94,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Foundation, Navigation, and Hero | 3/3 | Complete   | 2026-03-22 |
-| 2. Content Sections | 3/4 | In Progress|  |
-| 3. Interactive Features | 1/4 | In Progress |  |
+| 2. Content Sections | 4/4 | Complete | 2026-03-23 |
+| 3. Interactive Features | 3/4 | In Progress |  |
 | 4. Polish and Deployment | 0/1 | Not started | - |
