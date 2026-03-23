@@ -45,3 +45,24 @@ export interface ContactData {
   resumePath: string;
   socialLinks: SocialLink[];
 }
+
+export interface Project {
+  id: string;
+  title: string;
+  brief: string;
+  summary: string;
+  thumbnail: string;
+  images: string[];
+  domain: string;
+  techStack: string[];
+  links: { label: string; url: string }[];
+  featured: boolean;
+  paperPdf?: string;
+}
+
+export interface Paper {
+  id: string;
+  title: string;
+  descriptor: string;
+  pdfPath: string;
+}

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { easing, fadeUp, fadeIn, staggerChild, staggerContainer, sectionVariants, fadeUpVariant } from '../motion';
+import { easing, fadeUp, fadeIn, staggerChild, staggerContainer, sectionVariants, fadeUpVariant, layoutTransition } from '../motion';
 
 describe('motion config', () => {
   it('easing.out is a 4-element array of numbers', () => {
@@ -61,8 +61,15 @@ describe('motion config', () => {
     expect(typeof visible?.transition?.duration).toBe('number');
   });
 
+  it('layoutTransition has duration and ease defined (confirms tween)', () => {
+    expect(layoutTransition.duration).toBeDefined();
+    expect(typeof layoutTransition.duration).toBe('number');
+    expect(layoutTransition.ease).toBeDefined();
+    expect(Array.isArray(layoutTransition.ease)).toBe(true);
+  });
+
   it('NO animation config contains type: spring', () => {
-    const allConfigs = [fadeUp, fadeIn, staggerChild, staggerContainer, sectionVariants, fadeUpVariant];
+    const allConfigs = [fadeUp, fadeIn, staggerChild, staggerContainer, sectionVariants, fadeUpVariant, layoutTransition];
 
     function deepCheckForSpring(obj: unknown, path: string = ''): void {
       if (obj === null || obj === undefined) return;
