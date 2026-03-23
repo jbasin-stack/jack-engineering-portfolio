@@ -34,7 +34,7 @@
 
 - [ ] **SKIL-01**: User can view technical skills as a clean typography-driven list
 - [ ] **SKIL-02**: Skills are grouped by domain: Fabrication, RF, Analog, Digital
-- [ ] **SKIL-03**: Skills are rendered from a TypeScript data file for easy updates
+- [x] **SKIL-03**: Skills are rendered from a TypeScript data file for easy updates
 - [ ] **SKIL-04**: Skills section uses semantic HTML so AI scrapers and recruiters can parse skill keywords
 
 ### Projects
@@ -58,26 +58,26 @@
 
 - [ ] **TOOL-01**: User sees a section displaying hands-on lab and tooling proficiency
 - [ ] **TOOL-02**: Tooling is grouped by category (EDA tools, lab equipment, fabrication processes)
-- [ ] **TOOL-03**: Tooling data is driven from a TypeScript data file
+- [x] **TOOL-03**: Tooling data is driven from a TypeScript data file
 
 ### Coursework
 
 - [ ] **CRSE-01**: User sees a section highlighting key UW ECE courses
 - [ ] **CRSE-02**: Courses include brief descriptors signaling domain relevance
-- [ ] **CRSE-03**: Coursework data is driven from a TypeScript data file
+- [x] **CRSE-03**: Coursework data is driven from a TypeScript data file
 
 ### Timeline
 
 - [ ] **TIME-01**: User sees a vertical timeline visualizing engineering journey and progression
-- [ ] **TIME-02**: Timeline contains 6–10 key milestones (courses, projects, research experiences)
+- [x] **TIME-02**: Timeline contains 6–10 key milestones (courses, projects, research experiences)
 - [ ] **TIME-03**: Timeline features scroll-driven animation (fill line progresses as user scrolls)
-- [ ] **TIME-04**: Timeline data is driven from a TypeScript data file
+- [x] **TIME-04**: Timeline data is driven from a TypeScript data file
 
 ### Contact
 
 - [ ] **CONT-01**: User sees a contact section with direct email link
 - [ ] **CONT-02**: User sees links to LinkedIn and GitHub profiles
-- [ ] **CONT-03**: User can download resume as a PDF via a prominent button
+- [x] **CONT-03**: User can download resume as a PDF via a prominent button
 - [ ] **CONT-04**: Contact section uses semantic markup for scraper readability
 
 ### Performance & Deployment
@@ -137,7 +137,7 @@
 | HERO-03 | Phase 1 | Complete |
 | SKIL-01 | Phase 2 | Pending |
 | SKIL-02 | Phase 2 | Pending |
-| SKIL-03 | Phase 2 | Pending |
+| SKIL-03 | Phase 2 | Complete |
 | SKIL-04 | Phase 2 | Pending |
 | PROJ-01 | Phase 3 | Pending |
 | PROJ-02 | Phase 3 | Pending |
@@ -152,17 +152,17 @@
 | DOCS-05 | Phase 3 | Pending |
 | TOOL-01 | Phase 2 | Pending |
 | TOOL-02 | Phase 2 | Pending |
-| TOOL-03 | Phase 2 | Pending |
+| TOOL-03 | Phase 2 | Complete |
 | CRSE-01 | Phase 2 | Pending |
 | CRSE-02 | Phase 2 | Pending |
-| CRSE-03 | Phase 2 | Pending |
+| CRSE-03 | Phase 2 | Complete |
 | TIME-01 | Phase 2 | Pending |
-| TIME-02 | Phase 2 | Pending |
+| TIME-02 | Phase 2 | Complete |
 | TIME-03 | Phase 2 | Pending |
-| TIME-04 | Phase 2 | Pending |
+| TIME-04 | Phase 2 | Complete |
 | CONT-01 | Phase 2 | Pending |
 | CONT-02 | Phase 2 | Pending |
-| CONT-03 | Phase 2 | Pending |
+| CONT-03 | Phase 2 | Complete |
 | CONT-04 | Phase 2 | Pending |
 | PERF-01 | Phase 4 | Pending |
 | PERF-02 | Phase 4 | Pending |
