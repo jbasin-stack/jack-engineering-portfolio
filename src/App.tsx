@@ -6,6 +6,8 @@ import { WhoAmI } from './components/sections/WhoAmI';
 import { Skills } from './components/sections/Skills';
 import { Tooling } from './components/sections/Tooling';
 import { Timeline } from './components/sections/Timeline';
+import { ProjectsSection } from './components/projects/ProjectsSection';
+import { PapersSection } from './components/papers/PapersSection';
 import { Contact } from './components/sections/Contact';
 
 function App() {
@@ -20,17 +22,8 @@ function App() {
           <Tooling />
           <Timeline />
 
-          {/* Phase 3 placeholders */}
-          <section id="projects" className="px-6 py-24">
-            <div className="mx-auto max-w-5xl">
-              <h2 className="text-2xl font-bold text-ink">Projects</h2>
-            </div>
-          </section>
-          <section id="papers" className="px-6 py-24">
-            <div className="mx-auto max-w-5xl">
-              <h2 className="text-2xl font-bold text-ink">Papers</h2>
-            </div>
-          </section>
+          <ProjectsSection />
+          <PapersSection />
 
           <Contact />
         </main>

@@ -1,12 +1,16 @@
+import { useState } from 'react';
 import { motion } from 'motion/react';
-import { Mail, Download, Github, Linkedin } from 'lucide-react';
+import { Mail, Download, Eye, Github, Linkedin } from 'lucide-react';
 import { sectionVariants, fadeUpVariant } from '../../styles/motion';
 import { contactData } from '../../data/contact';
+import { PdfViewer } from '../pdf/PdfViewer';
 
 // Icon lookup for data-driven social link rendering
 const iconMap = { Github, Linkedin } as const;
 
 export function Contact() {
+  const [showResume, setShowResume] = useState(false);
+
   return (
     <motion.section
       id="contact"
@@ -47,15 +51,23 @@ export function Contact() {
           </address>
         </motion.div>
 
-        {/* Resume download -- THE only filled accent button on the entire page */}
-        <motion.div className="mt-8" variants={fadeUpVariant}>
+        {/* Resume actions -- view (primary) and download (secondary) */}
+        <motion.div className="mt-8 flex items-center justify-center gap-3" variants={fadeUpVariant}>
+          <button
+            type="button"
+            onClick={() => setShowResume(true)}
+            className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
+          >
+            <Eye size={18} strokeWidth={1.5} />
+            View Resume
+          </button>
           <a
             href={contactData.resumePath}
             download
-            className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded-lg border border-silicon-200 px-6 py-3 text-sm font-medium text-ink transition-colors hover:bg-silicon-50"
           >
             <Download size={18} strokeWidth={1.5} />
-            Download Resume
+            Download
           </a>
         </motion.div>
 
@@ -80,6 +92,14 @@ export function Contact() {
           })}
         </motion.div>
       </div>
+
+      {/* Resume PDF viewer */}
+      <PdfViewer
+        file={contactData.resumePath}
+        title="Resume"
+        open={showResume}
+        onOpenChange={setShowResume}
+      />
     </motion.section>
   );
 }
