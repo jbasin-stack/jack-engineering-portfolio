@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { easing, fadeUp, fadeIn, staggerChild, staggerContainer } from '../motion';
+import { easing, fadeUp, fadeIn, staggerChild, staggerContainer, sectionVariants, fadeUpVariant } from '../motion';
 
 describe('motion config', () => {
   it('easing.out is a 4-element array of numbers', () => {
@@ -40,8 +40,29 @@ describe('motion config', () => {
     expect(staggerContainer.animate.transition.staggerChildren).toBeDefined();
   });
 
+  it('sectionVariants has hidden and visible keys', () => {
+    expect(sectionVariants).toHaveProperty('hidden');
+    expect(sectionVariants).toHaveProperty('visible');
+  });
+
+  it('sectionVariants.visible has transition.staggerChildren defined', () => {
+    const visible = sectionVariants.visible as { transition?: { staggerChildren?: number } };
+    expect(visible?.transition?.staggerChildren).toBeDefined();
+  });
+
+  it('fadeUpVariant has hidden and visible keys', () => {
+    expect(fadeUpVariant).toHaveProperty('hidden');
+    expect(fadeUpVariant).toHaveProperty('visible');
+  });
+
+  it('fadeUpVariant.visible has transition.duration defined (confirms tween)', () => {
+    const visible = fadeUpVariant.visible as { transition?: { duration?: number } };
+    expect(visible?.transition?.duration).toBeDefined();
+    expect(typeof visible?.transition?.duration).toBe('number');
+  });
+
   it('NO animation config contains type: spring', () => {
-    const allConfigs = [fadeUp, fadeIn, staggerChild, staggerContainer];
+    const allConfigs = [fadeUp, fadeIn, staggerChild, staggerContainer, sectionVariants, fadeUpVariant];
 
     function deepCheckForSpring(obj: unknown, path: string = ''): void {
       if (obj === null || obj === undefined) return;
