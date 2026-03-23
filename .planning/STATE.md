@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-stopped_at: Completed 04-01-PLAN.md
-last_updated: "2026-03-23T20:23:27.770Z"
-last_activity: 2026-03-23 — Plan 04-01 executed (Production polish and optimization)
+status: in-progress
+stopped_at: Completed 05-01-PLAN.md
+last_updated: "2026-03-23T21:30:43Z"
+last_activity: 2026-03-23 — Plan 05-01 executed (UW color tokens + 5 effect components)
 progress:
-  total_phases: 4
+  total_phases: 5
   completed_phases: 3
-  total_plans: 13
-  completed_plans: 12
-  percent: 92
+  total_plans: 16
+  completed_plans: 13
+  percent: 81
 ---
 
 # Project State
@@ -21,23 +21,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-20)
 
 **Core value:** Every visitor immediately understands Jack's range and depth as an electrical engineer, and can access the evidence without friction.
-**Current focus:** Phase 4 in progress. Plan 01 complete (Production Polish), Plan 02 pending (Deployment)
+**Current focus:** Phase 5 in progress. Plan 01 complete (Color tokens + effect components), Plans 02-03 pending
 
 ## Current Position
 
-Phase: 4 of 4 (Polish and Deployment)
-Plan: 1 of 2 in current phase (1 complete, 1 remaining)
-Status: Plan 04-01 complete, ready for Plan 04-02
-Last activity: 2026-03-23 — Plan 04-01 executed (Production polish and optimization)
+Phase: 5 of 5 (Visual Design Overhaul)
+Plan: 1 of 3 in current phase (1 complete, 2 remaining)
+Status: Plan 05-01 complete, ready for Plan 05-02
+Last activity: 2026-03-23 — Plan 05-01 executed (UW color tokens + 5 effect components)
 
-Progress: [█████████ ] 92%
+Progress: [████████░░] 81%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 12
-- Average duration: 3.8 min
-- Total execution time: 0.78 hours
+- Total plans completed: 13
+- Average duration: 4.1 min
+- Total execution time: 0.89 hours
 
 **By Phase:**
 
@@ -47,10 +47,11 @@ Progress: [█████████ ] 92%
 | 2 | 4 | 12 min | 3.0 min |
 | 3 | 4 | 16 min | 4.0 min |
 | 4 | 1 | 6 min | 6.0 min |
+| 5 | 1 | 8 min | 8.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 03-02 (4min), 03-03 (2min), 03-04 (3min), 04-01 (6min)
-- Trend: Consistent execution, Phase 4 plan 01 complete
+- Last 5 plans: 03-03 (2min), 03-04 (3min), 04-01 (6min), 05-01 (8min)
+- Trend: Consistent execution, Phase 5 plan 01 complete
 
 *Updated after each plan completion*
 
@@ -98,10 +99,17 @@ Recent decisions affecting current work:
 - [04-01]: LazyPdfViewer uses .then(m => ({default: m.PdfViewer})) for named export compatibility with React.lazy.
 - [04-01]: OG image is typography-only (no geometric elements), generated via sharp SVG-to-PNG pipeline.
 - [04-01]: Skills/Tooling grids use md: breakpoint directly (skip sm:grid-cols-2 intermediate step).
+- [05-01]: SVG feTurbulence for NoisyBackground instead of canvas -- zero JS runtime cost, static grain sufficient per design spec.
+- [05-01]: React useId() hook for unique SVG filter IDs in NoisyBackground to prevent ID collisions across instances.
+- [05-01]: Added @/ resolve alias to vitest.config.ts for component imports in test environment.
 
 ### Pending Todos
 
 None yet.
+
+### Roadmap Evolution
+
+- Phase 5 added: Visual Design Overhaul — Dynamic Backgrounds, UW Purple Accents, and Texture Depth
 
 ### Blockers/Concerns
 
@@ -110,6 +118,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-23T20:23:27.767Z
-Stopped at: Completed 04-01-PLAN.md
+Last session: 2026-03-23T21:30:43Z
+Stopped at: Completed 05-01-PLAN.md
 Resume file: None
