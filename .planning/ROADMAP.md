@@ -90,7 +90,7 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> 4
+Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -98,3 +98,22 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 2. Content Sections | 4/4 | Complete | 2026-03-23 |
 | 3. Interactive Features | 4/4 | Complete   | 2026-03-23 |
 | 4. Polish and Deployment | 1/2 | In Progress | - |
+
+### Phase 5: Visual Design Overhaul — Dynamic Backgrounds, UW Purple Accents, and Texture Depth
+
+**Goal:** Transform the portfolio from clean monochrome into a visually dynamic experience with animated backgrounds, noise textures, UW purple color accents, and interactive card effects -- all sourced from 21st.dev community components (aceternity, magicui, easemize)
+**Depends on:** Phase 4
+**Requirements**: VISUAL-01, VISUAL-02, VISUAL-03, VISUAL-04, VISUAL-05, VISUAL-06, VISUAL-07
+**Success Criteria** (what must be TRUE):
+  1. Hero section displays animated aurora gradient with floating particles that respond to cursor movement
+  2. WhoAmI, Skills, and Tooling sections have subtle noise texture backgrounds with purple tinting
+  3. Project cards show interactive spotlight effect following cursor on hover without breaking expand/collapse animations
+  4. Timeline has animated grid pattern background with engineering/technical aesthetic
+  5. Effect intensity follows bold hero -> textured middle -> calm footer curve
+  6. All effects respect prefers-reduced-motion accessibility preference
+**Plans:** 3 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — Color palette extension (UW Purple tokens) + all 5 effect components + test scaffolds
+- [ ] 05-02-PLAN.md — Hero (Aurora + Particles) + section backgrounds (WhoAmI, Skills, Tooling, Contact)
+- [ ] 05-03-PLAN.md — Timeline grid pattern + project card spotlight + visual verification checkpoint
