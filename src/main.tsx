@@ -1,5 +1,6 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+import '@fontsource-variable/inter/wght.css';
 import './styles/app.css';
 import App from './App.tsx';
 
@@ -8,3 +9,6 @@ createRoot(document.getElementById('root')!).render(
     <App />
   </StrictMode>,
 );
+
+// Trigger body fade-in after React hydration
+document.body.classList.add('hydrated');

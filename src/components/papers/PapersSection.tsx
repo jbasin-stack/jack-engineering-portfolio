@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { papers } from '../../data/papers';
 import { sectionVariants, fadeUpVariant } from '../../styles/motion';
 import { PaperRow } from './PaperRow';
-import { PdfViewer } from '../pdf/PdfViewer';
+import { LazyPdfViewer } from '../pdf/LazyPdfViewer';
 
 export function PapersSection() {
   const [viewingPdf, setViewingPdf] = useState<{
@@ -47,7 +47,7 @@ export function PapersSection() {
       </div>
 
       {/* Shared PDF viewer opens when a paper is selected */}
-      <PdfViewer
+      <LazyPdfViewer
         file={viewingPdf?.file ?? ''}
         title={viewingPdf?.title ?? ''}
         open={viewingPdf !== null}

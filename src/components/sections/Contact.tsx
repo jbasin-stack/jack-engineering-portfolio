@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { Mail, Download, Eye, Github, Linkedin } from 'lucide-react';
 import { sectionVariants, fadeUpVariant } from '../../styles/motion';
 import { contactData } from '../../data/contact';
-import { PdfViewer } from '../pdf/PdfViewer';
+import { LazyPdfViewer } from '../pdf/LazyPdfViewer';
 
 // Icon lookup for data-driven social link rendering
 const iconMap = { Github, Linkedin } as const;
@@ -94,7 +94,7 @@ export function Contact() {
       </div>
 
       {/* Resume PDF viewer */}
-      <PdfViewer
+      <LazyPdfViewer
         file={contactData.resumePath}
         title="Resume"
         open={showResume}
