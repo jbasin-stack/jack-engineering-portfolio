@@ -54,7 +54,7 @@ export function Particles({
   const canvasSize = useRef<{ w: number; h: number }>({ w: 0, h: 0 });
   const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1;
   const rafId = useRef<number>(0);
-  const resizeTimeout = useRef<ReturnType<typeof setTimeout>>();
+  const resizeTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const [prefersReduced, setPrefersReduced] = useState(false);
 
