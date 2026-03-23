@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation, Navigation, and Hero** - Scaffold Vite 8 + React 19 project with Lenis, Motion, Tailwind v4, glassmorphic nav, and typography-first hero (completed 2026-03-22)
 - [ ] **Phase 2: Content Sections** - Build all data-driven sections: Skills, Lab/Tooling, Coursework, Timeline, and Contact
-- [ ] **Phase 3: Interactive Features** - Bento grid project cards with inline expansion and in-browser PDF viewer for papers and resume
+- [x] **Phase 3: Interactive Features** - Bento grid project cards with inline expansion and in-browser PDF viewer for papers and resume (completed 2026-03-23)
 - [ ] **Phase 4: Polish and Deployment** - Responsive QA, Lighthouse 90+, accessibility, semantic HTML, and Vercel deployment
 
 ## Phase Details
@@ -64,13 +64,13 @@ Plans:
   3. Bento grid collapses gracefully to single-column on mobile
   4. Visitor can click any paper or the resume to view the PDF in-browser (Dialog on desktop, Drawer on mobile) with a direct download fallback
   5. PDF viewer works correctly in both development and production Vite builds
-**Plans:** 3/4 plans complete
+**Plans:** 4/4 plans complete
 
 Plans:
 - [x] 03-01-PLAN.md — Foundation: shadcn/ui init, react-pdf setup, type interfaces, data files, useIsMobile hook, layout transition config
 - [x] 03-02-PLAN.md — Bento grid Projects section with inline card expansion and project detail Dialog/Drawer
 - [x] 03-03-PLAN.md — Papers section with row listing and shared PDF viewer component
-- [ ] 03-04-PLAN.md — Wire sections into App.tsx, connect resume to PDF viewer, production build verification
+- [x] 03-04-PLAN.md — Wire sections into App.tsx, connect resume to PDF viewer, production build verification
 
 ### Phase 4: Polish and Deployment
 **Goal**: Site is fully responsive, scores 90+ on Lighthouse, respects accessibility preferences, and is live on Vercel with auto-deploy
@@ -95,5 +95,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 |-------|----------------|--------|-----------|
 | 1. Foundation, Navigation, and Hero | 3/3 | Complete   | 2026-03-22 |
 | 2. Content Sections | 4/4 | Complete | 2026-03-23 |
-| 3. Interactive Features | 3/4 | In Progress |  |
+| 3. Interactive Features | 4/4 | Complete   | 2026-03-23 |
 | 4. Polish and Deployment | 0/1 | Not started | - |
