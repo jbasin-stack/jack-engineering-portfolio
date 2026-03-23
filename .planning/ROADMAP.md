@@ -81,10 +81,11 @@ Plans:
   2. Lighthouse performance score is 90+ with optimized images, lazy loading, and minimal JS bundle
   3. Semantic HTML uses proper heading hierarchy and semantic elements; OpenGraph meta tags produce polished social previews
   4. Site is live on Vercel free tier with auto-deploy on push and working HTTPS
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 04-01: TBD
+- [ ] 04-01-PLAN.md — Performance optimization, semantic HTML, OG meta tags, responsive QA fixes
+- [ ] 04-02-PLAN.md — Vercel deployment with GitHub repo creation and live site verification
 
 ## Progress
 
@@ -96,4 +97,4 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 | 1. Foundation, Navigation, and Hero | 3/3 | Complete   | 2026-03-22 |
 | 2. Content Sections | 4/4 | Complete | 2026-03-23 |
 | 3. Interactive Features | 4/4 | Complete   | 2026-03-23 |
-| 4. Polish and Deployment | 0/1 | Not started | - |
+| 4. Polish and Deployment | 0/2 | Not started | - |
