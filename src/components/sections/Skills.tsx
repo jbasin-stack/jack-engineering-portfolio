@@ -21,7 +21,7 @@ export function Skills() {
           Skills
         </motion.h2>
 
-        <div className="mt-12 grid grid-cols-1 gap-12 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-12 grid grid-cols-1 gap-12 md:grid-cols-4">
           {skillGroups.map((group) => (
             <motion.div
               key={group.domain}
