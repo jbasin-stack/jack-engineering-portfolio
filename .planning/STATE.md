@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: completed
-stopped_at: Phase 3 context gathered
-last_updated: "2026-03-23T16:11:37.496Z"
-last_activity: 2026-03-23 — Plan 02-03 executed (Timeline scroll-driven fill, Contact CTA section)
+status: in-progress
+stopped_at: Plan 03-01 complete
+last_updated: "2026-03-23T16:42:57Z"
+last_activity: 2026-03-23 — Plan 03-01 executed (Phase 3 foundation: shadcn, react-pdf, data layer)
 progress:
   total_phases: 4
   completed_phases: 2
-  total_plans: 7
-  completed_plans: 7
-  percent: 86
+  total_plans: 11
+  completed_plans: 8
+  percent: 73
 ---
 
 # Project State
@@ -21,23 +21,23 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-20)
 
 **Core value:** Every visitor immediately understands Jack's range and depth as an electrical engineer, and can access the evidence without friction.
-**Current focus:** Phase 2 in progress: Content Sections (Timeline and Contact components built, integration next)
+**Current focus:** Phase 3 in progress: Interactive Features (foundation complete, bento grid and PDF viewer next)
 
 ## Current Position
 
-Phase: 2 of 4 (Content Sections) -- IN PROGRESS
-Plan: 3 of 4 in current phase
-Status: Plan 02-03 complete, ready for 02-04
-Last activity: 2026-03-23 — Plan 02-03 executed (Timeline scroll-driven fill, Contact CTA section)
+Phase: 3 of 4 (Interactive Features) -- IN PROGRESS
+Plan: 1 of 4 in current phase
+Status: Plan 03-01 complete, ready for 03-02
+Last activity: 2026-03-23 — Plan 03-01 executed (Phase 3 foundation: shadcn, react-pdf, data layer)
 
-Progress: [█████████░] 86%
+Progress: [███████░░░] 73%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: 4.0 min
-- Total execution time: 0.40 hours
+- Total plans completed: 7
+- Average duration: 4.4 min
+- Total execution time: 0.52 hours
 
 **By Phase:**
 
@@ -45,10 +45,11 @@ Progress: [█████████░] 86%
 |-------|-------|-------|----------|
 | 1 | 3 | 13 min | 4.3 min |
 | 2 | 3 | 12 min | 4.0 min |
+| 3 | 1 | 7 min | 7.0 min |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (2min), 01-03 (5min), 02-01 (4min), 02-02 (4min), 02-03 (4min)
-- Trend: Consistent
+- Last 5 plans: 01-03 (5min), 02-01 (4min), 02-02 (4min), 02-03 (4min), 03-01 (7min)
+- Trend: Consistent (03-01 slightly longer due to shadcn init + CSS merge complexity)
 
 *Updated after each plan completion*
 
@@ -76,6 +77,11 @@ Recent decisions affecting current work:
 - [Phase 02-02]: Coursework uses vertical list with middle-dot separator per CONTEXT.md locked decision, distinct from Skills/Tooling grid
 - [02-03]: Timeline uses CSS transitions (not Motion whileInView) for node activation because state is scroll-progress driven, not viewport driven.
 - [02-03]: Timeline fill line has no grey track -- accent line scales from 0 via scaleY against transparent background.
+- [03-01]: shadcn v4 CLI defaulted to Base UI (not Radix) for Dialog -- accepted as current standard, consumer API is compatible.
+- [03-01]: shadcn CSS variables merged with cleanroom palette: --background mapped to cleanroom, --foreground to ink.
+- [03-01]: PDF worker copied to public/pdf.worker.min.mjs for stable production path (not import.meta.url).
+- [03-01]: Removed Geist font import from shadcn init, preserved Inter as font-sans.
+- [03-01]: Dark theme block removed -- portfolio is light-only.
 
 ### Pending Todos
 
@@ -83,12 +89,11 @@ None yet.
 
 ### Blockers/Concerns
 
-- Research flags Motion `layoutId` bento expansion as needing a prototype spike in Phase 3.
-- Research flags react-pdf worker config as brittle in production builds — must test production build in Phase 3.
-- shadcn CLI v4 introduced Base UI alternative to Radix — verify Dialog/Drawer API at Phase 3 implementation time.
+- Research flags Motion `layoutId` bento expansion as needing a prototype spike -- plan uses `layout` prop instead (resolved in research).
+- react-pdf worker config tested and working in production build via public/ copy approach (resolved in 03-01).
 
 ## Session Continuity
 
-Last session: 2026-03-23T16:11:37.493Z
-Stopped at: Phase 3 context gathered
-Resume file: .planning/phases/03-interactive-features/03-CONTEXT.md
+Last session: 2026-03-23T16:42:57Z
+Stopped at: Completed 03-01-PLAN.md
+Resume file: .planning/phases/03-interactive-features/03-01-SUMMARY.md

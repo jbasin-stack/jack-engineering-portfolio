@@ -43,7 +43,7 @@
 - [ ] **PROJ-02**: Each project card shows thumbnail/preview, title, and brief description
 - [ ] **PROJ-03**: User can click a project card to see an inline expansion with full description, visuals, tech stack, and links
 - [ ] **PROJ-04**: Card expansion/collapse uses Framer Motion layout animations for smooth transitions
-- [ ] **PROJ-05**: Project data (title, description, images, skills, links) is driven from TypeScript data files
+- [x] **PROJ-05**: Project data (title, description, images, skills, links) is driven from TypeScript data files
 - [ ] **PROJ-06**: Bento grid collapses gracefully to single-column on mobile
 
 ### Papers & Documents
@@ -52,7 +52,7 @@
 - [ ] **DOCS-02**: User can click a paper to view the PDF in-browser via a Shadcn Dialog (desktop) or Drawer (mobile)
 - [ ] **DOCS-03**: User can download any PDF directly as a fallback
 - [ ] **DOCS-04**: Resume is viewable in the same in-browser PDF viewer
-- [ ] **DOCS-05**: react-pdf integration works in both dev and production Vite builds
+- [x] **DOCS-05**: react-pdf integration works in both dev and production Vite builds
 
 ### Lab & Tooling
 
@@ -143,13 +143,13 @@
 | PROJ-02 | Phase 3 | Pending |
 | PROJ-03 | Phase 3 | Pending |
 | PROJ-04 | Phase 3 | Pending |
-| PROJ-05 | Phase 3 | Pending |
+| PROJ-05 | Phase 3 | Complete |
 | PROJ-06 | Phase 3 | Pending |
 | DOCS-01 | Phase 3 | Pending |
 | DOCS-02 | Phase 3 | Pending |
 | DOCS-03 | Phase 3 | Pending |
 | DOCS-04 | Phase 3 | Pending |
-| DOCS-05 | Phase 3 | Pending |
+| DOCS-05 | Phase 3 | Complete |
 | TOOL-01 | Phase 2 | Complete |
 | TOOL-02 | Phase 2 | Complete |
 | TOOL-03 | Phase 2 | Complete |

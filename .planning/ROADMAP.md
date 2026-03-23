@@ -67,7 +67,7 @@ Plans:
 **Plans:** 4 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Foundation: shadcn/ui init, react-pdf setup, type interfaces, data files, useIsMobile hook, layout transition config
+- [x] 03-01-PLAN.md — Foundation: shadcn/ui init, react-pdf setup, type interfaces, data files, useIsMobile hook, layout transition config
 - [ ] 03-02-PLAN.md — Bento grid Projects section with inline card expansion and project detail Dialog/Drawer
 - [ ] 03-03-PLAN.md — Papers section with row listing and shared PDF viewer component
 - [ ] 03-04-PLAN.md — Wire sections into App.tsx, connect resume to PDF viewer, production build verification
@@ -95,5 +95,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 |-------|----------------|--------|-----------|
 | 1. Foundation, Navigation, and Hero | 3/3 | Complete   | 2026-03-22 |
 | 2. Content Sections | 3/4 | In Progress|  |
-| 3. Interactive Features | 0/4 | Not started | - |
+| 3. Interactive Features | 1/4 | In Progress |  |
 | 4. Polish and Deployment | 0/1 | Not started | - |
