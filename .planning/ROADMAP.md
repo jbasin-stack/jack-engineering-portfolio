@@ -13,9 +13,9 @@ This roadmap delivers a high-performance, minimalist single-page portfolio that 
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Foundation, Navigation, and Hero** - Scaffold Vite 8 + React 19 project with Lenis, Motion, Tailwind v4, glassmorphic nav, and typography-first hero (completed 2026-03-22)
-- [ ] **Phase 2: Content Sections** - Build all data-driven sections: Skills, Lab/Tooling, Coursework, Timeline, and Contact
+- [x] **Phase 2: Content Sections** - Build all data-driven sections: Skills, Lab/Tooling, Coursework, Timeline, and Contact (completed 2026-03-23)
 - [x] **Phase 3: Interactive Features** - Bento grid project cards with inline expansion and in-browser PDF viewer for papers and resume (completed 2026-03-23)
-- [ ] **Phase 4: Polish and Deployment** - Responsive QA, Lighthouse 90+, accessibility, semantic HTML, and Vercel deployment
+- [x] **Phase 4: Polish and Deployment** - Responsive QA, Lighthouse 90+, accessibility, semantic HTML, and Vercel deployment (completed 2026-03-23)
 
 ## Phase Details
 
@@ -81,11 +81,11 @@ Plans:
   2. Lighthouse performance score is 90+ with optimized images, lazy loading, and minimal JS bundle
   3. Semantic HTML uses proper heading hierarchy and semantic elements; OpenGraph meta tags produce polished social previews
   4. Site is live on Vercel free tier with auto-deploy on push and working HTTPS
-**Plans:** 2 plans
+**Plans:** 2/2 plans complete
 
 Plans:
-- [ ] 04-01-PLAN.md — Performance optimization, semantic HTML, OG meta tags, responsive QA fixes
-- [ ] 04-02-PLAN.md — Vercel deployment with GitHub repo creation and live site verification
+- [x] 04-01-PLAN.md — Performance optimization, semantic HTML, OG meta tags, responsive QA fixes
+- [x] 04-02-PLAN.md — Vercel deployment with GitHub repo creation and live site verification
 
 ## Progress
 
@@ -97,7 +97,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 1. Foundation, Navigation, and Hero | 3/3 | Complete   | 2026-03-22 |
 | 2. Content Sections | 4/4 | Complete | 2026-03-23 |
 | 3. Interactive Features | 4/4 | Complete   | 2026-03-23 |
-| 4. Polish and Deployment | 1/2 | In Progress | - |
+| 4. Polish and Deployment | 2/2 | Complete | 2026-03-23 |
 | 5. Visual Design Overhaul | 3/3 | Complete | 2026-03-23 |
 
 ### Phase 5: Visual Design Overhaul — Dynamic Backgrounds, UW Purple Accents, and Texture Depth
