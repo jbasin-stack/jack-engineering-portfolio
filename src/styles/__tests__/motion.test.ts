@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { easing, fadeUp, fadeIn, staggerChild, staggerContainer, sectionVariants, fadeUpVariant, layoutTransition } from '../motion';
+import { easing, sectionVariants, fadeUpVariant, layoutTransition } from '../motion';
 
 describe('motion config', () => {
   it('easing.out is a 4-element array of numbers', () => {
@@ -18,26 +18,6 @@ describe('motion config', () => {
       expect(val).toBeGreaterThanOrEqual(0);
       expect(val).toBeLessThanOrEqual(1);
     });
-  });
-
-  it('fadeUp has initial and animate properties', () => {
-    expect(fadeUp.initial).toBeDefined();
-    expect(fadeUp.animate).toBeDefined();
-  });
-
-  it('fadeIn has initial and animate properties', () => {
-    expect(fadeIn.initial).toBeDefined();
-    expect(fadeIn.animate).toBeDefined();
-  });
-
-  it('staggerChild has initial and animate properties', () => {
-    expect(staggerChild.initial).toBeDefined();
-    expect(staggerChild.animate).toBeDefined();
-  });
-
-  it('staggerContainer has animate with staggerChildren', () => {
-    expect(staggerContainer.animate).toBeDefined();
-    expect(staggerContainer.animate.transition.staggerChildren).toBeDefined();
   });
 
   it('sectionVariants has hidden and visible keys', () => {
@@ -69,7 +49,7 @@ describe('motion config', () => {
   });
 
   it('NO animation config contains type: spring', () => {
-    const allConfigs = [fadeUp, fadeIn, staggerChild, staggerContainer, sectionVariants, fadeUpVariant, layoutTransition];
+    const allConfigs = [sectionVariants, fadeUpVariant, layoutTransition, easing];
 
     function deepCheckForSpring(obj: unknown, path: string = ''): void {
       if (obj === null || obj === undefined) return;
@@ -89,18 +69,4 @@ describe('motion config', () => {
     });
   });
 
-  it('all transition objects include a duration property (confirms tween)', () => {
-    // fadeUp transition
-    expect(fadeUp.transition.duration).toBeDefined();
-    expect(typeof fadeUp.transition.duration).toBe('number');
-
-    // fadeIn transition
-    expect(fadeIn.transition.duration).toBeDefined();
-    expect(typeof fadeIn.transition.duration).toBe('number');
-
-    // staggerChild animate.transition
-    const childTransition = (staggerChild.animate as { transition?: { duration?: number } }).transition;
-    expect(childTransition?.duration).toBeDefined();
-    expect(typeof childTransition?.duration).toBe('number');
-  });
 });

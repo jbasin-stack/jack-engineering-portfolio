@@ -7,17 +7,19 @@ describe('navigation data', () => {
     expect(navItems).toHaveLength(4);
   });
 
-  it('has Background as the first item with 2 children', () => {
+  it('has Background as the first item with 3 children', () => {
     const background = navItems[0];
     expect(background.label).toBe('Background');
     expect(background.children).toBeDefined();
-    expect(background.children).toHaveLength(2);
+    expect(background.children).toHaveLength(3);
   });
 
-  it('Background children are Skills and Lab & Tooling', () => {
+  it('Background children are Skills, Lab & Tooling, and Timeline', () => {
     const children = navItems[0].children!;
     expect(children[0].label).toBe('Skills');
     expect(children[1].label).toBe('Lab & Tooling');
+    expect(children[2].label).toBe('Timeline');
+    expect(children[2].href).toBe('#timeline');
   });
 
   it('every nav item has a non-empty label and href starting with #', () => {
