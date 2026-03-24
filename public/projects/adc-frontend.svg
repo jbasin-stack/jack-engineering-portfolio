@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <!-- Background -->
+  <rect width="640" height="360" fill="#F8F9FA"/>
+
+  <!-- Op-amp / instrumentation amplifier triangle -->
+  <polygon points="240,100 400,170 240,240" fill="none" stroke="#6C63FF" stroke-width="2.5"/>
+
+  <!-- Differential inputs -->
+  <!-- Non-inverting (+) -->
+  <line x1="160" y1="140" x2="240" y2="140" stroke="#1A1A2E" stroke-width="2"/>
+  <text x="248" y="144" font-family="sans-serif" font-size="14" fill="#6C63FF">+</text>
+  <!-- Inverting (-) -->
+  <line x1="160" y1="200" x2="240" y2="200" stroke="#1A1A2E" stroke-width="2"/>
+  <text x="248" y="204" font-family="sans-serif" font-size="14" fill="#6C63FF">-</text>
+
+  <!-- Output -->
+  <line x1="400" y1="170" x2="460" y2="170" stroke="#1A1A2E" stroke-width="2"/>
+
+  <!-- Filter wave after op-amp -->
+  <path d="M460,170 Q475,140 490,170 Q505,200 520,170 Q535,150 550,170" fill="none" stroke="#6C63FF" stroke-width="2"/>
+
+  <!-- ADC box -->
+  <rect x="560" y="150" width="50" height="40" fill="#6C63FF" opacity="0.15" stroke="#6C63FF" stroke-width="2" rx="4"/>
+  <text x="585" y="174" font-family="sans-serif" font-size="10" font-weight="bold" fill="#1A1A2E" text-anchor="middle">ADC</text>
+
+  <!-- Connection filter to ADC -->
+  <line x1="550" y1="170" x2="560" y2="170" stroke="#1A1A2E" stroke-width="2"/>
+
+  <!-- Bridge input labels -->
+  <text x="130" y="140" font-family="sans-serif" font-size="10" fill="#1A1A2E" text-anchor="end">V_IN+</text>
+  <text x="130" y="202" font-family="sans-serif" font-size="10" fill="#1A1A2E" text-anchor="end">V_IN-</text>
+
+  <!-- Gain label -->
+  <text x="310" y="175" font-family="sans-serif" font-size="12" fill="#6C63FF" text-anchor="middle">INA</text>
+
+  <!-- Filter label -->
+  <text x="505" y="210" font-family="sans-serif" font-size="9" fill="#6C63FF" text-anchor="middle">Anti-alias</text>
+
+  <!-- Wheatstone bridge symbol (simplified) -->
+  <g transform="translate(60,130)">
+    <polygon points="0,40 30,0 60,40 30,80" fill="none" stroke="#1A1A2E" stroke-width="1.5"/>
+    <text x="30" y="44" font-family="sans-serif" font-size="8" fill="#1A1A2E" text-anchor="middle">Bridge</text>
+  </g>
+  <line x1="90" y1="140" x2="160" y2="140" stroke="#1A1A2E" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="90" y1="200" x2="160" y2="200" stroke="#1A1A2E" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Title -->
+  <text x="320" y="290" font-family="sans-serif" font-size="20" font-weight="bold" fill="#1A1A2E" text-anchor="middle">ADC Front-End</text>
+
+  <!-- Placeholder watermark -->
+  <text x="320" y="320" font-family="sans-serif" font-size="10" fill="#C0C0C0" text-anchor="middle">PLACEHOLDER</text>
+</svg>

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360">
+  <!-- Background -->
+  <rect width="640" height="360" fill="#F8F9FA"/>
+
+  <!-- SEM-style concentric circles with scan-line effect -->
+  <circle cx="320" cy="170" r="120" fill="none" stroke="#1A1A2E" stroke-width="1" opacity="0.2"/>
+  <circle cx="320" cy="170" r="100" fill="none" stroke="#1A1A2E" stroke-width="1" opacity="0.3"/>
+  <circle cx="320" cy="170" r="80" fill="none" stroke="#6C63FF" stroke-width="1.5" opacity="0.4"/>
+  <circle cx="320" cy="170" r="60" fill="none" stroke="#6C63FF" stroke-width="1.5" opacity="0.5"/>
+  <circle cx="320" cy="170" r="40" fill="none" stroke="#6C63FF" stroke-width="2" opacity="0.6"/>
+  <circle cx="320" cy="170" r="20" fill="#6C63FF" opacity="0.15"/>
+
+  <!-- SEM scan lines (horizontal) -->
+  <g stroke="#1A1A2E" stroke-width="0.5" opacity="0.1">
+    <line x1="190" y1="100" x2="450" y2="100"/>
+    <line x1="190" y1="120" x2="450" y2="120"/>
+    <line x1="190" y1="140" x2="450" y2="140"/>
+    <line x1="190" y1="160" x2="450" y2="160"/>
+    <line x1="190" y1="180" x2="450" y2="180"/>
+    <line x1="190" y1="200" x2="450" y2="200"/>
+    <line x1="190" y1="220" x2="450" y2="220"/>
+    <line x1="190" y1="240" x2="450" y2="240"/>
+  </g>
+
+  <!-- Crosshair -->
+  <line x1="320" y1="140" x2="320" y2="200" stroke="#6C63FF" stroke-width="1" opacity="0.5"/>
+  <line x1="290" y1="170" x2="350" y2="170" stroke="#6C63FF" stroke-width="1" opacity="0.5"/>
+
+  <!-- SEM info overlay -->
+  <rect x="190" y="258" width="260" height="20" fill="#1A1A2E" opacity="0.05" rx="2"/>
+  <text x="200" y="272" font-family="monospace" font-size="9" fill="#1A1A2E" opacity="0.4">HV: 15.0kV  |  MAG: 500x  |  WD: 10mm</text>
+
+  <!-- Scale bar -->
+  <line x1="400" y1="270" x2="440" y2="270" stroke="#1A1A2E" stroke-width="1.5" opacity="0.5"/>
+  <text x="410" y="284" font-family="monospace" font-size="8" fill="#1A1A2E" opacity="0.4">50 um</text>
+
+  <!-- Title -->
+  <text x="320" y="315" font-family="sans-serif" font-size="20" font-weight="bold" fill="#1A1A2E" text-anchor="middle">MEMS SEM Image</text>
+
+  <!-- Placeholder watermark -->
+  <text x="320" y="345" font-family="sans-serif" font-size="10" fill="#C0C0C0" text-anchor="middle">PLACEHOLDER</text>
+</svg>
