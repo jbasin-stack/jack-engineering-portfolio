@@ -1,274 +1,226 @@
-# Feature Research
+# Feature Research: Dev-Mode Content Admin Panel
 
-**Domain:** Premium minimalist engineering portfolio (ECE student targeting recruiters + grad school admissions)
-**Researched:** 2026-03-20
+**Domain:** Local dev-mode CMS / content admin panel for static portfolio site
+**Researched:** 2026-03-24
 **Confidence:** HIGH
+
+## Context
+
+This research covers the v1.1 milestone: a dev-mode-only admin panel for managing all portfolio content without hand-editing TypeScript data files. The v1.0 portfolio is already shipped with 9 typed data files (`src/data/*.ts`), typed interfaces (`src/types/data.ts`), and static assets in `public/` (SVGs, PDFs, portrait). The admin panel is a developer tool, not a production feature -- it must be excluded from the production build entirely.
+
+**User:** Jack Basinski (single operator). This is a one-person admin tool, not a multi-user CMS.
+
+**Existing data surface to manage:**
+- 9 TypeScript data files: hero, skills, tooling, coursework, timeline, contact, papers, navigation, projects
+- 13 TypeScript interfaces defining all content shapes
+- Static assets: 8 project SVGs, 4 PDFs (papers), 1 portrait JPG, 1 resume PDF
+- All content is typed, exported as `const` arrays/objects with explicit type annotations
 
 ## Feature Landscape
 
 ### Table Stakes (Users Expect These)
 
-Features visitors assume exist. Missing these means the visitor bounces or perceives the site as amateur.
+These features define what "admin panel" means in this context. Without them, it is just a glorified text editor and provides no value over editing `.ts` files directly.
 
-| Feature | Why Expected | Complexity | Notes |
-|---------|--------------|------------|-------|
-| **Responsive design** | 50%+ of traffic is mobile. Recruiters check on phones between meetings. Professors browse on tablets. | MEDIUM | Must work flawlessly at mobile, tablet, and desktop breakpoints. Bento grid must collapse gracefully. Test on real devices, not just Chrome DevTools. |
-| **Clear navigation** | Recruiters spend 30-60 seconds per portfolio page (MIT CommLab data). If they can't find projects/resume instantly, they leave. | LOW | Fixed nav with 4-5 sections max. Single-page scroll nav with active section highlighting. Glassmorphic fixed nav per PROJECT.md is the right call. |
-| **Hero section with identity** | Visitor must know within 3 seconds: who this person is, what they do, why they should care. | LOW | Typography-driven hero per PROJECT.md. Name, discipline, one compelling sentence about semiconductor fab + system design intersection. No generic "Welcome to my portfolio." |
-| **Projects section (3-5 projects)** | This IS the portfolio. Recruiters and professors both evaluate based on project work. 4-10 projects is ideal per recruiter surveys; 3-5 is optimal for a student. | HIGH | Each project needs: title, brief description, your specific role/contribution, 2-6 high-quality visuals (schematics, photos, diagrams), skills used, and outcome. Per MIT: "articulate what you're showing; highlight impact and contribution." |
-| **Resume/CV access** | Recruiters need a downloadable PDF resume. Professors need to see academic credentials. This is the #1 action item visitors take. | LOW | Prominent download button. PDF must be current. Both in-browser preview AND download option. |
-| **Contact information** | If someone wants to reach out, they need to be able to. Missing contact info = missed opportunity. | LOW | Email link, LinkedIn, GitHub at minimum. Direct email link is sufficient for a personal portfolio (contact form adds unnecessary friction and requires backend per PROJECT.md constraints). |
-| **Skills/competency display** | Both audiences need to quickly assess technical breadth: what tools, what domains, what depth. | LOW | Typography-driven grouped list per PROJECT.md. Domains: Fab, RF, Analog, Digital. No skill bars or percentage indicators (they are meaningless). |
-| **Fast load time (Lighthouse 90+)** | Slow portfolio undermines credibility. Per PROJECT.md constraint. A portfolio site that loads slowly signals lack of technical competence. | MEDIUM | Optimize images (WebP/AVIF), lazy load below-fold content, minimize JS bundle. Lenis is only 3KB so it will not hurt. Framer Motion tree-shaking is critical. |
-| **Semantic HTML + basic SEO** | AI scrapers (ChatGPT, Perplexity) and search engines need to parse the site. Recruiters may Google the name. Per PROJECT.md: "non-negotiable." | MEDIUM | Proper heading hierarchy (H1 > H2 > H3), semantic elements (header, nav, main, article, section, footer), OpenGraph meta tags, structured data. WCAG 2.2 compliance especially for heading structure. |
-| **About/bio section** | Professors want to understand research motivation and trajectory. Recruiters want personality and culture fit signals. | LOW | Brief but specific: UW ECE student, semiconductor fab + system design focus, specific research interests. Not a life story. Weave into hero or make it a distinct short section. |
+| Feature | Why Expected | Complexity | Dependencies |
+|---------|--------------|------------|--------------|
+| **Form-based editors for all 9 content types** | The entire point of the admin panel. Each content type (projects, papers, skills, tooling, timeline, hero, contact, navigation, coursework) needs a dedicated form that mirrors its TypeScript interface. Without full coverage, the user still has to hand-edit some files, defeating the purpose. | HIGH | Existing TypeScript interfaces in `src/types/data.ts` define every field. Forms must match these exactly. |
+| **Validation matching TypeScript types** | Forms without validation allow invalid data that breaks the rendered site. Zod schemas derived from the existing TS interfaces catch errors at edit time, not at build time. | MEDIUM | Zod + @hookform/resolvers. Schemas must mirror `src/types/data.ts` interfaces precisely. A single source of truth for types is critical. |
+| **Direct file writes to `src/data/*.ts`** | The admin panel must actually persist changes. Writing valid TypeScript data files that preserve `import` statements, type annotations, and `export const` structure is the core technical challenge. | HIGH | Vite plugin with `configureServer` hook using Node.js `fs` module. Must generate syntactically correct TS that passes `tsc --noEmit`. |
+| **Dynamic array field management** | Most content types are arrays (projects[], skills[], milestones[], etc.). Users need to add, remove, and reorder items within these arrays. Without this, the admin panel cannot manage lists of content. | MEDIUM | React Hook Form `useFieldArray` for each array-type content. Nested arrays (e.g., project.techStack[], project.links[]) need nested `useFieldArray` instances. |
+| **Asset file upload to `public/`** | Projects reference images in `public/projects/`, papers reference PDFs in `public/papers/`, and the portrait lives at `public/portrait.jpg`. The admin panel must allow uploading new files to these paths. | MEDIUM | Vite plugin endpoint for `multipart/form-data` handling. Files written directly to `public/` subdirectories. File paths in data files must match upload destinations. |
+| **Dev-mode-only routing (excluded from production build)** | The admin panel must never ship to production. It adds bundle weight, exposes file-write APIs, and has no purpose on the live site. | LOW | `import.meta.env.DEV` conditional rendering. Vite tree-shakes dead code in production builds. The `configureServer` hook is inherently dev-only (not called during `vite build`). |
+| **Content type navigation/sidebar** | With 9 content types, the user needs a way to navigate between editors. A sidebar or tab navigation listing all content types is the minimum organizational structure. | LOW | Simple list/nav component. No complex routing needed -- can use tab state or a flat admin layout. |
+| **Save confirmation and error feedback** | After clicking save, the user must know whether the write succeeded or failed. Silent saves with no feedback create uncertainty. Error messages must be specific (e.g., "Validation failed: project.title is required" not "Save failed"). | LOW | Toast/notification component after API response. shadcn/ui Sonner or Toast component. |
 
 ### Differentiators (Competitive Advantage)
 
-Features that separate this portfolio from the hundreds of generic engineering student sites. These align with the "less, but better" philosophy.
+Features that elevate this from "functional admin panel" to "genuinely pleasant content editing experience." These justify building a custom tool rather than just editing `.ts` files.
 
-| Feature | Value Proposition | Complexity | Notes |
-|---------|-------------------|------------|-------|
-| **Premium scroll experience (Lenis)** | 95% of student portfolios use default browser scroll. Lenis smooth scroll with weighted easing immediately signals craft and intentionality. Creates a physical, premium feel that matches the "Dieter Rams / Jony Ive" aesthetic. | LOW | Lenis is 3KB, well-documented, and straightforward to integrate. Respects prefers-reduced-motion. Per PROJECT.md: this is a core design decision. |
-| **Weighted Framer Motion animations** | Most student portfolios either have no animation or use bouncy/springy defaults. Weighted, physical-feeling enter/hover animations with no bounce communicate precision engineering sensibility. | MEDIUM | Must be consistent across all elements. Use a shared motion config for consistent easing. Animate on viewport entry, not on load. Respect prefers-reduced-motion by disabling non-essential animations. |
-| **Bento grid project cards with inline expansion** | Standard portfolios use a boring vertical list or grid of identical cards. Bento layout with varying card sizes lets flagship projects take visual priority. Inline expansion (not modal) keeps the user in context and feels more connected. Bento grids are a dominant 2025-2026 UI pattern, with 67% of top SaaS products adopting them. | HIGH | Most complex UI component. Cards need: thumbnail/preview, title, brief description. Expanded state needs: full description, visuals, skills, links. Animate expansion smoothly with Framer Motion layout animations. |
-| **In-browser PDF viewer for papers** | Most student portfolios link to external Google Drive or plain PDF links. Viewing papers and resume in-browser without leaving the site reduces friction and keeps engagement. Professors reviewing research papers will appreciate not being bounced to another tab. | MEDIUM | Use Shadcn Dialog or Drawer component. Embed PDF with browser-native viewer or react-pdf. Must also offer a download fallback. Mobile: use Drawer (bottom sheet). Desktop: use Dialog (centered modal). |
-| **Papers/publications section** | Very few undergraduate portfolios highlight academic papers. For grad school admissions, this is gold. Professors look specifically for research output and ability to communicate findings. | LOW | Section with paper titles, abstracts/summaries, and in-browser PDF access. Even if only 1-2 papers, the section's existence signals research orientation. |
-| **Lab and tooling proficiency section** | Shows hands-on capability beyond theory. Cleanroom equipment, Cadence, KLayout, oscilloscopes, etc. This is a differentiator for semiconductor roles specifically because it proves you have actually fabricated, not just simulated. | LOW | Clean typographic list or subtle grid. Group by category (EDA tools, lab equipment, fabrication processes). No logos or icons needed -- the names carry weight with domain experts. |
-| **Glassmorphic design language** | Glassmorphism in 2026 is mature and validated (Apple Liquid Glass at WWDC 2025, Samsung One UI 7). Applied selectively to nav and overlays, it creates depth and sophistication without being gimmicky. Combined with 0.5px borders, this is a cohesive signature aesthetic. | MEDIUM | Use sparingly: nav bar, PDF viewer overlay, maybe card hover states. Do NOT apply everywhere. Needs careful contrast ratios for accessibility. Frosted glass over light backgrounds only. Tailwind: `bg-white/30 backdrop-blur-lg border border-white/20`. |
-| **Coursework section** | Signals depth to both audiences. Recruiters see domain-relevant coursework. Professors see preparation for graduate work. Few student portfolios include this, but it is low-effort high-signal for an ECE student. | LOW | Simple list of key UW ECE courses with brief descriptors. Highlight courses relevant to semiconductor, RF, analog, digital domains. |
-| **Timeline/journey section** | Visualizes engineering progression and helps both audiences understand trajectory. Professors want to see a coherent research narrative. Recruiters want to see growth. Modern implementations use scroll-animated fill lines connecting milestone nodes. | MEDIUM | Vertical timeline with key milestones (courses, projects, research experiences). Keep it concise -- 6-10 milestones max. Scroll-animated fill line that progresses as the user scrolls is a premium touch. |
-| **Data-driven content architecture** | All project/paper/skill content stored in clean data files (JSON/TS objects), not hardcoded in JSX. Makes the portfolio trivially updatable as new projects and papers are added. | MEDIUM | Per PROJECT.md constraint: "content must be swappable/updatable without code changes." This is both a differentiator (maintainability) and a development best practice. Define TypeScript interfaces for Project, Paper, Skill, TimelineEvent, etc. |
-| **prefers-reduced-motion support** | Demonstrates accessibility awareness -- a quality signal for both technical audiences. WCAG 2.2 compliance. Affects 70M+ people with vestibular disorders globally. | LOW | Disable Lenis smooth scroll and Framer Motion animations when user prefers reduced motion. This is a requirement, not optional. Framer Motion has built-in support via `useReducedMotion()`. |
-| **0.5px border signature detail** | Subtle design system consistency. Shows intentional design thinking at the detail level. Creates a cohesive visual language across all components. | LOW | Custom Tailwind value: `border-[0.5px]`. Consistent across all card edges, section dividers, and glass elements. |
+| Feature | Value Proposition | Complexity | Dependencies |
+|---------|-------------------|------------|--------------|
+| **Live side-by-side preview** | The flagship feature that makes the admin panel worth building. See the rendered portfolio update in real time as you edit content. This is what TinaCMS and Payload CMS offer as their headline capability. Without it, you might as well edit files and rely on Vite HMR in a separate browser tab. | HIGH | An iframe loading the portfolio app alongside the editor. Communication via Vite HMR -- when the admin panel writes a data file, Vite's HMR propagates the change to the iframe automatically. No custom `postMessage` protocol needed because Vite already handles this. |
+| **Drag-and-drop file upload with preview** | Uploading files by clicking "choose file" works but feels dated. Drag-and-drop with immediate thumbnail preview (for images) or filename display (for PDFs) is the modern standard. Reduces friction for the most tedious operation: replacing placeholder assets. | MEDIUM | HTML5 Drag and Drop API or a lightweight library. Preview generation for images is native (`URL.createObjectURL`). PDF preview could show first-page thumbnail but is not essential. |
+| **Image optimization on upload** | Project images uploaded as full-resolution PNGs or JPEGs should be automatically converted to WebP and resized to reasonable dimensions. This prevents the Lighthouse performance pitfall (identified in v1.0 PITFALLS.md) at the content entry point rather than requiring manual optimization. | MEDIUM | Sharp running server-side in the Vite plugin. Converts uploaded images to WebP, resizes to max 1200px width, strips EXIF data. Only applies to image uploads, not PDFs. |
+| **Reorder items via drag-and-drop** | Projects, timeline milestones, skills groups, and other arrays have a meaningful display order. Drag-to-reorder is more intuitive than "move up / move down" buttons for arranging content. | MEDIUM | A lightweight DnD library (dnd-kit is the React standard). Only needed for array-type content. The reordered array writes back to the data file in the new order. |
+| **Content type status indicators** | Show at a glance which content types have placeholder data vs. real content. Useful for tracking progress on replacing all placeholders before sharing the portfolio widely. | LOW | Heuristic checks: project links pointing to "#" are placeholders, portrait.jpg file size indicates placeholder vs. real photo, PDF file sizes, etc. Badge or indicator in the sidebar. |
+| **Keyboard shortcuts for common actions** | Save (Ctrl+S), navigate between content types, add new item. Power-user efficiency for a developer audience. | LOW | Event listeners on the admin panel. Simple implementation with `useEffect` + `keydown` handlers. |
 
 ### Anti-Features (Commonly Requested, Often Problematic)
 
-Features that seem appealing but create problems for this specific project.
+Features that seem useful but add disproportionate complexity or actively harm the project for this specific use case.
 
 | Feature | Why Requested | Why Problematic | Alternative |
 |---------|---------------|-----------------|-------------|
-| **Dark mode toggle** | "Everyone has dark mode now." | Doubles design/QA surface. The "Cleanroom White" + "Silicon Grey" palette is a deliberate aesthetic choice -- offering a toggle undermines the cohesive brand. A single well-designed theme is more opinionated and memorable. Per PROJECT.md: explicitly out of scope for v1. | Ship one cohesive light theme. The palette itself is the brand. |
-| **Contact form with backend** | "Professional sites have contact forms." | Requires backend infrastructure (violates zero-cost constraint), spam filtering, and ongoing maintenance. For a personal portfolio, a contact form adds friction vs. a direct email link. Research confirms personal portfolio sites benefit from simpler direct email. Per PROJECT.md: out of scope. | `mailto:` link with pre-filled subject line + LinkedIn link. Both are zero-cost and zero-maintenance. |
-| **Blog/technical notes** | "Shows thought leadership." | Content creation overhead is significant. An empty or rarely-updated blog is worse than no blog. The portfolio itself demonstrates technical depth through projects and papers. Per PROJECT.md: deferred to v2. | Let projects and papers speak. If writing urge strikes, add a "Notes" section in v2 when there is actual content to populate it. |
-| **Skill percentage bars/ratings** | "Show how good you are at each skill." | Self-assessed skill percentages are meaningless and widely mocked in the industry. "85% at Python" means nothing. They also look dated. | Typography-driven skill lists grouped by domain. The projects themselves demonstrate proficiency depth. |
-| **Particle effects / 3D backgrounds** | "Make it stand out with cool visuals." | Tanks Lighthouse performance. Distracts from content. Contradicts minimalist philosophy. Most implementations feel gimmicky, not premium. | Let typography, whitespace, and subtle motion do the work. The restraint IS the statement. |
-| **Testimonials/quotes section** | "Social proof builds credibility." | Requires content collection from professors/colleagues. Feels forced on a student portfolio. Per PROJECT.md: deferred to v2. | Projects with clear outcomes and papers with real citations are stronger social proof for this audience. |
-| **Multi-page routing** | "Separate pages for each project feel more professional." | Breaks the single-page flow that creates the premium scroll experience. Adds routing complexity. For 3-5 projects, inline expansion is more cohesive and keeps the visitor in context. Per PROJECT.md: single-page is a deliberate design decision. | Single-page smooth scroll with inline card expansion for project detail. |
-| **CMS/admin panel** | "Easy to update content." | Massive over-engineering for a personal portfolio with 3-5 projects. Adds hosting complexity, security surface, and dependencies. Static content updated in data files is simpler and more reliable. Per PROJECT.md: out of scope. | Data-driven content in TypeScript/JSON files. Update content by editing data files and redeploying (Vercel auto-deploys on push). |
-| **Animations on every element** | "More animation = more premium." | Animation overload causes cognitive fatigue and reduces accessibility. Undermines the "weighted, no bounce" philosophy. Each animation should earn its place. | Animate entry transitions for sections, hover states for interactive elements, and the scroll experience. Leave static elements static. |
-| **GitHub contribution graph embed** | "Shows I code every day." | Not relevant for an ECE/hardware student. Most semiconductor work happens in Cadence, lab notebooks, and proprietary tools -- not GitHub. An empty-looking graph hurts more than helps. | Link to GitHub profile in contact section for those who want to explore. Let projects demonstrate coding capability. |
-| **Custom cursor** | "Unique interaction detail." | Accessibility nightmare (breaks assistive technology expectations). Adds zero value for recruiters. Confuses users. | Default system cursor. Focus design effort on content and layout. |
-| **Infinite scroll / pagination** | "Handle lots of content." | Single-page portfolio with 5-8 sections does not need it. Adds complexity for no benefit. | Fixed sections with smooth scroll navigation. |
-| **Hamburger menu on desktop** | "Clean minimal nav." | Hides navigation unnecessarily on desktop where space is available. | Always-visible fixed nav on desktop. Collapse to mobile-friendly menu only at small breakpoints. |
+| **Full headless CMS (TinaCMS, Payload, Strapi)** | "Why build a custom admin panel when production CMS tools exist?" | Massive dependency overhead for a one-person portfolio. TinaCMS requires a GraphQL server. Payload needs a database. Strapi is an entire backend framework. All violate the zero-cost constraint and add hosting complexity. The portfolio has 9 small data files, not a content-heavy blog. The custom panel is 10x simpler because it only needs to read/write local TypeScript files. | Custom Vite plugin with form-based editors. The entire admin panel is a dev-only React route + a Vite middleware that writes files. Zero infrastructure. |
+| **Version history / undo** | "What if I accidentally delete a project?" | The data files are in a Git repository. `git diff` and `git checkout` provide version history far more robustly than any custom undo system. Building undo/redo adds state management complexity (command pattern, history stack) that is not justified when Git already solves this. | Git is the version history system. The admin panel writes files; Git tracks changes. A "last saved" timestamp in the UI is sufficient feedback. |
+| **Multi-user authentication** | "What about access control?" | This is a dev-mode tool running on `localhost`. There is exactly one user (Jack). Adding authentication adds login flows, session management, and security surface for zero benefit. The `configureServer` hook only runs in dev mode -- there is no production attack surface. | No auth needed. The tool runs locally in dev mode. If someone has access to `localhost:5173`, they already have access to the filesystem. |
+| **Rich text / WYSIWYG editor** | "What about formatting project descriptions?" | The portfolio renders plain text descriptions. None of the TypeScript interfaces contain HTML or Markdown fields. Adding a rich text editor (Tiptap, Slate, ProseMirror) introduces a heavy dependency for capability the rendering layer does not support. If rich text is ever needed, it belongs in the rendering components first. | Plain text `<textarea>` for description fields. The minimalist design philosophy means descriptions are typographically styled by the components, not by inline formatting. |
+| **Markdown support in descriptions** | "More flexible than plain text." | Same issue as rich text -- the existing components render `description` and `summary` fields as plain strings with no Markdown parsing. Adding Markdown support requires changes to every rendering component (install a Markdown renderer, handle sanitization). This is scope creep for v1.1. | If Markdown is desired, add it as a v2 feature that updates both the admin panel AND the rendering components simultaneously. For now, plain text matches the existing data model. |
+| **Real-time collaborative editing** | "Multiple people editing at once." | Single operator tool. Adding WebSocket synchronization, conflict resolution, and operational transforms is absurd for a one-person portfolio admin. | Not applicable. One user, one machine, one browser tab. |
+| **Database-backed content storage** | "What about querying and filtering?" | The entire content surface is 9 small TypeScript files totaling under 300 lines. A database adds hosting costs, migration scripts, schema management, and an ORM -- all for data that fits comfortably in memory. TypeScript files are the database; `tsc` is the schema validator. | Direct filesystem read/write of `.ts` files. The data files ARE the persistence layer. |
+| **Automatic Git commits on save** | "Track every change automatically." | Noisy commit history full of incremental edits ("update project title", "fix typo", "change image"). Pollutes the Git log. The user should commit deliberately when a meaningful batch of changes is complete. | Show a "changes since last commit" indicator if desired, but leave committing to the user. |
+| **Schema migration system** | "Handle TypeScript interface changes." | The admin panel reads the current interface definitions. If interfaces change, the admin panel forms are updated in code at the same time (they live in the same repo). There is no "migration" because the data files and the admin forms evolve together in the same commit. | Co-locate form definitions with TypeScript interfaces. When an interface changes, the corresponding Zod schema and form fields change in the same PR. |
+| **Image cropping/editing in browser** | "Let users crop and resize uploads." | Adds a complex UI component (image cropper) for a marginal benefit. The Sharp pipeline handles resizing automatically. If precise cropping is needed, the user can crop in any image editor before uploading. | Automatic resize-to-max-width via Sharp on the server side. Manual cropping happens in external tools before upload. |
 
 ## Feature Dependencies
 
 ```
-[Data Architecture (TS interfaces + data files)]
-    (foundational -- no dependencies, many things depend on it)
+[Vite Plugin API Endpoints]
+    (foundational -- all data persistence depends on this)
 
-[Page Structure (sections with IDs)]
-    └──requires──> [Data Architecture]
+[Form-Based Editors]
+    |-- requires --> [Vite Plugin API Endpoints] (forms need somewhere to POST data)
+    |-- requires --> [Zod Validation Schemas] (forms need validation)
+    |-- requires --> [TypeScript Code Generation] (saved data must produce valid .ts files)
 
-[Lenis Smooth Scroll]
-    └──requires──> [Page Structure]
-    └──enhances──> [Navigation] (smooth scroll to anchors)
-    └──enhances──> [Timeline Section] (scroll-driven animation)
+[Zod Validation Schemas]
+    |-- derived from --> [Existing TypeScript Interfaces] (src/types/data.ts)
 
-[Navigation (fixed glassmorphic)]
-    └──requires──> [Page Structure] (section anchors to scroll to)
-    └──requires──> [CSS backdrop-filter] (well-supported in 2026)
+[TypeScript Code Generation]
+    |-- requires --> [Vite Plugin API Endpoints] (file write happens server-side)
+    |-- must match --> [Existing Data File Format] (preserve imports, types, exports)
 
-[Framer Motion Animations]
-    └──requires──> [Page Structure] (elements must exist to animate)
-    └──enhances──> [Project Cards] (expand/collapse layout animation)
-    └──enhances──> [All Sections] (viewport entry animation)
-    └──enhances──> [PDF Viewer] (overlay transitions)
+[Live Preview]
+    |-- requires --> [Vite Plugin API Endpoints] (writes trigger HMR)
+    |-- requires --> [Form-Based Editors] (need something to preview)
+    |-- leverages --> [Vite HMR] (automatic -- no custom implementation needed)
 
-[Project Cards (Bento Grid)]
-    └──requires──> [Data Architecture] (project data must be defined)
-    └──requires──> [Framer Motion] (for layoutId expand/collapse)
-    └──requires──> [CSS Grid] (for responsive bento layout)
+[Asset File Upload]
+    |-- requires --> [Vite Plugin API Endpoints] (upload endpoint)
+    |-- enhances --> [Form-Based Editors] (upload links to form fields for thumbnails, PDFs)
 
-[In-Browser PDF Viewer]
-    └──requires──> [Shadcn Dialog/Drawer] (overlay component)
-    └──requires──> [react-pdf or browser native PDF] (rendering engine)
-    └──requires──> [PDF Files] (actual paper/resume PDFs hosted)
+[Image Optimization]
+    |-- requires --> [Asset File Upload] (runs as post-processing on uploaded images)
+    |-- uses --> [Sharp] (server-side in Vite plugin)
 
-[Papers Section]
-    └──requires──> [Data Architecture] (paper metadata)
-    └──requires──> [In-Browser PDF Viewer] (to view papers inline)
+[Drag-Drop Reorder]
+    |-- enhances --> [Form-Based Editors] (alternative to manual index management)
+    |-- requires --> [Dynamic Array Fields] (items must be in an array to reorder)
 
-[Timeline Section]
-    └──requires──> [Data Architecture] (timeline event data)
-    └──enhances──> [Lenis] (scroll-driven fill animation)
+[Dev-Mode Route Guard]
+    |-- independent --> (wraps entire admin panel, no other dependencies)
+    |-- uses --> [import.meta.env.DEV] (Vite built-in, tree-shaken in production)
 
-[Skills Section]
-    └──requires──> [Data Architecture] (skills data grouped by domain)
-
-[Lab & Tooling Section]
-    └──requires──> [Data Architecture] (tooling data)
-
-[Coursework Section]
-    └──requires──> [Data Architecture] (course data)
-
-[Contact Section]
-    (no dependencies -- static links)
-
-[Hero Section]
-    (no dependencies -- first thing built)
-
-[prefers-reduced-motion]
-    └──requires──> [Lenis] + [Framer Motion] (must exist to be conditionally disabled)
-
-[Responsive Design]
-    └──requires──> [All Sections] (must be built before responsive testing)
-    └──requires──> [Bento Grid] (grid collapse logic for mobile)
-
-[Semantic HTML + SEO]
-    └──requires──> [Page Structure] (proper element hierarchy)
+[Content Type Navigation]
+    |-- requires --> [Form-Based Editors] (must have editors to navigate between)
 ```
 
 ### Dependency Notes
 
-- **Data Architecture is foundational:** TypeScript interfaces and data files for projects, papers, skills, timeline events, courses, and tooling must be defined early. Nearly every content section depends on this. Build this first.
-- **Lenis + Framer Motion are infrastructure:** They enhance the entire experience but need basic page structure first. Install and configure early, then layer animations onto sections as they are built.
-- **PDF Viewer depends on Shadcn:** The Dialog/Drawer component from Shadcn is needed before the PDF viewing experience can be implemented. react-pdf also requires Vite worker configuration.
-- **Project Cards are the most complex feature:** They depend on both data architecture AND animation infrastructure. Build the static version first, then add bento layout, then add interactive expansion.
-- **prefers-reduced-motion is a cross-cutting concern:** Must be wired up after animation infrastructure exists but should be planned from the start (do not bolt it on later). Use Framer Motion's `useReducedMotion()` hook.
-- **Responsive design is a testing/polish concern:** Cannot be fully validated until all sections exist. Plan for it from the start with mobile-first CSS, but dedicated responsive QA happens at the end.
+- **Vite Plugin API Endpoints are foundational:** Every persistence operation (save data, upload file, read current data) routes through custom middleware registered via `configureServer`. This must be built and tested first.
+- **TypeScript Code Generation is the hardest technical challenge:** The plugin must produce syntactically valid `.ts` files that preserve the existing format: `import type { X } from '../types/data';` at the top, `export const name: Type[] = [...]` structure, and proper formatting. A template-literal approach (not AST manipulation) is the right call -- the data file structure is simple and predictable.
+- **Live Preview is "free" thanks to Vite HMR:** When the admin panel writes a data file via the API, Vite detects the file change and triggers HMR. An iframe loading the portfolio app on the same dev server receives the HMR update automatically. No custom `postMessage` protocol or WebSocket setup is needed. This is the single biggest architectural win.
+- **Zod schemas must stay in sync with TypeScript interfaces:** The Zod schemas used for form validation should be the source of truth, with TypeScript types inferred from them via `z.infer<typeof schema>`. Alternatively, maintain parallel Zod schemas that match the existing interfaces. The former is cleaner but requires refactoring `src/types/data.ts`; the latter is safer for a v1.1 milestone that should not modify v1.0 code.
+- **Image optimization depends on Sharp, which is a native Node.js module:** Sharp works fine in the Vite dev server (it runs in Node.js), but it adds a significant `node_modules` footprint (~25MB for platform-specific binaries). This is acceptable for a dev dependency.
 
 ## MVP Definition
 
-### Launch With (v1)
+### Launch With (v1.1 Core)
 
-Minimum viable portfolio that creates the premium impression and serves both audiences.
+The minimum set of features that makes the admin panel genuinely useful -- worth opening instead of editing `.ts` files by hand.
 
-- [ ] **Data-driven content architecture** -- TypeScript interfaces and data files. Foundation for everything.
-- [ ] **Hero section** -- Typography-first identity statement. First impression is everything.
-- [ ] **Fixed glassmorphic navigation** -- Anchored wayfinding for the single-page experience.
-- [ ] **Skills section** -- Grouped by domain (Fab, RF, Analog, Digital). Quick competency scan.
-- [ ] **Projects section with bento cards** -- 3-5 projects with inline expansion. This is the core product.
-- [ ] **Papers section with PDF viewer** -- Academic papers viewable in-browser. Critical for grad school audience.
-- [ ] **Lab & Tooling section** -- Hands-on proficiency proof. Important for semiconductor recruiters.
-- [ ] **Coursework section** -- Signals academic depth. Low-effort, high-signal.
-- [ ] **Contact section** -- Email, LinkedIn, GitHub, resume download.
-- [ ] **Lenis smooth scroll** -- Premium scroll feel across the entire page.
-- [ ] **Framer Motion animations** -- Weighted entry and hover animations. No bounce.
-- [ ] **Responsive design** -- Mobile-first, tested at all breakpoints.
-- [ ] **Semantic HTML + metadata** -- Proper structure, OpenGraph tags, accessibility.
-- [ ] **prefers-reduced-motion support** -- Accessibility compliance.
+- [ ] **Vite plugin with read/write API endpoints** -- POST to save data, GET to load current data, POST for file uploads. Dev-mode only via `configureServer`.
+- [ ] **Form editors for all 9 content types** -- React Hook Form + Zod validation. Every field in every TypeScript interface has a corresponding form input.
+- [ ] **Dynamic array management** -- Add/remove/reorder items in array content types (projects, skills, milestones, etc.) via `useFieldArray`.
+- [ ] **TypeScript file generation** -- Saved form data produces valid `.ts` files that match the existing file format exactly. `tsc --noEmit` must pass after every save.
+- [ ] **Asset file upload** -- Drag-and-drop upload of images and PDFs to `public/` subdirectories. Uploaded paths link to form fields (e.g., project.thumbnail).
+- [ ] **Live side-by-side preview** -- iframe loading the portfolio alongside the editor. Vite HMR handles real-time updates automatically.
+- [ ] **Dev-mode route guard** -- Admin panel accessible only when `import.meta.env.DEV` is true. Zero admin code in production bundle.
+- [ ] **Save feedback** -- Toast notifications for success/failure on every save operation.
 
-### Add After Validation (v1.x)
+### Add After Core Works (v1.1 Polish)
 
-Features to add once the core portfolio is live and getting real feedback.
+Features to layer on once the core editing loop is solid.
 
-- [ ] **Timeline/journey section** -- Add when there is enough career progression to visualize meaningfully.
-- [ ] **Scroll-driven timeline animation** -- Enhance timeline with Lenis scroll-linked fill effect.
-- [ ] **Vercel Analytics** -- Understand which projects get the most engagement.
-- [ ] **Custom Open Graph images** -- Polished social preview when links are shared on LinkedIn/Slack.
-- [ ] **Project filtering/tagging** -- Add if project count grows beyond 5.
+- [ ] **Image optimization on upload** -- Sharp converts images to WebP, resizes to max 1200px. Trigger: when users start uploading real project photos and the performance impact becomes noticeable.
+- [ ] **Drag-and-drop reorder** -- dnd-kit for reordering projects, timeline milestones, skills groups. Trigger: when the user has enough content items that order management via forms becomes tedious.
+- [ ] **Content status indicators** -- Badges showing placeholder vs. real content. Trigger: useful once real content replacement is underway.
+- [ ] **Keyboard shortcuts** -- Ctrl+S to save, Ctrl+N to add new item. Trigger: when the editing workflow is established and speed becomes desirable.
 
 ### Future Consideration (v2+)
 
-Features to defer until the portfolio is established and content pipeline is sustainable.
+Features to defer until the admin panel's core value is proven.
 
-- [ ] **Blog/technical notes** -- Only when there is a commitment to regular writing.
-- [ ] **Testimonials section** -- Only when testimonials are collected organically from professors/mentors.
-- [ ] **Dark mode** -- Only if user testing reveals strong demand and the brand can support two themes.
-- [ ] **Certifications section** -- Only when relevant certifications are earned.
-- [ ] **Open source contributions section** -- Only when there is meaningful OSS work to showcase.
-- [ ] **Video walkthroughs of projects** -- High-value but high-effort content creation.
+- [ ] **Markdown support in descriptions** -- Requires updating rendering components too. Only worthwhile if plain text descriptions prove limiting.
+- [ ] **Bulk operations** -- Select multiple items to delete or move. Only relevant if content volume grows significantly.
+- [ ] **Export/import as JSON** -- Useful for backup/migration but Git handles this adequately.
+- [ ] **Content templates** -- Pre-filled forms for common project types (RF design, fabrication, FPGA, etc.). Only valuable once content patterns are established.
 
 ## Feature Prioritization Matrix
 
 | Feature | User Value | Implementation Cost | Priority |
 |---------|------------|---------------------|----------|
-| Data-driven content architecture | HIGH | MEDIUM | P1 |
-| Hero section | HIGH | LOW | P1 |
-| Fixed glassmorphic nav | HIGH | LOW | P1 |
-| Projects section (bento cards + expansion) | HIGH | HIGH | P1 |
-| Resume download + PDF viewer | HIGH | MEDIUM | P1 |
-| Skills section | HIGH | LOW | P1 |
-| Contact section | HIGH | LOW | P1 |
-| Responsive design | HIGH | MEDIUM | P1 |
-| Semantic HTML + SEO | HIGH | MEDIUM | P1 |
-| Lenis smooth scroll | HIGH | LOW | P1 |
-| Framer Motion animations | HIGH | MEDIUM | P1 |
-| prefers-reduced-motion | MEDIUM | LOW | P1 |
-| Papers section | HIGH | LOW | P1 |
-| Lab & Tooling section | MEDIUM | LOW | P1 |
-| Coursework section | MEDIUM | LOW | P1 |
-| Glassmorphic design (nav + overlays) | MEDIUM | MEDIUM | P1 |
-| 0.5px border system | MEDIUM | LOW | P1 |
-| Timeline section | MEDIUM | MEDIUM | P2 |
-| Scroll-driven timeline animation | LOW | MEDIUM | P2 |
-| Analytics | LOW | LOW | P2 |
-| OG images | LOW | LOW | P2 |
-| Blog | MEDIUM | HIGH | P3 |
-| Dark mode | LOW | HIGH | P3 |
-| Testimonials | LOW | LOW | P3 |
+| Vite plugin API endpoints | HIGH | MEDIUM | P1 |
+| Form editors (all 9 types) | HIGH | HIGH | P1 |
+| Zod validation schemas | HIGH | MEDIUM | P1 |
+| TypeScript file generation | HIGH | HIGH | P1 |
+| Live side-by-side preview | HIGH | MEDIUM | P1 |
+| Asset file upload | HIGH | MEDIUM | P1 |
+| Dev-mode route guard | HIGH | LOW | P1 |
+| Dynamic array management | HIGH | MEDIUM | P1 |
+| Save feedback (toasts) | MEDIUM | LOW | P1 |
+| Content type navigation | MEDIUM | LOW | P1 |
+| Image optimization (Sharp) | MEDIUM | MEDIUM | P2 |
+| Drag-drop reorder (dnd-kit) | MEDIUM | MEDIUM | P2 |
+| Content status indicators | LOW | LOW | P2 |
+| Keyboard shortcuts | LOW | LOW | P2 |
+| Markdown descriptions | LOW | HIGH | P3 |
+| Bulk operations | LOW | MEDIUM | P3 |
 
 **Priority key:**
-- P1: Must have for launch -- core portfolio experience
-- P2: Should have, add when v1 is stable and feedback is collected
-- P3: Nice to have, future consideration only
+- P1: Must have for the admin panel to be useful. Without these, editing `.ts` files by hand is easier.
+- P2: Should have. Adds polish and efficiency once core editing works.
+- P3: Nice to have. Only if the admin panel becomes a long-term workflow tool.
 
-## Competitor Feature Analysis
+## Content Type Complexity Analysis
 
-| Feature | Generic Student Portfolio (Wix/Squarespace) | Software Dev Portfolio (React) | This Portfolio (ECE Premium) |
-|---------|----------------------------------------------|-------------------------------|-------------------------------|
-| Projects | Template grid, external links | GitHub-centric, live demos | Bento grid with inline expansion, schematics + photos + process documentation |
-| Resume | PDF download link | Rarely included (GitHub profile instead) | In-browser viewer + download, prominently accessible |
-| Academic papers | Almost never included | Never included | Dedicated section with in-browser PDF viewer -- key differentiator for grad school |
-| Skills display | Skill bars, percentages | Tech stack icons | Typography-driven grouped list by ECE domain -- cleaner, more editorial |
-| Lab/tooling | Never included | Never included | Dedicated section proving hands-on fabrication and lab experience |
-| Animation quality | Template defaults or none | Bouncy spring defaults | Weighted, physical-feeling, no-bounce -- intentional and restrained |
-| Scroll experience | Default browser scroll | Default browser scroll | Lenis smooth scroll -- premium feel immediately |
-| Design language | Generic templates | Dark mode dev aesthetic | Cleanroom White + Silicon Grey with glassmorphism and 0.5px borders |
-| Content structure | Hardcoded in template | Mixed (some data-driven) | Fully data-driven TypeScript architecture -- trivially updatable |
-| Coursework | Never included | Never included | Included -- signals academic preparation for both audiences |
-| Accessibility | Template-dependent (often poor) | Often neglected | Built-in prefers-reduced-motion, semantic HTML, WCAG 2.2 baseline |
-| Mobile experience | Responsive by default (template) | Varies widely | Mobile-first responsive with graceful bento collapse |
+Each content type has different editing complexity based on its TypeScript interface structure.
 
-## Audience-Specific Feature Value
+| Content Type | Interface | Array? | Nested Arrays? | File References? | Form Complexity |
+|--------------|-----------|--------|----------------|------------------|-----------------|
+| Hero | `HeroData` | No (singleton) | Yes (`socialLinks[]`) | No | LOW |
+| Contact | `ContactData` | No (singleton) | Yes (`socialLinks[]`) | Yes (`resumePath`) | LOW |
+| Navigation | `NavItem[]` | Yes | Yes (`children[]`) | No | MEDIUM |
+| Skills | `SkillGroup[]` | Yes | Yes (`skills[]`) | No | MEDIUM |
+| Tooling | `ToolingGroup[]` | Yes | Yes (`items[]`) | No | MEDIUM |
+| Coursework | `Course[]` | Yes | No | No | LOW |
+| Timeline | `TimelineMilestone[]` | Yes | No | No | LOW |
+| Papers | `Paper[]` | Yes | No | Yes (`pdfPath`) | MEDIUM |
+| Projects | `Project[]` | Yes | Yes (`techStack[]`, `links[]`, `images[]`) | Yes (`thumbnail`, `images[]`) | HIGH |
 
-### For Recruiters (Semiconductor/Hardware Internships + Full-Time)
+**Projects is the most complex editor** -- it has the deepest nesting (3 nested arrays), file references for both images and links, and the most fields per item (10 fields). Build this editor last, after patterns are established with simpler types.
 
-**High value:** Projects section (what you built), Skills section (quick competency check), Lab & Tooling (hands-on proof), Resume download (immediate action item), Fast load time (respect their time), Clear navigation (30-60 seconds per page)
+**Singleton types (Hero, Contact) are the simplest** -- no array management, just a flat form. Build these first to establish the editing + save + preview loop.
 
-**Medium value:** Coursework (domain relevance), Contact section (next step), Glassmorphic design (memorable impression), Hero section (3-second identity scan)
+## Comparable Tool Analysis
 
-**Low value:** Papers section (less relevant for industry roles), Timeline (nice but not decisive)
+| Feature | TinaCMS (Git-backed) | Payload CMS (DB-backed) | This Admin Panel (TS file-backed) |
+|---------|----------------------|-------------------------|-----------------------------------|
+| Content storage | Markdown/JSON files in repo | Database (Postgres/MongoDB) | TypeScript data files in `src/data/` |
+| Live preview | Side-by-side iframe, `postMessage` | Side-by-side iframe, `postMessage` | Side-by-side iframe, Vite HMR (simpler) |
+| Setup complexity | GraphQL server, Tina Cloud or self-host | Full backend + DB + auth | One Vite plugin, zero infrastructure |
+| Validation | Schema-defined | Collection config | Zod schemas matching TS interfaces |
+| Asset handling | Repo-based media or cloud storage | Built-in media library | Direct write to `public/` + Sharp optimization |
+| Production overhead | Tina Cloud API or self-hosted server | Full backend runtime | Zero -- admin code tree-shaken from build |
+| Multi-user support | Yes (Git-based merging) | Yes (DB + auth) | No (single developer tool) |
+| Cost | Free tier or paid cloud | Self-hosted or cloud | Zero |
+| **Fit for this project** | Over-engineered | Massively over-engineered | Purpose-built, minimal |
 
-### For Professors (Grad School Admissions)
-
-**High value:** Papers section (research output -- this is what they care about most), Projects section (technical depth and methodology), Skills section (preparation for grad research), Coursework (academic readiness), About/bio (research interests and narrative)
-
-**Medium value:** Lab & Tooling (research capability), Timeline (trajectory and motivation), Hero section (research identity framing)
-
-**Low value:** Resume download (they have the application materials), Glassmorphic design (aesthetics are secondary to content)
-
-### Shared High Value (Both Audiences)
-
-Fast load, clear navigation, responsive design, semantic HTML, and well-organized content structure serve both audiences equally.
+The custom approach wins because the content surface is small (9 files, ~250 lines of data), the user is a single developer, and the zero-cost constraint eliminates hosted CMS options. The admin panel is a dev tool, not a production service.
 
 ## Sources
 
-- [MIT Mechanical Engineering Communication Lab - Portfolio Guide](https://mitcommlab.mit.edu/meche/commkit/portfolio/) - HIGH confidence: authoritative source on engineering portfolio structure
-- [Built In - Create a Hardware Engineering Portfolio That Gets Results](https://builtin.com/hardware/hardware-engineering-portfolio) - MEDIUM confidence: industry perspective on hardware portfolios
-- [MIT EECS - What Faculty Members Look For in Grad School Applications](https://www.eecs.mit.edu/academics/graduate-programs/admission-process/what-faculty-members-are-looking-for-in-a-grad-school-application-essay/) - HIGH confidence: directly from admissions perspective
-- [SiteBuilder Report - Engineer Portfolios: 20+ Examples](https://www.sitebuilderreport.com/inspiration/engineer-portfolios) - MEDIUM confidence: curated examples
-- [Semiconductor Jobs - Portfolio Projects That Get You Hired](https://semiconductorjobs.co.uk/career-advice/portfolio-projects-that-get-you-hired-for-semiconductor-jobs-with-real-github-examples-) - MEDIUM confidence: domain-specific advice
-- [NYU Tandon - Building a Portfolio](https://engineering.nyu.edu/life-tandon/experiential-learning-center/building-portfolio) - HIGH confidence: university career services
-- [Landdding - Bento Grid Design Guide 2026](https://landdding.com/blog/blog-bento-grid-design-guide) - MEDIUM confidence: current design trend analysis
-- [Medium - Glassmorphism and Liquid Design 2026](https://medium.com/design-bootcamp/ui-design-trend-2026-2-glassmorphism-and-liquid-design-make-a-comeback-50edb60ca81e) - LOW confidence: single source, but corroborated by Apple WWDC 2025 Liquid Glass announcement
-- [Lenis - Smooth Scroll Library](https://lenis.darkroom.engineering/) - HIGH confidence: official source
-- [Pope Tech - Design Accessible Animation and Movement](https://blog.pope.tech/2025/12/08/design-accessible-animation-and-movement/) - HIGH confidence: accessibility specialist source
-- [DEV Community - Semantic HTML in 2025](https://dev.to/gerryleonugroho/semantic-html-in-2025-the-bedrock-of-accessible-seo-ready-and-future-proof-web-experiences-2k01) - MEDIUM confidence: well-referenced technical article
-- [WPForms - Contact Form vs Email Address](https://wpforms.com/contact-form-vs-email-address-which-is-better/) - MEDIUM confidence: comparative analysis
+- [Vite Plugin API -- configureServer](https://vite.dev/guide/api-plugin) -- HIGH confidence: official Vite docs on server middleware hooks
+- [Vite Environment Modes](https://vite.dev/guide/env-and-mode) -- HIGH confidence: `import.meta.env.DEV` for dev-mode guards
+- [React Hook Form -- useFieldArray](https://react-hook-form.com/docs/usefieldarray) -- HIGH confidence: official docs for dynamic array field management
+- [Zod + React Hook Form integration](https://www.freecodecamp.org/news/react-form-validation-zod-react-hook-form/) -- MEDIUM confidence: well-referenced tutorial, pattern verified by @hookform/resolvers docs
+- [Sharp -- Node.js image processing](https://github.com/lovell/sharp) -- HIGH confidence: official repo, dominant image processing library
+- [TinaCMS -- Visual Editing](https://tina.io/docs/contextual-editing/react) -- HIGH confidence: official TinaCMS docs for live preview patterns
+- [Payload CMS -- Live Preview](https://payloadcms.com/docs/live-preview/overview) -- HIGH confidence: official Payload docs for iframe preview architecture
+- [vite-plugin-fs](https://www.npmjs.com/package/vite-plugin-fs) -- MEDIUM confidence: npm package for browser-to-filesystem bridge in dev mode
+- [TypeScript Code Generation: Templates vs AST](https://medium.com/singapore-gds/writing-a-typescript-code-generator-templates-vs-ast-ab391e5d1f5e) -- MEDIUM confidence: practical comparison of approaches
 
 ---
-*Feature research for: Jack Basinski Engineering Portfolio*
-*Researched: 2026-03-20*
+*Feature research for: Dev-Mode Content Admin Panel (v1.1 milestone)*
+*Researched: 2026-03-24*

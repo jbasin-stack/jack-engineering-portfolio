@@ -1,217 +1,221 @@
 # Project Research Summary
 
-**Project:** Jack Basinski Engineering Portfolio
-**Domain:** Premium minimalist engineering portfolio (single-page scroll SPA)
-**Researched:** 2026-03-20
+**Project:** v1.1 Dev-Mode Admin Panel — Jack Engineering Portfolio
+**Domain:** Local dev-mode content management panel for static TypeScript portfolio site
+**Researched:** 2026-03-24
 **Confidence:** HIGH
 
 ## Executive Summary
 
-This is a static single-page portfolio targeting two distinct audiences: semiconductor/hardware recruiters and graduate school admissions professors. The research is unambiguous on approach: a Vite 8 + React 19 SPA with no server-side complexity, data-driven content architecture, and a premium motion/scroll experience that immediately signals craft. The competitive gap in the engineering student portfolio space is wide — most student portfolios either use generic templates (Wix/Squarespace) or GitHub-centric software dev layouts. Neither serves an ECE student targeting fab and analog roles. The differentiating opportunities are high-value and low-cost: Lenis smooth scroll (3KB), a bento grid project layout, in-browser PDF viewing for papers, and a typography-driven "Cleanroom White + Silicon Grey" aesthetic with selective glassmorphism.
+This v1.1 milestone adds a developer-only admin panel that lets Jack edit portfolio content through a form UI rather than hand-editing TypeScript data files. The recommended approach treats the admin panel as a pure dev tool: a custom Vite plugin provides file-write REST endpoints via `configureServer` (dev-only by design via `apply: 'serve'`), the admin UI is a lazily-loaded React route guarded by `import.meta.env.DEV` (tree-shaken to zero bytes in production by Rolldown), and live preview is achieved for free by leveraging Vite's native HMR — when the admin writes a data file, the iframe preview updates automatically without any custom postMessage infrastructure.
 
-The recommended stack is well-validated with high-confidence sources across every layer. React 19 + Vite 8 (Rolldown bundler) provides significantly faster builds than any alternative. Motion (formerly Framer Motion, now imported from `motion/react`) is the clear animation choice at 30M+ monthly downloads with native browser animation API support. Tailwind v4's Oxide engine and CSS-first config eliminates build configuration friction. The stack is deliberately minimal — no routing library, no state management, no CMS. Everything is either static data files or local `useState`. Two critical ecosystem renames since late 2024 must be respected: `framer-motion` is deprecated (use `motion`), and `@studio-freight/lenis` is deprecated (use `lenis`).
+The critical architectural insight across all four research areas is that complexity should be zero-added to production. The Vite plugin's `apply: 'serve'` flag, the `import.meta.env.DEV` dead-code elimination path, and the `src/admin/` directory isolation together provide four independent layers of protection that guarantee no admin code reaches Vercel. The entire admin surface — forms, drag-drop uploads, split-pane preview — is dev-only infrastructure that disappears from the deployed bundle. One notable bug to work around: shadcn/ui v4's `Resizable` wrapper has a known API mismatch with `react-resizable-panels` v4's renamed exports; use the library directly, not the shadcn/ui wrapper.
 
-The primary risks are concentrated in the integration layer, not the technology choices. Three pitfalls dominate: react-pdf's worker configuration under Vite is brittle and breaks in production if misconfigured; the Motion library rename from `framer-motion` causes subtle breakage from stale documentation; and Lenis + Motion scroll events can desync if Lenis is added late or configured incorrectly. All three are preventable with correct project setup order and production build testing throughout development rather than only at the end.
+The primary risk is the TypeScript code generation layer: the existing codebase uses `verbatimModuleSyntax: true` and `erasableSyntaxOnly: true`, which means generated `.ts` data files must emit `import type` (not `import`) and pass `tsc -b` after every save. This must be solved with Prettier-formatted template generation and lightweight AST validation in Phase 2 — before any form editors are built on top of it. A secondary risk is infinite HMR loops if admin-initiated file writes are not debounced and isolated from the module graph read path (form state must be initialized from the `GET /__admin-api/content/:type` endpoint, never from module imports).
 
 ## Key Findings
 
 ### Recommended Stack
 
-The stack favors the newest stable versions with a clear rationale for each choice. Vite 8 ships Rolldown (a Rust-based bundler) for 10-30x faster builds, and `@vitejs/plugin-react` v6 uses Oxc instead of Babel. Tailwind v4 runs on the Oxide engine with CSS-first configuration — no `tailwind.config.js` in v4, everything goes in `@theme` directives. Motion v12 leverages native `ScrollTimeline` and `ViewTimeline` browser APIs for zero-JS scroll overhead where supported.
+The existing validated stack (Vite 8, React 19, Tailwind v4, Motion, shadcn/ui, TypeScript) requires only targeted additions. No router library is needed — the single admin route is handled by a `window.location.search` check behind `import.meta.env.DEV`. No external CMS or database is needed — the 9 TypeScript data files are the persistence layer and the custom Vite plugin is the write API.
 
-**Core technologies:**
-- **React 19.2 + Vite 8 + TypeScript 5.9**: SPA foundation — mature, fast builds, well-supported ecosystem
-- **Tailwind CSS v4.2**: Utility-first styling — Oxide engine, CSS-first config via `@import "tailwindcss"`, native glassmorphism utilities
-- **Motion 12 (`motion/react`)**: Animation — renamed from Framer Motion, 120fps GPU animations, native browser API integration
-- **Lenis 1.3 (`lenis/react`)**: Smooth scroll — 3KB, normalizes cross-browser scroll, premium weighted feel
-- **shadcn/ui CLI v4**: Component primitives — Dialog/Drawer for PDF viewer, zero runtime cost for unused components
-- **react-pdf 10.4**: In-browser PDF rendering — PDF.js based, read-only viewer for papers and resume
-- **Vercel (free tier)**: Deployment — zero-config from Git push, auto-detects Vite projects
+**Core technologies to add:**
+- **react-hook-form ^7.72.0**: Form state management — shadcn/ui's Form component is built on this; `useFieldArray` handles nested array content types (projects.techStack[], projects.links[], projects.images[])
+- **zod ^4.3.6**: Runtime schema validation before file writes — catches malformed data at edit time, not build time; schemas mirror `src/types/data.ts` interfaces
+- **@hookform/resolvers ^5.2.2**: Bridge between react-hook-form and Zod — auto-detects Zod v3/v4 at runtime
+- **react-dropzone ^15.0.0**: Headless drag-drop upload hook — headless API pairs with shadcn/ui styling, React 19 confirmed compatible in v14.3.6+
+- **formidable ^3.5.2** (devDep): Server-side multipart parsing inside Vite plugin — works with raw Node.js IncomingMessage without Express
+- **Custom Vite plugin** (in-project, no npm): `configureServer` REST endpoints at `/__admin-api/*` for data read/write and asset upload
 
-**Critical version/import notes:**
-- Import from `motion/react`, NOT `framer-motion` (deprecated package name)
-- Import from `lenis` and `lenis/react`, NOT `@studio-freight/lenis` (deprecated scope)
-- Tailwind v4 uses `@tailwindcss/vite` Vite plugin, NOT PostCSS setup
-- react-pdf worker must be configured with `import.meta.url` in the same file as the `<Document>` component
+**shadcn/ui components to add** via `npx shadcn@latest add`: `input`, `textarea`, `select`, `switch`, `field`, `tabs`, `badge`, `separator`, `resizable`, `scroll-area`.
+
+**Critical version note:** Use `react-resizable-panels` v4 directly (`import { Group, Panel, Separator } from 'react-resizable-panels'`), not through shadcn/ui's `Resizable` wrapper — a known API mismatch exists (shadcn-ui/ui#9136) between shadcn/ui v4's Resizable component and the library's renamed v4 exports.
 
 ### Expected Features
 
-Both research audiences validate the same core feature set, though their priorities differ. Recruiters prioritize projects and lab/tooling proof; professors prioritize papers and coursework depth. Features serving both audiences equally (navigation, responsive design, fast load, semantic HTML) are table stakes with no debate.
+**Must have (table stakes) — v1.1 Core (all P1):**
+- Form-based editors for all 9 content types — without full coverage the admin provides no value over editing `.ts` files directly
+- Zod validation schemas matching TypeScript interfaces — prevents invalid data from corrupting the rendered site
+- Vite plugin read/write API endpoints — the foundational layer everything else depends on
+- TypeScript code generation — produces valid `.ts` files preserving the existing `import type` + `export const` format
+- Dynamic array field management via `useFieldArray` — most content types are arrays with nested arrays
+- Asset file upload to `public/` subdirectories — projects, papers, and portrait assets must be uploadable
+- Dev-mode route guard (`import.meta.env.DEV`) — zero admin code in production is non-negotiable
+- Live side-by-side preview — the flagship feature that justifies building a custom tool
+- Save feedback (toasts) — users must know if writes succeed or fail
 
-**Must have (table stakes):**
-- Responsive design (mobile-first, bento grid collapse) — 50%+ mobile traffic, non-negotiable
-- Clear fixed navigation with active section highlighting — recruiters spend 30-60 seconds per page
-- Hero section with 3-second identity statement — name, discipline, semiconductor/systems intersection
-- Projects section with 3-5 projects, visuals, and contribution detail — this is the core product
-- Resume download + in-browser PDF viewer — #1 action item for both audiences
-- Skills section grouped by domain (Fab, RF, Analog, Digital) — quick competency scan
-- Contact section (email, LinkedIn, GitHub) — direct `mailto:` link, no backend form needed
-- Lighthouse 90+ performance — slow portfolio undermines technical credibility
-- Semantic HTML + OpenGraph meta tags — AI scrapers, search, and accessibility baseline
-- Lenis smooth scroll + Motion entry/hover animations — premium feel, consistent with aesthetic
+**Content type complexity (informs build order):**
+- LOW: Hero (singleton), Contact (singleton), Coursework (flat array), Timeline (flat array)
+- MEDIUM: Navigation (nested children[]), Skills (nested skills[]), Tooling (nested items[]), Papers (PDF file reference)
+- HIGH: Projects (3 nested arrays: techStack[], links[], images[]; thumbnail + image file references; 10 fields/item)
 
-**Should have (competitive differentiators):**
-- Bento grid project cards with inline expansion (not modal routing) — flagship projects get visual priority
-- Papers/publications section with in-browser PDF viewer — gold for grad school, rare on student portfolios
-- Lab and tooling proficiency section — proves hands-on fabrication, critical for semiconductor roles
-- Coursework section — signals domain depth, low-effort for high signal
-- Glassmorphic nav + overlay design — selective application (nav, PDF overlay) creates signature aesthetic
-- Data-driven content architecture (TypeScript data files) — content updates require no code changes
-- `prefers-reduced-motion` support — accessibility compliance, quality signal for technical audiences
-- 0.5px border design system — intentional detail that creates visual cohesion
+**Should have (polish) — v1.1 post-core (P2):**
+- Image optimization via Sharp on upload (convert to WebP, resize to max 1200px)
+- Drag-and-drop reorder via dnd-kit for projects, milestones, and skills groups
+- Content status indicators showing placeholder vs. real content
+- Keyboard shortcuts (Ctrl+S to save, Ctrl+N to add item)
 
-**Defer (v2+):**
-- Timeline/journey section — add when career progression is substantial enough to visualize
-- Blog/technical notes — only with a sustained writing commitment
-- Dark mode — single cohesive light theme is stronger brand statement; toggle undermines it
-- Testimonials — collect organically from professors/mentors before adding the section
-- Analytics, custom OG images, project filtering — add after v1 is live with real feedback
+**Defer to v2+:**
+- Markdown support in descriptions (requires simultaneous changes to rendering components)
+- Bulk operations, export/import as JSON, content templates
 
-**Confirmed anti-features (do not build):**
-- Skill percentage bars — industry-mocked, meaningless self-assessments
-- Particle effects/3D backgrounds — performance killer, contradicts minimalist philosophy
-- Custom cursor — accessibility nightmare
-- Contact form with backend — unnecessary complexity; direct email is better for personal portfolios
-- React Router — single-page scroll site has no routing needs
+**Anti-features confirmed (do not build):**
+- Full headless CMS (TinaCMS, Payload, Strapi) — zero-cost constraint violation, massive overhead for 9 small files
+- Version history/undo — Git `checkout` is the version history system
+- Multi-user authentication — single operator, localhost only
+- Rich text / WYSIWYG editor — existing interfaces use plain strings; rendering components do not support markup
 
 ### Architecture Approach
 
-The architecture is a flat single-page composition: one `App.tsx` that composes sections in scroll order, wrapped in a `ReactLenis` provider. All content lives in `data/*.ts` TypeScript files that section components import directly. No state management library is needed — the only interactive state is PDF viewer open/close (`useState` in a custom hook) and active navigation section (`IntersectionObserver` in `useActiveSection`). Animation variants are centralized in `lib/motion.ts` to enforce the consistent "weighted, no bounce" feel across all components.
+The admin panel integrates with the existing portfolio through four mechanisms that maintain a strict production/dev boundary: (1) a custom Vite plugin (`apply: 'serve'`) provides filesystem endpoints at `/__admin-api/*`; (2) `App.tsx` gains ~20 lines with an `import.meta.env.DEV` ternary assigning `null` in production + `React.lazy()` that Rolldown dead-code-eliminates; (3) an iframe pointing to `localhost:PORT/` provides live preview — Vite's chokidar watcher detects data file writes and propagates HMR to the iframe automatically, no custom WebSocket setup needed; (4) all admin code lives under `src/admin/` with a one-directional import graph.
 
 **Major components:**
-1. `data/*.ts` — Single source of truth for all content (projects, papers, skills, timeline, coursework, navigation)
-2. `App.tsx` — Root: ReactLenis provider wrapping all sections in scroll order
-3. `Navigation.tsx` — Fixed glassmorphic nav, scroll-to-anchor via Lenis, active section via IntersectionObserver
-4. `Section.tsx` — Reusable section wrapper with id anchor, consistent padding, optional entry animation
-5. `ProjectCard.tsx` — Bento card with expansion logic using Motion `layoutId` for smooth expand/collapse
-6. `PdfViewer.tsx` — Responsive: shadcn Dialog on desktop, Drawer on mobile; react-pdf rendering
-7. `lib/motion.ts` — Centralized Motion variants (fadeInUp, staggerContainer, weightedSpring) for consistent easing
-8. `AnimatedEntry.tsx` — Reusable `whileInView` wrapper applied to section children
+1. **`vite-plugin-admin-api.ts`** — Vite plugin with `GET/POST /__admin-api/content/:type` and `POST /__admin-api/asset/upload`; uses `server.ssrLoadModule()` for TypeScript-aware reads and atomic `writeFile` + `rename` for writes; `apply: 'serve'` ensures complete absence from production builds
+2. **`src/admin/AdminShell.tsx`** — Split-pane layout using `react-resizable-panels` v4 directly (not shadcn/ui wrapper); editor panel (40% default) + iframe preview panel (60% default)
+3. **`src/admin/editors/*.tsx`** — 9 per-content-type form editors; shared `ArrayFieldEditor`, `AssetUploader`, `NestedObjectField` components
+4. **`src/admin/api.ts`** — Typed fetch helpers (`fetchContent<T>`, `saveContent`, `uploadAsset`) for all `/__admin-api/*` endpoints
+5. **`src/App.tsx`** (modified ~20 lines) — `import.meta.env.DEV` guard, `React.lazy()` admin import, `?admin` query param + Ctrl+Shift+A toggle
 
-**Key data flow:** `data/*.ts` → section components → shared components (`Section`, `AnimatedEntry`) → `App.tsx` → Lenis (scroll interpolation) → Motion (viewport entry animations)
+**Key patterns to follow:**
+- Read data via `server.ssrLoadModule()` (API endpoint), never via module imports — prevents HMR loop
+- Idempotent full-file writes — always replace the entire file content, never patch
+- Atomic write-then-rename (`projects.ts.tmp` then `fs.rename()`) — prevents partial write corruption
+- Asset paths normalized to lowercase-kebab-case on upload — prevents Windows dev / Linux production case mismatch
+- After asset upload: `server.ws.send({ type: 'full-reload' })` — `public/` is not in the module graph
 
 ### Critical Pitfalls
 
-1. **react-pdf worker misconfiguration in Vite** — Configure `pdfjs.GlobalWorkerOptions.workerSrc` with `new URL('pdfjs-dist/build/pdf.worker.min.mjs', import.meta.url)` in the same file as `<Document>`. Install `vite-plugin-static-copy` for cMap files. Always test production build (`npm run build && npm run preview`) before deploying — worker path often works in dev but fails in production.
+1. **Admin code ships to production** — Use `apply: 'serve'` on the plugin + `import.meta.env.DEV` ternary assigning `null` (not conditional render) + `React.lazy()`. Verify with `vite build && grep -r "admin" dist/` returning zero matches. Must be addressed in Phase 1 before any admin UI code is written.
 
-2. **Importing from `framer-motion` instead of `motion/react`** — Every tutorial predating late 2024 uses the deprecated package name. Install `motion`, import from `motion/react`. Run `grep -r "framer-motion" src/` and expect zero results.
+2. **Infinite HMR loop on file writes** — Never initialize admin form state from module imports; always read via `GET /__admin-api/content/:type` endpoint. Implement a write-lock flag with `handleHotUpdate` to suppress HMR events for admin-initiated writes. Debounce saves to 500ms. Must be addressed in Phase 2.
 
-3. **Lenis + Motion scroll event desync** — Both libraries touch scroll behavior; if Lenis is added late or configured incorrectly, Motion's `whileInView` fires at wrong positions. Add Lenis first, test scroll animations immediately after integration. Use Lenis native wrapper mode (not virtual scroll) to keep IntersectionObserver working correctly.
+3. **TypeScript code generation produces invalid output** — Project uses `verbatimModuleSyntax: true`, requiring `import type` in all generated files. Always run Prettier programmatically on generated TypeScript. Validate with `ts.createSourceFile()`. Test with `tsc -b`, not just `vite dev`. Apostrophes and special characters in user content require proper JSON escaping. Must be addressed in Phase 2.
 
-4. **Lighthouse performance killed by unoptimized assets** — Convert project images to WebP, use `loading="lazy"` for below-fold images with explicit `width`/`height` attributes, and `React.lazy()` the entire PdfViewer component so react-pdf is never in the initial bundle.
+4. **Asset path mismatch between dev and production** — Windows is case-insensitive; Vercel (Linux) is not. Normalize all uploaded filenames to lowercase-kebab-case in the upload handler. One function returns the canonical path and writes it to both filesystem and data file reference. Must be addressed in Phase 3.
 
-5. **Tailwind v4 config confusion from v3 tutorials** — No `tailwind.config.js` in v4. Use `@tailwindcss/vite` plugin (not PostCSS). Custom tokens go in CSS `@theme {}` blocks. Do not follow any tutorial that creates a JS config file.
+5. **Data file corruption from concurrent or interrupted writes** — Use atomic write-then-rename pattern. Implement per-file write queue for rapid saves. Keep a `.bak` copy before each write. Must be addressed in Phase 2.
 
 ## Implications for Roadmap
 
-The dependency graph from research strongly dictates phase order. Data architecture must come first because nearly every content section depends on TypeScript interfaces and data files. Animation infrastructure must be installed and tested before content sections are built — Lenis added as an afterthought causes the scroll conflict pitfall. The most complex feature (bento project cards with expansion) should come after animation infrastructure is validated. PDF viewing can be isolated to its own phase because its primary risk is independent of other features. Polish and performance validation is last because it requires all sections to exist.
+The dependency graph is unambiguous: the Vite plugin API endpoints are the foundational layer. TypeScript code generation correctness must be proven before forms write through it. Production exclusion must be the first thing built — retrofitting it is error-prone. The recommended phase count is 7, progressing from infrastructure to editors to verification.
 
-### Phase 1: Foundation — Project Setup + Data Architecture + Core Infrastructure
-**Rationale:** Data architecture is foundational — every content section depends on TypeScript interfaces and data files. Project scaffolding with correct tool versions (Vite 8, Tailwind v4, Motion) must be validated before any content work begins. Getting package imports correct (especially `motion/react` and `lenis`) prevents cascading breakage throughout the project.
-**Delivers:** Working Vite 8 + React 19 + TypeScript + Tailwind v4 project; all TypeScript interfaces defined (`Project`, `Paper`, `Skill`, `Course`, `NavItem`); all data files populated with real content; `lib/motion.ts` with centralized animation variants; `Section.tsx` and `AnimatedEntry.tsx` shared components; `ReactLenis` root wrapper; fixed glassmorphic navigation with active section detection via IntersectionObserver.
-**Addresses:** Data-driven content architecture (P1), fixed glassmorphic nav (P1), Lenis smooth scroll (P1)
-**Avoids:** Tailwind v4 config confusion (Pitfall 7), deprecated package imports (Pitfall 2), Lenis added as afterthought (Pitfall 3)
+### Phase 1: Foundation and Dev/Prod Boundary
 
-### Phase 2: Hero + Static Content Sections
-**Rationale:** With data architecture and shared components in place, all content sections can be built rapidly by mapping over data arrays. Build them statically first (no animation beyond section entry), then apply `AnimatedEntry` wrappers. Hero comes first since it establishes the visual language for the entire page.
-**Delivers:** Hero section with identity statement; Skills section (domain-grouped); Lab and Tooling section; Coursework section; Contact section. All sections using `Section.tsx` wrapper with proper id anchors. All content sourced from data files. Font loading configured with preload and `font-display: swap`.
-**Uses:** Tailwind v4 glassmorphism utilities (`bg-white/30 backdrop-blur-lg`), 0.5px border system, Motion `fadeInUp` + `staggerContainer` variants from `lib/motion.ts`
-**Addresses:** Hero (P1), Skills (P1), Lab and Tooling (P1), Coursework (P1), Contact (P1), semantic HTML + SEO (P1)
-**Avoids:** Over-animation (Pitfall 6) — static-first then animate; font flash (Pitfall 12) — font preloading configured at this phase
+**Rationale:** Production exclusion must be established and verified before a single line of admin UI code is written. Also resolves Lenis/Motion conflicts that affect every subsequent phase.
+**Delivers:** `import.meta.env.DEV` guard in `App.tsx`, `src/admin/` directory with stub `AdminShell`, Vite plugin registered with `apply: 'serve'`, `vite build && grep -r "admin" dist/` returns zero, Lenis disabled within admin scope, Motion config isolated for admin.
+**Addresses:** Dev-mode-only routing (P1), content type navigation stub (P1)
+**Avoids:** Critical Pitfall 1 (admin code in production), Lenis/Motion conflicts in admin context
 
-### Phase 3: Projects Section — Bento Grid + Inline Expansion
-**Rationale:** The bento grid with inline expansion is the most complex feature. It requires both data architecture (Phase 1) and Motion animation infrastructure (also Phase 1) to be validated. Building it in its own phase allows the Motion `layoutId` expand/collapse transition to be developed and tuned without pressure from other open work. This is the centrepiece of the portfolio.
-**Delivers:** Bento grid layout with variable card sizes for visual hierarchy; ProjectCard component with static and expanded states; smooth Motion `layoutId` expand/collapse animation; `AnimatePresence` for unmount transitions; responsive grid collapse for mobile; hover states on interactive elements only.
-**Uses:** Motion `layoutId` and `AnimatePresence`; CSS Grid with Tailwind responsive variants; `data/projects.ts` for content
-**Implements:** `ProjectCard.tsx` architecture component
-**Avoids:** Global state for expansion (Anti-Pattern 1 — use `useState` in Projects section); Router for per-project pages (Anti-Pattern 5)
+### Phase 2: File Write API and TypeScript Code Generation
 
-### Phase 4: PDF Viewer — Papers Section + Resume
-**Rationale:** PDF viewing is an isolated feature with its own specific pitfall (worker misconfiguration). Isolating it to its own phase allows focused testing of the production build. The shadcn Dialog/Drawer pattern and react-pdf worker setup are the only non-standard integrations in the stack, and they must be tested in a production build before proceeding to final polish.
-**Delivers:** Papers section with paper metadata and abstract display; in-browser PDF viewer using shadcn Dialog (desktop) and Drawer (mobile); resume download link with in-browser preview option; `React.lazy()` wrapping for PdfViewer to exclude react-pdf from the initial bundle.
-**Uses:** react-pdf 10.4 with correct Vite worker config; `vite-plugin-static-copy` for PDF.js cMap files; shadcn `Dialog` and `Drawer` components; `useMediaQuery` hook for responsive overlay selection
-**Avoids:** Worker misconfiguration (Pitfall 1 — test production build immediately after implementation); heavy PDF preloading (Anti-Pattern 4)
+**Rationale:** Every persistence operation routes through the Vite plugin. TypeScript code generation correctness (particularly `verbatimModuleSyntax` compliance) must be proven in isolation before form editors are built on top of it. Atomic writes and HMR loop prevention must be solved here.
+**Delivers:** `vite-plugin-admin-api.ts` with all CRUD endpoints, `server.ssrLoadModule()` reads, atomic write-then-rename, write-lock + HMR debounce, Prettier-formatted TypeScript output validated against `tsc -b`, `src/admin/api.ts` fetch helpers, `CONTENT_REGISTRY` mapping all 9 content types.
+**Uses:** Custom Vite plugin, formidable, Node `fs.promises`, Prettier API
+**Avoids:** Critical Pitfalls 2 (infinite HMR loop), 3 (invalid TypeScript output), 5 (data corruption)
 
-### Phase 5: Polish, Performance, and Accessibility
-**Rationale:** Responsive QA, Lighthouse optimization, and accessibility compliance must be validated after all sections exist. Responsive design cannot be fully tested until all content is present. Lighthouse score depends on final image assets and lazy-loading configuration. `prefers-reduced-motion` should be wired up after all animation infrastructure is confirmed working, not bolted on afterward.
-**Delivers:** Lighthouse 90+ score; WebP image optimization with explicit dimensions; `prefers-reduced-motion` support disabling Lenis and Motion animations; responsive design validated at mobile/tablet/desktop breakpoints; `backdrop-blur` performance tested on real Android devices; OpenGraph meta tags and structured data; 0.5px border media query fallback for 1x displays.
-**Addresses:** Lighthouse performance (P1), responsive design (P1), `prefers-reduced-motion` (P1), semantic HTML + SEO (P1)
-**Avoids:** Glassmorphism mobile scroll jank (Pitfall 5); Lighthouse killed by assets (Pitfall 4); 0.5px border rendering inconsistency (Pitfall 13); broken anchor scroll on dynamic content (Pitfall 8)
+### Phase 3: Asset Upload Pipeline
 
-### Phase 6: Deployment + Validation
-**Rationale:** Vercel deployment is zero-config for Vite projects, but production builds differ from the dev server in worker path resolution, asset hashing, and lazy-loading behavior. Running `npm run build && npm run preview` locally before every Vercel deploy is the primary defense against production-only breakage.
-**Delivers:** Live Vercel deployment with automatic HTTPS and global CDN; production build validated locally first; PDF viewer confirmed working in production; final Lighthouse audit on the live URL.
-**Uses:** Vercel free tier; Git-push auto-deploy pipeline
+**Rationale:** Asset upload depends on the file write API from Phase 2. Filename normalization must be built into the upload handler from day one — retrofitting it after assets are uploaded means renaming files and updating data references.
+**Delivers:** `POST /__admin-api/asset/upload` with formidable multipart parsing, lowercase-kebab-case filename normalization, file type/size validation (images + PDFs only, max 10MB), path traversal prevention (whitelist `src/data/` and `public/` subdirectories), `server.ws.send({ type: 'full-reload' })` after upload, `AssetUploader.tsx` drag-drop component.
+**Uses:** react-dropzone, formidable, Sharp (optional P2 — verify Windows binary install first)
+**Avoids:** Critical Pitfall 4 (asset path mismatch), path traversal security risk
+
+### Phase 4: Split-Pane Shell and Live Preview
+
+**Rationale:** The AdminShell layout and iframe preview should be built once the API layer works but before form editors, so the HMR cycle can be verified end-to-end (API write → chokidar → HMR → iframe re-render) with no form complexity in the way.
+**Delivers:** `AdminShell.tsx` using `react-resizable-panels` v4 `Group/Panel/Separator` directly, `AdminPreview.tsx` iframe pointing to `localhost:PORT/`, `AdminSidebar.tsx` / `AdminHeader.tsx` with content type tab navigation, verified end-to-end HMR cycle with real data files.
+**Uses:** react-resizable-panels v4 directly (bypass shadcn/ui Resizable due to known bug #9136), shadcn/ui tabs, shadcn/ui scroll-area
+**Avoids:** shadcn/ui Resizable API mismatch bug, preview not matching production rendering (UX Pitfall 4)
+
+### Phase 5: Form Editors — Simple Types First
+
+**Rationale:** Build editors in order of increasing complexity. Singleton flat types (Hero, Contact) establish the full editing + save + preview + toast feedback loop. Then simple array types (Coursework, Timeline) exercise `useFieldArray`. Then nested array types (Skills, Tooling, Navigation, Papers).
+**Delivers:** Editors for 8 of 9 content types (all except Projects), react-hook-form + Zod integration for all editors, `useFieldArray` for array types, shared `ArrayFieldEditor.tsx` and `NestedObjectField.tsx`, save toast feedback, sessionStorage form state persistence (survives HMR).
+**Uses:** react-hook-form, zod, @hookform/resolvers, shadcn/ui form components (input, textarea, select, switch, field, badge), shadcn/ui Sonner/Toast
+**Avoids:** Form state lost on HMR (UX Pitfall 1), no save feedback (UX Pitfall 3), missing validation (Looks Done But Isn't checklist)
+
+### Phase 6: Projects Editor (Complex Type) and P2 Polish
+
+**Rationale:** Projects is the most complex editor (3 nested arrays, file references, 10 fields/item). Built last after all shared components and `useFieldArray` patterns are established from Phase 5.
+**Delivers:** `ProjectsEditor.tsx` with full nested array management, thumbnail/image upload via `AssetUploader`, `featured` boolean toggle, all 10 fields per project item. P2 additions: dnd-kit drag-to-reorder for projects and milestones, image optimization via Sharp (pending Windows binary verification), content status indicators, Ctrl+S / Ctrl+N keyboard shortcuts.
+**Uses:** react-hook-form `useFieldArray` (nested), dnd-kit (P2), Sharp (P2 conditional)
+**Implements:** Most complex Architecture component — verifies all prior patterns hold under nesting depth
+
+### Phase 7: Production Verification and Hardening
+
+**Rationale:** Final hardening pass addressing the "Looks Done But Isn't" checklist explicitly. All critical pitfalls verified simultaneously before the admin panel is considered complete.
+**Delivers:** Verified: `vite build && grep -r "admin" dist/` returns zero; `tsc -b` passes after editing every content type including special characters (apostrophes, quotes, unicode, newlines); rapid-fire saves (5 in 2 seconds) produce no corruption; `vite preview` shows no broken asset references; form state survives HMR; cross-platform file path behavior confirmed on Windows/NTFS.
+**Avoids:** All 5 critical pitfalls verified in a production-representative build
 
 ### Phase Ordering Rationale
 
-- Data architecture must precede all content sections — TypeScript interfaces and data files are the dependency graph root for the entire project
-- Motion infrastructure (centralized variants, `ReactLenis` root wrapper) must precede content sections to avoid retrofitting Lenis onto an existing page, which causes the scroll conflict pitfall
-- Static content sections precede complex interactive features (bento expansion, PDF viewer) — validate data flow before adding interaction complexity
-- PDF viewer is isolated because its primary risk (worker misconfiguration) is testable independently of other features and must be validated in a production build
-- Polish and performance cannot be meaningfully validated until all sections exist
-- Deployment is last but a production build test should be run after Phase 4 to catch PDF worker issues before final polish begins
+- Phase 1 before everything: Production exclusion cannot be retrofitted. Verify zero admin in `dist/` before writing any admin UI.
+- Phase 2 before Phases 4-6: Every editor's save path routes through the plugin. Code generation correctness proven in isolation so form bugs can be distinguished from serialization bugs.
+- Phase 3 before Phases 5-6: `AssetUploader` is shared across PapersEditor and ProjectsEditor; must exist before those editors are built.
+- Phase 4 before Phases 5-6: AdminShell provides the layout context all editors render inside; HMR cycle verified end-to-end without form complexity.
+- Phase 5 before Phase 6: `ArrayFieldEditor` and `NestedObjectField` shared components created in Phase 5 and reused in Phase 6. `useFieldArray` patterns proven on simpler types before the deeply-nested Projects type.
 
 ### Research Flags
 
-Phases likely needing deeper research or a spike during planning:
-- **Phase 3 (Bento Grid):** Motion `layoutId` expansion from a variable-size bento cell to a full-width or full-screen expanded state has limited tutorial coverage for this exact pattern. The CSS Grid interaction with Motion layout animations during expand/collapse will likely need a prototype spike before committing to the implementation approach.
-- **Phase 4 (PDF Viewer):** shadcn CLI v4 introduced Base UI as an alternative to Radix UI primitives. The choice affects Dialog/Drawer component API details. Verify the current shadcn Dialog and Drawer API at implementation time against the CLI v4 changelog.
+Phases likely needing deeper research during planning:
+- **Phase 2 (TypeScript code generation):** The interaction between `verbatimModuleSyntax`, Prettier's TypeScript parser, and `JSON.stringify` output for edge cases (empty arrays, null values, escaped strings with user content) warrants a brief spike. Template-based generation works for flat types (navigation.ts) but is risky for Projects with user-provided string content — consider Prettier + `ts.createSourceFile()` validation as the safety net.
+- **Phase 6 (dnd-kit with nested useFieldArray):** dnd-kit with `useFieldArray` at two nesting levels has non-obvious constraints. Verify the specific pattern (array of items, each with sortable sub-arrays) works before committing to the drag-reorder feature.
 
-Phases with standard patterns (skip additional research):
-- **Phase 1 (Foundation):** Vite 8 + Tailwind v4 + Motion setup is thoroughly documented in official sources. Follow STACK.md configuration notes exactly.
-- **Phase 2 (Content Sections):** Standard React component patterns. Data-mapping and Motion `whileInView` are well-documented with no known edge cases for this use case.
-- **Phase 5 (Polish):** Standard web performance patterns. WebP conversion, lazy loading, and Lighthouse auditing are established workflows.
-- **Phase 6 (Deployment):** Vercel auto-detects Vite. Zero research needed.
+Phases with standard patterns (skip research-phase):
+- **Phase 1:** `import.meta.env.DEV` + `React.lazy()` production exclusion is documented Vite behavior, well-understood.
+- **Phase 3:** formidable multipart parsing + filename normalization is standard Node.js. No ambiguity.
+- **Phase 4:** react-resizable-panels v4 direct usage is documented; API mismatch with shadcn/ui wrapper is confirmed with a clear workaround.
+- **Phase 5:** react-hook-form + Zod + shadcn/ui Form is the official documented pattern on ui.shadcn.com. No research needed.
 
 ## Confidence Assessment
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | HIGH | All technologies verified against official docs and recent release notes (March 2026). Package names, import paths, and version numbers confirmed against npm and library announcements. |
-| Features | HIGH | Cross-validated against MIT CommLab, NYU Tandon, MIT EECS admissions, and industry semiconductor career sources. Audience-specific feature value is well-evidenced from authoritative sources. |
-| Architecture | HIGH | Patterns derived from official library documentation (Lenis React integration, Motion layout animations, shadcn responsive dialog pattern). No speculative or untested patterns. |
-| Pitfalls | HIGH | Each critical pitfall traced to a specific GitHub issue, library upgrade guide, or official migration doc. Prevention steps are concrete and testable. |
+| Stack | HIGH | All package versions verified on npm. React 19 peer dep compatibility confirmed for every addition. The only MEDIUM item (react-hook-form v8 timeline) was resolved: v7 is the correct choice and v8 beta status is confirmed. |
+| Features | HIGH | Feature set scoped against the 9 known TypeScript interfaces in `src/types/data.ts`. Content type complexity analysis grounded in actual interface structures. Anti-feature decisions based on real constraints (zero-cost, single user, existing data model). |
+| Architecture | HIGH | All four architectural decisions backed by official Vite docs. The shadcn/ui Resizable API mismatch is a confirmed tracked bug with a clear workaround. `server.ssrLoadModule()` for TypeScript-aware reads is an officially documented Vite API. |
+| Pitfalls | HIGH | All 5 critical pitfalls traced to documented Vite behavior, TypeScript compiler flags in existing `tsconfig.app.json`, and Node.js filesystem semantics. Prevention strategies use standard patterns. |
 
 **Overall confidence:** HIGH
 
 ### Gaps to Address
 
-- **Bento grid + Motion `layoutId` expansion specifics:** The exact interaction between CSS Grid layout and Motion's `layoutId` animate-from-bento-cell pattern is not covered in depth in official docs. A prototype spike is recommended during Phase 3 planning before committing to the implementation approach.
-- **shadcn CLI v4 Base UI vs Radix choice for Dialog/Drawer:** CLI v4 introduced Base UI as an alternative primitive. The choice affects mobile Drawer behavior. Evaluate at implementation time; Radix is the safer default with broader component coverage.
-- **react-pdf v10.4 multi-page navigation UX:** Research confirmed read-only rendering works, but multi-page navigation (prev/next controls for longer academic papers) was not researched in depth. Design a simple page counter component during Phase 4 if papers exceed one page.
-- **Font selection:** PROJECT.md specifies "precision typography" but no specific typefaces. Font choice (Inter, Instrument Serif, or similar) will need to be decided in Phase 1. Suggest researching engineering-appropriate faces that complement the "Cleanroom White" aesthetic.
-- **0.5px border cross-browser behavior on 1x displays:** Research flagged inconsistency. The `@media (min-resolution: 2dppx)` fallback approach is the standard mitigation but should be validated on a range of actual devices during Phase 5.
+- **Prettier as dev dependency:** Research recommends running Prettier programmatically on generated TypeScript output. Verify Prettier is already installed (likely as part of ESLint setup) before Phase 2; if not, add `prettier` to devDependencies.
+- **Sharp native binary on Windows:** Sharp requires platform-specific native binaries. Verify `npm install -D sharp` works cleanly in the Windows development environment before committing to image optimization in Phase 6. If binary installation fails, defer Sharp to v2 and document manual image optimization as the workaround.
+- **`write-file-atomic` vs manual temp-file-rename:** Both produce the same result. Given the project's bias toward minimal dependencies, prefer the manual 3-line pattern (`writeFile` to `.tmp` then `fs.rename()`) over adding `write-file-atomic` as a dependency. Decide in Phase 2.
+- **Zod schemas as source of truth vs parallel schemas:** Two valid approaches — (a) refactor `src/types/data.ts` to infer TypeScript types from Zod schemas (cleaner, but modifies v1.0 code); (b) maintain parallel Zod schemas that mirror existing interfaces (slight duplication, but v1.0 code untouched). Recommend approach (b) for v1.1 to maintain a clean boundary with shipped v1.0 code.
+- **Zod v4 error format with shadcn/ui form examples:** shadcn/ui docs reference Zod v3 in error display examples. Zod v4 has a different error format. @hookform/resolvers v5.2.2 handles this at the validation layer, but toast error messages may need adjustment for Zod v4's error shape.
 
 ## Sources
 
 ### Primary (HIGH confidence)
-- [Vite 8 announcement](https://vite.dev/blog/announcing-vite8) — Rolldown bundler, `@vitejs/plugin-react` v6, Vite 8 configuration
-- [Motion official docs](https://motion.dev/) — Renamed from Framer Motion, import from `motion/react`, scroll animations
-- [Motion upgrade guide](https://motion.dev/docs/react-upgrade-guide) — framer-motion to motion/react migration
-- [Tailwind CSS v4 announcement](https://tailwindcss.com/blog/tailwindcss-v4) — Oxide engine, CSS-first configuration, no `tailwind.config.js`
-- [Lenis npm](https://www.npmjs.com/package/lenis) — v1.3.19, unified package replacing `@studio-freight/lenis`, React integration
-- [React 19.2 blog post](https://react.dev/blog/2025/10/01/react-19-2) — Stable release line
-- [TypeScript 5.9 docs](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-5-9.html) — Latest stable
-- [MIT CommLab — Portfolio Guide](https://mitcommlab.mit.edu/meche/commkit/portfolio/) — Engineering portfolio structure authority
-- [MIT EECS — What Faculty Look For](https://www.eecs.mit.edu/academics/graduate-programs/admission-process/what-faculty-members-are-looking-for-in-a-grad-school-application-essay/) — Grad school admissions perspective
-- [react-pdf Vite worker issues](https://github.com/wojtekmaj/react-pdf/issues/1843) — Worker config must be in same module
-- [NYU Tandon — Building a Portfolio](https://engineering.nyu.edu/life-tandon/experiential-learning-center/building-portfolio) — University career services perspective
-- [Pope Tech — Accessible Animation](https://blog.pope.tech/2025/12/08/design-accessible-animation-and-movement/) — prefers-reduced-motion guidance
+- [Vite Plugin API — configureServer](https://vite.dev/guide/api-plugin) — plugin hooks, `apply: 'serve'`, `handleHotUpdate`, `ssrLoadModule`
+- [Vite Env Variables and Modes](https://vite.dev/guide/env-and-mode) — `import.meta.env.DEV` static replacement, tree-shaking behavior
+- [Vite HMR API](https://vite.dev/guide/api-hmr) — `import.meta.hot.data`, `server.ws.send`, `full-reload`
+- [Vite Server Options](https://vite.dev/config/server-options) — `server.watch` configuration for file watcher tuning
+- [shadcn/ui Forms — React Hook Form](https://ui.shadcn.com/docs/forms/react-hook-form) — official form integration docs
+- [shadcn/ui Resizable](https://ui.shadcn.com/docs/components/radix/resizable) — built on react-resizable-panels
+- [react-hook-form — useFieldArray](https://react-hook-form.com/docs/usefieldarray) — dynamic array field management docs
+- [zod v4 release notes](https://zod.dev/v4) — v4.3.6 current stable
+- [@hookform/resolvers npm](https://www.npmjs.com/package/@hookform/resolvers) — v5.2.2, Zod v4 auto-detection
+- [react-dropzone releases](https://github.com/react-dropzone/react-dropzone/releases) — v15.0.0, React 19 support confirmed
+- [formidable GitHub](https://github.com/node-formidable/formidable) — v3.x API for raw Node.js IncomingMessage
+- [react-resizable-panels v4](https://github.com/bvaughn/react-resizable-panels) — v4 direct usage, renamed exports
+- [TypeScript verbatimModuleSyntax](https://www.typescriptlang.org/tsconfig/verbatimModuleSyntax.html) — requires explicit `import type` syntax
+- [chokidar awaitWriteFinish](https://github.com/paulmillr/chokidar) — file watcher debouncing for atomic writes
+- [write-file-atomic](https://github.com/npm/write-file-atomic) — atomic write-then-rename pattern for Node.js
+- [Prettier API](https://prettier.io/docs/api) — programmatic formatting for generated TypeScript
 
 ### Secondary (MEDIUM confidence)
-- [shadcn/ui CLI v4 changelog](https://ui.shadcn.com/docs/changelog/2026-03-cli-v4) — Tailwind v4 support, Base UI option
-- [Built In — Hardware Engineering Portfolio](https://builtin.com/hardware/hardware-engineering-portfolio) — Industry perspective on hardware portfolios
-- [Semiconductor Jobs — Portfolio Projects](https://semiconductorjobs.co.uk/career-advice/portfolio-projects-that-get-you-hired-for-semiconductor-jobs-with-real-github-examples-) — Domain-specific hiring advice
-- [Lenis integration blog](https://www.edoardolunardi.dev/blog/building-smooth-scroll-in-2025-with-lenis) — Lenis + Motion integration gotchas
-- [Tailwind v4 migration guide](https://sitegrade.io/en/blog/tailwind-css-v4-2026-migration-guide/) — CSS-first config changes
-- [Landdding — Bento Grid Design Guide 2026](https://landdding.com/blog/blog-bento-grid-design-guide) — Bento grid adoption data
-- [SiteBuilder Report — Engineer Portfolios](https://www.sitebuilderreport.com/inspiration/engineer-portfolios) — Curated examples
-- [Glassmorphism performance](https://www.jobhuntley.com/blog/web-design-trends-for-2026-the-rise-of-glassmorphism-and-how-to-achieve-it-with-css) — backdrop-filter GPU considerations
+- [shadcn-ui/ui#9136](https://github.com/shadcn-ui/ui/issues/9136) — confirmed API mismatch between shadcn/ui v4 Resizable and react-resizable-panels v4; workaround: use library directly
+- [react-hook-form RFC v8](https://github.com/orgs/react-hook-form/discussions/7433) — v8 still in beta as of research date, confirms v7 is correct choice
+- [Vite tree-shaking issue #15256](https://github.com/vitejs/vite/issues/15256) — tree-shaking edge cases with env variable guards
+- [Vite HMR internals — chokidar and module graph](https://deepwiki.com/vitejs/vite/5-hot-module-replacement-(hmr)) — HMR propagation mechanics
+- [Vite environment-specific imports discussion](https://github.com/vitejs/vite/discussions/4172) — dynamic imports inside DEV guards may still be bundled as orphan chunks
 
 ### Tertiary (LOW confidence)
-- [Medium — Glassmorphism 2026](https://medium.com/design-bootcamp/ui-design-trend-2026-2-glassmorphism-and-liquid-design-make-a-comeback-50edb60ca81e) — Single source, corroborated by Apple WWDC 2025 Liquid Glass announcement
+- [TypeScript Code Generation: Templates vs AST](https://medium.com/singapore-gds/writing-a-typescript-code-generator-templates-vs-ast-ab391e5d1f5e) — conclusion (templates fine for simple data, AST for complex) confirmed by independent reasoning but single source
 
 ---
-*Research completed: 2026-03-20*
+*Research completed: 2026-03-24*
 *Ready for roadmap: yes*
