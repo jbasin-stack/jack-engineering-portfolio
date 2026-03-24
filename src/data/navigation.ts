@@ -7,6 +7,7 @@ export const navItems: NavItem[] = [
     children: [
       { label: 'Skills', href: '#skills' },
       { label: 'Lab & Tooling', href: '#tooling' },
+      { label: 'Timeline', href: '#timeline' },
     ],
   },
   { label: 'Projects', href: '#projects' },

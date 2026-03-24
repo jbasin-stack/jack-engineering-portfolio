@@ -15,7 +15,6 @@ export const projects: Project[] = [
       { label: 'Report', url: '#' },
     ],
     featured: true,
-    paperPdf: '/papers/lna-design.pdf',
   },
   {
     id: 'mems-accelerometer',

@@ -57,7 +57,6 @@ export interface Project {
   techStack: string[];
   links: { label: string; url: string }[];
   featured: boolean;
-  paperPdf?: string;
 }
 
 export interface Paper {

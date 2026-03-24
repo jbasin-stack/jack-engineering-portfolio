@@ -49,8 +49,6 @@ export function ProjectsSection() {
                 }
                 onReadMore={() => {
                   setExpandedId(null);
-                  // If project links to a paper PDF, defer to PDF viewer (handled by Plan 03)
-                  // Otherwise, open the detail Dialog/Drawer
                   setDetailProject(project);
                 }}
               />
