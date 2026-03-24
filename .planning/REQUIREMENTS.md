@@ -9,7 +9,7 @@ Requirements for the Content Admin Panel milestone. Each maps to roadmap phases.
 
 ### Infrastructure
 
-- [ ] **INFRA-01**: Admin panel is accessible only in dev mode — zero admin code in production build
+- [x] **INFRA-01**: Admin panel is accessible only in dev mode — zero admin code in production build
 - [ ] **INFRA-02**: Custom Vite plugin provides REST API at `/__admin-api/*` for content read/write
 - [ ] **INFRA-03**: TypeScript code generation produces valid `.ts` files with `import type` syntax (passes `tsc -b`)
 - [ ] **INFRA-04**: File writes are atomic (write-to-temp then rename) preventing corruption
@@ -78,7 +78,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INFRA-01 | Phase 8 | Pending |
+| INFRA-01 | Phase 8 | Complete |
 | INFRA-02 | Phase 8 | Pending |
 | INFRA-03 | Phase 8 | Pending |
 | INFRA-04 | Phase 8 | Pending |
