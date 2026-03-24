@@ -1,160 +1,34 @@
 # Roadmap: Jack Basinski Engineering Portfolio
 
-## Overview
+## Milestones
 
-This roadmap delivers a high-performance, minimalist single-page portfolio that lets recruiters, professors, and peers immediately understand Jack's range and depth as an electrical engineer. Phase 1 scaffolds the project with correct tooling, smooth scroll, navigation, and the hero section. Phase 2 builds all data-driven content sections (skills, tooling, coursework, timeline, contact). Phase 3 tackles the two complex interactive features: bento grid project cards with inline expansion and in-browser PDF viewing for papers and resume. Phase 4 locks down performance, responsive design, accessibility, and Vercel deployment.
+- ✅ **v1.0 MVP** — Phases 1-7 (shipped 2026-03-24)
 
 ## Phases
 
-**Phase Numbering:**
-- Integer phases (1, 2, 3): Planned milestone work
-- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
+<details>
+<summary>✅ v1.0 MVP (Phases 1-7) — SHIPPED 2026-03-24</summary>
 
-Decimal phases appear between their surrounding integers in numeric order.
+- [x] Phase 1: Foundation, Navigation, and Hero (3/3 plans) — completed 2026-03-22
+- [x] Phase 2: Content Sections (4/4 plans) — completed 2026-03-23
+- [x] Phase 3: Interactive Features (4/4 plans) — completed 2026-03-23
+- [x] Phase 4: Polish and Deployment (2/2 plans) — completed 2026-03-23
+- [x] Phase 5: Visual Design Overhaul (3/3 plans) — completed 2026-03-23
+- [x] Phase 6: Static Assets & Integration Fixes (2/2 plans) — completed 2026-03-24
+- [x] Phase 7: Requirements Traceability Cleanup (1/1 plan) — completed 2026-03-24
 
-- [x] **Phase 1: Foundation, Navigation, and Hero** - Scaffold Vite 8 + React 19 project with Lenis, Motion, Tailwind v4, glassmorphic nav, and typography-first hero (completed 2026-03-22)
-- [x] **Phase 2: Content Sections** - Build all data-driven sections: Skills, Lab/Tooling, Coursework, Timeline, and Contact (completed 2026-03-23)
-- [x] **Phase 3: Interactive Features** - Bento grid project cards with inline expansion and in-browser PDF viewer for papers and resume (completed 2026-03-23)
-- [x] **Phase 4: Polish and Deployment** - Responsive QA, Lighthouse 90+, accessibility, semantic HTML, and Vercel deployment (completed 2026-03-23)
-- [x] **Phase 6: Static Assets & Integration Fixes** - Add missing static assets, fix timeline nav link, wire/remove paperPdf routing, clean orphaned exports (gap closure) (completed 2026-03-24)
-- [x] **Phase 7: Requirements Traceability Cleanup** - Update FNDN-08/NAV-01/CRSE-01/CRSE-02 statuses, add VISUAL-01-07 to traceability table (gap closure) (completed 2026-03-24)
+Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 
-## Phase Details
-
-### Phase 1: Foundation, Navigation, and Hero
-**Goal**: Visitor lands on a working single-page app with premium smooth scroll, glassmorphic navigation, and a typography-first hero that immediately communicates Jack's identity
-**Depends on**: Nothing (first phase)
-**Requirements**: FNDN-01, FNDN-02, FNDN-03, FNDN-04, FNDN-05, FNDN-06, FNDN-07, FNDN-08, NAV-01, NAV-02, NAV-03, NAV-04, NAV-05, HERO-01, HERO-02, HERO-03
-**Success Criteria** (what must be TRUE):
-  1. Visitor sees a hero section with Jack's name, ECE at UW identity, and semiconductor fabrication x system design narrative rendered in high-quality sans-serif typography with generous whitespace
-  2. Visitor sees a fixed glassmorphic navigation bar with backdrop-blur that stays visible at all scroll positions, highlights the active section while scrolling, and smooth-scrolls to target sections on click
-  3. Navigation collapses to a mobile-friendly hamburger menu at small breakpoints
-  4. Page scrolls with a weighted, physical Lenis smooth-scroll feel, and all section entries animate with weighted Motion transitions (no bounce or spring)
-  5. All content data structures (projects, papers, skills, courses, tooling, timeline, nav items) are defined as typed TypeScript data files separate from JSX
-**Plans:** 3/3 plans complete
-
-Plans:
-- [x] 01-01-PLAN.md — Scaffold Vite project, design system, typed data layer, scroll infrastructure, and test suite
-- [x] 01-02-PLAN.md — Typography-first hero section with staggered animation, social icons, and scroll indicator
-- [x] 01-03-PLAN.md — Glassmorphic navigation with dropdown, scroll-spy, mobile hamburger overlay
-
-### Phase 2: Content Sections
-**Goal**: Visitor can browse all informational sections — skills grouped by domain, lab tooling proficiency, coursework highlights, engineering timeline, and contact links — all rendered from data files with consistent animation and semantic markup
-**Depends on**: Phase 1
-**Requirements**: SKIL-01, SKIL-02, SKIL-03, SKIL-04, TOOL-01, TOOL-02, TOOL-03, CRSE-01, CRSE-02, CRSE-03, TIME-01, TIME-02, TIME-03, TIME-04, CONT-01, CONT-02, CONT-03, CONT-04
-**Success Criteria** (what must be TRUE):
-  1. Visitor can view technical skills as a clean typography-driven list grouped by Fabrication, RF, Analog, and Digital domains, with semantic HTML that AI scrapers can parse
-  2. Visitor can view a lab and tooling section showing hands-on proficiency grouped by category (EDA tools, lab equipment, fabrication processes)
-  3. Visitor can view key UW ECE courses with brief descriptors signaling domain relevance
-  4. Visitor can view a vertical timeline of 6-10 engineering milestones that fills progressively as they scroll down the page
-  5. Visitor can access email link, LinkedIn, GitHub profiles, and download resume as PDF from the contact section
-**Plans:** 4/4 plans complete
-
-Plans:
-- [x] 02-01-PLAN.md — Typed data layer: interfaces, 5 content data files, animation variants, and data integrity tests
-- [x] 02-02-PLAN.md — Skills, Tooling, and Coursework section components with column grid and vertical list layouts
-- [x] 02-03-PLAN.md — Timeline with scroll-driven progressive fill and Contact CTA section
-- [x] 02-04-PLAN.md — Wire all sections into App.tsx and visual verification checkpoint
-
-### Phase 3: Interactive Features
-**Goal**: Visitor can explore 3-5 projects via an interactive bento grid with inline card expansion, and view academic papers and resume in-browser via a PDF viewer — the two flagship interactive experiences of the portfolio
-**Depends on**: Phase 2
-**Requirements**: PROJ-01, PROJ-02, PROJ-03, PROJ-04, PROJ-05, PROJ-06, DOCS-01, DOCS-02, DOCS-03, DOCS-04, DOCS-05
-**Success Criteria** (what must be TRUE):
-  1. Visitor sees 3-5 projects in a bento grid layout with variable-size cards showing thumbnails, titles, and brief descriptions
-  2. Visitor can click any project card to see it expand inline with full description, visuals, tech stack, and links — with smooth Motion layout animation for expand and collapse
-  3. Bento grid collapses gracefully to single-column on mobile
-  4. Visitor can click any paper or the resume to view the PDF in-browser (Dialog on desktop, Drawer on mobile) with a direct download fallback
-  5. PDF viewer works correctly in both development and production Vite builds
-**Plans:** 4/4 plans complete
-
-Plans:
-- [x] 03-01-PLAN.md — Foundation: shadcn/ui init, react-pdf setup, type interfaces, data files, useIsMobile hook, layout transition config
-- [x] 03-02-PLAN.md — Bento grid Projects section with inline card expansion and project detail Dialog/Drawer
-- [x] 03-03-PLAN.md — Papers section with row listing and shared PDF viewer component
-- [x] 03-04-PLAN.md — Wire sections into App.tsx, connect resume to PDF viewer, production build verification
-
-### Phase 4: Polish and Deployment
-**Goal**: Site is fully responsive, scores 90+ on Lighthouse, respects accessibility preferences, and is live on Vercel with auto-deploy
-**Depends on**: Phase 3
-**Requirements**: PERF-01, PERF-02, PERF-03, PERF-04, PERF-05
-**Success Criteria** (what must be TRUE):
-  1. Site renders correctly and is fully usable at mobile, tablet, and desktop breakpoints
-  2. Lighthouse performance score is 90+ with optimized images, lazy loading, and minimal JS bundle
-  3. Semantic HTML uses proper heading hierarchy and semantic elements; OpenGraph meta tags produce polished social previews
-  4. Site is live on Vercel free tier with auto-deploy on push and working HTTPS
-**Plans:** 2/2 plans complete
-
-Plans:
-- [x] 04-01-PLAN.md — Performance optimization, semantic HTML, OG meta tags, responsive QA fixes
-- [x] 04-02-PLAN.md — Vercel deployment with GitHub repo creation and live site verification
+</details>
 
 ## Progress
 
-**Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
-
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. Foundation, Navigation, and Hero | 3/3 | Complete   | 2026-03-22 |
-| 2. Content Sections | 4/4 | Complete | 2026-03-23 |
-| 3. Interactive Features | 4/4 | Complete   | 2026-03-23 |
-| 4. Polish and Deployment | 2/2 | Complete | 2026-03-23 |
-| 5. Visual Design Overhaul | 3/3 | Complete | 2026-03-23 |
-| 6. Static Assets & Integration Fixes | 2/2 | Complete | 2026-03-24 |
-| 7. Requirements Traceability Cleanup | 1/1 | Complete | 2026-03-24 |
-
-### Phase 5: Visual Design Overhaul — Dynamic Backgrounds, UW Purple Accents, and Texture Depth
-
-**Goal:** Transform the portfolio from clean monochrome into a visually dynamic experience with animated backgrounds, noise textures, UW purple color accents, and interactive card effects -- all sourced from 21st.dev community components (aceternity, magicui, easemize)
-**Depends on:** Phase 4
-**Requirements**: VISUAL-01, VISUAL-02, VISUAL-03, VISUAL-04, VISUAL-05, VISUAL-06, VISUAL-07
-**Success Criteria** (what must be TRUE):
-  1. Hero section displays animated aurora gradient with floating particles that respond to cursor movement
-  2. WhoAmI, Skills, and Tooling sections have subtle noise texture backgrounds with purple tinting
-  3. Project cards show interactive spotlight effect following cursor on hover without breaking expand/collapse animations
-  4. Timeline has animated grid pattern background with engineering/technical aesthetic
-  5. Effect intensity follows bold hero -> textured middle -> calm footer curve
-  6. All effects respect prefers-reduced-motion accessibility preference
-**Plans:** 3/3 plans complete
-
-Plans:
-- [x] 05-01-PLAN.md — Color palette extension (UW Purple tokens) + all 5 effect components + test scaffolds
-- [x] 05-02-PLAN.md — Hero (Aurora + Particles) + section backgrounds (WhoAmI, Skills, Tooling, Contact)
-- [x] 05-03-PLAN.md — Timeline grid pattern + project card spotlight + visual verification checkpoint
-
-### Phase 6: Static Assets & Integration Fixes
-**Goal:** Fix all broken runtime paths — add missing static assets to public/, wire timeline into navigation, resolve paperPdf dead code, and clean orphaned exports so the live site has zero broken images, working PDF viewing, and complete navigation
-**Depends on:** Phase 5
-**Requirements:** CONT-03, DOCS-01, DOCS-02, DOCS-04, PROJ-02, NAV-02
-**Gap Closure:** Closes gaps from v1 milestone audit
-**Success Criteria** (what must be TRUE):
-  1. All PDF files (resume.pdf, papers/*.pdf) exist in public/ and PdfViewer renders them without hitting error fallback
-  2. All project thumbnail SVGs exist in public/projects/ and render in bento grid cards
-  3. portrait.jpg exists in public/ and renders in the appropriate section
-  4. Timeline section is reachable via click navigation (nav link exists in navigation.ts)
-  5. paperPdf field either routes to PDF viewer or dead code is removed
-  6. No orphaned exports remain in motion.ts
-
-**Plans:** 2 plans
-
-Plans:
-- [x] 06-01-PLAN.md — Create all placeholder static assets (PDFs, SVGs, portrait) in public/
-- [x] 06-02-PLAN.md — Add Timeline to navigation, remove paperPdf dead code, clean orphaned motion exports, update tests
-
-### Phase 7: Requirements Traceability Cleanup
-**Goal:** Bring REQUIREMENTS.md into full alignment with the actual state of the codebase — update requirement text, checkbox statuses, and traceability table so the document accurately reflects what was built, descoped, and satisfied
-**Depends on:** Phase 6
-**Requirements:** FNDN-08, NAV-01, CRSE-01, CRSE-02, VISUAL-01, VISUAL-02, VISUAL-03, VISUAL-04, VISUAL-05, VISUAL-06, VISUAL-07
-**Gap Closure:** Closes gaps from v1 milestone audit
-**Success Criteria** (what must be TRUE):
-  1. FNDN-08 marked complete (Phase 5 used 21st.dev community components)
-  2. NAV-01 requirement text updated to match approved "hidden until 400px scroll" design
-  3. CRSE-01/CRSE-02 marked as descoped (not complete, not pending)
-  4. VISUAL-01 through VISUAL-07 appear in traceability table with correct phase and status
-  5. Coverage counts in REQUIREMENTS.md are accurate
-
-**Plans:** 1 plan
-
-Plans:
-- [x] 07-01-PLAN.md — Apply all traceability edits to REQUIREMENTS.md (statuses, text, Visual Design section, coverage counts)
+| Phase | Milestone | Plans Complete | Status | Completed |
+|-------|-----------|----------------|--------|-----------|
+| 1. Foundation, Navigation, and Hero | v1.0 | 3/3 | Complete | 2026-03-22 |
+| 2. Content Sections | v1.0 | 4/4 | Complete | 2026-03-23 |
+| 3. Interactive Features | v1.0 | 4/4 | Complete | 2026-03-23 |
+| 4. Polish and Deployment | v1.0 | 2/2 | Complete | 2026-03-23 |
+| 5. Visual Design Overhaul | v1.0 | 3/3 | Complete | 2026-03-23 |
+| 6. Static Assets & Integration Fixes | v1.0 | 2/2 | Complete | 2026-03-24 |
+| 7. Requirements Traceability Cleanup | v1.0 | 1/1 | Complete | 2026-03-24 |
