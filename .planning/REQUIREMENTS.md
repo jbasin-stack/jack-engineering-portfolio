@@ -78,35 +78,35 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INFRA-01 | — | Pending |
-| INFRA-02 | — | Pending |
-| INFRA-03 | — | Pending |
-| INFRA-04 | — | Pending |
-| INFRA-05 | — | Pending |
-| EDIT-01 | — | Pending |
-| EDIT-02 | — | Pending |
-| EDIT-03 | — | Pending |
-| EDIT-04 | — | Pending |
-| EDIT-05 | — | Pending |
-| EDIT-06 | — | Pending |
-| EDIT-07 | — | Pending |
-| EDIT-08 | — | Pending |
-| EDIT-09 | — | Pending |
-| EDIT-10 | — | Pending |
-| EDIT-11 | — | Pending |
-| ASSET-01 | — | Pending |
-| ASSET-02 | — | Pending |
-| ASSET-03 | — | Pending |
-| ASSET-04 | — | Pending |
-| PREV-01 | — | Pending |
-| PREV-02 | — | Pending |
-| PREV-03 | — | Pending |
+| INFRA-01 | Phase 8 | Pending |
+| INFRA-02 | Phase 8 | Pending |
+| INFRA-03 | Phase 8 | Pending |
+| INFRA-04 | Phase 8 | Pending |
+| INFRA-05 | Phase 8 | Pending |
+| EDIT-01 | Phase 10 | Pending |
+| EDIT-02 | Phase 10 | Pending |
+| EDIT-03 | Phase 10 | Pending |
+| EDIT-04 | Phase 10 | Pending |
+| EDIT-05 | Phase 10 | Pending |
+| EDIT-06 | Phase 10 | Pending |
+| EDIT-07 | Phase 10 | Pending |
+| EDIT-08 | Phase 10 | Pending |
+| EDIT-09 | Phase 10 | Pending |
+| EDIT-10 | Phase 10 | Pending |
+| EDIT-11 | Phase 10 | Pending |
+| ASSET-01 | Phase 9 | Pending |
+| ASSET-02 | Phase 9 | Pending |
+| ASSET-03 | Phase 9 | Pending |
+| ASSET-04 | Phase 9 | Pending |
+| PREV-01 | Phase 9 | Pending |
+| PREV-02 | Phase 9 | Pending |
+| PREV-03 | Phase 9 | Pending |
 
 **Coverage:**
 - v1.1 requirements: 23 total
-- Mapped to phases: 0
-- Unmapped: 23 (pending roadmap creation)
+- Mapped to phases: 23
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-24*
-*Last updated: 2026-03-24 after initial definition*
+*Last updated: 2026-03-24 after roadmap creation*
