@@ -16,8 +16,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Content Sections** - Build all data-driven sections: Skills, Lab/Tooling, Coursework, Timeline, and Contact (completed 2026-03-23)
 - [x] **Phase 3: Interactive Features** - Bento grid project cards with inline expansion and in-browser PDF viewer for papers and resume (completed 2026-03-23)
 - [x] **Phase 4: Polish and Deployment** - Responsive QA, Lighthouse 90+, accessibility, semantic HTML, and Vercel deployment (completed 2026-03-23)
-- [ ] **Phase 6: Static Assets & Integration Fixes** - Add missing static assets, fix timeline nav link, wire/remove paperPdf routing, clean orphaned exports (gap closure)
-- [ ] **Phase 7: Requirements Traceability Cleanup** - Update FNDN-08/NAV-01/CRSE-01/CRSE-02 statuses, add VISUAL-01-07 to traceability table (gap closure)
+- [x] **Phase 6: Static Assets & Integration Fixes** - Add missing static assets, fix timeline nav link, wire/remove paperPdf routing, clean orphaned exports (gap closure) (completed 2026-03-24)
+- [x] **Phase 7: Requirements Traceability Cleanup** - Update FNDN-08/NAV-01/CRSE-01/CRSE-02 statuses, add VISUAL-01-07 to traceability table (gap closure) (completed 2026-03-24)
 
 ## Phase Details
 
@@ -101,8 +101,8 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 3. Interactive Features | 4/4 | Complete   | 2026-03-23 |
 | 4. Polish and Deployment | 2/2 | Complete | 2026-03-23 |
 | 5. Visual Design Overhaul | 3/3 | Complete | 2026-03-23 |
-| 6. Static Assets & Integration Fixes | 1/2 | In Progress | — |
-| 7. Requirements Traceability Cleanup | 0/1 | Planned | — |
+| 6. Static Assets & Integration Fixes | 2/2 | Complete | 2026-03-24 |
+| 7. Requirements Traceability Cleanup | 1/1 | Complete | 2026-03-24 |
 
 ### Phase 5: Visual Design Overhaul — Dynamic Backgrounds, UW Purple Accents, and Texture Depth
 
@@ -139,7 +139,7 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 06-01-PLAN.md — Create all placeholder static assets (PDFs, SVGs, portrait) in public/
+- [x] 06-01-PLAN.md — Create all placeholder static assets (PDFs, SVGs, portrait) in public/
 - [x] 06-02-PLAN.md — Add Timeline to navigation, remove paperPdf dead code, clean orphaned motion exports, update tests
 
 ### Phase 7: Requirements Traceability Cleanup
@@ -157,4 +157,4 @@ Plans:
 **Plans:** 1 plan
 
 Plans:
-- [ ] 07-01-PLAN.md — Apply all traceability edits to REQUIREMENTS.md (statuses, text, Visual Design section, coverage counts)
+- [x] 07-01-PLAN.md — Apply all traceability edits to REQUIREMENTS.md (statuses, text, Visual Design section, coverage counts)
