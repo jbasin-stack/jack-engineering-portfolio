@@ -14,11 +14,11 @@
 - [x] **FNDN-05**: Framer Motion weighted animations on all section entries and interactive hover states — no bounce or springy defaults
 - [x] **FNDN-06**: 0.5px border design system with 1px fallback for non-Retina displays via HiDPI media query
 - [x] **FNDN-07**: prefers-reduced-motion support disables Lenis smooth scroll and non-essential Motion animations
-- [ ] **FNDN-08**: 21st.dev MCP server used as primary source for sourcing premium React components
+- [x] **FNDN-08**: 21st.dev MCP server used as primary source for sourcing premium React components
 
 ### Navigation
 
-- [ ] **NAV-01**: User sees a fixed glassmorphic header with backdrop-blur, visible on all scroll positions
+- [x] **NAV-01**: User sees a fixed glassmorphic header with backdrop-blur that appears after scrolling past the hero (400px threshold)
 - [x] **NAV-02**: Navigation contains links to: Skills, Projects, Papers, Contact/Resume
 - [x] **NAV-03**: Active section is highlighted in nav via Intersection Observer scroll-spy
 - [x] **NAV-04**: Clicking a nav link smooth-scrolls to the target section via Lenis
@@ -62,8 +62,8 @@
 
 ### Coursework
 
-- [ ] **CRSE-01**: User sees a section highlighting key UW ECE courses
-- [ ] **CRSE-02**: Courses include brief descriptors signaling domain relevance
+- [-] **CRSE-01**: ~~User sees a section highlighting key UW ECE courses~~ (descoped -- component built but excluded from rendered page by user decision)
+- [-] **CRSE-02**: ~~Courses include brief descriptors signaling domain relevance~~ (descoped -- component built but excluded from rendered page by user decision)
 - [x] **CRSE-03**: Coursework data is driven from a TypeScript data file
 
 ### Timeline
@@ -87,6 +87,16 @@
 - [x] **PERF-03**: OpenGraph meta tags for polished social previews when shared
 - [x] **PERF-04**: Lighthouse performance score 90+ (optimized images, lazy loading, minimal JS bundle)
 - [x] **PERF-05**: Site deployed on Vercel free tier with auto-deploy on push
+
+### Visual Design
+
+- [x] **VISUAL-01**: UW purple color palette extension with oklch tokens and five effect components (Aurora, Particles, NoisyBackground, CardSpotlight, AnimatedGridPattern)
+- [ ] **VISUAL-02**: Hero section displays animated aurora gradient with floating particles that respond to cursor movement (deferred -- user removed as too distracting)
+- [x] **VISUAL-03**: WhoAmI, Skills, and Tooling sections have subtle noise texture backgrounds with purple tinting
+- [x] **VISUAL-04**: Timeline has animated grid pattern background with engineering/technical aesthetic
+- [x] **VISUAL-05**: Project cards show interactive spotlight effect following cursor on hover without breaking expand/collapse animations
+- [x] **VISUAL-06**: Contact section uses subtle gradient background echoing hero aesthetic
+- [x] **VISUAL-07**: Effect intensity follows bold hero to textured middle to calm footer curve across page
 
 ## v2 Requirements
 
@@ -126,8 +136,8 @@
 | FNDN-05 | Phase 1 | Complete |
 | FNDN-06 | Phase 1 | Complete |
 | FNDN-07 | Phase 1 | Complete |
-| FNDN-08 | Phase 7 | Pending |
-| NAV-01 | Phase 7 | Pending |
+| FNDN-08 | Phase 5 | Complete |
+| NAV-01 | Phase 1 | Complete |
 | NAV-02 | Phase 1 | Complete |
 | NAV-03 | Phase 1 | Complete |
 | NAV-04 | Phase 1 | Complete |
@@ -153,8 +163,8 @@
 | TOOL-01 | Phase 2 | Complete |
 | TOOL-02 | Phase 2 | Complete |
 | TOOL-03 | Phase 2 | Complete |
-| CRSE-01 | Phase 7 | Pending |
-| CRSE-02 | Phase 7 | Pending |
+| CRSE-01 | Phase 2 | Descoped |
+| CRSE-02 | Phase 2 | Descoped |
 | CRSE-03 | Phase 2 | Complete |
 | TIME-01 | Phase 2 | Complete |
 | TIME-02 | Phase 2 | Complete |
@@ -179,10 +189,12 @@
 
 **Coverage:**
 - v1 requirements: 57 total (50 original + 7 VISUAL)
-- Mapped to phases: 57
+- Complete: 54
+- Deferred: 1 (VISUAL-02 -- hero background effect, user decision)
+- Descoped: 2 (CRSE-01, CRSE-02 -- coursework section, user decision)
+- Pending: 0
 - Unmapped: 0
-- Pending (gap closure): 4 (FNDN-08, NAV-01, CRSE-01, CRSE-02)
 
 ---
 *Requirements defined: 2026-03-20*
-*Last updated: 2026-03-20 after roadmap creation*
+*Last updated: 2026-03-24 after Phase 7 traceability cleanup*
