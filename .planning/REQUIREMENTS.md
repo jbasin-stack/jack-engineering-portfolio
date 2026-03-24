@@ -10,10 +10,10 @@ Requirements for the Content Admin Panel milestone. Each maps to roadmap phases.
 ### Infrastructure
 
 - [x] **INFRA-01**: Admin panel is accessible only in dev mode — zero admin code in production build
-- [ ] **INFRA-02**: Custom Vite plugin provides REST API at `/__admin-api/*` for content read/write
-- [ ] **INFRA-03**: TypeScript code generation produces valid `.ts` files with `import type` syntax (passes `tsc -b`)
-- [ ] **INFRA-04**: File writes are atomic (write-to-temp then rename) preventing corruption
-- [ ] **INFRA-05**: HMR loop prevention — admin reads data via API endpoint, not module imports
+- [x] **INFRA-02**: Custom Vite plugin provides REST API at `/__admin-api/*` for content read/write
+- [x] **INFRA-03**: TypeScript code generation produces valid `.ts` files with `import type` syntax (passes `tsc -b`)
+- [x] **INFRA-04**: File writes are atomic (write-to-temp then rename) preventing corruption
+- [x] **INFRA-05**: HMR loop prevention — admin reads data via API endpoint, not module imports
 
 ### Content Editing
 
@@ -79,10 +79,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | INFRA-01 | Phase 8 | Complete |
-| INFRA-02 | Phase 8 | Pending |
-| INFRA-03 | Phase 8 | Pending |
-| INFRA-04 | Phase 8 | Pending |
-| INFRA-05 | Phase 8 | Pending |
+| INFRA-02 | Phase 8 | Complete |
+| INFRA-03 | Phase 8 | Complete |
+| INFRA-04 | Phase 8 | Complete |
+| INFRA-05 | Phase 8 | Complete |
 | EDIT-01 | Phase 10 | Pending |
 | EDIT-02 | Phase 10 | Pending |
 | EDIT-03 | Phase 10 | Pending |
