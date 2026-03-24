@@ -41,7 +41,12 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
   2. A GET request to `/__admin-api/content/hero` in dev mode returns the current hero data as JSON
   3. A POST request to `/__admin-api/content/hero` with valid JSON writes a `.ts` file that passes `tsc -b` without errors
   4. Rapidly saving the same content type 5 times in 2 seconds causes no file corruption and no infinite HMR loop
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 08-01-PLAN.md — Vite plugin with REST API, codegen, atomic writes, and HMR suppression
+- [ ] 08-02-PLAN.md — Dev-mode entry gate and production code exclusion boundary
+- [ ] 08-03-PLAN.md — Test coverage and live integration verification
 
 ### Phase 9: Admin Shell, Preview, and Asset Pipeline
 **Goal**: The admin panel has a usable split-pane interface with live preview and working file uploads — a user can navigate content types, see the portfolio update in real time, and upload images and PDFs
@@ -80,6 +85,6 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 | 5. Visual Design Overhaul | v1.0 | 3/3 | Complete | 2026-03-23 |
 | 6. Static Assets & Integration Fixes | v1.0 | 2/2 | Complete | 2026-03-24 |
 | 7. Requirements Traceability Cleanup | v1.0 | 1/1 | Complete | 2026-03-24 |
-| 8. Admin Infrastructure | v1.1 | 0/? | Not started | - |
+| 8. Admin Infrastructure | v1.1 | 0/3 | Not started | - |
 | 9. Admin Shell, Preview, and Asset Pipeline | v1.1 | 0/? | Not started | - |
 | 10. Content Editors | v1.1 | 0/? | Not started | - |
