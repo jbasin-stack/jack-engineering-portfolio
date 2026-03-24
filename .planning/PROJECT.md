@@ -27,11 +27,14 @@ Every visitor — recruiter, professor, or peer — immediately understands Jack
 
 ### Active
 
+- [ ] Local dev-mode admin panel for managing all content types
+- [ ] Live preview (side-by-side editor + rendered view)
+- [ ] Form-based editing for projects, papers, skills, tooling, timeline, hero, contact
+- [ ] Drag-drop asset upload (images, PDFs, resume)
+- [ ] Writes directly to src/data/*.ts and public/ assets
 - [ ] Replace placeholder PDFs with real papers and resume
 - [ ] Replace placeholder SVG thumbnails with actual project images
 - [ ] Replace portrait.jpg placeholder with real photo
-- [ ] Browser verification: responsive QA at 375px, 768px, 1280px
-- [ ] Browser verification: Lighthouse 90+ score confirmation
 
 ### Out of Scope
 
@@ -41,11 +44,21 @@ Every visitor — recruiter, professor, or peer — immediately understands Jack
 - Open source contributions section — deferred to v2
 - Dark mode toggle — single cohesive theme for v1
 - Contact form backend — direct email link is sufficient
-- CMS or admin panel — static content is sufficient
 - Hero aurora background — user removed as too distracting
 - Coursework section on rendered page — user descoped (component built but excluded)
 - Mobile app — web-first approach
 - Particle effects / 3D backgrounds — contradicts minimalist philosophy
+
+## Current Milestone: v1.1 Content Admin Panel
+
+**Goal:** Add a local dev-mode admin interface with live preview for managing all portfolio content and assets without hand-editing TypeScript data files.
+
+**Target features:**
+- Form-based editors for all 9 content types (projects, papers, skills, tooling, timeline, hero, contact, navigation, coursework)
+- Live side-by-side preview while editing
+- Drag-drop asset uploads (images, PDFs, resume) to public/
+- Direct file writes to src/data/*.ts via Vite dev middleware
+- Admin route only available in dev mode (excluded from production build)
 
 ## Context
 
@@ -82,4 +95,4 @@ Placeholder static assets need replacement with real content before sharing wide
 | Uniform bento grid tiles | Cleaner than featured col-span-2 | ✓ Good — equal visual weight per project |
 
 ---
-*Last updated: 2026-03-24 after v1.0 milestone*
+*Last updated: 2026-03-24 after v1.1 milestone started*
