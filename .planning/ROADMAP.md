@@ -101,7 +101,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 3. Interactive Features | 4/4 | Complete   | 2026-03-23 |
 | 4. Polish and Deployment | 2/2 | Complete | 2026-03-23 |
 | 5. Visual Design Overhaul | 3/3 | Complete | 2026-03-23 |
-| 6. Static Assets & Integration Fixes | 0/2 | In Progress | — |
+| 6. Static Assets & Integration Fixes | 1/2 | In Progress | — |
 | 7. Requirements Traceability Cleanup | 0/0 | Planned | — |
 
 ### Phase 5: Visual Design Overhaul — Dynamic Backgrounds, UW Purple Accents, and Texture Depth
@@ -140,7 +140,7 @@ Plans:
 
 Plans:
 - [ ] 06-01-PLAN.md — Create all placeholder static assets (PDFs, SVGs, portrait) in public/
-- [ ] 06-02-PLAN.md — Add Timeline to navigation, remove paperPdf dead code, clean orphaned motion exports, update tests
+- [x] 06-02-PLAN.md — Add Timeline to navigation, remove paperPdf dead code, clean orphaned motion exports, update tests
 
 ### Phase 7: Requirements Traceability Cleanup
 **Goal:** Bring REQUIREMENTS.md into full alignment with the actual state of the codebase — update requirement text, checkbox statuses, and traceability table so the document accurately reflects what was built, descoped, and satisfied
