@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["vite.config.ts", "vite-plugin-admin-api.ts"]
+  "include": ["vite.config.ts", "vite-plugin-admin-api.ts", "src/admin/codegen.ts", "src/admin/atomic-write.ts"]
 }

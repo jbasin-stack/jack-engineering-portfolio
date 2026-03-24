@@ -31,5 +31,5 @@
     "noUncheckedSideEffectImports": true
   },
   "include": ["src"],
-  "exclude": ["src/tests", "src/**/__tests__"]
+  "exclude": ["src/tests", "src/**/__tests__", "src/admin/codegen.ts", "src/admin/atomic-write.ts"]
 }

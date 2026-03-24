@@ -1,8 +1,8 @@
 import type { Plugin, ViteDevServer } from 'vite';
 import type { IncomingMessage, ServerResponse } from 'http';
-import { writeFile, rename } from 'fs/promises';
 import { resolve } from 'path';
 import { generateDataFile, formatAndValidate } from './src/admin/codegen';
+import { enqueueWrite } from './src/admin/atomic-write';
 
 /** Registry mapping content type keys to their data file metadata. */
 const CONTENT_REGISTRY: Record<
@@ -27,58 +27,6 @@ const CONTENT_REGISTRY: Record<
 
 /** Files currently being written — used to suppress HMR during admin writes. */
 const activeWrites = new Set<string>();
-
-/** Per-file write queue to serialize concurrent writes (last-write-wins). */
-const writeQueues = new Map<string, Promise<void>>();
-
-/**
- * Writes content to a file atomically using temp-file-then-rename.
- * Retries rename up to 3 times on EPERM/EBUSY (Windows antivirus locking).
- */
-async function atomicWrite(filePath: string, content: string): Promise<void> {
-  const tmpPath = filePath + '.tmp';
-  await writeFile(tmpPath, content, 'utf-8');
-  activeWrites.add(filePath);
-
-  let lastError: unknown;
-  for (let attempt = 0; attempt < 3; attempt++) {
-    try {
-      await rename(tmpPath, filePath);
-      return;
-    } catch (err: unknown) {
-      const code = (err as NodeJS.ErrnoException).code;
-      if (code === 'EPERM' || code === 'EBUSY') {
-        lastError = err;
-        await new Promise((r) => setTimeout(r, 100));
-      } else {
-        throw err;
-      }
-    }
-  }
-  throw lastError;
-}
-
-/**
- * Enqueues a write for a given file, serializing against any pending write
- * to the same path. Returns a promise that resolves when the write completes.
- */
-function enqueueWrite(filePath: string, content: string): Promise<void> {
-  const pending = writeQueues.get(filePath) ?? Promise.resolve();
-  const next = pending
-    .catch(() => {
-      /* swallow previous errors so the queue keeps moving */
-    })
-    .then(async () => {
-      await atomicWrite(filePath, content);
-    })
-    .finally(() => {
-      // Clear activeWrites after chokidar picks up the change
-      setTimeout(() => activeWrites.delete(filePath), 200);
-    });
-
-  writeQueues.set(filePath, next);
-  return next;
-}
 
 /** Collect the full request body as a string. */
 function collectBody(req: IncomingMessage): Promise<string> {
@@ -160,7 +108,12 @@ export function adminApiPlugin(): Plugin {
               const formatted = await formatAndValidate(rawSource);
 
               const filePath = resolve(server.config.root, 'src', 'data', entry.file);
-              await enqueueWrite(filePath, formatted);
+              await enqueueWrite(
+                filePath,
+                formatted,
+                (path) => activeWrites.add(path),
+                (path) => setTimeout(() => activeWrites.delete(path), 200),
+              );
 
               jsonResponse(res, 200, { success: true });
               return;
