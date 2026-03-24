@@ -18,7 +18,7 @@
 
 ### Navigation
 
-- [x] **NAV-01**: User sees a fixed glassmorphic header with backdrop-blur, visible on all scroll positions
+- [ ] **NAV-01**: User sees a fixed glassmorphic header with backdrop-blur, visible on all scroll positions
 - [x] **NAV-02**: Navigation contains links to: Skills, Projects, Papers, Contact/Resume
 - [x] **NAV-03**: Active section is highlighted in nav via Intersection Observer scroll-spy
 - [x] **NAV-04**: Clicking a nav link smooth-scrolls to the target section via Lenis
@@ -62,8 +62,8 @@
 
 ### Coursework
 
-- [x] **CRSE-01**: User sees a section highlighting key UW ECE courses
-- [x] **CRSE-02**: Courses include brief descriptors signaling domain relevance
+- [ ] **CRSE-01**: User sees a section highlighting key UW ECE courses
+- [ ] **CRSE-02**: Courses include brief descriptors signaling domain relevance
 - [x] **CRSE-03**: Coursework data is driven from a TypeScript data file
 
 ### Timeline
@@ -126,8 +126,8 @@
 | FNDN-05 | Phase 1 | Complete |
 | FNDN-06 | Phase 1 | Complete |
 | FNDN-07 | Phase 1 | Complete |
-| FNDN-08 | Phase 1 | Pending |
-| NAV-01 | Phase 1 | Complete |
+| FNDN-08 | Phase 7 | Pending |
+| NAV-01 | Phase 7 | Pending |
 | NAV-02 | Phase 1 | Complete |
 | NAV-03 | Phase 1 | Complete |
 | NAV-04 | Phase 1 | Complete |
@@ -153,8 +153,8 @@
 | TOOL-01 | Phase 2 | Complete |
 | TOOL-02 | Phase 2 | Complete |
 | TOOL-03 | Phase 2 | Complete |
-| CRSE-01 | Phase 2 | Complete |
-| CRSE-02 | Phase 2 | Complete |
+| CRSE-01 | Phase 7 | Pending |
+| CRSE-02 | Phase 7 | Pending |
 | CRSE-03 | Phase 2 | Complete |
 | TIME-01 | Phase 2 | Complete |
 | TIME-02 | Phase 2 | Complete |
@@ -169,11 +169,19 @@
 | PERF-03 | Phase 4 | Complete |
 | PERF-04 | Phase 4 | Complete |
 | PERF-05 | Phase 4 | Complete |
+| VISUAL-01 | Phase 5 | Complete |
+| VISUAL-02 | Phase 5 | Deferred |
+| VISUAL-03 | Phase 5 | Complete |
+| VISUAL-04 | Phase 5 | Complete |
+| VISUAL-05 | Phase 5 | Complete |
+| VISUAL-06 | Phase 5 | Complete |
+| VISUAL-07 | Phase 5 | Complete |
 
 **Coverage:**
-- v1 requirements: 50 total
-- Mapped to phases: 50
+- v1 requirements: 57 total (50 original + 7 VISUAL)
+- Mapped to phases: 57
 - Unmapped: 0
+- Pending (gap closure): 4 (FNDN-08, NAV-01, CRSE-01, CRSE-02)
 
 ---
 *Requirements defined: 2026-03-20*

@@ -16,6 +16,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Content Sections** - Build all data-driven sections: Skills, Lab/Tooling, Coursework, Timeline, and Contact (completed 2026-03-23)
 - [x] **Phase 3: Interactive Features** - Bento grid project cards with inline expansion and in-browser PDF viewer for papers and resume (completed 2026-03-23)
 - [x] **Phase 4: Polish and Deployment** - Responsive QA, Lighthouse 90+, accessibility, semantic HTML, and Vercel deployment (completed 2026-03-23)
+- [ ] **Phase 6: Static Assets & Integration Fixes** - Add missing static assets, fix timeline nav link, wire/remove paperPdf routing, clean orphaned exports (gap closure)
+- [ ] **Phase 7: Requirements Traceability Cleanup** - Update FNDN-08/NAV-01/CRSE-01/CRSE-02 statuses, add VISUAL-01–07 to traceability table (gap closure)
 
 ## Phase Details
 
@@ -99,6 +101,8 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 3. Interactive Features | 4/4 | Complete   | 2026-03-23 |
 | 4. Polish and Deployment | 2/2 | Complete | 2026-03-23 |
 | 5. Visual Design Overhaul | 3/3 | Complete | 2026-03-23 |
+| 6. Static Assets & Integration Fixes | 0/0 | Planned | — |
+| 7. Requirements Traceability Cleanup | 0/0 | Planned | — |
 
 ### Phase 5: Visual Design Overhaul — Dynamic Backgrounds, UW Purple Accents, and Texture Depth
 
@@ -118,3 +122,32 @@ Plans:
 - [x] 05-01-PLAN.md — Color palette extension (UW Purple tokens) + all 5 effect components + test scaffolds
 - [x] 05-02-PLAN.md — Hero (Aurora + Particles) + section backgrounds (WhoAmI, Skills, Tooling, Contact)
 - [x] 05-03-PLAN.md — Timeline grid pattern + project card spotlight + visual verification checkpoint
+
+### Phase 6: Static Assets & Integration Fixes
+**Goal:** Fix all broken runtime paths — add missing static assets to public/, wire timeline into navigation, resolve paperPdf dead code, and clean orphaned exports so the live site has zero broken images, working PDF viewing, and complete navigation
+**Depends on:** Phase 5
+**Requirements:** CONT-03, DOCS-01, DOCS-02, DOCS-04, PROJ-02, NAV-02
+**Gap Closure:** Closes gaps from v1 milestone audit
+**Success Criteria** (what must be TRUE):
+  1. All PDF files (resume.pdf, papers/*.pdf) exist in public/ and PdfViewer renders them without hitting error fallback
+  2. All project thumbnail SVGs exist in public/projects/ and render in bento grid cards
+  3. portrait.jpg exists in public/ and renders in the appropriate section
+  4. Timeline section is reachable via click navigation (nav link exists in navigation.ts)
+  5. paperPdf field either routes to PDF viewer or dead code is removed
+  6. No orphaned exports remain in motion.ts
+
+Plans: 0/0 plans
+
+### Phase 7: Requirements Traceability Cleanup
+**Goal:** Bring REQUIREMENTS.md into full alignment with the actual state of the codebase — update requirement text, checkbox statuses, and traceability table so the document accurately reflects what was built, descoped, and satisfied
+**Depends on:** Phase 6
+**Requirements:** FNDN-08, NAV-01, CRSE-01, CRSE-02, VISUAL-01, VISUAL-02, VISUAL-03, VISUAL-04, VISUAL-05, VISUAL-06, VISUAL-07
+**Gap Closure:** Closes gaps from v1 milestone audit
+**Success Criteria** (what must be TRUE):
+  1. FNDN-08 marked complete (Phase 5 used 21st.dev community components)
+  2. NAV-01 requirement text updated to match approved "hidden until 400px scroll" design
+  3. CRSE-01/CRSE-02 marked as descoped (not complete, not pending)
+  4. VISUAL-01 through VISUAL-07 appear in traceability table with correct phase and status
+  5. Coverage counts in REQUIREMENTS.md are accurate
+
+Plans: 0/0 plans
