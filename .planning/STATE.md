@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Content Admin Panel
-status: executing
-stopped_at: Completed 08-03-PLAN.md (Phase 8 complete)
-last_updated: "2026-03-25T14:36:09.755Z"
-last_activity: 2026-03-25 — Completed Phase 8 (all 3 plans, all 5 INFRA requirements)
+status: completed
+stopped_at: Completed 08-04-PLAN.md (Phase 8 gap closure complete)
+last_updated: "2026-03-25T14:59:50.160Z"
+last_activity: 2026-03-25 — Completed 08-04 HMR path normalization fix (gap closure)
 progress:
   total_phases: 3
   completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
-  percent: 67
+  total_plans: 4
+  completed_plans: 4
+  percent: 100
 ---
 
 # Project State
@@ -26,9 +26,9 @@ See: .planning/PROJECT.md (updated 2026-03-24)
 ## Current Position
 
 Phase: 8 of 10 (Admin Infrastructure)
-Plan: 3 of 3 in current phase (PHASE COMPLETE)
-Status: Phase 8 Complete
-Last activity: 2026-03-25 — Completed 08-03 test coverage and live verification
+Plan: 4 of 4 in current phase (PHASE COMPLETE)
+Status: Phase 8 Complete (including gap closure)
+Last activity: 2026-03-25 — Completed 08-04 HMR path normalization fix (gap closure)
 
 Progress: [██████████] 100% of v1.1 Phase 8
 
@@ -36,18 +36,19 @@ Progress: [██████████] 100% of v1.1 Phase 8
 
 **Velocity:**
 - Total plans completed: 19 (v1.0)
-- v1.1 plans completed: 3
+- v1.1 plans completed: 4
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 1-7 (v1.0) | 19 | — | — |
-| 8 (v1.1) | 3 | 15min | 5min |
+| 8 (v1.1) | 4 | 18min | 4.5min |
 
 *Updated after each plan completion*
 | Phase 08 P01 | 5min | 2 tasks | 6 files |
 | Phase 08 P03 | 8min | 2 tasks | 6 files |
+| Phase 08 P04 | 3min | 1 task | 2 files |
 
 ## Accumulated Context
 
@@ -65,6 +66,7 @@ Recent decisions affecting current work:
 - [Phase 08]: Used Prettier with singleQuote+trailingComma for generated file formatting matching hand-written style
 - [Phase 08]: ts.createSourceFile parseDiagnostics for lightweight syntax validation before writing generated files
 - [Phase 08]: Extracted atomicWrite/enqueueWrite to src/admin/atomic-write.ts for testability and shared imports
+- [Phase 08]: normalizePath from vite on storage side only; Vite already normalizes handleHotUpdate file arg
 
 ### Pending Todos
 
@@ -78,6 +80,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-25T14:36:00Z
-Stopped at: Completed 08-03-PLAN.md (Phase 8 complete)
+Last session: 2026-03-25T14:59:00Z
+Stopped at: Completed 08-04-PLAN.md (Phase 8 gap closure complete)
 Resume file: None
