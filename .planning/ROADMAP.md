@@ -26,7 +26,7 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 
 **Milestone Goal:** Add a local dev-mode admin interface with live preview for managing all portfolio content and assets without hand-editing TypeScript data files.
 
-- [x] **Phase 8: Admin Infrastructure** - Vite plugin API, TypeScript code generation, and dev/prod boundary (completed 2026-03-25)
+- [ ] **Phase 8: Admin Infrastructure** - Vite plugin API, TypeScript code generation, and dev/prod boundary (gap closure in progress)
 - [ ] **Phase 9: Admin Shell, Preview, and Asset Pipeline** - Split-pane layout with live preview and drag-drop asset uploads
 - [ ] **Phase 10: Content Editors** - Form-based editors for all 9 content types with validation and feedback
 
@@ -41,12 +41,13 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
   2. A GET request to `/__admin-api/content/hero` in dev mode returns the current hero data as JSON
   3. A POST request to `/__admin-api/content/hero` with valid JSON writes a `.ts` file that passes `tsc -b` without errors
   4. Rapidly saving the same content type 5 times in 2 seconds causes no file corruption and no infinite HMR loop
-**Plans:** 3/3 plans complete
+**Plans:** 4 plans (3 complete, 1 gap closure)
 
 Plans:
 - [x] 08-01-PLAN.md — Vite plugin with REST API, codegen, atomic writes, and HMR suppression
 - [x] 08-02-PLAN.md — Dev-mode entry gate and production code exclusion boundary
 - [x] 08-03-PLAN.md — Test coverage and live integration verification
+- [ ] 08-04-PLAN.md — Gap closure: fix HMR suppression path normalization on Windows
 
 ### Phase 9: Admin Shell, Preview, and Asset Pipeline
 **Goal**: The admin panel has a usable split-pane interface with live preview and working file uploads — a user can navigate content types, see the portfolio update in real time, and upload images and PDFs
@@ -85,6 +86,6 @@ Plans:
 | 5. Visual Design Overhaul | v1.0 | 3/3 | Complete | 2026-03-23 |
 | 6. Static Assets & Integration Fixes | v1.0 | 2/2 | Complete | 2026-03-24 |
 | 7. Requirements Traceability Cleanup | v1.0 | 1/1 | Complete | 2026-03-24 |
-| 8. Admin Infrastructure | v1.1 | 3/3 | Complete | 2026-03-25 |
+| 8. Admin Infrastructure | v1.1 | 3/4 | Gap closure | - |
 | 9. Admin Shell, Preview, and Asset Pipeline | v1.1 | 0/? | Not started | - |
 | 10. Content Editors | v1.1 | 0/? | Not started | - |
