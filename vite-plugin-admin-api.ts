@@ -1,3 +1,4 @@
+import { normalizePath } from 'vite';
 import type { Plugin, ViteDevServer } from 'vite';
 import type { IncomingMessage, ServerResponse } from 'http';
 import { resolve } from 'path';
@@ -111,8 +112,8 @@ export function adminApiPlugin(): Plugin {
               await enqueueWrite(
                 filePath,
                 formatted,
-                (path) => activeWrites.add(path),
-                (path) => setTimeout(() => activeWrites.delete(path), 200),
+                (p) => activeWrites.add(normalizePath(p)),
+                (p) => setTimeout(() => activeWrites.delete(normalizePath(p)), 200),
               );
 
               jsonResponse(res, 200, { success: true });
