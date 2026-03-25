@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Content Admin Panel
 status: executing
-stopped_at: Completed 09-02 asset pipeline upload endpoint
-last_updated: "2026-03-25T15:50:15Z"
+stopped_at: Completed 09-01-PLAN.md
+last_updated: "2026-03-25T15:55:57.959Z"
 last_activity: 2026-03-25 — Completed 09-02 asset pipeline upload endpoint
 progress:
   total_phases: 3
   completed_phases: 1
   total_plans: 7
-  completed_plans: 5
+  completed_plans: 6
   percent: 71
 ---
 
@@ -50,6 +50,7 @@ Progress: [████████░░] 71% of v1.1 (5/7 plans)
 | Phase 08 P03 | 8min | 2 tasks | 6 files |
 | Phase 08 P04 | 3min | 1 task | 2 files |
 | Phase 09 P02 | 4min | 2 tasks | 4 files |
+| Phase 09 P01 | 7min | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -71,6 +72,8 @@ Recent decisions affecting current work:
 - [Phase 09]: File write before data update ordering prevents HMR race condition
 - [Phase 09]: Hero portrait skips data update since path is hardcoded in component
 - [Phase 09]: structuredClone for deep-cloning SSR-loaded module data before mutation
+- [Phase 09]: useKeyboardShortcuts called at App level so Ctrl+Shift+A works when panel is closed
+- [Phase 09]: AdminShell receives onClose prop from App.tsx for centralized URL state management
 
 ### Pending Todos
 
@@ -84,6 +87,6 @@ None.
 
 ## Session Continuity
 
-Last session: 2026-03-25T15:50:15Z
-Stopped at: Completed 09-02 asset pipeline upload endpoint
-Resume file: .planning/phases/09-admin-shell-preview-and-asset-pipeline/09-02-SUMMARY.md
+Last session: 2026-03-25T15:55:57.956Z
+Stopped at: Completed 09-01-PLAN.md
+Resume file: None

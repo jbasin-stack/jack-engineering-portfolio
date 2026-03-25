@@ -38,9 +38,9 @@ Requirements for the Content Admin Panel milestone. Each maps to roadmap phases.
 
 ### Live Preview
 
-- [ ] **PREV-01**: Admin layout shows split-pane with editor and live preview side-by-side
-- [ ] **PREV-02**: Preview iframe updates automatically via HMR when content is saved
-- [ ] **PREV-03**: User can resize editor/preview panes
+- [x] **PREV-01**: Admin layout shows split-pane with editor and live preview side-by-side
+- [x] **PREV-02**: Preview iframe updates automatically via HMR when content is saved
+- [x] **PREV-03**: User can resize editor/preview panes
 
 ## v2 Requirements
 
@@ -98,9 +98,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ASSET-02 | Phase 9 | Complete |
 | ASSET-03 | Phase 9 | Complete |
 | ASSET-04 | Phase 9 | Complete |
-| PREV-01 | Phase 9 | Pending |
-| PREV-02 | Phase 9 | Pending |
-| PREV-03 | Phase 9 | Pending |
+| PREV-01 | Phase 9 | Complete |
+| PREV-02 | Phase 9 | Complete |
+| PREV-03 | Phase 9 | Complete |
 
 **Coverage:**
 - v1.1 requirements: 23 total
