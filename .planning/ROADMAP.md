@@ -27,7 +27,7 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 **Milestone Goal:** Add a local dev-mode admin interface with live preview for managing all portfolio content and assets without hand-editing TypeScript data files.
 
 - [x] **Phase 8: Admin Infrastructure** - Vite plugin API, TypeScript code generation, and dev/prod boundary
-- [ ] **Phase 9: Admin Shell, Preview, and Asset Pipeline** - Split-pane layout with live preview and drag-drop asset uploads
+- [x] **Phase 9: Admin Shell, Preview, and Asset Pipeline** - Split-pane layout with live preview and drag-drop asset uploads
 - [ ] **Phase 10: Content Editors** - Form-based editors for all 9 content types with validation and feedback
 
 ## Phase Details
@@ -64,7 +64,7 @@ Plans:
 Plans:
 - [x] 09-01-PLAN.md — Install deps, admin shell with split-pane layout, nav, and keyboard shortcuts
 - [x] 09-02-PLAN.md — Upload server endpoint with busboy, validation, and data reference updates
-- [ ] 09-03-PLAN.md — UploadZone drag-drop component, integration wiring, and end-to-end verification
+- [x] 09-03-PLAN.md — UploadZone drag-drop component, integration wiring, and end-to-end verification
 
 ### Phase 10: Content Editors
 **Goal**: Every content type in the portfolio can be edited through form-based UI — the user never needs to hand-edit TypeScript data files again
@@ -92,5 +92,5 @@ Plans:
 | 6. Static Assets & Integration Fixes | v1.0 | 2/2 | Complete | 2026-03-24 |
 | 7. Requirements Traceability Cleanup | v1.0 | 1/1 | Complete | 2026-03-24 |
 | 8. Admin Infrastructure | v1.1 | 4/4 | Complete | 2026-03-25 |
-| 9. Admin Shell, Preview, and Asset Pipeline | v1.1 | 2/3 | In Progress | - |
+| 9. Admin Shell, Preview, and Asset Pipeline | v1.1 | 3/3 | Complete | 2026-03-25 |
 | 10. Content Editors | v1.1 | 0/? | Not started | - |
