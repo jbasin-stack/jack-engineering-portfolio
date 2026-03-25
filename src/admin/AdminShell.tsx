@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { Button } from '@/components/ui/button';
 import { AdminNav } from './AdminNav';
 import { useAdminPanel } from './useAdminPanel';
+import { UploadZone } from './UploadZone';
 
 interface AdminShellProps {
   onClose: () => void;
@@ -76,13 +77,41 @@ export default function AdminShell({ onClose }: AdminShellProps) {
 
             {/* Editor placeholder area */}
             <div className="flex-1 overflow-y-auto p-4">
-              <p className="text-sm text-gray-400">
-                Editor for{' '}
-                <span className="font-medium text-gray-600">
-                  {activeContentType}
-                </span>{' '}
-                coming in Phase 10
-              </p>
+              {activeContentType === 'projects' ? (
+                <div className="space-y-4">
+                  <p className="text-xs text-gray-400">
+                    Upload Zone Preview (full editors in Phase 10)
+                  </p>
+                  <UploadZone
+                    label="Project Thumbnail"
+                    accept={['.jpg', '.jpeg', '.png', '.svg', '.webp']}
+                    maxSize={10 * 1024 * 1024}
+                    context={{ contentType: 'projects', field: 'thumbnail', itemId: 'lna-design' }}
+                    currentFile="/projects/lna-design.svg"
+                  />
+                </div>
+              ) : activeContentType === 'papers' ? (
+                <div className="space-y-4">
+                  <p className="text-xs text-gray-400">
+                    Upload Zone Preview (full editors in Phase 10)
+                  </p>
+                  <UploadZone
+                    label="Paper PDF"
+                    accept={['.pdf']}
+                    maxSize={10 * 1024 * 1024}
+                    context={{ contentType: 'papers', field: 'pdfPath', itemId: 'lna-design' }}
+                    currentFile="/papers/lna-design.pdf"
+                  />
+                </div>
+              ) : (
+                <p className="text-sm text-gray-400">
+                  Editor for{' '}
+                  <span className="font-medium text-gray-600">
+                    {activeContentType}
+                  </span>{' '}
+                  coming in Phase 10
+                </p>
+              )}
             </div>
 
             {/* Save bar */}
