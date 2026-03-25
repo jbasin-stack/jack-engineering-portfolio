@@ -50,7 +50,7 @@ export default function AdminShell({ onClose }: AdminShellProps) {
           <Panel
             defaultSize={30}
             minSize={20}
-            maxSize={60}
+            maxSize={85}
             className="flex flex-col overflow-hidden border-r border-gray-200 bg-white shadow-lg"
           >
             {/* Header bar */}
@@ -139,7 +139,7 @@ export default function AdminShell({ onClose }: AdminShellProps) {
           <Separator className="w-1.5 cursor-col-resize bg-transparent transition-colors hover:bg-accent/50" />
 
           {/* Right panel: transparent passthrough to portfolio */}
-          <Panel minSize={40} className="pointer-events-none bg-transparent" />
+          <Panel minSize={15} className="pointer-events-none bg-transparent" />
         </Group>
 
         {/* Toast notifications (dev-only, rendered inside admin shell) */}

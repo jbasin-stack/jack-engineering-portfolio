@@ -54,13 +54,13 @@ function App() {
 
   return (
     <MotionConfig reducedMotion="user">
+      {AdminShell && adminOpen && (
+        <Suspense fallback={null}>
+          <AdminShell onClose={closeAdmin} />
+        </Suspense>
+      )}
       <SmoothScroll>
         <Navigation />
-        {AdminShell && adminOpen && (
-          <Suspense fallback={null}>
-            <AdminShell onClose={closeAdmin} />
-          </Suspense>
-        )}
         <main>
           <Hero />
           <WhoAmI />
