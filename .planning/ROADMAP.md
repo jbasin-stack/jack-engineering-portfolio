@@ -26,7 +26,7 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 
 **Milestone Goal:** Add a local dev-mode admin interface with live preview for managing all portfolio content and assets without hand-editing TypeScript data files.
 
-- [ ] **Phase 8: Admin Infrastructure** - Vite plugin API, TypeScript code generation, and dev/prod boundary (gap closure in progress)
+- [x] **Phase 8: Admin Infrastructure** - Vite plugin API, TypeScript code generation, and dev/prod boundary
 - [ ] **Phase 9: Admin Shell, Preview, and Asset Pipeline** - Split-pane layout with live preview and drag-drop asset uploads
 - [ ] **Phase 10: Content Editors** - Form-based editors for all 9 content types with validation and feedback
 
@@ -47,7 +47,7 @@ Plans:
 - [x] 08-01-PLAN.md — Vite plugin with REST API, codegen, atomic writes, and HMR suppression
 - [x] 08-02-PLAN.md — Dev-mode entry gate and production code exclusion boundary
 - [x] 08-03-PLAN.md — Test coverage and live integration verification
-- [ ] 08-04-PLAN.md — Gap closure: fix HMR suppression path normalization on Windows
+- [x] 08-04-PLAN.md — Gap closure: fix HMR suppression path normalization on Windows
 
 ### Phase 9: Admin Shell, Preview, and Asset Pipeline
 **Goal**: The admin panel has a usable split-pane interface with live preview and working file uploads — a user can navigate content types, see the portfolio update in real time, and upload images and PDFs
@@ -62,8 +62,8 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 09-01-PLAN.md — Install deps, admin shell with split-pane layout, nav, and keyboard shortcuts
-- [ ] 09-02-PLAN.md — Upload server endpoint with busboy, validation, and data reference updates
+- [x] 09-01-PLAN.md — Install deps, admin shell with split-pane layout, nav, and keyboard shortcuts
+- [x] 09-02-PLAN.md — Upload server endpoint with busboy, validation, and data reference updates
 - [ ] 09-03-PLAN.md — UploadZone drag-drop component, integration wiring, and end-to-end verification
 
 ### Phase 10: Content Editors
@@ -91,6 +91,6 @@ Plans:
 | 5. Visual Design Overhaul | v1.0 | 3/3 | Complete | 2026-03-23 |
 | 6. Static Assets & Integration Fixes | v1.0 | 2/2 | Complete | 2026-03-24 |
 | 7. Requirements Traceability Cleanup | v1.0 | 1/1 | Complete | 2026-03-24 |
-| 8. Admin Infrastructure | v1.1 | 3/4 | Gap closure | - |
-| 9. Admin Shell, Preview, and Asset Pipeline | v1.1 | 0/3 | Planned | - |
+| 8. Admin Infrastructure | v1.1 | 4/4 | Complete | 2026-03-25 |
+| 9. Admin Shell, Preview, and Asset Pipeline | v1.1 | 2/3 | In Progress | - |
 | 10. Content Editors | v1.1 | 0/? | Not started | - |
