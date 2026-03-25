@@ -31,10 +31,10 @@ Requirements for the Content Admin Panel milestone. Each maps to roadmap phases.
 
 ### Asset Management
 
-- [ ] **ASSET-01**: User can drag-drop upload images (JPG, PNG, SVG, WebP) to project/portrait slots
-- [ ] **ASSET-02**: User can drag-drop upload PDF files to papers/resume slots
-- [ ] **ASSET-03**: Uploaded filenames are normalized to lowercase-kebab-case
-- [ ] **ASSET-04**: Uploads are validated for file type and size (max 10MB)
+- [x] **ASSET-01**: User can drag-drop upload images (JPG, PNG, SVG, WebP) to project/portrait slots
+- [x] **ASSET-02**: User can drag-drop upload PDF files to papers/resume slots
+- [x] **ASSET-03**: Uploaded filenames are normalized to lowercase-kebab-case
+- [x] **ASSET-04**: Uploads are validated for file type and size (max 10MB)
 
 ### Live Preview
 
@@ -94,10 +94,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EDIT-09 | Phase 10 | Pending |
 | EDIT-10 | Phase 10 | Pending |
 | EDIT-11 | Phase 10 | Pending |
-| ASSET-01 | Phase 9 | Pending |
-| ASSET-02 | Phase 9 | Pending |
-| ASSET-03 | Phase 9 | Pending |
-| ASSET-04 | Phase 9 | Pending |
+| ASSET-01 | Phase 9 | Complete |
+| ASSET-02 | Phase 9 | Complete |
+| ASSET-03 | Phase 9 | Complete |
+| ASSET-04 | Phase 9 | Complete |
 | PREV-01 | Phase 9 | Pending |
 | PREV-02 | Phase 9 | Pending |
 | PREV-03 | Phase 9 | Pending |
