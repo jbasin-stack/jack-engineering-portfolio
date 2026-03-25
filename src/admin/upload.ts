@@ -106,7 +106,7 @@ export async function uploadFile(file: File, context: UploadContext): Promise<Up
       body: formData,
     });
 
-    const data = await response.json();
+    const data = (await response.json()) as { error?: string; path?: string };
 
     if (!response.ok) {
       return { success: false, error: data.error ?? 'Upload failed' };
