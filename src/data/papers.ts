@@ -3,9 +3,9 @@ import type { Paper } from '../types/data';
 export const papers: Paper[] = [
   {
     id: 'lna-design-paper',
-    title: 'Design of a Sub-2 dB NF LNA for 5G NR n77 Band',
-    descriptor: 'EE 533 — RF Circuit Design, Winter 2026',
-    pdfPath: '/papers/lna-design.pdf',
+    title: 'Design of a 4x1 microstrip patch antenna array with stacked-patch bandwidth enhancement',
+    descriptor: 'EE 464 — Antenna Analysis and Design, Winter 2026',
+    pdfPath: '/papers/A 4x1 Microstrip Patch Antenna Array.pdf',
   },
   {
     id: 'mems-process-report',
