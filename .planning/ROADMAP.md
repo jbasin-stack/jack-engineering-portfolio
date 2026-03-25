@@ -59,7 +59,12 @@ Plans:
   3. Saving content through the API causes the preview iframe to update automatically (via HMR) without manual refresh
   4. Dragging an image file onto the upload zone places it in the correct `public/` subdirectory with a lowercase-kebab-case filename
   5. Attempting to upload a 15MB file or a `.exe` file is rejected with a validation error
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 09-01-PLAN.md — Install deps, admin shell with split-pane layout, nav, and keyboard shortcuts
+- [ ] 09-02-PLAN.md — Upload server endpoint with busboy, validation, and data reference updates
+- [ ] 09-03-PLAN.md — UploadZone drag-drop component, integration wiring, and end-to-end verification
 
 ### Phase 10: Content Editors
 **Goal**: Every content type in the portfolio can be edited through form-based UI — the user never needs to hand-edit TypeScript data files again
@@ -87,5 +92,5 @@ Plans:
 | 6. Static Assets & Integration Fixes | v1.0 | 2/2 | Complete | 2026-03-24 |
 | 7. Requirements Traceability Cleanup | v1.0 | 1/1 | Complete | 2026-03-24 |
 | 8. Admin Infrastructure | v1.1 | 3/4 | Gap closure | - |
-| 9. Admin Shell, Preview, and Asset Pipeline | v1.1 | 0/? | Not started | - |
+| 9. Admin Shell, Preview, and Asset Pipeline | v1.1 | 0/3 | Planned | - |
 | 10. Content Editors | v1.1 | 0/? | Not started | - |
