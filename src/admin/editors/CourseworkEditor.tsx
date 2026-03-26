@@ -82,6 +82,16 @@ export function CourseworkEditor({
           item.code ? `${item.code} — ${item.name}` : item.name || 'Untitled'
         }
         onAdd={addItem}
+        onReorder={(from, to) => {
+          setData((prev) => {
+            if (!prev) return prev;
+            const next = [...prev];
+            [next[from], next[to]] = [next[to], next[from]];
+            return next;
+          });
+          setActiveIndex(to);
+          onDirtyChange(true);
+        }}
       />
 
       {activeItem && (

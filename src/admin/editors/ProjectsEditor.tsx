@@ -149,6 +149,16 @@ export function ProjectsEditor({
         onSelect={setActiveIndex}
         getLabel={(item) => item.title || 'Untitled Project'}
         onAdd={addItem}
+        onReorder={(from, to) => {
+          setData((prev) => {
+            if (!prev) return prev;
+            const next = [...prev];
+            [next[from], next[to]] = [next[to], next[from]];
+            return next;
+          });
+          setActiveIndex(to);
+          onDirtyChange(true);
+        }}
       />
 
       {activeItem && (

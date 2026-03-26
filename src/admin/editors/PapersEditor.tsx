@@ -91,6 +91,16 @@ export function PapersEditor({ onDirtyChange, saveRef }: PapersEditorProps) {
         onSelect={setActiveIndex}
         getLabel={(item) => item.title || 'Untitled Paper'}
         onAdd={addItem}
+        onReorder={(from, to) => {
+          setData((prev) => {
+            if (!prev) return prev;
+            const next = [...prev];
+            [next[from], next[to]] = [next[to], next[from]];
+            return next;
+          });
+          setActiveIndex(to);
+          onDirtyChange(true);
+        }}
       />
 
       {activeItem && (

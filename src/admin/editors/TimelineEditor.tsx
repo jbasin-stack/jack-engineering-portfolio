@@ -82,6 +82,16 @@ export function TimelineEditor({
         onSelect={setActiveIndex}
         getLabel={(item) => item.title || 'Untitled'}
         onAdd={addItem}
+        onReorder={(from, to) => {
+          setData((prev) => {
+            if (!prev) return prev;
+            const next = [...prev];
+            [next[from], next[to]] = [next[to], next[from]];
+            return next;
+          });
+          setActiveIndex(to);
+          onDirtyChange(true);
+        }}
       />
 
       {activeItem && (
