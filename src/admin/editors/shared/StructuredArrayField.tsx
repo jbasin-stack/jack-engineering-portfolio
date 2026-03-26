@@ -9,24 +9,24 @@ export interface FieldDef {
   placeholder?: string;
 }
 
-interface StructuredArrayFieldProps<T extends Record<string, string>> {
+interface StructuredArrayFieldProps {
   label: string;
-  items: T[];
-  onChange: (items: T[]) => void;
+  items: Record<string, string>[];
+  onChange: (items: Record<string, string>[]) => void;
   fields: FieldDef[];
   error?: string[];
 }
 
 /** Array-of-objects editor with mini-form rows and add/remove */
-export function StructuredArrayField<T extends Record<string, string>>({
+export function StructuredArrayField({
   label,
   items,
   onChange,
   fields,
   error,
-}: StructuredArrayFieldProps<T>) {
+}: StructuredArrayFieldProps) {
   const addItem = () => {
-    const empty = Object.fromEntries(fields.map((f) => [f.key, ''])) as T;
+    const empty = Object.fromEntries(fields.map((f) => [f.key, '']));
     onChange([...items, empty]);
   };
 

@@ -25,7 +25,7 @@ type TestData = z.infer<typeof testSchema>;
 const validData: TestData = { name: 'Jack', email: 'jack@example.com' };
 
 describe('useContentEditor', () => {
-  let onDirtyChange: ReturnType<typeof vi.fn>;
+  let onDirtyChange: (dirty: boolean) => void;
 
   beforeEach(() => {
     onDirtyChange = vi.fn();

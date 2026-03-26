@@ -1,12 +1,12 @@
+import { useRef } from 'react';
 import { Group, Panel, Separator } from 'react-resizable-panels';
 import { motion, AnimatePresence } from 'motion/react';
 import { X } from 'lucide-react';
-import { toast } from 'sonner';
 import { Toaster } from '@/components/ui/sonner';
 import { Button } from '@/components/ui/button';
 import { AdminNav } from './AdminNav';
 import { useAdminPanel } from './useAdminPanel';
-import { UploadZone } from './UploadZone';
+import { EditorSwitch } from './editors/EditorSwitch';
 
 interface AdminShellProps {
   onClose: () => void;
@@ -16,10 +16,12 @@ interface AdminShellProps {
 export default function AdminShell({ onClose }: AdminShellProps) {
   const { activeContentType, setActiveContentType, isDirty, setDirty } =
     useAdminPanel();
+  const saveRef = useRef<(() => Promise<boolean>) | null>(null);
 
-  const handleSave = () => {
-    toast.info('Save coming in Phase 10');
-    setDirty(false);
+  const handleSave = async () => {
+    if (saveRef.current) {
+      await saveRef.current();
+    }
   };
 
   const handleDiscard = () => {
@@ -40,17 +42,17 @@ export default function AdminShell({ onClose }: AdminShellProps) {
     <AnimatePresence>
       <motion.div
         className="fixed inset-0 z-[70]"
-        initial={{ x: '-100%' }}
-        animate={{ x: 0 }}
-        exit={{ x: '-100%' }}
-        transition={{ type: 'tween', ease: 'easeOut', duration: 0.3 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.2 }}
       >
         <Group orientation="horizontal">
           {/* Left panel: admin controls */}
           <Panel
-            defaultSize={30}
-            minSize={20}
-            maxSize={85}
+            defaultSize="20%"
+            minSize="20%"
+            maxSize="85%"
             className="flex flex-col overflow-hidden border-r border-gray-200 bg-white shadow-lg"
           >
             {/* Header bar */}
@@ -75,43 +77,13 @@ export default function AdminShell({ onClose }: AdminShellProps) {
               />
             </div>
 
-            {/* Editor placeholder area */}
+            {/* Editor area */}
             <div className="flex-1 overflow-y-auto p-4">
-              {activeContentType === 'projects' ? (
-                <div className="space-y-4">
-                  <p className="text-xs text-gray-400">
-                    Upload Zone Preview (full editors in Phase 10)
-                  </p>
-                  <UploadZone
-                    label="Project Thumbnail"
-                    accept={['.jpg', '.jpeg', '.png', '.svg', '.webp']}
-                    maxSize={10 * 1024 * 1024}
-                    context={{ contentType: 'projects', field: 'thumbnail', itemId: 'lna-design' }}
-                    currentFile="/projects/lna-design.svg"
-                  />
-                </div>
-              ) : activeContentType === 'papers' ? (
-                <div className="space-y-4">
-                  <p className="text-xs text-gray-400">
-                    Upload Zone Preview (full editors in Phase 10)
-                  </p>
-                  <UploadZone
-                    label="Paper PDF"
-                    accept={['.pdf']}
-                    maxSize={10 * 1024 * 1024}
-                    context={{ contentType: 'papers', field: 'pdfPath', itemId: 'lna-design' }}
-                    currentFile="/papers/lna-design.pdf"
-                  />
-                </div>
-              ) : (
-                <p className="text-sm text-gray-400">
-                  Editor for{' '}
-                  <span className="font-medium text-gray-600">
-                    {activeContentType}
-                  </span>{' '}
-                  coming in Phase 10
-                </p>
-              )}
+              <EditorSwitch
+                contentType={activeContentType}
+                onDirtyChange={setDirty}
+                saveRef={saveRef}
+              />
             </div>
 
             {/* Save bar */}
@@ -139,7 +111,7 @@ export default function AdminShell({ onClose }: AdminShellProps) {
           <Separator className="w-1.5 cursor-col-resize bg-transparent transition-colors hover:bg-accent/50" />
 
           {/* Right panel: transparent passthrough to portfolio */}
-          <Panel minSize={15} className="pointer-events-none bg-transparent" />
+          <Panel minSize="15%" className="pointer-events-none bg-transparent" />
         </Group>
 
         {/* Toast notifications (dev-only, rendered inside admin shell) */}
