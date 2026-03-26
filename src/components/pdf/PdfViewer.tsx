@@ -16,14 +16,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from '../ui/drawer';
-import {
-  ChevronLeft,
-  ChevronRight,
-  ZoomIn,
-  ZoomOut,
-  Download,
-  X,
-} from 'lucide-react';
+import { ZoomIn, ZoomOut, Download, X } from 'lucide-react';
 
 // Worker must be configured in the same file that renders <Document>
 pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs';
@@ -42,7 +35,6 @@ const ZOOM_STEP = 0.25;
 
 export function PdfViewer({ file, title, open, onOpenChange }: PdfViewerProps) {
   const [numPages, setNumPages] = useState(0);
-  const [pageNumber, setPageNumber] = useState(1);
   const [scale, setScale] = useState(1.0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -65,7 +57,6 @@ export function PdfViewer({ file, title, open, onOpenChange }: PdfViewerProps) {
   // Reset state when file changes or viewer opens
   useEffect(() => {
     if (open) {
-      setPageNumber(1);
       setScale(1.0);
       setLoading(true);
       setError(false);
@@ -83,10 +74,6 @@ export function PdfViewer({ file, title, open, onOpenChange }: PdfViewerProps) {
     setError(true);
   }, []);
 
-  // Page navigation
-  const prevPage = () => setPageNumber((p) => Math.max(1, p - 1));
-  const nextPage = () => setPageNumber((p) => Math.min(numPages, p + 1));
-
   // Zoom controls
   const zoomIn = () => setScale((s) => Math.min(ZOOM_MAX, s + ZOOM_STEP));
   const zoomOut = () => setScale((s) => Math.max(ZOOM_MIN, s - ZOOM_STEP));
@@ -100,28 +87,10 @@ export function PdfViewer({ file, title, open, onOpenChange }: PdfViewerProps) {
   // Toolbar rendered inside both Dialog and Drawer
   const toolbar = (
     <div className="flex items-center justify-between border-b border-silicon-200/30 px-4 py-2">
-      {/* Page navigation */}
-      <div className="flex items-center gap-1">
-        <button
-          onClick={prevPage}
-          disabled={pageNumber <= 1}
-          className={btnClass}
-          aria-label="Previous page"
-        >
-          <ChevronLeft size={18} />
-        </button>
-        <span className="min-w-[4rem] text-center text-sm text-silicon-600">
-          {numPages > 0 ? `${pageNumber} / ${numPages}` : '- / -'}
-        </span>
-        <button
-          onClick={nextPage}
-          disabled={pageNumber >= numPages}
-          className={btnClass}
-          aria-label="Next page"
-        >
-          <ChevronRight size={18} />
-        </button>
-      </div>
+      {/* Page count */}
+      <span className="text-sm text-silicon-600">
+        {numPages > 0 ? `${numPages} page${numPages !== 1 ? 's' : ''}` : 'Loading...'}
+      </span>
 
       {/* Zoom controls */}
       <div className="flex items-center gap-1">
@@ -193,7 +162,14 @@ export function PdfViewer({ file, title, open, onOpenChange }: PdfViewerProps) {
           loading={null}
           error={null}
         >
-          {!error && <Page pageNumber={pageNumber} scale={scale} />}
+          {!error && numPages > 0 && Array.from({ length: numPages }, (_, i) => (
+            <Page
+              key={i + 1}
+              pageNumber={i + 1}
+              scale={scale}
+              className="mb-4 shadow-sm"
+            />
+          ))}
         </Document>
       </div>
     </div>
