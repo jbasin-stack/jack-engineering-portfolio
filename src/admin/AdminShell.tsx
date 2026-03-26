@@ -43,6 +43,7 @@ export default function AdminShell({ onClose }: AdminShellProps) {
       <motion.div
         className="fixed inset-0 z-[70]"
         data-lenis-prevent
+        onWheel={(e) => e.stopPropagation()}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -71,7 +72,7 @@ export default function AdminShell({ onClose }: AdminShellProps) {
             </div>
 
             {/* Navigation */}
-            <div className="shrink-0 overflow-y-auto border-b border-gray-100">
+            <div className="shrink-0 overflow-y-auto overscroll-contain border-b border-gray-100">
               <AdminNav
                 activeType={activeContentType}
                 onSelect={setActiveContentType}
@@ -79,7 +80,7 @@ export default function AdminShell({ onClose }: AdminShellProps) {
             </div>
 
             {/* Editor area */}
-            <div className="flex-1 overflow-y-auto p-4">
+            <div className="flex-1 overflow-y-auto overscroll-contain p-4">
               <EditorSwitch
                 contentType={activeContentType}
                 onDirtyChange={setDirty}
