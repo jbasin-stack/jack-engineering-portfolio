@@ -42,6 +42,7 @@ export default function AdminShell({ onClose }: AdminShellProps) {
     <AnimatePresence>
       <motion.div
         className="fixed inset-0 z-[70]"
+        data-lenis-prevent
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
