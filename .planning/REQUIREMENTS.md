@@ -24,8 +24,8 @@ Requirements for the Content Admin Panel milestone. Each maps to roadmap phases.
 - [x] **EDIT-05**: User can edit Skills groups and individual skills via form
 - [x] **EDIT-06**: User can edit Tooling categories and items via form
 - [x] **EDIT-07**: User can edit Navigation structure via form
-- [ ] **EDIT-08**: User can edit Papers (title, summary, PDF reference) via form
-- [ ] **EDIT-09**: User can edit Projects (all 10 fields including nested arrays) via form
+- [x] **EDIT-08**: User can edit Papers (title, summary, PDF reference) via form
+- [x] **EDIT-09**: User can edit Projects (all 10 fields including nested arrays) via form
 - [x] **EDIT-10**: All editors validate input with Zod schemas before saving
 - [x] **EDIT-11**: User receives toast feedback on successful save or validation error
 
@@ -90,8 +90,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EDIT-05 | Phase 10 | Complete |
 | EDIT-06 | Phase 10 | Complete |
 | EDIT-07 | Phase 10 | Complete |
-| EDIT-08 | Phase 10 | Pending |
-| EDIT-09 | Phase 10 | Pending |
+| EDIT-08 | Phase 10 | Complete |
+| EDIT-09 | Phase 10 | Complete |
 | EDIT-10 | Phase 10 | Complete |
 | EDIT-11 | Phase 10 | Complete |
 | ASSET-01 | Phase 9 | Complete |
