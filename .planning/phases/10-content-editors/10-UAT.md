@@ -1,5 +1,5 @@
 ---
-status: diagnosed
+status: resolved
 phase: 10-content-editors
 source: [10-01-SUMMARY.md, 10-02-SUMMARY.md, 10-03-SUMMARY.md]
 started: 2026-03-26T16:00:00Z
@@ -94,7 +94,7 @@ skipped: 0
   debug_session: ".planning/debug/editors-ghosted-outlines.md"
 
 - truth: "Timeline milestones can be reordered and validation errors show inline messages with required field indicators"
-  status: failed
+  status: resolved
   reason: "User reported: No drag-to-reorder or date-based auto-sort for timeline items. Validation error just says 'check highlighted fields' but no fields are visibly highlighted. Wants red stars for required fields and inline error messages across all editors."
   severity: major
   test: 7
@@ -113,7 +113,7 @@ skipped: 0
   debug_session: ".planning/debug/timeline-ordering-validation.md"
 
 - truth: "Coursework items can be reordered in the editor"
-  status: failed
+  status: resolved
   reason: "User reported: Would like to rearrange coursework items. Coursework section not yet displayed on the public site — user unsure if they want it."
   severity: minor
   test: 8
@@ -131,7 +131,7 @@ skipped: 0
   debug_session: ".planning/debug/coursework-reorder.md"
 
 - truth: "Papers PDF viewer allows continuous scrolling through pages"
-  status: failed
+  status: resolved
   reason: "User reported: PDF viewer uses page-by-page clicking instead of continuous scroll. Prefers scrollable view."
   severity: minor
   test: 9
@@ -146,7 +146,7 @@ skipped: 0
   debug_session: ".planning/debug/pdf-viewer-scroll.md"
 
 - truth: "Featured projects take up a full row in the projects grid"
-  status: failed
+  status: resolved
   reason: "User reported: Featured project tag doesn't visually differentiate. Wants featured projects to span a full row."
   severity: minor
   test: 10
@@ -164,7 +164,7 @@ skipped: 0
   debug_session: ".planning/debug/featured-project-display.md"
 
 - truth: "Validation error highlighting is consistent across all editors"
-  status: failed
+  status: resolved
   reason: "User reported: Some editors show highlighted fields on validation error, others don't. Inconsistent behavior."
   severity: major
   test: 11

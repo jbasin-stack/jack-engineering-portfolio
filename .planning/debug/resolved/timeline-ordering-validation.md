@@ -1,5 +1,5 @@
 ---
-status: diagnosed
+status: resolved
 trigger: "Timeline editor has no ordering + validation says 'check highlighted fields' but nothing highlighted. User wants drag reorder or auto-sort, red stars on required fields, inline errors across all editors."
 created: 2026-03-26T20:00:00Z
 updated: 2026-03-26T20:00:00Z

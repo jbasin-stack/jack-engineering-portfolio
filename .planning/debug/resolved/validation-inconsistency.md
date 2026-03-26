@@ -1,5 +1,5 @@
 ---
-status: diagnosed
+status: resolved
 trigger: "Inconsistent validation error highlighting across editors -- some show highlighted fields, others don't"
 created: 2026-03-26T20:00:00Z
 updated: 2026-03-26T20:00:00Z

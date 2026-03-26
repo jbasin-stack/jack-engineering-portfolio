@@ -1,5 +1,5 @@
 ---
-status: diagnosed
+status: resolved
 trigger: "Coursework editor has no drag-to-reorder capability. Coursework section doesn't appear on the public-facing website."
 created: 2026-03-26T20:00:00Z
 updated: 2026-03-26T20:00:00Z
