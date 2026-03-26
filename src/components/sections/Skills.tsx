@@ -1,18 +1,13 @@
 import { motion } from 'motion/react';
-import { NoisyBackground } from '@/components/effects/NoisyBackground';
 import { skillGroups } from '../../data/skills';
 import { sectionVariants, fadeUpVariant } from '../../styles/motion';
 
 export function Skills() {
   return (
-    <NoisyBackground
-      className="px-6 py-24"
-      gradientFrom="var(--color-uw-purple-faint)"
-      gradientTo="var(--color-cleanroom)"
-      noiseOpacity={0.12}
-    >
-      <motion.section
+    <section className="px-6 py-24">
+      <motion.div
         id="skills"
+        role="region"
         aria-label="Technical Skills"
         variants={sectionVariants}
         initial="hidden"
@@ -49,7 +44,7 @@ export function Skills() {
             ))}
           </div>
         </div>
-      </motion.section>
-    </NoisyBackground>
+      </motion.div>
+    </section>
   );
 }

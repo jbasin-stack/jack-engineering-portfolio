@@ -1,5 +1,4 @@
 import { motion } from 'motion/react';
-import { NoisyBackground } from '@/components/effects/NoisyBackground';
 import { sectionVariants, fadeUpVariant } from '../../styles/motion';
 
 // Replace with your actual portrait image path (e.g., /portrait.jpg in public/)
@@ -7,14 +6,10 @@ const PORTRAIT_SRC = '/portrait.jpg';
 
 export function WhoAmI() {
   return (
-    <NoisyBackground
-      className="px-6 py-24"
-      gradientFrom="var(--color-uw-purple-faint)"
-      gradientTo="var(--color-cleanroom)"
-      noiseOpacity={0.3}
-    >
-      <motion.section
+    <section className="px-6 py-24">
+      <motion.div
         id="about"
+        role="region"
         aria-label="About Me"
         variants={sectionVariants}
         initial="hidden"
@@ -73,7 +68,7 @@ export function WhoAmI() {
             </div>
           </div>
         </div>
-      </motion.section>
-    </NoisyBackground>
+      </motion.div>
+    </section>
   );
 }

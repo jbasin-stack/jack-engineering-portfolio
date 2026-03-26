@@ -12,16 +12,9 @@ export function Contact() {
   const [showResume, setShowResume] = useState(false);
 
   return (
-    <div className="relative overflow-hidden px-6 py-24">
-      {/* Subtle purple gradient echoing the hero at low intensity */}
-      <div
-        className="absolute inset-0 bg-gradient-to-b from-cleanroom via-uw-purple-faint/30 to-cleanroom pointer-events-none"
-        aria-hidden="true"
-      />
-
+    <div className="px-6 py-24">
       <motion.section
         id="contact"
-        className="relative z-10"
         aria-label="Contact Information"
         variants={sectionVariants}
         initial="hidden"
