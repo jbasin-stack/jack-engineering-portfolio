@@ -27,9 +27,17 @@ export function useContentEditor<T>({
   useEffect(() => {
     setLoading(true);
     fetch(`/__admin-api/content/${contentType}`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error(`API returned ${res.status}`);
+        return res.json();
+      })
       .then((json) => {
         setData(json as T);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error(`[admin] Failed to load ${contentType}:`, err);
+        toast.error(`Failed to load ${contentType} data`);
         setLoading(false);
       });
   }, [contentType]);
