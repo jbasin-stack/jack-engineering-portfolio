@@ -15,6 +15,7 @@ interface StructuredArrayFieldProps {
   onChange: (items: Record<string, string>[]) => void;
   fields: FieldDef[];
   error?: string[];
+  required?: boolean;
 }
 
 /** Array-of-objects editor with mini-form rows and add/remove */
@@ -24,6 +25,7 @@ export function StructuredArrayField({
   onChange,
   fields,
   error,
+  required,
 }: StructuredArrayFieldProps) {
   const addItem = () => {
     const empty = Object.fromEntries(fields.map((f) => [f.key, '']));
@@ -45,7 +47,10 @@ export function StructuredArrayField({
 
   return (
     <div className="space-y-2">
-      <Label>{label}</Label>
+      <Label>
+        {label}
+        {required && <span className="text-red-500 ml-0.5">*</span>}
+      </Label>
       {items.map((item, i) => (
         <div key={i} className="flex items-start gap-2">
           {fields.map((field) => (

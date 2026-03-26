@@ -9,6 +9,7 @@ interface FormFieldProps {
   error?: string[];
   multiline?: boolean;
   placeholder?: string;
+  required?: boolean;
 }
 
 /** Labeled input/textarea with inline error display */
@@ -19,6 +20,7 @@ export function FormField({
   error,
   multiline,
   placeholder,
+  required,
 }: FormFieldProps) {
   const hasError = error && error.length > 0;
   const id = label.toLowerCase().replace(/\s+/g, '-');
@@ -26,13 +28,17 @@ export function FormField({
 
   return (
     <div className="space-y-1.5">
-      <Label htmlFor={id}>{label}</Label>
+      <Label htmlFor={id}>
+        {label}
+        {required && <span className="text-red-500 ml-0.5">*</span>}
+      </Label>
       <Component
         id={id}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         aria-invalid={hasError || undefined}
+        className={hasError ? 'ring-1 ring-red-500' : undefined}
       />
       {hasError && <p className="text-sm text-red-500">{error[0]}</p>}
     </div>

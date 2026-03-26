@@ -8,10 +8,11 @@ interface TagInputProps {
   tags: string[];
   onChange: (tags: string[]) => void;
   error?: string[];
+  required?: boolean;
 }
 
 /** String array editor rendered as tags with Enter-to-add */
-export function TagInput({ label, tags, onChange, error }: TagInputProps) {
+export function TagInput({ label, tags, onChange, error, required }: TagInputProps) {
   const [inputValue, setInputValue] = useState('');
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -30,7 +31,10 @@ export function TagInput({ label, tags, onChange, error }: TagInputProps) {
 
   return (
     <div className="space-y-1.5">
-      <Label>{label}</Label>
+      <Label>
+        {label}
+        {required && <span className="text-red-500 ml-0.5">*</span>}
+      </Label>
       {tags.length > 0 && (
         <div className="flex flex-wrap gap-1.5">
           {tags.map((tag, i) => (
@@ -56,6 +60,7 @@ export function TagInput({ label, tags, onChange, error }: TagInputProps) {
         onKeyDown={handleKeyDown}
         placeholder="Type and press Enter"
         aria-invalid={hasError || undefined}
+        className={hasError ? 'ring-1 ring-red-500' : undefined}
       />
       {hasError && <p className="text-sm text-red-500">{error[0]}</p>}
     </div>

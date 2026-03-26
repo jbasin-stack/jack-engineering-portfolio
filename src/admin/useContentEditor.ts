@@ -57,8 +57,15 @@ export function useContentEditor<T>({
     const result = schema.safeParse(data);
 
     if (!result.success) {
-      const flattened = z.flattenError(result.error);
-      setFieldErrors(flattened.fieldErrors as FieldErrors);
+      // Custom flattener producing dotted-path keys (e.g. '0.title', 'name')
+      // so array-schema editors can look up fieldErrors[`${index}.field`]
+      const errors: FieldErrors = {};
+      for (const issue of result.error.issues) {
+        const key = issue.path.join('.');
+        if (!errors[key]) errors[key] = [];
+        errors[key]!.push(issue.message);
+      }
+      setFieldErrors(errors);
       toast.error('Validation failed -- check highlighted fields');
       return false;
     }
