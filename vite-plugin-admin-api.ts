@@ -118,9 +118,9 @@ export function adminApiPlugin(): Plugin {
         );
       };
 
-      // Return middleware factory — mounts AFTER Vite internals
-      return () => {
-        server.middlewares.use(async (req: IncomingMessage, res: ServerResponse, next: () => void) => {
+      // Register middleware DIRECTLY (pre-middleware) so it runs
+      // BEFORE Vite's SPA fallback intercepts /__admin-api/* routes
+      server.middlewares.use(async (req: IncomingMessage, res: ServerResponse, next: () => void) => {
           const url = req.url ?? '';
 
           // --- Upload endpoint: multipart file upload with busboy ---
@@ -262,7 +262,6 @@ export function adminApiPlugin(): Plugin {
             jsonResponse(res, 400, { error: message });
           }
         });
-      };
     },
 
     handleHotUpdate({ file }) {
