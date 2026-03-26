@@ -55,9 +55,9 @@ export function EditorSwitch({
       );
     default:
       return (
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-muted-foreground">
           Unknown content type:{' '}
-          <span className="font-medium text-gray-600">{contentType}</span>
+          <span className="font-medium text-foreground">{contentType}</span>
         </p>
       );
   }

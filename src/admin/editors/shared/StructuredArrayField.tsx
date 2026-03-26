@@ -65,7 +65,7 @@ export function StructuredArrayField({
           <button
             type="button"
             onClick={() => removeItem(i)}
-            className="mt-1.5 shrink-0 rounded-md p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+            className="mt-1.5 shrink-0 rounded-md p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           >
             <X className="size-4" />
           </button>
@@ -76,7 +76,7 @@ export function StructuredArrayField({
         variant="ghost"
         size="sm"
         onClick={addItem}
-        className="gap-1 text-gray-500"
+        className="gap-1 text-muted-foreground"
       >
         <Plus className="size-3.5" />
         Add

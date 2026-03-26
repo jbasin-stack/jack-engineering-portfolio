@@ -177,15 +177,15 @@ export function UploadZone({
       : dragState === 'invalid'
         ? 'border-solid border-2 border-red-500 bg-red-50'
         : displayPath
-          ? 'border-dashed border-2 border-gray-200'
-          : 'border-dashed border-2 border-gray-300';
+          ? 'border-dashed border-2 border-border'
+          : 'border-dashed border-2 border-border';
 
   const scaleValue = dragState === 'valid' ? 1.02 : 1;
 
   return (
     <div className="space-y-1.5">
       {/* Field label */}
-      <span className="text-sm font-medium text-gray-700">{label}</span>
+      <span className="text-sm font-medium text-foreground">{label}</span>
 
       {/* Drop zone */}
       <motion.div
@@ -236,8 +236,8 @@ export function UploadZone({
         {/* Idle state: no current file */}
         {dragState === 'idle' && !displayPath && (
           <div className="flex flex-col items-center justify-center gap-2 py-4">
-            <Upload className="size-8 text-gray-400" />
-            <p className="text-sm text-gray-500">
+            <Upload className="size-8 text-muted-foreground" />
+            <p className="text-sm text-muted-foreground">
               Drop file here or click to browse
             </p>
           </div>
@@ -253,18 +253,18 @@ export function UploadZone({
                 className="max-h-24 rounded object-cover"
               />
             ) : (
-              <div className="flex items-center gap-2 text-gray-600">
+              <div className="flex items-center gap-2 text-muted-foreground">
                 <FileText className="size-6" />
                 <span className="text-sm">{getFilename(displayPath)}</span>
               </div>
             )}
-            <p className="text-xs text-gray-400">Drop to replace</p>
+            <p className="text-xs text-muted-foreground">Drop to replace</p>
           </div>
         )}
 
         {/* Upload spinner overlay */}
         {isUploading && (
-          <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-white/70">
+          <div className="absolute inset-0 flex items-center justify-center rounded-lg bg-background/70">
             <Loader2 className="size-8 animate-spin text-accent" />
           </div>
         )}
@@ -285,7 +285,7 @@ export function UploadZone({
       </motion.div>
 
       {/* Accepted formats hint */}
-      <p className="text-xs text-gray-400">
+      <p className="text-xs text-muted-foreground">
         Accepts: {accept.join(', ')} (max {Math.round(maxSize / 1024 / 1024)}MB)
       </p>
     </div>

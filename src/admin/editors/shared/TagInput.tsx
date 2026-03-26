@@ -40,13 +40,13 @@ export function TagInput({ label, tags, onChange, error, required }: TagInputPro
           {tags.map((tag, i) => (
             <span
               key={i}
-              className="inline-flex items-center gap-1 rounded-md bg-gray-100 px-2 py-0.5 text-sm text-gray-700"
+              className="inline-flex items-center gap-1 rounded-md bg-muted px-2 py-0.5 text-sm text-foreground"
             >
               {tag}
               <button
                 type="button"
                 onClick={() => removeTag(i)}
-                className="text-gray-400 hover:text-gray-600"
+                className="text-muted-foreground hover:text-foreground"
               >
                 <X className="size-3" />
               </button>

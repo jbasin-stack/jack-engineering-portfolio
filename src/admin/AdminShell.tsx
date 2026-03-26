@@ -73,16 +73,16 @@ export default function AdminShell({ onClose }: AdminShellProps) {
             defaultSize="20%"
             minSize="20%"
             maxSize="85%"
-            className="flex flex-col overflow-hidden border-r border-gray-200 bg-white shadow-lg"
+            className="flex flex-col overflow-hidden border-r border-border bg-background shadow-lg"
           >
             {/* Header bar */}
-            <div className="flex shrink-0 items-center justify-between border-b border-gray-100 px-4 py-3">
-              <h2 className="text-sm font-semibold text-gray-900">
+            <div className="flex shrink-0 items-center justify-between border-b border-border px-4 py-3">
+              <h2 className="text-sm font-semibold text-foreground">
                 Admin Panel
               </h2>
               <button
                 onClick={handleClose}
-                className="rounded-md p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+                className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 aria-label="Close admin panel"
               >
                 <X className="size-4" />
@@ -90,7 +90,7 @@ export default function AdminShell({ onClose }: AdminShellProps) {
             </div>
 
             {/* Navigation */}
-            <div className="shrink-0 overflow-y-auto overscroll-contain border-b border-gray-100">
+            <div className="shrink-0 overflow-y-auto overscroll-contain border-b border-border">
               <AdminNav
                 activeType={activeContentType}
                 onSelect={setActiveContentType}
@@ -107,7 +107,7 @@ export default function AdminShell({ onClose }: AdminShellProps) {
             </div>
 
             {/* Save bar */}
-            <div className="flex shrink-0 items-center justify-end gap-2 border-t border-gray-200 bg-gray-50 px-4 py-2">
+            <div className="flex shrink-0 items-center justify-end gap-2 border-t border-border bg-muted px-4 py-2">
               <Button
                 variant="ghost"
                 size="sm"
