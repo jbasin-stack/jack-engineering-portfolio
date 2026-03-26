@@ -1,221 +1,199 @@
 # Project Research Summary
 
-**Project:** v1.1 Dev-Mode Admin Panel — Jack Engineering Portfolio
-**Domain:** Local dev-mode content management panel for static TypeScript portfolio site
-**Researched:** 2026-03-24
+**Project:** Jack Engineering Portfolio — v1.2 UI Polish & Interactivity
+**Domain:** Animated SPA portfolio with dark mode, carousel, SVG timeline, and glassmorphic tabs
+**Researched:** 2026-03-26
 **Confidence:** HIGH
 
 ## Executive Summary
 
-This v1.1 milestone adds a developer-only admin panel that lets Jack edit portfolio content through a form UI rather than hand-editing TypeScript data files. The recommended approach treats the admin panel as a pure dev tool: a custom Vite plugin provides file-write REST endpoints via `configureServer` (dev-only by design via `apply: 'serve'`), the admin UI is a lazily-loaded React route guarded by `import.meta.env.DEV` (tree-shaken to zero bytes in production by Rolldown), and live preview is achieved for free by leveraging Vite's native HMR — when the admin writes a data file, the iframe preview updates automatically without any custom postMessage infrastructure.
+The v1.2 milestone is a visual polish layer on a well-established Vite 8 + React 19 + Tailwind v4 + Motion 12 stack. The goal is to transform a functional but visually fragmented portfolio into a cohesive, animated experience: a breathing radial gradient hero, system-preference dark/light mode, a horizontal project carousel, merged skills/tooling with animated glassmorphic tabs, a scroll-triggered SVG timeline with glowing nodes, and a refreshed contact footer. The only new runtime dependency is `embla-carousel-react` (~8KB gzipped). All other features are achievable through CSS `@keyframes`, CSS `@property` typed custom properties, and Motion 12 primitives already installed in the project.
 
-The critical architectural insight across all four research areas is that complexity should be zero-added to production. The Vite plugin's `apply: 'serve'` flag, the `import.meta.env.DEV` dead-code elimination path, and the `src/admin/` directory isolation together provide four independent layers of protection that guarantee no admin code reaches Vercel. The entire admin surface — forms, drag-drop uploads, split-pane preview — is dev-only infrastructure that disappears from the deployed bundle. One notable bug to work around: shadcn/ui v4's `Resizable` wrapper has a known API mismatch with `react-resizable-panels` v4's renamed exports; use the library directly, not the shadcn/ui wrapper.
+The recommended approach centers on two foundational changes that must land first: (1) replacing the oklch cleanroom palette with a blue-primary token system that includes both `:root` light and `.dark` overrides (keeping all values in oklch to preserve Tailwind opacity-modifier compatibility), and (2) replacing the current per-section `NoisyBackground` wrappers with a single `UnifiedBackground` gradient spanning the full page. Every subsequent component rebuild — hero, tabs, carousel, timeline, footer — depends on these two foundations being correct. The architecture is deliberately additive: no new framework, no routing change, no data-structure changes. The admin panel continues to write the same `src/data/*.ts` files and requires zero modifications.
 
-The primary risk is the TypeScript code generation layer: the existing codebase uses `verbatimModuleSyntax: true` and `erasableSyntaxOnly: true`, which means generated `.ts` data files must emit `import type` (not `import`) and pass `tsc -b` after every save. This must be solved with Prettier-formatted template generation and lightweight AST validation in Phase 2 — before any form editors are built on top of it. A secondary risk is infinite HMR loops if admin-initiated file writes are not debounced and isolated from the module graph read path (form state must be initialized from the `GET /__admin-api/content/:type` endpoint, never from module imports).
+The primary risks are performance and framework-mismatch. Gradient animations, if implemented by animating `background-size` or gradient color stops directly, will cause continuous repaints that drain mobile battery and drop Lighthouse scores. The correct approach is opacity-layered gradients (GPU-composited). The codebase has `next-themes` installed but unused — it must be removed and replaced with a minimal Vite-native ThemeProvider to avoid FOUT and Next.js-specific code path failures. Dark mode flash on page load is prevented by a blocking inline `<script>` in `index.html` that applies the `.dark` class before React renders.
 
 ## Key Findings
 
 ### Recommended Stack
 
-The existing validated stack (Vite 8, React 19, Tailwind v4, Motion, shadcn/ui, TypeScript) requires only targeted additions. No router library is needed — the single admin route is handled by a `window.location.search` check behind `import.meta.env.DEV`. No external CMS or database is needed — the 9 TypeScript data files are the persistence layer and the custom Vite plugin is the write API.
+The existing stack requires only one addition. `embla-carousel-react@^8.6.0` is the de facto carousel for shadcn/ui ecosystems: 3.4KB gzipped, hook-based, zero UI opinions, and explicitly tested against React 19 peer deps. Everything else — animated gradients, dark mode, animated tabs, SVG timeline glow — is achievable with CSS `@property`, CSS `@keyframes`, and Motion 12 APIs already in the codebase.
 
-**Core technologies to add:**
-- **react-hook-form ^7.72.0**: Form state management — shadcn/ui's Form component is built on this; `useFieldArray` handles nested array content types (projects.techStack[], projects.links[], projects.images[])
-- **zod ^4.3.6**: Runtime schema validation before file writes — catches malformed data at edit time, not build time; schemas mirror `src/types/data.ts` interfaces
-- **@hookform/resolvers ^5.2.2**: Bridge between react-hook-form and Zod — auto-detects Zod v3/v4 at runtime
-- **react-dropzone ^15.0.0**: Headless drag-drop upload hook — headless API pairs with shadcn/ui styling, React 19 confirmed compatible in v14.3.6+
-- **formidable ^3.5.2** (devDep): Server-side multipart parsing inside Vite plugin — works with raw Node.js IncomingMessage without Express
-- **Custom Vite plugin** (in-project, no npm): `configureServer` REST endpoints at `/__admin-api/*` for data read/write and asset upload
+Two removals are required alongside the addition: remove `next-themes` (Next.js-specific, incompatible with Vite SPA, never imported but a confusion risk) and correct or remove the `@custom-variant dark (&:is(.dark *))` line in `app.css` — the current selector only matches children of `.dark`, not the `.dark` element itself; it must be `(&:is(.dark, .dark *))` for the root `<html>` element to receive dark styles.
 
-**shadcn/ui components to add** via `npx shadcn@latest add`: `input`, `textarea`, `select`, `switch`, `field`, `tabs`, `badge`, `separator`, `resizable`, `scroll-area`.
-
-**Critical version note:** Use `react-resizable-panels` v4 directly (`import { Group, Panel, Separator } from 'react-resizable-panels'`), not through shadcn/ui's `Resizable` wrapper — a known API mismatch exists (shadcn-ui/ui#9136) between shadcn/ui v4's Resizable component and the library's renamed v4 exports.
+**Core technologies:**
+- `embla-carousel-react@^8.6.0`: horizontal project carousel — lightweight, React 19 compatible, no CSS opinions, Gallery6 reference uses it directly
+- CSS `@property` + `@keyframes` on `<color>` typed stops: animated gradient hero — runs on compositor thread, 96% browser support, no JS frame loop
+- Motion 12 `layoutId`: animated tab pill indicator — shared element transition with zero manual position calculation, already installed
+- Motion 12 `useScroll` + `motion.path` with `pathLength`: SVG timeline progress line — GPU-composited, directly bound to scroll MotionValue, same pattern as existing Timeline.tsx
+- Custom ThemeProvider (40 lines, no npm): dark mode system-preference detection — shadcn/ui Vite dark mode guide pattern, removes the `next-themes` dependency
 
 ### Expected Features
 
-**Must have (table stakes) — v1.1 Core (all P1):**
-- Form-based editors for all 9 content types — without full coverage the admin provides no value over editing `.ts` files directly
-- Zod validation schemas matching TypeScript interfaces — prevents invalid data from corrupting the rendered site
-- Vite plugin read/write API endpoints — the foundational layer everything else depends on
-- TypeScript code generation — produces valid `.ts` files preserving the existing `import type` + `export const` format
-- Dynamic array field management via `useFieldArray` — most content types are arrays with nested arrays
-- Asset file upload to `public/` subdirectories — projects, papers, and portrait assets must be uploadable
-- Dev-mode route guard (`import.meta.env.DEV`) — zero admin code in production is non-negotiable
-- Live side-by-side preview — the flagship feature that justifies building a custom tool
-- Save feedback (toasts) — users must know if writes succeed or fail
+**Must have (table stakes):**
+- System-preference dark/light mode — every modern portfolio in 2026 respects OS theme; missing it makes the site look unfinished to dark-mode recruiters
+- Unified consistent background — hard color breaks between sections (current state) look fragmented and dated
+- Horizontal project carousel — Gallery6-style is the dominant project-showcase pattern for 2026 portfolios
+- Animated tab interface for Skills and Tooling — merging two identical-layout sections reduces page length and modernizes the UX
+- Refreshed "Let's Work Together" contact and footer — current vertically-stacked layout is functional but not premium
 
-**Content type complexity (informs build order):**
-- LOW: Hero (singleton), Contact (singleton), Coursework (flat array), Timeline (flat array)
-- MEDIUM: Navigation (nested children[]), Skills (nested skills[]), Tooling (nested items[]), Papers (PDF file reference)
-- HIGH: Projects (3 nested arrays: techStack[], links[], images[]; thumbnail + image file references; 10 fields/item)
-
-**Should have (polish) — v1.1 post-core (P2):**
-- Image optimization via Sharp on upload (convert to WebP, resize to max 1200px)
-- Drag-and-drop reorder via dnd-kit for projects, milestones, and skills groups
-- Content status indicators showing placeholder vs. real content
-- Keyboard shortcuts (Ctrl+S to save, Ctrl+N to add item)
+**Should have (differentiators):**
+- Animated radial gradient hero — sets a "cares about craft" first impression; the existing `AuroraBackground.tsx` was explicitly removed as too distracting; the replacement must be subtler
+- Scroll-triggered SVG timeline with glowing nodes — most visually distinctive feature; higher complexity but highest impressiveness per effort ratio
+- Glassmorphic tab panels — depth effect via `backdrop-blur` on tab content; pure CSS, near-zero cost
+- Featured project visual emphasis in carousel — leverages the existing `featured: boolean` field, reinforces hierarchy
 
 **Defer to v2+:**
-- Markdown support in descriptions (requires simultaneous changes to rendering components)
-- Bulk operations, export/import as JSON, content templates
-
-**Anti-features confirmed (do not build):**
-- Full headless CMS (TinaCMS, Payload, Strapi) — zero-cost constraint violation, massive overhead for 9 small files
-- Version history/undo — Git `checkout` is the version history system
-- Multi-user authentication — single operator, localhost only
-- Rich text / WYSIWYG editor — existing interfaces use plain strings; rendering components do not support markup
+- Manual dark/light toggle — explicitly descoped in PROJECT.md
+- Project filtering in carousel — only 4 projects; filter is overkill
+- Blog or notes system — content creation overhead
+- Testimonials — needs content to exist first
 
 ### Architecture Approach
 
-The admin panel integrates with the existing portfolio through four mechanisms that maintain a strict production/dev boundary: (1) a custom Vite plugin (`apply: 'serve'`) provides filesystem endpoints at `/__admin-api/*`; (2) `App.tsx` gains ~20 lines with an `import.meta.env.DEV` ternary assigning `null` in production + `React.lazy()` that Rolldown dead-code-eliminates; (3) an iframe pointing to `localhost:PORT/` provides live preview — Vite's chokidar watcher detects data file writes and propagates HMR to the iframe automatically, no custom WebSocket setup needed; (4) all admin code lives under `src/admin/` with a one-directional import graph.
+The v1.2 architecture is an in-place upgrade of the existing SPA. The component tree adds a `ThemeProvider` at the root (above `MotionConfig`), replaces per-section background wrappers with a single `UnifiedBackground`, and swaps five components (Skills, Tooling, Timeline, ProjectsSection, Contact) for five replacements. The admin panel, data layer, SmoothScroll, Navigation, and all surviving sections remain unchanged. No new routing, no new framework, no data-structure changes.
 
-**Major components:**
-1. **`vite-plugin-admin-api.ts`** — Vite plugin with `GET/POST /__admin-api/content/:type` and `POST /__admin-api/asset/upload`; uses `server.ssrLoadModule()` for TypeScript-aware reads and atomic `writeFile` + `rename` for writes; `apply: 'serve'` ensures complete absence from production builds
-2. **`src/admin/AdminShell.tsx`** — Split-pane layout using `react-resizable-panels` v4 directly (not shadcn/ui wrapper); editor panel (40% default) + iframe preview panel (60% default)
-3. **`src/admin/editors/*.tsx`** — 9 per-content-type form editors; shared `ArrayFieldEditor`, `AssetUploader`, `NestedObjectField` components
-4. **`src/admin/api.ts`** — Typed fetch helpers (`fetchContent<T>`, `saveContent`, `uploadAsset`) for all `/__admin-api/*` endpoints
-5. **`src/App.tsx`** (modified ~20 lines) — `import.meta.env.DEV` guard, `React.lazy()` admin import, `?admin` query param + Ctrl+Shift+A toggle
-
-**Key patterns to follow:**
-- Read data via `server.ssrLoadModule()` (API endpoint), never via module imports — prevents HMR loop
-- Idempotent full-file writes — always replace the entire file content, never patch
-- Atomic write-then-rename (`projects.ts.tmp` then `fs.rename()`) — prevents partial write corruption
-- Asset paths normalized to lowercase-kebab-case on upload — prevents Windows dev / Linux production case mismatch
-- After asset upload: `server.ws.send({ type: 'full-reload' })` — `public/` is not in the module graph
+**Major components and their status:**
+1. `ThemeProvider.tsx` (NEW) — applies `.dark` class to `<html>` based on `matchMedia` system preference; ~40 lines, no deps
+2. `UnifiedBackground.tsx` (NEW) — single page-spanning gradient, replaces per-section NoisyBackground wrappers
+3. `AnimatedGradientBg.tsx` (NEW) — opacity-layered radial gradients for hero breathing animation; pure CSS
+4. `AnimatedTabs.tsx` + `SkillsAndTooling.tsx` (NEW) — Motion `layoutId` pill indicator, merges Skills + Tooling data
+5. `ProjectCarousel.tsx` (NEW) — embla-carousel replacing bento grid; preserves ProjectDetail Dialog/Drawer
+6. `TimelineV2.tsx` (NEW) — SVG `<path>` with `pathLength` driven by `scrollYProgress`, glow nodes
+7. `ContactFooter.tsx` (NEW) — "Let's Work Together" layout, same data sources, same LazyPdfViewer integration
+8. `app.css` (MODIFIED) — blue-primary oklch variable system with `:root` light and `.dark` blocks
+9. `NoisyBackground.tsx`, `AnimatedGridPattern.tsx` (DEPRECATED) — no longer used after unified bg lands
 
 ### Critical Pitfalls
 
-1. **Admin code ships to production** — Use `apply: 'serve'` on the plugin + `import.meta.env.DEV` ternary assigning `null` (not conditional render) + `React.lazy()`. Verify with `vite build && grep -r "admin" dist/` returning zero matches. Must be addressed in Phase 1 before any admin UI code is written.
+1. **Lenis hijacks Embla carousel scroll events** — Add `data-lenis-prevent` attribute to the Embla viewport div plus `overscroll-behavior: contain` and `touch-action: pan-y pinch-zoom` CSS. Test with a trackpad, not just a mouse — mouse wheel testing masks this bug entirely because it has no horizontal component.
 
-2. **Infinite HMR loop on file writes** — Never initialize admin form state from module imports; always read via `GET /__admin-api/content/:type` endpoint. Implement a write-lock flag with `handleHotUpdate` to suppress HMR events for admin-initiated writes. Debounce saves to 500ms. Must be addressed in Phase 2.
+2. **Animated gradient triggers continuous repaints** — Never animate `background-size`, `background-position`, or gradient color stops directly. Layer two gradient divs and animate `opacity` on the top layer. `opacity` is GPU-composited; gradient property animation is not. Use `IntersectionObserver` to pause animation when hero exits viewport.
 
-3. **TypeScript code generation produces invalid output** — Project uses `verbatimModuleSyntax: true`, requiring `import type` in all generated files. Always run Prettier programmatically on generated TypeScript. Validate with `ts.createSourceFile()`. Test with `tsc -b`, not just `vite dev`. Apostrophes and special characters in user content require proper JSON escaping. Must be addressed in Phase 2.
+3. **oklch/hex color space mismatch breaks Tailwind opacity modifiers** — Keep ALL theme variables in oklch. Do not copy hex values from 21st.dev reference components. `bg-accent/50` breaks when the underlying variable is hex inside an `oklch()` function. Convert any hex references to oklch equivalents before use.
 
-4. **Asset path mismatch between dev and production** — Windows is case-insensitive; Vercel (Linux) is not. Normalize all uploaded filenames to lowercase-kebab-case in the upload handler. One function returns the canonical path and writes it to both filesystem and data file reference. Must be addressed in Phase 3.
+4. **Dark mode flash of unstyled theme (FOUT) on page load** — Add a blocking inline `<script>` in `index.html` `<head>` that reads `matchMedia` and sets `document.documentElement.classList.toggle("dark", isDark)` synchronously. This must execute before React loads. The existing `body { opacity: 0 }` hydration gate then reveals the correctly-themed page.
 
-5. **Data file corruption from concurrent or interrupted writes** — Use atomic write-then-rename pattern. Implement per-file write queue for rapid saves. Keep a `.bak` copy before each write. Must be addressed in Phase 2.
+5. **21st.dev components assume Next.js patterns** — Treat all 21st.dev references as visual-only. Strip `"use client"`, replace `next/image` with `<img loading="lazy" decoding="async">`, remove `next-themes` imports, replace `next/link` with `<a>`. Create an adaptation checklist on the first component and reuse it for each subsequent one.
 
 ## Implications for Roadmap
 
-The dependency graph is unambiguous: the Vite plugin API endpoints are the foundational layer. TypeScript code generation correctness must be proven before forms write through it. Production exclusion must be the first thing built — retrofitting it is error-prone. The recommended phase count is 7, progressing from infrastructure to editors to verification.
+Based on the dependency graph in ARCHITECTURE.md and the feature criticality from FEATURES.md, a 4-phase structure is recommended. Phases 1 and 2 are strictly ordered foundations; Phases 3 and 4 items are parallelizable after Phase 2 completes.
 
-### Phase 1: Foundation and Dev/Prod Boundary
+### Phase 1: Theme Foundation and Unified Background
 
-**Rationale:** Production exclusion must be established and verified before a single line of admin UI code is written. Also resolves Lenis/Motion conflicts that affect every subsequent phase.
-**Delivers:** `import.meta.env.DEV` guard in `App.tsx`, `src/admin/` directory with stub `AdminShell`, Vite plugin registered with `apply: 'serve'`, `vite build && grep -r "admin" dist/` returns zero, Lenis disabled within admin scope, Motion config isolated for admin.
-**Addresses:** Dev-mode-only routing (P1), content type navigation stub (P1)
-**Avoids:** Critical Pitfall 1 (admin code in production), Lenis/Motion conflicts in admin context
+**Rationale:** Every subsequent component must know what colors to render and what background it sits on. These two changes are prerequisites for all visual work. Pitfalls 3 (oklch/hex mismatch), 5 (FOUT), 9 (existing effects invisible in dark mode), and 12 (body color not overriding) all must be resolved here before anything else is touched.
 
-### Phase 2: File Write API and TypeScript Code Generation
+**Delivers:** Working system-preference dark mode across the entire site; removal of per-section background fragmentation; a clean foundation for all component rebuilds.
 
-**Rationale:** Every persistence operation routes through the Vite plugin. TypeScript code generation correctness (particularly `verbatimModuleSyntax` compliance) must be proven in isolation before form editors are built on top of it. Atomic writes and HMR loop prevention must be solved here.
-**Delivers:** `vite-plugin-admin-api.ts` with all CRUD endpoints, `server.ssrLoadModule()` reads, atomic write-then-rename, write-lock + HMR debounce, Prettier-formatted TypeScript output validated against `tsc -b`, `src/admin/api.ts` fetch helpers, `CONTENT_REGISTRY` mapping all 9 content types.
-**Uses:** Custom Vite plugin, formidable, Node `fs.promises`, Prettier API
-**Avoids:** Critical Pitfalls 2 (infinite HMR loop), 3 (invalid TypeScript output), 5 (data corruption)
+**Addresses:** System-preference dark/light mode (table stakes P0), unified consistent background (table stakes P0).
 
-### Phase 3: Asset Upload Pipeline
+**Avoids:** FOUT flash via blocking script in `index.html`; oklch/hex mismatch by keeping all variables in oklch; existing visual effects breaking in dark mode by auditing every effect against the `.dark` class during this phase; admin panel going dark by wrapping admin in `<div class="light">` force-override.
 
-**Rationale:** Asset upload depends on the file write API from Phase 2. Filename normalization must be built into the upload handler from day one — retrofitting it after assets are uploaded means renaming files and updating data references.
-**Delivers:** `POST /__admin-api/asset/upload` with formidable multipart parsing, lowercase-kebab-case filename normalization, file type/size validation (images + PDFs only, max 10MB), path traversal prevention (whitelist `src/data/` and `public/` subdirectories), `server.ws.send({ type: 'full-reload' })` after upload, `AssetUploader.tsx` drag-drop component.
-**Uses:** react-dropzone, formidable, Sharp (optional P2 — verify Windows binary install first)
-**Avoids:** Critical Pitfall 4 (asset path mismatch), path traversal security risk
+**Does not need research-phase:** Tailwind v4 dark mode and CSS custom property patterns are HIGH-confidence from official docs.
 
-### Phase 4: Split-Pane Shell and Live Preview
+### Phase 2: Hero and Navigation Migration
 
-**Rationale:** The AdminShell layout and iframe preview should be built once the API layer works but before form editors, so the HMR cycle can be verified end-to-end (API write → chokidar → HMR → iframe re-render) with no form complexity in the way.
-**Delivers:** `AdminShell.tsx` using `react-resizable-panels` v4 `Group/Panel/Separator` directly, `AdminPreview.tsx` iframe pointing to `localhost:PORT/`, `AdminSidebar.tsx` / `AdminHeader.tsx` with content type tab navigation, verified end-to-end HMR cycle with real data files.
-**Uses:** react-resizable-panels v4 directly (bypass shadcn/ui Resizable due to known bug #9136), shadcn/ui tabs, shadcn/ui scroll-area
-**Avoids:** shadcn/ui Resizable API mismatch bug, preview not matching production rendering (UX Pitfall 4)
+**Rationale:** The hero is the first thing visitors see and must be correct before the portfolio is demoable. Navigation section IDs must be updated once Skills and Tooling are known to be merged (the merge happens in Phase 3). The GPU-composited gradient animation technique established here informs the pattern used throughout the rest of v1.2.
 
-### Phase 5: Form Editors — Simple Types First
+**Delivers:** Animated radial gradient hero background; updated navigation with correct section IDs for the v1.2 merged section layout; migrated color classes on WhoAmI and HeroContent from oklch custom classes to semantic tokens.
 
-**Rationale:** Build editors in order of increasing complexity. Singleton flat types (Hero, Contact) establish the full editing + save + preview + toast feedback loop. Then simple array types (Coursework, Timeline) exercise `useFieldArray`. Then nested array types (Skills, Tooling, Navigation, Papers).
-**Delivers:** Editors for 8 of 9 content types (all except Projects), react-hook-form + Zod integration for all editors, `useFieldArray` for array types, shared `ArrayFieldEditor.tsx` and `NestedObjectField.tsx`, save toast feedback, sessionStorage form state persistence (survives HMR).
-**Uses:** react-hook-form, zod, @hookform/resolvers, shadcn/ui form components (input, textarea, select, switch, field, badge), shadcn/ui Sonner/Toast
-**Avoids:** Form state lost on HMR (UX Pitfall 1), no save feedback (UX Pitfall 3), missing validation (Looks Done But Isn't checklist)
+**Addresses:** Animated gradient hero (differentiator P1), section color-class migration clean-up.
 
-### Phase 6: Projects Editor (Complex Type) and P2 Polish
+**Avoids:** GPU repaint from wrong gradient animation technique (opacity-layering pattern, not background-size animation).
 
-**Rationale:** Projects is the most complex editor (3 nested arrays, file references, 10 fields/item). Built last after all shared components and `useFieldArray` patterns are established from Phase 5.
-**Delivers:** `ProjectsEditor.tsx` with full nested array management, thumbnail/image upload via `AssetUploader`, `featured` boolean toggle, all 10 fields per project item. P2 additions: dnd-kit drag-to-reorder for projects and milestones, image optimization via Sharp (pending Windows binary verification), content status indicators, Ctrl+S / Ctrl+N keyboard shortcuts.
-**Uses:** react-hook-form `useFieldArray` (nested), dnd-kit (P2), Sharp (P2 conditional)
-**Implements:** Most complex Architecture component — verifies all prior patterns hold under nesting depth
+**Does not need research-phase:** GPU-composited opacity animation is documented in Motion performance guides and CSS specs. Standard pattern.
 
-### Phase 7: Production Verification and Hardening
+### Phase 3: High-Impact Component Rebuilds
 
-**Rationale:** Final hardening pass addressing the "Looks Done But Isn't" checklist explicitly. All critical pitfalls verified simultaneously before the admin panel is considered complete.
-**Delivers:** Verified: `vite build && grep -r "admin" dist/` returns zero; `tsc -b` passes after editing every content type including special characters (apostrophes, quotes, unicode, newlines); rapid-fire saves (5 in 2 seconds) produce no corruption; `vite preview` shows no broken asset references; form state survives HMR; cross-platform file path behavior confirmed on Windows/NTFS.
-**Avoids:** All 5 critical pitfalls verified in a production-representative build
+**Rationale:** All three rebuilds are independent of each other after the foundation is set. Sequenced by visual impact and complexity: AnimatedTabs first (reduces page length, establishes Motion layoutId pattern), Gallery6 carousel second (most prominent new interaction, adds the one new dependency), timeline third (most complex SVG work, benefits from patterns established above).
+
+**Delivers:** AnimatedTabs merging Skills and Tooling with glassmorphic panels; Gallery6 horizontal project carousel with featured-first ordering; scroll-triggered SVG timeline with glowing nodes.
+
+**Addresses:** Animated tab interface (table stakes P1), horizontal project carousel (table stakes P1), SVG timeline (differentiator P1), featured project emphasis (differentiator P1), glassmorphic panels (differentiator P1).
+
+**Avoids:** Lenis/Embla scroll conflict via `data-lenis-prevent`; Motion LayoutGroup conflict with Embla by removing LayoutGroup from carousel scope; SVG timeline jank by using `useTransform` derived values not `useState` per scroll frame; AnimatedTabs height layout shift via fixed `min-height` or Motion animated height; Embla not respecting `prefers-reduced-motion` via custom hook returning `{ duration: 0 }`.
+
+**Needs research-phase for timeline:** The SVG `pathLength` + `useScroll` + per-node glow transition combination — specifically minimizing React re-renders per scroll frame — warrants a focused research-phase before implementation. The carousel and tabs do not need it.
+
+### Phase 4: Contact Footer and Cleanup
+
+**Rationale:** Contact/footer is the lowest-risk change (layout-only, same data sources, no new dependencies). Cleanup — removing deprecated components, removing `next-themes`, verifying tree-shaking, running `vite build` — must be last to confirm the final production bundle is correct.
+
+**Delivers:** "Let's Work Together" contact footer layout; removal of NoisyBackground, AnimatedGridPattern, and `next-themes` from the codebase; verified production bundle with no admin chunk contamination; passing tests and typecheck.
+
+**Addresses:** Contact/footer refresh (table stakes P2), deprecation obligations from replacing five major components.
+
+**Avoids:** ThemeProvider breaking tree-shaking (verify `dist/assets/` after build), stale imports from removed components causing build errors.
+
+**Does not need research-phase:** Layout-only change with no new dependencies. Cleanup is mechanical.
 
 ### Phase Ordering Rationale
 
-- Phase 1 before everything: Production exclusion cannot be retrofitted. Verify zero admin in `dist/` before writing any admin UI.
-- Phase 2 before Phases 4-6: Every editor's save path routes through the plugin. Code generation correctness proven in isolation so form bugs can be distinguished from serialization bugs.
-- Phase 3 before Phases 5-6: `AssetUploader` is shared across PapersEditor and ProjectsEditor; must exist before those editors are built.
-- Phase 4 before Phases 5-6: AdminShell provides the layout context all editors render inside; HMR cycle verified end-to-end without form complexity.
-- Phase 5 before Phase 6: `ArrayFieldEditor` and `NestedObjectField` shared components created in Phase 5 and reused in Phase 6. `useFieldArray` patterns proven on simpler types before the deeply-nested Projects type.
+- Phases 1 and 2 are strictly ordered: CSS variable foundation and background must be in place before any component touches colors or layout
+- Phase 3 items (tabs, carousel, timeline) are mutually independent after Phase 2 and can be built in any order or in parallel by multiple contributors
+- Phase 4 cannot begin until all deprecated components are confirmed replaced, and cleanup must close the milestone before `vite build` is the final verification
+- The 21st.dev adaptation checklist should be created in Phase 3 (first component adapted from a reference) and reused for each subsequent component
 
 ### Research Flags
 
 Phases likely needing deeper research during planning:
-- **Phase 2 (TypeScript code generation):** The interaction between `verbatimModuleSyntax`, Prettier's TypeScript parser, and `JSON.stringify` output for edge cases (empty arrays, null values, escaped strings with user content) warrants a brief spike. Template-based generation works for flat types (navigation.ts) but is risky for Projects with user-provided string content — consider Prettier + `ts.createSourceFile()` validation as the safety net.
-- **Phase 6 (dnd-kit with nested useFieldArray):** dnd-kit with `useFieldArray` at two nesting levels has non-obvious constraints. Verify the specific pattern (array of items, each with sortable sub-arrays) works before committing to the drag-reorder feature.
+- **Phase 3 (timeline only):** SVG `pathLength` + `useScroll` + per-node glow state without per-frame React re-renders is moderately underdocumented for this exact combination. Run a research-phase on SVG animation performance before implementing TimelineV2.
+- **Phase 1 (dark variant audit):** The existing `@custom-variant dark (&:is(.dark *))` has a confirmed bug — it does not match the root `.dark` element itself. Inspect and correct this before writing any dark-mode CSS. This is a 5-minute fix but easy to overlook.
 
 Phases with standard patterns (skip research-phase):
-- **Phase 1:** `import.meta.env.DEV` + `React.lazy()` production exclusion is documented Vite behavior, well-understood.
-- **Phase 3:** formidable multipart parsing + filename normalization is standard Node.js. No ambiguity.
-- **Phase 4:** react-resizable-panels v4 direct usage is documented; API mismatch with shadcn/ui wrapper is confirmed with a clear workaround.
-- **Phase 5:** react-hook-form + Zod + shadcn/ui Form is the official documented pattern on ui.shadcn.com. No research needed.
+- **Phase 1 (CSS variables, ThemeProvider, unified background):** Tailwind v4 dark mode and shadcn/ui Vite ThemeProvider are HIGH-confidence with official documentation.
+- **Phase 2 (hero gradient):** Opacity-layered gradient animation is a documented compositor-safe pattern.
+- **Phase 3 (carousel):** Embla setup and Lenis coexistence are documented with HIGH-confidence sources. Gallery6 is a known reference.
+- **Phase 3 (AnimatedTabs):** Motion `layoutId` sliding pill is extensively documented on motion.dev and buildui.com.
+- **Phase 4 (contact footer, cleanup):** Layout-only and mechanical. No research needed.
 
 ## Confidence Assessment
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | HIGH | All package versions verified on npm. React 19 peer dep compatibility confirmed for every addition. The only MEDIUM item (react-hook-form v8 timeline) was resolved: v7 is the correct choice and v8 beta status is confirmed. |
-| Features | HIGH | Feature set scoped against the 9 known TypeScript interfaces in `src/types/data.ts`. Content type complexity analysis grounded in actual interface structures. Anti-feature decisions based on real constraints (zero-cost, single user, existing data model). |
-| Architecture | HIGH | All four architectural decisions backed by official Vite docs. The shadcn/ui Resizable API mismatch is a confirmed tracked bug with a clear workaround. `server.ssrLoadModule()` for TypeScript-aware reads is an officially documented Vite API. |
-| Pitfalls | HIGH | All 5 critical pitfalls traced to documented Vite behavior, TypeScript compiler flags in existing `tsconfig.app.json`, and Node.js filesystem semantics. Prevention strategies use standard patterns. |
+| Stack | HIGH | All recommendations verified against official npm, Tailwind, and Motion docs. Single new dependency (embla) has confirmed React 19 peer dep compatibility via `npm view`. |
+| Features | HIGH | Feature scope tightly defined in PROJECT.md. Research confirmed table-stakes vs differentiator classification for 2026 portfolios against multiple HIGH-confidence sources. |
+| Architecture | HIGH | Build order derived from explicit dependency analysis. Lenis/Embla coexistence confirmed via GitHub issues. ThemeProvider pattern from shadcn official Vite docs. CSS variable architecture validated against Tailwind v4 `@theme inline` behavior. |
+| Pitfalls | HIGH | Five critical pitfalls verified against official docs, GitHub issues, and performance literature. Recovery costs and detection methods are specific, not generic. |
 
 **Overall confidence:** HIGH
 
 ### Gaps to Address
 
-- **Prettier as dev dependency:** Research recommends running Prettier programmatically on generated TypeScript output. Verify Prettier is already installed (likely as part of ESLint setup) before Phase 2; if not, add `prettier` to devDependencies.
-- **Sharp native binary on Windows:** Sharp requires platform-specific native binaries. Verify `npm install -D sharp` works cleanly in the Windows development environment before committing to image optimization in Phase 6. If binary installation fails, defer Sharp to v2 and document manual image optimization as the workaround.
-- **`write-file-atomic` vs manual temp-file-rename:** Both produce the same result. Given the project's bias toward minimal dependencies, prefer the manual 3-line pattern (`writeFile` to `.tmp` then `fs.rename()`) over adding `write-file-atomic` as a dependency. Decide in Phase 2.
-- **Zod schemas as source of truth vs parallel schemas:** Two valid approaches — (a) refactor `src/types/data.ts` to infer TypeScript types from Zod schemas (cleaner, but modifies v1.0 code); (b) maintain parallel Zod schemas that mirror existing interfaces (slight duplication, but v1.0 code untouched). Recommend approach (b) for v1.1 to maintain a clean boundary with shipped v1.0 code.
-- **Zod v4 error format with shadcn/ui form examples:** shadcn/ui docs reference Zod v3 in error display examples. Zod v4 has a different error format. @hookform/resolvers v5.2.2 handles this at the validation layer, but toast error messages may need adjustment for Zod v4's error shape.
+- **oklch dark palette values:** Research identifies the strategy but does not supply finalized oklch values for every existing custom token (cleanroom, silicon-*, ink, accent, uw-purple-*). These must be derived during Phase 1 execution using oklch.com or DevTools color picker. A side-by-side light/dark visual comparison is needed before tokens are locked.
+- **AnimatedTabs domain grouping:** Research proposes two strategies (7 individual tabs vs 4 domain-merged tabs). The optimal grouping depends on content density and visual rhythm. Defer the final tab structure to Phase 3 implementation — render both options before committing.
+- **Admin panel dark mode override:** The "wrap admin in `<div class='light'>`" strategy is identified but not fully designed. Whether admin's iframe preview should respect dark mode or be forced light is a product decision. Raise with user before Phase 1 ships.
+- **embla v9 migration readiness:** Embla v9 RC1 exists with renamed methods. Research recommends v8 for production. Flag for when v9 goes stable — migration is documented as method renames only.
 
 ## Sources
 
 ### Primary (HIGH confidence)
-- [Vite Plugin API — configureServer](https://vite.dev/guide/api-plugin) — plugin hooks, `apply: 'serve'`, `handleHotUpdate`, `ssrLoadModule`
-- [Vite Env Variables and Modes](https://vite.dev/guide/env-and-mode) — `import.meta.env.DEV` static replacement, tree-shaking behavior
-- [Vite HMR API](https://vite.dev/guide/api-hmr) — `import.meta.hot.data`, `server.ws.send`, `full-reload`
-- [Vite Server Options](https://vite.dev/config/server-options) — `server.watch` configuration for file watcher tuning
-- [shadcn/ui Forms — React Hook Form](https://ui.shadcn.com/docs/forms/react-hook-form) — official form integration docs
-- [shadcn/ui Resizable](https://ui.shadcn.com/docs/components/radix/resizable) — built on react-resizable-panels
-- [react-hook-form — useFieldArray](https://react-hook-form.com/docs/usefieldarray) — dynamic array field management docs
-- [zod v4 release notes](https://zod.dev/v4) — v4.3.6 current stable
-- [@hookform/resolvers npm](https://www.npmjs.com/package/@hookform/resolvers) — v5.2.2, Zod v4 auto-detection
-- [react-dropzone releases](https://github.com/react-dropzone/react-dropzone/releases) — v15.0.0, React 19 support confirmed
-- [formidable GitHub](https://github.com/node-formidable/formidable) — v3.x API for raw Node.js IncomingMessage
-- [react-resizable-panels v4](https://github.com/bvaughn/react-resizable-panels) — v4 direct usage, renamed exports
-- [TypeScript verbatimModuleSyntax](https://www.typescriptlang.org/tsconfig/verbatimModuleSyntax.html) — requires explicit `import type` syntax
-- [chokidar awaitWriteFinish](https://github.com/paulmillr/chokidar) — file watcher debouncing for atomic writes
-- [write-file-atomic](https://github.com/npm/write-file-atomic) — atomic write-then-rename pattern for Node.js
-- [Prettier API](https://prettier.io/docs/api) — programmatic formatting for generated TypeScript
+- [Tailwind CSS v4 Dark Mode](https://tailwindcss.com/docs/dark-mode) — dark variant configuration, media strategy, custom-variant syntax
+- [Tailwind v4 Theme Variables](https://tailwindcss.com/docs/theme) — `@theme inline`, CSS variable integration
+- [shadcn/ui Vite Dark Mode guide](https://ui.shadcn.com/docs/dark-mode/vite) — ThemeProvider implementation for Vite apps
+- [Motion useScroll docs](https://motion.dev/docs/react-use-scroll) — scroll-linked animation hooks
+- [Motion SVG Animation docs](https://motion.dev/docs/react-svg-animation) — pathLength, line drawing
+- [Motion Layout Animations docs](https://motion.dev/docs/react-layout-animations) — layoutId shared element transitions
+- [Motion Animation Performance guide](https://motion.dev/docs/performance) — compositor-friendly properties
+- [Embla Carousel React setup](https://www.embla-carousel.com/docs/get-started/react) — hook API, DOM structure, CSS
+- [embla-carousel-react npm](https://www.npmjs.com/package/embla-carousel-react) — v8.6.0 is `latest`, React 19 peer dep confirmed
+- [Web Animation Performance Tier List (Motion Magazine)](https://motion.dev/magazine/web-animation-performance-tier-list) — compositor property tier list
+- [BuildUI Animated Tabs recipe](https://buildui.com/recipes/animated-tabs) — layoutId pill pattern
 
 ### Secondary (MEDIUM confidence)
-- [shadcn-ui/ui#9136](https://github.com/shadcn-ui/ui/issues/9136) — confirmed API mismatch between shadcn/ui v4 Resizable and react-resizable-panels v4; workaround: use library directly
-- [react-hook-form RFC v8](https://github.com/orgs/react-hook-form/discussions/7433) — v8 still in beta as of research date, confirms v7 is correct choice
-- [Vite tree-shaking issue #15256](https://github.com/vitejs/vite/issues/15256) — tree-shaking edge cases with env variable guards
-- [Vite HMR internals — chokidar and module graph](https://deepwiki.com/vitejs/vite/5-hot-module-replacement-(hmr)) — HMR propagation mechanics
-- [Vite environment-specific imports discussion](https://github.com/vitejs/vite/discussions/4172) — dynamic imports inside DEV guards may still be bundled as orphan chunks
+- [21st.dev Gallery6](https://21st.dev/community/components/shadcnblockscom/gallery6) — horizontal carousel pattern with featured cards
+- [21st.dev Animated Tabs](https://21st.dev/s/tabs) — 38 tab component examples including animated shifting
+- [Lenis horizontal scroll trackpad conflict (Issue #446)](https://github.com/darkroomengineering/lenis/issues/446) — data-lenis-prevent pattern confirmed
+- [Embla + Framer Motion conflict (Issue #317)](https://github.com/davidjerleke/embla-carousel/issues/317) — LayoutGroup conflict documentation
+- [CSS gradient animation performance](https://digitalthriveai.com/en-us/resources/web-development/the-state-of-changing-gradients-with-css-transitions-and-animations/) — opacity-swap vs background-size technique
+- [Fixing dark mode flickering in React](https://notanumber.in/blog/fixing-react-dark-mode-flickering) — blocking script FOUT prevention pattern
+- [Tailwind v4 dark mode CSS variables discussion (#15083)](https://github.com/tailwindlabs/tailwindcss/discussions/15083) — `:root` / `.dark` variable pattern with `@theme inline`
 
-### Tertiary (LOW confidence)
-- [TypeScript Code Generation: Templates vs AST](https://medium.com/singapore-gds/writing-a-typescript-code-generator-templates-vs-ast-ab391e5d1f5e) — conclusion (templates fine for simple data, AST for complex) confirmed by independent reasoning but single source
+### Tertiary (LOW confidence — verify during implementation)
+- [Aceternity UI Background Gradient Animation](https://ui.aceternity.com/components/background-gradient-animation) — breathing gradient examples; verify technique matches compositor-safe pattern
+- [Scroll SVG Path with Framer Motion (dev.to)](https://dev.to/heres/scroll-svg-path-with-framer-motion-54el) — pathLength + useScroll combination; verify against official Motion SVG docs before use
 
 ---
-*Research completed: 2026-03-24*
+*Research completed: 2026-03-26*
 *Ready for roadmap: yes*

@@ -1,588 +1,594 @@
-# Architecture Patterns: Dev-Mode Admin Panel Integration
+# Architecture Research: v1.2 UI Polish & Interactivity
 
-**Domain:** Local development content management panel for existing Vite 8 + React 19 SPA
-**Researched:** 2026-03-24
-**Overall confidence:** HIGH
+**Domain:** Animated UI features integration into existing Vite 8 + React 19 + Tailwind v4 + Motion + Lenis portfolio SPA
+**Researched:** 2026-03-26
+**Confidence:** HIGH
 
 ## Executive Summary
 
-The admin panel integrates with the existing portfolio architecture through four mechanisms: (1) a custom Vite plugin providing `configureServer` middleware for file system writes, (2) conditional routing via `import.meta.env.DEV` guards with lazy-loaded admin components that are tree-shaken from production, (3) a split-pane layout with an iframe-based live preview that leverages Vite's native HMR (file writes to `src/data/*.ts` automatically trigger hot reload through chokidar), and (4) strict code boundary enforcement via directory isolation (`src/admin/`) and `import.meta.env.DEV` entry gates.
+The v1.2 milestone adds six visual/interaction features to the existing portfolio: animated gradient hero, system-preference dark/light theming, AnimatedTabs for merged skills/tooling, embla-carousel for projects, scroll-triggered SVG timeline, and a redesigned contact/footer. Every feature integrates with the current architecture through the same Motion animation system and Tailwind v4 styling. No new frameworks are needed. The only new dependency is `embla-carousel-react`.
 
-No router library is needed. No database is needed. The admin panel writes TypeScript data files and copies assets to `public/` -- the same artifacts already consumed by production components. The entire admin surface disappears from production builds through dead-code elimination.
+The critical architectural decision is the theming system. The current codebase uses oklch color variables in `:root` with a `@custom-variant dark` already declared in `app.css`. The v1.2 plan replaces the oklch-based cleanroom palette with a hex-based blue-primary variable system that serves two values per token (light and dark). This is a CSS-layer change that propagates to every component through existing Tailwind utility classes -- no component-level theme prop-drilling needed.
 
-## Recommended Architecture
+The second significant decision is replacing the bento grid project layout with a horizontal embla-carousel. This requires careful handling of the Lenis smooth scroll integration (horizontal carousel inside a vertical scroll page) and replacement of Motion's LayoutGroup expand/collapse pattern with a slide-based navigation pattern.
 
-### High-Level Component Layout
+## System Overview
 
-```
-+------------------------------------------------------+
-|  Browser (dev mode only)                              |
-|                                                       |
-|  ?admin query param or Ctrl+Shift+A toggles mode      |
-|                                                       |
-|  +--------------------------------------------------+ |
-|  | Admin Shell (split-pane layout)                   | |
-|  |                                                   | |
-|  | +-------------------+ +------------------------+ | |
-|  | | Editor Panel      | | Preview Panel (iframe) | | |
-|  | |                   | |                        | | |
-|  | | Sidebar nav +     | | <iframe src="/">       | | |
-|  | | form fields for   | | (portfolio rendered    | | |
-|  | | active content    | |  at full fidelity)     | | |
-|  | | type              | |                        | | |
-|  | |                   | | Auto-refreshes via     | | |
-|  | | [Save] writes     | | Vite HMR after file    | | |
-|  | | to /__admin-api/* | | write completes        | | |
-|  | +-------------------+ +------------------------+ | |
-|  +--------------------------------------------------+ |
-+------------------------------------------------------+
-
-+------------------------------------------------------+
-|  Vite Dev Server (Node.js)                            |
-|                                                       |
-|  vite-plugin-admin-api                                |
-|  - POST /__admin-api/content/:type  -> write TS file  |
-|  - POST /__admin-api/asset/upload   -> write to public/|
-|  - GET  /__admin-api/content/:type  -> read TS file   |
-|  - GET  /__admin-api/asset/list     -> list public/*  |
-|                                                       |
-|  Chokidar watcher (built-in):                         |
-|  - Detects src/data/*.ts changes                      |
-|  - Triggers HMR automatically                         |
-|  - iframe receives hot update                         |
-+------------------------------------------------------+
-```
-
-### Component Boundaries
-
-| Component | Responsibility | Communicates With | New/Modified |
-|-----------|---------------|-------------------|--------------|
-| `vite-plugin-admin-api` | Vite plugin: REST endpoints for reading/writing data files and uploading assets | Vite dev server (configureServer hook), filesystem | **NEW** |
-| `src/admin/AdminShell.tsx` | Top-level admin layout: sidebar nav + split-pane editor/preview | Editor components, iframe preview | **NEW** |
-| `src/admin/editors/*.tsx` | Per-content-type form editors (9 total) | admin-api via fetch, type definitions | **NEW** |
-| `src/admin/components/*.tsx` | Shared admin UI: form fields, asset uploader, JSON preview | Editors | **NEW** |
-| `src/App.tsx` | Add conditional admin entry point (~15 lines) | AdminShell (lazy import) | **MODIFIED** (minimal) |
-| `vite.config.ts` | Add adminApiPlugin() to plugins array | vite-plugin-admin-api | **MODIFIED** (1 line) |
-| `src/main.tsx` | No changes needed | App | **UNCHANGED** |
-| `src/data/*.ts` | Content data files (written to by admin API at runtime) | Components (read), admin-api (write) | **UNCHANGED** (modified by tool at runtime) |
-| `src/types/data.ts` | TypeScript interfaces for all content types | Editors, components, admin-api | **UNCHANGED** (shared contract) |
-| `public/` | Static assets (written to by admin upload API at runtime) | Components (read), admin-api (write) | **UNCHANGED** (modified by tool at runtime) |
-
-### Data Flow
+### Current Architecture (v1.1)
 
 ```
-1. User edits content in admin form
-2. Form state managed locally in editor component (useState)
-3. [Save] button triggers POST to /__admin-api/content/:type
-4. Vite plugin middleware receives request, generates TypeScript source
-5. Plugin writes to src/data/:type.ts via fs.promises.writeFile
-6. Chokidar detects file change (automatic -- src/ is watched by default)
-7. Vite HMR pipeline processes the change, finds importing modules
-8. iframe (loading the portfolio at /) receives hot module update
-9. Portfolio re-renders with new data (no full page reload for most changes)
++-------------------------------------------------------------------+
+|  App.tsx                                                          |
+|  MotionConfig reducedMotion="user"                                |
+|    +-------------------------------------------------------------+|
+|    | SmoothScroll (Lenis + Motion frame sync)                    ||
+|    |   +-------------------------------------------------------+ ||
+|    |   | Navigation (scroll-spy + AnimatePresence)             | ||
+|    |   +-------------------------------------------------------+ ||
+|    |   | <main>                                                | ||
+|    |   |   Hero (HeroContent + ScrollIndicator)                | ||
+|    |   |   WhoAmI (NoisyBackground + portrait + bio)           | ||
+|    |   |   Skills (NoisyBackground + skill groups grid)        | ||
+|    |   |   Tooling (NoisyBackground + tooling groups grid)     | ||
+|    |   |   Timeline (AnimatedGridPattern + useScroll nodes)    | ||
+|    |   |   ProjectsSection (LayoutGroup + bento grid + cards)  | ||
+|    |   |   PapersSection                                       | ||
+|    |   | </main>                                               | ||
+|    |   | <footer>                                              | ||
+|    |   |   Contact (gradient + email + resume + social)        | ||
+|    |   | </footer>                                             | ||
+|    |   +-------------------------------------------------------+ ||
+|    +-------------------------------------------------------------+||
++-------------------------------------------------------------------+
 ```
 
-For asset uploads:
+### Target Architecture (v1.2)
+
 ```
-1. User drags file onto upload zone in editor
-2. FormData POST to /__admin-api/asset/upload with target directory
-3. Plugin writes file to public/:directory/:filename
-4. Plugin returns the public URL path (e.g., /projects/new-image.png)
-5. User references this path in the content form
-6. Saving content triggers data file write -> HMR cycle above
-7. For immediate asset visibility: plugin sends server.ws.send({ type: 'full-reload' })
++-------------------------------------------------------------------+
+|  App.tsx                                                          |
+|  ThemeProvider defaultTheme="system"                              |
+|    MotionConfig reducedMotion="user"                              |
+|      +-----------------------------------------------------------+|
+|      | SmoothScroll (Lenis + Motion frame sync)                  ||
+|      |   +----------------------------------------------------- +||
+|      |   | Navigation (scroll-spy -- UPDATED section IDs)       |||
+|      |   +------------------------------------------------------+||
+|      |   | UnifiedBackground (single gradient across all)       |||
+|      |   |   <main>                                             |||
+|      |   |     Hero (AnimatedGradientBg + HeroContent)          |||
+|      |   |     WhoAmI (transparent bg, inherits unified)        |||
+|      |   |     SkillsAndTooling (AnimatedTabs + merged data)    |||
+|      |   |     Timeline (SVG path + glow nodes + useScroll)     |||
+|      |   |     ProjectCarousel (embla + featured-first)         |||
+|      |   |     PapersSection (minor style updates)              |||
+|      |   |   </main>                                            |||
+|      |   |   <footer>                                           |||
+|      |   |     ContactFooter ("Let's Work Together" layout)     |||
+|      |   |   </footer>                                          |||
+|      |   +------------------------------------------------------+||
+|      +-----------------------------------------------------------+||
++-------------------------------------------------------------------+
 ```
 
-## Architecture Decision 1: Routing Strategy
+### Component Change Map
 
-### Decision: `import.meta.env.DEV` guard with query parameter toggle -- no router needed
+| Component | Status | What Changes |
+|-----------|--------|-------------|
+| `App.tsx` | **MODIFIED** | Wrap with ThemeProvider; replace Skills+Tooling with SkillsAndTooling; replace ProjectsSection with ProjectCarousel; replace Contact with ContactFooter |
+| `src/styles/app.css` | **MODIFIED** | Replace oklch palette with blue-primary hex variables; add `:root` and `.dark` variable blocks; update `@theme inline` mappings; add gradient keyframes |
+| `src/styles/motion.ts` | **UNCHANGED** | Existing variants and easing work as-is |
+| `src/components/hero/Hero.tsx` | **MODIFIED** | Add AnimatedGradientBg as background layer |
+| `src/components/hero/HeroContent.tsx` | **MODIFIED** | Update color classes from oklch to semantic tokens |
+| `src/components/layout/Navigation.tsx` | **MODIFIED** | Update section IDs array (Skills+Tooling merged); update color classes for dark mode |
+| `src/components/layout/SmoothScroll.tsx` | **UNCHANGED** | Lenis config stays the same |
+| `src/components/sections/WhoAmI.tsx` | **MODIFIED** | Remove NoisyBackground wrapper; use transparent bg over unified background; update color classes |
+| `src/components/sections/Skills.tsx` | **REMOVED** | Merged into SkillsAndTooling |
+| `src/components/sections/Tooling.tsx` | **REMOVED** | Merged into SkillsAndTooling |
+| `src/components/sections/Timeline.tsx` | **REPLACED** | New vertical SVG timeline with glow nodes and scroll-triggered path drawing |
+| `src/components/sections/Contact.tsx` | **REPLACED** | New "Let's Work Together" layout with redesigned footer |
+| `src/components/projects/ProjectsSection.tsx` | **REPLACED** | New embla-carousel horizontal layout |
+| `src/components/projects/ProjectCard.tsx` | **MODIFIED** | Adapted for carousel slide context (no LayoutGroup expand) |
+| `src/components/effects/NoisyBackground.tsx` | **DEPRECATED** | No longer used by any section (unified bg replaces per-section backgrounds) |
+| `src/components/effects/AnimatedGridPattern.tsx` | **DEPRECATED** | Replaced by SVG timeline effect |
+| `src/components/effects/AuroraBackground.tsx` | **ALREADY UNUSED** | Was descoped in v1.0 |
+| `src/data/navigation.ts` | **MODIFIED** | Update section refs (skills+tooling merged into one) |
+| `src/data/skills.ts` | **UNCHANGED** | Data structure stays, consumed by new component |
+| `src/data/tooling.ts` | **UNCHANGED** | Data structure stays, consumed by new component |
+| `src/types/data.ts` | **UNCHANGED** | No type changes needed |
+| `src/hooks/useActiveSection.ts` | **MODIFIED** | Update section IDs (remove 'tooling', keep 'skills' or rename to 'expertise') |
 
-**Why not a separate entry point / separate HTML file:**
-The portfolio is a single-page app with one `index.html`. Adding a second HTML entry would require Vite multi-page configuration (`build.rolldownOptions.input`), complicate the dev server, and create two separate React trees that cannot share types easily. Overkill for a dev tool.
+### New Components
 
-**Why not react-router:**
-The portfolio has zero routing today -- it is a scroll-based SPA with hash anchors. Adding react-router just for the admin panel introduces a dependency, complicates deployment (Vercel SPA rewrite rules), and changes the production architecture for a dev-only feature.
+| Component | Purpose | Key Dependencies |
+|-----------|---------|-----------------|
+| `src/components/theme/ThemeProvider.tsx` | React context for system-preference theme detection; applies `.dark` class to `<html>` | React context, matchMedia API |
+| `src/components/effects/AnimatedGradientBg.tsx` | Radial gradient with breathing animation for hero section | CSS keyframes, opacity layering |
+| `src/components/effects/UnifiedBackground.tsx` | Single smooth gradient background spanning all sections | CSS variables for theme-aware colors |
+| `src/components/sections/SkillsAndTooling.tsx` | Merged section with AnimatedTabs switching between domain groups | Motion layoutId, skills+tooling data |
+| `src/components/ui/AnimatedTabs.tsx` | Glassmorphic tab bar with Motion sliding pill indicator | Motion layoutId, backdrop-filter |
+| `src/components/sections/TimelineV2.tsx` | Vertical SVG timeline with glow nodes and scroll-triggered path | Motion useScroll, useTransform, SVG pathLength |
+| `src/components/projects/ProjectCarousel.tsx` | Embla-carousel horizontal project showcase with featured-first ordering | embla-carousel-react, existing ProjectCard |
+| `src/components/sections/ContactFooter.tsx` | "Let's Work Together" heading + direct links + minimal footer | Existing contact data |
 
-**Why not a Vite plugin that serves separate admin HTML:**
-This would be a "Vite-served but React-separate" approach. While technically clean for code isolation, it prevents sharing React context, component libraries (shadcn/ui), Tailwind configuration, and TypeScript types without complex build gymnastics. The admin panel needs the same shadcn/ui components and Tailwind v4 setup.
+## Data Flow
 
-**Chosen approach:** A single conditional branch in `App.tsx` that checks for `import.meta.env.DEV` and a URL query parameter (`?admin`) or keyboard shortcut. The admin module tree is lazily imported so it creates a separate chunk that Vite's dead-code elimination removes entirely in production.
+### Theme Switching Flow
 
+```
+System preference changes (OS level)
+    |
+    v
+matchMedia("(prefers-color-scheme: dark)") fires event
+    |
+    v
+ThemeProvider listener receives change
+    |
+    v
+ThemeProvider updates <html> class: add/remove "dark"
+    |
+    v
+CSS variables in :root vs .dark selectors activate
+    |
+    v
+All Tailwind dark: utilities and CSS var() references
+re-resolve automatically (zero React re-renders for color changes)
+```
+
+This is critical: the theme switch happens entirely in CSS. The ThemeProvider only manages the `.dark` class on `<html>`. Components do NOT need a `theme` prop or `useTheme()` hook for styling -- they use Tailwind's `dark:` variant and CSS `var()` references. The only time `useTheme()` would be called is if a component needs to know the current theme for logic (not styling), which is unlikely in this portfolio.
+
+### CSS Variable Architecture
+
+```css
+/* Light mode (default) */
+:root {
+  --blue-primary: #3b82f6;
+  --blue-primary-soft: #60a5fa;
+  --bg-base: #ffffff;
+  --bg-surface: #f8fafc;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --border-default: #e2e8f0;
+  --gradient-hero-from: #dbeafe;
+  --gradient-hero-to: #ffffff;
+}
+
+/* Dark mode */
+.dark {
+  --blue-primary: #60a5fa;
+  --blue-primary-soft: #93c5fd;
+  --bg-base: #0f172a;
+  --bg-surface: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border-default: #334155;
+  --gradient-hero-from: #1e3a5f;
+  --gradient-hero-to: #0f172a;
+}
+
+@theme inline {
+  --color-primary: var(--blue-primary);
+  --color-surface: var(--bg-surface);
+  /* ...etc */
+}
+```
+
+This replaces the current oklch cleanroom palette. The `@custom-variant dark (&:is(.dark *))` line already in `app.css` enables `dark:` utilities, but the current CSS has no `.dark` variable overrides. v1.2 adds them.
+
+### Animated Gradient Hero Data Flow
+
+```
+CSS keyframes (breathing animation)
+    |
+    v
+Two layered radial-gradient divs
+    |
+    Layer 1: Static gradient (always visible)
+    Layer 2: Offset gradient, opacity oscillates 0 -> 0.6 -> 0 via keyframes
+    |
+    v
+Composited by GPU (opacity is compositor-friendly -- no repaints)
+    |
+    v
+prefers-reduced-motion: reduce -> animation: none (CSS only)
+```
+
+No JavaScript drives the gradient animation. Pure CSS with `@keyframes`. This aligns with the existing `animate-aurora` keyframe pattern already in `app.css` (which will be replaced). The breathing effect uses the opacity-layering technique because animating `background-position` or `background-size` on gradients triggers expensive repaints. Opacity animation is GPU-composited.
+
+### AnimatedTabs State Flow
+
+```
+User clicks tab "RF" or "Digital"
+    |
+    v
+SkillsAndTooling: setActiveTab("rf")
+    |
+    v
+AnimatedTabs renders:
+  - All tab buttons with layoutId-aware pill indicator
+  - motion.div with layoutId="active-pill" animates to new position
+    |
+    v
+Tab panel content:
+  - AnimatePresence crossfades between domain content
+  - Skill list for active domain renders with fadeUpVariant
+    |
+    v
+Data source: merged skillGroups + toolingGroups from existing data files
+  - Each tab = one engineering domain
+  - Tab content = skills + tools for that domain
+```
+
+The AnimatedTabs pattern uses Motion's `layoutId` for the sliding pill indicator -- the standard approach documented by Motion and used by buildui.com. No external tab library needed. The glassmorphic effect is achieved with `backdrop-filter: blur()` + semi-transparent background + border, all in Tailwind utilities.
+
+### Embla Carousel Integration Flow
+
+```
+ProjectCarousel mounts
+    |
+    v
+useEmblaCarousel({ loop: false, align: 'start' })
+  returns [emblaRef, emblaApi]
+    |
+    v
+Carousel DOM:
+  <div ref={emblaRef} class="overflow-hidden">   (viewport)
+    <div class="flex touch-action-pan-y">         (container)
+      {sortedProjects.map(p => (
+        <div class="flex-[0_0_80%] md:flex-[0_0_45%]">  (slide)
+          <ProjectCard project={p} />
+        </div>
+      ))}
+    </div>
+  </div>
+    |
+    v
+Navigation: prev/next buttons call emblaApi.scrollPrev()/scrollNext()
+Dots: emblaApi.scrollSnapList() + onSelect event for active dot
+    |
+    v
+Featured project sorting: projects.sort((a,b) => b.featured - a.featured)
+  ensures featured projects appear in the first slide positions
+```
+
+Key Lenis interaction: Embla handles horizontal touch/drag internally via `touch-action: pan-y pinch-zoom` on the container, which tells the browser "vertical scrolling is handled by the page (Lenis), horizontal gestures belong to the carousel." This is the standard embla CSS. No special Lenis configuration needed.
+
+### Scroll-Triggered SVG Timeline Flow
+
+```
+TimelineV2 mounts
+    |
+    v
+useScroll({ target: containerRef, offset: ['start 0.7', 'end 0.5'] })
+  returns { scrollYProgress }  (MotionValue<number> from 0 to 1)
+    |
+    v
+SVG structure:
+  <svg viewBox="0 0 24 {totalHeight}">
+    <!-- Track line (faint, always visible) -->
+    <path d="M 12 0 V {totalHeight}" stroke="var(--border-default)" />
+
+    <!-- Animated progress line (draws on scroll) -->
+    <motion.path
+      d="M 12 0 V {totalHeight}"
+      stroke="var(--blue-primary)"
+      strokeWidth={2}
+      pathLength={scrollYProgress}  // directly bound to scroll
+      style={{ pathLength: scrollYProgress }}
+    />
+
+    <!-- Glow nodes at milestone positions -->
+    {milestones.map((m, i) => (
+      <TimelineNode
+        y={nodePositions[i]}
+        isActive={scrollProgress >= threshold[i]}
+        milestone={m}
+      />
+    ))}
+  </svg>
+    |
+    v
+Glow effect on nodes:
+  - CSS box-shadow with blue-primary color
+  - Opacity/scale transition on isActive state change
+  - SVG <circle> with filter: drop-shadow() for glow
+```
+
+This replaces the current div-based timeline. The key difference: the current timeline uses a `motion.div` with `scaleY` for the progress line. The new version uses an actual SVG `<path>` with `pathLength` driven by `scrollYProgress`, giving smoother rendering and enabling the glow-node effect. Motion's `pathLength` animation is GPU-composited.
+
+Lenis compatibility: Motion's `useScroll` works with Lenis because both use the same `scrollY` value from the Lenis-managed scroll position. The existing codebase already has this working (current Timeline.tsx uses `useScroll` with Lenis active).
+
+## Architectural Patterns
+
+### Pattern 1: CSS-Only Theme Switching
+
+**What:** All theme-dependent colors are CSS custom properties. Theme changes toggle a class on `<html>`, causing all `var()` references to re-resolve. Zero React re-renders for color changes.
+
+**When to use:** Always for visual theming. Components should never use `useTheme()` for deciding colors -- use `dark:` Tailwind utilities or `var(--token-name)` in style props.
+
+**Trade-offs:**
+- Pro: Near-instant theme switch with no VDOM diffing
+- Pro: CSS variables compose with Tailwind's `dark:` variant naturally
+- Pro: Works with `prefers-color-scheme` media query at the CSS level too
+- Con: Cannot do complex logic based on theme (but this portfolio does not need to)
+
+**Example:**
 ```tsx
-// src/App.tsx (modified -- showing only additions)
-import { lazy, Suspense, useState, useEffect } from 'react';
+// Good -- uses Tailwind dark: variant
+<h2 className="text-primary dark:text-primary">Title</h2>
 
-// Static replacement: in production, import.meta.env.DEV becomes false,
-// so the lazy() call is dead code and tree-shaken by Rolldown.
-const AdminShell = import.meta.env.DEV
-  ? lazy(() => import('./admin/AdminShell'))
-  : null;
+// Good -- uses CSS variables that change with theme
+<div style={{ background: 'var(--bg-surface)' }}>...</div>
 
-function App() {
-  const [showAdmin, setShowAdmin] = useState(false);
-
-  useEffect(() => {
-    if (!import.meta.env.DEV) return;
-    // Activate via ?admin query param
-    if (new URLSearchParams(window.location.search).has('admin')) {
-      setShowAdmin(true);
-    }
-    // Toggle via Ctrl+Shift+A keyboard shortcut
-    const handler = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.shiftKey && e.key === 'A') {
-        setShowAdmin(prev => !prev);
-      }
-    };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, []);
-
-  // When admin is active, replace entire page with admin shell
-  if (showAdmin && AdminShell) {
-    return (
-      <Suspense fallback={<div className="p-8 text-lg">Loading admin...</div>}>
-        <AdminShell onExit={() => setShowAdmin(false)} />
-      </Suspense>
-    );
-  }
-
-  // Existing portfolio (completely unchanged)
-  return (
-    <MotionConfig reducedMotion="user">
-      {/* ... existing JSX ... */}
-    </MotionConfig>
-  );
-}
+// Bad -- unnecessary JS coupling
+const { theme } = useTheme();
+<h2 className={theme === 'dark' ? 'text-white' : 'text-black'}>Title</h2>
 ```
 
-**Confidence:** HIGH -- `import.meta.env.DEV` static replacement is documented by Vite as enabling tree-shaking. The ternary assigning `AdminShell` to `null` in production means the `lazy()` import is never created, so the chunk is never generated.
+### Pattern 2: GPU-Composited Gradient Animation
 
-## Architecture Decision 2: File System Write Mechanism
+**What:** Animate gradient breathing by layering two gradient divs and oscillating the top layer's `opacity`, rather than animating `background-position` or `background-size`.
 
-### Decision: Custom Vite plugin with `configureServer` middleware
+**When to use:** Animated gradient hero background, and any future animated gradient effects.
 
-The admin panel needs to write to the local filesystem from the browser. The browser cannot write files directly. The solution is a Vite plugin that adds REST API endpoints to the dev server.
+**Trade-offs:**
+- Pro: `opacity` is composited on the GPU without triggering repaints
+- Pro: Smooth 60fps even on mobile
+- Con: Requires two DOM elements instead of one
 
-**Why a Vite plugin (not a standalone Express server):**
-- Runs on the same port -- no CORS, no separate process to manage
-- Only exists during `vite dev` -- automatically absent in production
-- Has access to the Vite server instance for HMR signaling if needed
-- The `configureServer` hook is the official Vite mechanism for this pattern
-
-**Plugin shape:**
-
-```typescript
-// vite-plugin-admin-api.ts
-import fs from 'fs/promises';
-import path from 'path';
-import type { Plugin } from 'vite';
-
-// Maps content type names to file metadata for generation
-const CONTENT_REGISTRY = {
-  hero:       { file: 'hero.ts',       type: 'HeroData',          export: 'heroData',      isArray: false },
-  projects:   { file: 'projects.ts',   type: 'Project',           export: 'projects',      isArray: true },
-  papers:     { file: 'papers.ts',     type: 'Paper',             export: 'papers',        isArray: true },
-  skills:     { file: 'skills.ts',     type: 'SkillGroup',        export: 'skillGroups',   isArray: true },
-  tooling:    { file: 'tooling.ts',    type: 'ToolingGroup',      export: 'toolingGroups', isArray: true },
-  timeline:   { file: 'timeline.ts',   type: 'TimelineMilestone', export: 'milestones',    isArray: true },
-  contact:    { file: 'contact.ts',    type: 'ContactData',       export: 'contactData',   isArray: false },
-  navigation: { file: 'navigation.ts', type: 'NavItem',           export: 'navItems',      isArray: true },
-  coursework: { file: 'coursework.ts', type: 'Course',            export: 'courses',       isArray: true },
-} as const;
-
-export function adminApiPlugin(): Plugin {
-  return {
-    name: 'admin-api',
-    apply: 'serve', // Only runs during vite dev, never during build
-
-    configureServer(server) {
-      // Return function so middleware runs AFTER Vite's internal middleware
-      return () => {
-        server.middlewares.use(async (req, res, next) => {
-          if (!req.url?.startsWith('/__admin-api/')) return next();
-
-          // Parse URL: /__admin-api/content/:type or /__admin-api/asset/upload
-          // For GET: read and parse the TypeScript data file, return JSON
-          // For POST content: receive JSON, generate TS source, write file
-          // For POST asset: receive multipart form data, write to public/
-          // After asset upload: server.ws.send({ type: 'full-reload' })
-        });
-      };
-    },
-  };
-}
-```
-
-**Why `apply: 'serve'`:**
-This is the Vite-native way to ensure a plugin only runs during development. The plugin is completely absent during `vite build`. No dead-code elimination needed -- the plugin literally does not execute.
-
-**Why `/__admin-api/` prefix:**
-The double-underscore prefix follows Vite's own convention (e.g., `/__vite_ping`). It avoids collisions with public assets and makes it obvious these are internal dev endpoints.
-
-**Confidence:** HIGH -- `configureServer` is the documented Vite Plugin API for adding custom middleware. The `apply: 'serve'` option is documented. The connect middleware pattern used by Vite is standard Node.js.
-
-### TypeScript File Generation Strategy
-
-Each data file follows a predictable pattern:
-```typescript
-import type { TypeName } from '../types/data';
-
-export const exportName: TypeName[] = [ /* JSON-serializable value */ ];
-```
-
-The admin API receives JSON from the form, validates it, and generates the file using template-based generation:
-
-```typescript
-function generateDataFile(
-  typeName: string,
-  exportName: string,
-  data: unknown,
-  isArray: boolean
-): string {
-  const typeAnnotation = isArray ? `${typeName}[]` : typeName;
-  const serialized = JSON.stringify(data, null, 2);
-  return [
-    `import type { ${typeName} } from '../types/data';`,
-    '',
-    `export const ${exportName}: ${typeAnnotation} = ${serialized};`,
-    '',
-  ].join('\n');
-}
-```
-
-**Why not AST manipulation (ts-morph, recast):**
-The data files are simple (single typed export, no logic, no computed values). Template-based generation is predictable, has zero dependencies, and produces files identical to the existing hand-written format. AST manipulation tools like ts-morph add 10+ MB of dependencies for no benefit here.
-
-**Why not write JSON and import it:**
-The existing codebase uses `.ts` data files with typed exports. Changing to `.json` would require modifying every component's import, lose TypeScript type annotations on the exports, and change the established project pattern.
-
-### Reading Data Files (GET Endpoint)
-
-For the GET endpoint, the plugin reads the TypeScript source file and extracts the JSON data. Two approaches:
-
-1. **Simple regex extraction:** Match the export assignment, extract the value between `= ` and `;`, parse as JSON. Works because the data is JSON-compatible (no template literals, no function calls).
-
-2. **Dynamic import via Vite's module system:** Use `server.ssrLoadModule()` to load the data file through Vite's transform pipeline, getting the actual exported value. This is more robust but slightly more complex.
-
-**Recommendation:** Use `ssrLoadModule` for reads -- it handles the TypeScript transform automatically and returns the live exported value. This guarantees the admin panel always shows exactly what the components see.
-
-```typescript
-// Inside configureServer middleware for GET requests:
-const mod = await server.ssrLoadModule(`/src/data/${entry.file}`);
-const data = mod[entry.export];
-res.setHeader('Content-Type', 'application/json');
-res.end(JSON.stringify(data));
-```
-
-## Architecture Decision 3: Live Preview Mechanism
-
-### Decision: Iframe pointing to `localhost:PORT/` with Vite's native HMR
-
-**Why iframe (not re-rendering in the same React tree):**
-- The portfolio uses Lenis smooth scroll, Motion layout animations, and section-specific scroll observers. Rendering it inline within the admin panel would conflict with the admin's own scroll context.
-- An iframe provides complete isolation -- the portfolio renders exactly as it would in production, with its own scroll container, animations, and event handlers.
-- Changes are reflected through Vite's HMR, which already works in the iframe because it loads the same Vite dev server.
-
-**Why not a separate Vite dev server instance:**
-The iframe loads `http://localhost:5173/` (the same dev server). No second server is needed. The admin panel and the portfolio are served from the same origin, so there are no CORS issues with the iframe.
-
-**How the HMR refresh cycle works:**
-
-```
-1. Admin form [Save] -> POST /__admin-api/content/projects
-2. Plugin writes src/data/projects.ts via fs.promises.writeFile
-3. Chokidar (Vite built-in) detects file change in src/
-4. Vite HMR processes: finds modules importing projects.ts
-5. Module graph propagation: ProjectsSection.tsx accepts update
-6. iframe's Vite HMR client receives the update via WebSocket
-7. React components re-render with new project data
-8. No full page reload -- just the changed section updates
-```
-
-This is zero-configuration. Vite already watches all files under `src/`. Writing a `.ts` file in `src/data/` is indistinguishable from a developer editing it in VS Code. The HMR pipeline handles it automatically.
-
-**For asset changes** (images, PDFs uploaded to `public/`):
-Files in `public/` are not part of the module graph, so changing them does not trigger HMR. After asset upload, the admin API sends a full-reload signal:
-```typescript
-server.ws.send({ type: 'full-reload' });
-```
-Full reload is acceptable because asset uploads are infrequent (user uploads a file, then continues editing the content form).
-
-**Split-pane implementation:**
-Use `react-resizable-panels` v4 directly (not through shadcn/ui's Resizable wrapper). The v4 library renamed its exports (`PanelGroup` -> `Group`, `PanelResizeHandle` -> `Separator`), and shadcn/ui v4's Resizable component has a known API mismatch with these new names (tracked in shadcn-ui/ui#9136). Using the library directly requires only three components and avoids the wrapper bug.
-
+**Example:**
 ```tsx
-// src/admin/AdminShell.tsx (conceptual)
-import { Group, Panel, Separator } from 'react-resizable-panels';
-
-export default function AdminShell({ onExit }: { onExit: () => void }) {
+function AnimatedGradientBg() {
   return (
-    <div className="h-screen flex flex-col">
-      <AdminHeader onExit={onExit} />
-      <Group direction="horizontal" className="flex-1">
-        <Panel defaultSize={40} minSize={25}>
-          <AdminSidebar />
-          <EditorArea />
-        </Panel>
-        <Separator className="w-1.5 bg-zinc-800 hover:bg-purple-500 transition-colors" />
-        <Panel defaultSize={60} minSize={30}>
-          <AdminPreview />
-        </Panel>
-      </Group>
+    <div className="absolute inset-0" aria-hidden="true">
+      {/* Base gradient -- always visible */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,var(--gradient-hero-from),var(--gradient-hero-to))]" />
+      {/* Breathing layer -- opacity pulses */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--blue-primary-soft)/20,transparent_70%)] animate-breathe" />
     </div>
   );
 }
 ```
 
-**Confidence:** HIGH -- Vite's chokidar-based file watching of `src/` is core documented behavior. The HMR propagation from data files through importing components is standard Vite module graph behavior.
-
-## Architecture Decision 4: Admin/Production Code Boundary
-
-### Decision: Directory isolation + `import.meta.env.DEV` entry gate + `apply: 'serve'` plugin
-
-**Four layers of protection ensure zero admin code in production:**
-
-1. **Directory isolation:** All admin UI code lives under `src/admin/`. No production component imports from `src/admin/`. The import graph is one-directional: admin imports from `src/types/` and `src/components/ui/` (shared), but production code never imports from `src/admin/`.
-
-2. **Lazy import behind `import.meta.env.DEV` guard:** The only reference to `src/admin/` from production code is in `App.tsx`, behind a compile-time constant:
-   ```tsx
-   const AdminShell = import.meta.env.DEV
-     ? lazy(() => import('./admin/AdminShell'))
-     : null;
-   ```
-   In production, `import.meta.env.DEV` is statically replaced with `false`, the ternary resolves to `null`, and the `lazy(() => import(...))` is dead code that Rolldown eliminates.
-
-3. **Vite plugin with `apply: 'serve'`:** The admin API plugin only runs during `vite dev`. During `vite build`, the plugin is not applied at all.
-
-4. **Dev-only dependency:** `react-resizable-panels` goes in `devDependencies` in package.json. The production build will not include it because the only code path that imports it (`src/admin/`) is dead-code-eliminated.
-
-**Verification strategy:**
-```bash
-vite build
-# After build, verify no admin code leaked:
-grep -r "admin" dist/   # should return zero matches
-grep -r "AdminShell" dist/   # should return zero matches
+```css
+@keyframes breathe {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.7; }
+}
+.animate-breathe {
+  animation: breathe 8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-breathe { animation: none; opacity: 0.5; }
+}
 ```
 
-**Confidence:** HIGH -- This is the documented pattern for dev-only code in Vite applications. The `import.meta.env.DEV` dead-code elimination is explicitly called out in Vite's documentation.
+### Pattern 3: Motion layoutId for Tab Indicators
 
-## Admin Directory Structure
+**What:** Use Motion's `layoutId` prop on the active tab's pill/underline element. When the active tab changes, Motion automatically animates the indicator from old position to new position.
 
-```
-src/admin/
-  AdminShell.tsx           # Main layout: header + split pane (editor | preview)
-  AdminHeader.tsx          # Top bar: content type tabs, exit button
-  AdminSidebar.tsx         # Left sidebar: navigation between 9 content types
-  AdminPreview.tsx         # Iframe wrapper pointing to localhost, reload button
-  api.ts                   # Fetch helpers for /__admin-api/* endpoints
-  editors/
-    HeroEditor.tsx         # Form for hero data (name, subtitle, narrative, social links)
-    ProjectsEditor.tsx     # Form for projects array (add/remove/reorder)
-    PapersEditor.tsx       # Form for papers array with PDF upload
-    SkillsEditor.tsx       # Form for skill groups (domain + skills list)
-    ToolingEditor.tsx      # Form for tooling groups (category + items list)
-    TimelineEditor.tsx     # Form for timeline milestones (date + title + desc)
-    ContactEditor.tsx      # Form for contact data (tagline, email, resume, social)
-    NavigationEditor.tsx   # Form for nav items (label, href, nested children)
-    CourseworkEditor.tsx   # Form for courses (code, name, descriptor)
-  components/
-    AssetUploader.tsx      # Drag-drop file upload zone (images, PDFs)
-    ArrayFieldEditor.tsx   # Generic add/remove/reorder for array content types
-    FormField.tsx          # Labeled input with validation feedback
-    NestedObjectField.tsx  # Editable sub-objects (e.g., social links within hero)
-    JsonPreview.tsx        # Raw JSON view toggle for debugging
-```
+**When to use:** AnimatedTabs component for skills/tooling section.
 
-### Editor Pattern
+**Trade-offs:**
+- Pro: Smooth, spring-based animation with zero manual position calculation
+- Pro: The `layoutId` system is built into Motion (already a dependency)
+- Con: Requires AnimatePresence or LayoutGroup ancestor for proper cleanup
 
-Each editor follows the same pattern to keep implementation consistent:
-
+**Example:**
 ```tsx
-// Pattern: each editor loads data on mount, manages form state locally,
-// saves via POST, and relies on HMR for preview updates.
-export function ProjectsEditor() {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    fetchContent<Project[]>('projects').then(setProjects);
-  }, []);
-
-  const handleSave = async () => {
-    setSaving(true);
-    await saveContent('projects', projects);
-    setSaving(false);
-    // No manual refresh needed -- writing src/data/projects.ts triggers HMR
-    // and the iframe preview updates automatically
-  };
-
+function AnimatedTabs({ tabs, activeTab, onChange }) {
   return (
-    <form onSubmit={e => { e.preventDefault(); handleSave(); }}>
-      {/* ArrayFieldEditor for add/remove/reorder */}
-      {/* Per-item fields: id, title, brief, summary, thumbnail, etc. */}
-      <button type="submit" disabled={saving}>
-        {saving ? 'Saving...' : 'Save'}
-      </button>
-    </form>
+    <div className="relative flex gap-1 rounded-xl bg-surface/50 p-1 backdrop-blur-sm">
+      {tabs.map((tab) => (
+        <button
+          key={tab.id}
+          onClick={() => onChange(tab.id)}
+          className="relative z-10 px-4 py-2 text-sm"
+        >
+          {tab.label}
+          {activeTab === tab.id && (
+            <motion.div
+              layoutId="active-tab-pill"
+              className="absolute inset-0 rounded-lg bg-white/80 dark:bg-white/10 shadow-sm backdrop-blur"
+              transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+            />
+          )}
+        </button>
+      ))}
+    </div>
   );
 }
 ```
 
-### Admin API Client
+### Pattern 4: Embla Carousel with Lenis Coexistence
 
-```typescript
-// src/admin/api.ts
-const API_BASE = '/__admin-api';
+**What:** Use `touch-action: pan-y pinch-zoom` on the embla container to delegate vertical scrolling to Lenis while embla handles horizontal drag gestures. No Lenis configuration changes needed.
 
-export async function fetchContent<T>(type: string): Promise<T> {
-  const res = await fetch(`${API_BASE}/content/${type}`);
-  if (!res.ok) throw new Error(`Failed to fetch ${type}: ${res.statusText}`);
-  return res.json();
-}
+**When to use:** Any horizontal carousel embedded in the vertical scroll page.
 
-export async function saveContent(type: string, data: unknown): Promise<void> {
-  const res = await fetch(`${API_BASE}/content/${type}`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data),
-  });
-  if (!res.ok) throw new Error(`Failed to save ${type}: ${res.statusText}`);
-}
+**Trade-offs:**
+- Pro: Browser-native gesture disambiguation (no JS conflict resolution)
+- Pro: Embla's wheel-gestures plugin is NOT needed (avoid it -- it would conflict with Lenis's wheel handling)
+- Con: Mouse wheel does not scroll the carousel horizontally (by design -- wheel stays vertical for page scroll)
 
-export async function uploadAsset(file: File, directory: string): Promise<string> {
-  const form = new FormData();
-  form.append('file', file);
-  form.append('directory', directory);
-  const res = await fetch(`${API_BASE}/asset/upload`, {
-    method: 'POST',
-    body: form,
-  });
-  if (!res.ok) throw new Error('Upload failed');
-  const { path } = await res.json();
-  return path; // e.g., "/projects/my-image.png"
-}
+### Pattern 5: Scroll-Linked SVG pathLength
+
+**What:** Bind an SVG path's `pathLength` style property directly to a `useScroll` motion value. The path draws progressively as the user scrolls through the timeline section.
+
+**When to use:** Timeline progress visualization.
+
+**Trade-offs:**
+- Pro: Zero JavaScript per-frame -- Motion optimizes to CSS or native ScrollTimeline where available
+- Pro: Silky smooth because pathLength is compositor-friendly
+- Con: SVG path must have `pathLength="1"` attribute and `stroke-dasharray="1"` + `stroke-dashoffset="1"` for the technique to work correctly
+
+**Example:**
+```tsx
+const { scrollYProgress } = useScroll({
+  target: containerRef,
+  offset: ['start 0.7', 'end 0.5'],
+});
+
+<motion.path
+  d={`M 12 0 V ${totalHeight}`}
+  stroke="var(--blue-primary)"
+  strokeWidth={2}
+  fill="none"
+  pathLength="1"
+  style={{
+    pathLength: scrollYProgress,
+    strokeDasharray: 1,
+    strokeDashoffset: 0,
+  }}
+/>
 ```
 
-## Patterns to Follow
+## Anti-Patterns
 
-### Pattern 1: Type-Safe Admin-to-Data Contract
+### Anti-Pattern 1: JavaScript-Driven Theme Colors
 
-**What:** The admin editors and the portfolio components share `src/types/data.ts` as the single source of truth for content shape. The admin API validates incoming JSON against these structures before writing.
+**What people do:** Use `useTheme()` in every component to conditionally set colors based on the current theme string.
 
-**When:** Always. Every content type flows through the same typed interface.
+**Why it's wrong:** Creates unnecessary React re-renders on every theme change. Every component that calls `useTheme()` re-renders when theme toggles, even though CSS variables handle this automatically.
 
-**Why:** Prevents the admin panel from writing malformed data that would crash the portfolio.
+**Do this instead:** Define all theme-dependent colors as CSS custom properties with `:root` and `.dark` blocks. Use Tailwind's `dark:` variant or `var()` in styles. The ThemeProvider only manages the `.dark` class on `<html>`.
 
-### Pattern 2: Optimistic UI with HMR Confirmation
+### Anti-Pattern 2: Animating background-image or background-size for Gradient Effects
 
-**What:** The admin editor updates its local state immediately on save (optimistic), then the iframe's HMR-driven re-render serves as visual confirmation that the write succeeded.
+**What people do:** Use CSS `@keyframes` that animate `background-size: 200% 200%` or `background-position` on a gradient.
 
-**When:** Every save operation.
+**Why it's wrong:** Forces the browser to recalculate and repaint the gradient every frame. This runs on the main thread, not the GPU compositor. Causes jank on mobile and lower-powered devices.
 
-**Why:** Provides instant feedback in the editor while the file write + HMR cycle completes (typically under 500ms).
+**Do this instead:** Layer two gradient elements and animate `opacity` on the top layer. Opacity animation is GPU-composited and runs at 60fps without main thread involvement.
 
-### Pattern 3: Idempotent Full-File Writes
+### Anti-Pattern 3: Using embla-carousel-wheel-gestures with Lenis
 
-**What:** Every save writes the complete file content, not a diff. The admin API reads the current file, the editor loads and modifies the full data, and save replaces the entire file.
+**What people do:** Install `embla-carousel-wheel-gestures` plugin to allow mouse wheel to scroll the carousel horizontally.
 
-**When:** Every save operation.
+**Why it's wrong:** The wheel-gestures plugin intercepts wheel events, which directly conflicts with Lenis's wheel event handling for smooth vertical scroll. This creates a fight between two scroll handlers, resulting in janky scroll and inconsistent behavior.
 
-**Why:** Prevents partial writes, merge conflicts, and corruption. The data files are small (largest is projects.ts at ~65 lines). Full-file writes are atomic from the user's perspective.
+**Do this instead:** Let the carousel be navigable only via touch/drag and navigation buttons. Mouse wheel scrolls the page vertically (handled by Lenis). This is the expected UX for a horizontal carousel in a vertical page.
 
-### Pattern 4: Asset Path Convention Enforcement
+### Anti-Pattern 4: Wrapping Each Section in its Own Background Component
 
-**What:** Assets are organized by type: `public/projects/*.{svg,png,jpg}`, `public/papers/*.pdf`, `public/portrait.jpg`, `public/resume.pdf`. The admin uploader enforces this convention by accepting a target directory.
+**What people do:** Give each section (WhoAmI, Skills, Timeline, etc.) its own gradient/noise background component with different colors.
 
-**When:** Every asset upload.
+**Why it's wrong:** Creates visible "seams" between sections where background gradients meet. The v1.2 design goal is a unified, seamless background across all sections.
 
-**Why:** Matches the existing project structure. Existing data files already reference these paths.
+**Do this instead:** Use a single `UnifiedBackground` component that spans the entire page, with one smooth gradient that responds to theme changes. Individual sections have transparent backgrounds and sit on top of the unified layer.
 
-## Anti-Patterns to Avoid
+### Anti-Pattern 5: Using next-themes in a Vite SPA
 
-### Anti-Pattern 1: Shared State Between Admin and Portfolio
+**What people do:** The `next-themes` package is in `package.json` (installed by shadcn). Developers try to use `ThemeProvider` from `next-themes`.
 
-**What:** Trying to use React context or global state to pass edited content from admin to the portfolio preview.
+**Why it's wrong:** `next-themes` has Next.js-specific code paths (for App Router, script injection into `_document`, etc.) that do not work correctly in a Vite SPA. It will either crash or produce unexpected behavior (theme flash, missing system preference detection).
 
-**Why bad:** The portfolio renders in an iframe with its own React tree. Shared state would require a postMessage bridge, adding complexity and breaking the "file write + HMR" simplicity. It also couples admin and portfolio code.
+**Do this instead:** Use the custom ThemeProvider pattern from shadcn/ui's Vite dark mode guide. It is 40 lines of code, uses `createContext` + `matchMedia`, and has no framework dependencies. Remove `next-themes` from `package.json` to avoid confusion.
 
-**Instead:** Write to disk, let HMR do its job. The iframe re-renders from the same data files the production build uses. What you preview is exactly what you ship.
+## Integration Points
 
-### Anti-Pattern 2: AST-Based TypeScript Manipulation
+### Internal Boundaries
 
-**What:** Using ts-morph, recast, or the TypeScript compiler API to parse and modify the data files.
+| Boundary | Communication | Notes |
+|----------|---------------|-------|
+| ThemeProvider <-> Components | CSS class on `<html>` + CSS variables | One-way: provider sets class, CSS handles the rest |
+| AnimatedTabs <-> Data files | Direct import of `skillGroups` + `toolingGroups` | Same data files, new presentation |
+| Embla carousel <-> Lenis | `touch-action` CSS | No JavaScript bridge needed |
+| SVG Timeline <-> Motion useScroll | MotionValue binding to SVG pathLength | Same pattern as existing Timeline.tsx |
+| UnifiedBackground <-> Sections | CSS stacking context (z-index) | Background is z-0, content is z-10 |
+| Navigation <-> Merged sections | Updated section IDs in nav data | `navigation.ts` must update section refs |
 
-**Why bad:** Massive dependencies (ts-morph alone is 10+ MB). The data files are simple typed exports with no logic. AST manipulation is slow, complex, and fragile for this use case.
+### Admin Panel Impact
 
-**Instead:** Template-based generation. Read JSON, format as TypeScript, write file.
+The v1.1 admin panel writes to `src/data/*.ts` files. v1.2 changes:
 
-### Anti-Pattern 3: Bidirectional File Sync
+| Admin Editor | Impact | Action Needed |
+|-------------|--------|---------------|
+| Skills editor | Data structure unchanged | No admin changes |
+| Tooling editor | Data structure unchanged | No admin changes |
+| Timeline editor | Data structure unchanged | No admin changes |
+| Contact editor | Data structure unchanged; UI layout changes | No admin changes (data drives new layout) |
+| Navigation editor | Section IDs change (skills+tooling merged) | Update default navigation data after merge |
+| Hero editor | Data structure unchanged | No admin changes |
 
-**What:** Setting up a file watcher in the admin panel to detect external file changes (e.g., user edits in VS Code) and sync the editor state.
+The admin panel's live preview (iframe) will automatically show v1.2 changes because it loads the portfolio through Vite HMR. No admin code modifications required for v1.2 features.
 
-**Why bad:** Creates bidirectional sync complexity with potential conflict resolution needs. This is a single-user dev tool.
+## Recommended Build Order
 
-**Instead:** The admin panel loads data on mount and saves on button press. If the user edits files externally, they refresh the admin page.
+Build order is driven by dependency chains and testability. Each phase can be verified before proceeding.
 
-### Anti-Pattern 4: Putting Admin Components in `src/components/`
+| Order | Component/Task | Depends On | Rationale |
+|-------|---------------|------------|-----------|
+| **1** | **CSS theme system** -- Replace oklch palette with hex-based blue-primary variables in `app.css`; add `:root` and `.dark` blocks; update `@theme inline` | Nothing | Foundation. Every subsequent component references these variables. Can be tested by manually adding `.dark` class to `<html>` in devtools. |
+| **2** | **ThemeProvider** -- Create `ThemeProvider.tsx` with system-preference detection; wrap App.tsx | CSS theme system (#1) | Activates the `.dark` class toggle. Immediately testable by changing OS preference. |
+| **3** | **UnifiedBackground** -- Single gradient background replacing per-section NoisyBackground | CSS theme system (#1) | Removes visual seams between sections. Must be in place before touching individual sections. |
+| **4** | **AnimatedGradientBg** -- Hero breathing gradient | CSS theme system (#1), UnifiedBackground (#3) | Hero is the first thing visitors see. Establishes the visual identity. |
+| **5** | **Update existing sections** -- Migrate Hero, HeroContent, WhoAmI, Navigation color classes from oklch to semantic tokens; remove NoisyBackground wrappers | CSS theme system (#1), UnifiedBackground (#3) | Ensures all surviving sections work with new theme before adding new components. |
+| **6** | **AnimatedTabs + SkillsAndTooling** -- Build tab component, merge skills+tooling into single section | Motion (existing), skills/tooling data (existing) | Self-contained feature. Removes two sections, adds one. Update navigation data. |
+| **7** | **ProjectCarousel** -- Replace bento grid with embla-carousel | embla-carousel-react (new dep), existing ProjectCard | Significant layout change. Requires removing LayoutGroup and expand/collapse behavior from ProjectCard. |
+| **8** | **TimelineV2** -- SVG path timeline with glow nodes and scroll-triggered drawing | Motion useScroll (existing) | Replaces existing Timeline.tsx. Can reuse scroll offset tuning from current implementation. |
+| **9** | **ContactFooter** -- "Let's Work Together" redesign | CSS theme system (#1), existing contact data | Footer is low-risk, independent of other features. |
+| **10** | **Cleanup** -- Remove deprecated components (NoisyBackground references, AnimatedGridPattern, old Skills/Tooling/Timeline/Contact); remove `next-themes` from package.json; update tests | All above | Final sweep. Run `vite build` to verify production bundle. |
 
-**What:** Mixing admin-only components into the existing component directories.
+### Phase Dependency Graph
 
-**Why bad:** Blurs the boundary between production and admin code. Makes it harder to verify the production bundle excludes admin code.
+```
+[1] CSS Theme System
+ |
+ +---> [2] ThemeProvider
+ |
+ +---> [3] UnifiedBackground ---> [4] AnimatedGradientBg (hero)
+ |          |
+ |          +---> [5] Migrate existing sections
+ |                     |
+ |                     +---> [6] AnimatedTabs + SkillsAndTooling
+ |                     |
+ |                     +---> [7] ProjectCarousel (new dep: embla)
+ |                     |
+ |                     +---> [8] TimelineV2
+ |                     |
+ |                     +---> [9] ContactFooter
+ |
+ +---> [10] Cleanup (after all above)
+```
 
-**Instead:** All admin code in `src/admin/`. One directory to audit, one directory that is guaranteed unreachable from production imports.
+Steps 6, 7, 8, and 9 are independent of each other and can be built in any order after step 5 completes. The recommended order (6 -> 7 -> 8 -> 9) is based on visual impact and complexity.
 
-### Anti-Pattern 5: Using react-router for Admin Navigation
+## Scaling Considerations
 
-**What:** Adding react-router to navigate between admin editor tabs.
+| Concern | Current Scale | Notes |
+|---------|--------------|-------|
+| Carousel slide count | 4 projects | Embla handles 50+ slides without performance issues. No concern. |
+| Timeline node count | 8 milestones | SVG with 8 circles + one path. Trivial. Could handle 100+ nodes. |
+| Theme switch performance | Instant | CSS variable resolution is O(1). No React re-renders for color changes. |
+| Animation frame budget | 60fps target | All animations use compositor-friendly properties (opacity, transform, pathLength). No layout-triggering properties animated. |
+| Bundle size impact | +~8KB (embla-carousel-react) | Embla is the only new dependency. ThemeProvider is ~40 lines. Everything else uses existing Motion + Tailwind. |
 
-**Why bad:** The portfolio has zero routing. Adding a router dependency for dev-only tab navigation is overkill. It changes the production architecture (Vercel rewrite rules, etc.) for a dev tool.
+## New Dependency
 
-**Instead:** Simple `useState` to track which editor tab is active. The "routing" within the admin panel is just conditional rendering based on a `currentEditor` state variable.
+| Package | Version | Size | Purpose | Why This One |
+|---------|---------|------|---------|-------------|
+| `embla-carousel-react` | ^8.x | ~8KB gzip | Horizontal project carousel | Lightweight, zero-dependency, perfect touch handling, widely adopted. shadcn/ui uses embla for its carousel component. Already aligned with project's dependency philosophy. |
 
-## Integration Points Summary
-
-| Integration Point | What Changes | Risk | Notes |
-|-------------------|-------------|------|-------|
-| `vite.config.ts` | Add `adminApiPlugin()` to plugins array | LOW | Plugin uses `apply: 'serve'`, zero production impact |
-| `src/App.tsx` | Add ~20 lines: lazy import + DEV guard + keyboard shortcut | LOW | Guarded by `import.meta.env.DEV`, tree-shaken in production |
-| `src/types/data.ts` | No changes | NONE | Already the shared contract between editors and components |
-| `src/data/*.ts` | Written to at runtime by admin API | LOW | Same format, same exports, different values |
-| `public/*` | Written to at runtime by asset uploader | LOW | New files added, existing structure maintained |
-| `package.json` | Add `react-resizable-panels` to devDependencies | LOW | Dev-only dependency for split pane |
-
-## New Components (Suggested Build Order)
-
-Build order accounts for dependencies -- each step can be tested before proceeding.
-
-| Order | Component | Depends On | How to Test |
-|-------|-----------|------------|-------------|
-| 1 | `vite-plugin-admin-api` (content read/write endpoints) | filesystem, content registry map | `curl` or browser fetch against running dev server |
-| 2 | `src/admin/api.ts` (fetch helpers) | admin-api plugin running | Browser console fetch calls |
-| 3 | `App.tsx` modification (DEV guard + lazy import) | None (just the guard, AdminShell can be a stub) | Navigate to `?admin`, verify stub renders |
-| 4 | `src/admin/AdminShell.tsx` + split pane layout | react-resizable-panels | Renders with placeholder editor + iframe preview |
-| 5 | `src/admin/AdminPreview.tsx` (iframe wrapper) | AdminShell for layout context | iframe loads portfolio, verify HMR works after manual data file edit |
-| 6 | `src/admin/editors/HeroEditor.tsx` (simplest: single object, few fields) | api.ts, types/data.ts | Edit hero name, save, see preview update |
-| 7 | `src/admin/components/ArrayFieldEditor.tsx` (generic array CRUD) | None (generic component) | Render with mock data, add/remove/reorder items |
-| 8 | `src/admin/components/AssetUploader.tsx` (drag-drop upload) | admin-api asset endpoint | Upload image, verify appears in public/ |
-| 9 | Remaining editors: projects, papers, skills, tooling, timeline, contact, navigation, coursework | ArrayFieldEditor, AssetUploader, api.ts | Each independently testable via save + preview |
-| 10 | Production build verification | Everything above | `vite build`, grep dist/ for "admin" (expect zero) |
-
-## Scalability Considerations
-
-| Concern | Current Scope (dev tool) | If Needed Later |
-|---------|------------------------|-----------------|
-| Multiple users | Single developer on local machine | Not applicable for personal portfolio |
-| Large data files | 9 files, largest ~65 lines | If data grows, split into multiple files per type |
-| Asset count | ~20 files in public/ | Add manifest file and thumbnail generation |
-| Content validation | Runtime type checks in API | Add Zod schemas derived from TypeScript interfaces |
-| Undo/redo | Not implemented | Git history serves as undo (files are committed) |
+**Remove:** `next-themes` from `package.json` (installed by shadcn init but never imported; incompatible with Vite SPA)
 
 ## Sources
 
-- [Vite Plugin API -- configureServer hook](https://vite.dev/guide/api-plugin) -- HIGH confidence
-- [Vite Env and Mode -- import.meta.env.DEV tree-shaking](https://vite.dev/guide/env-and-mode) -- HIGH confidence
-- [Vite HMR API -- Client-side hot module replacement](https://vite.dev/guide/api-hmr) -- HIGH confidence
-- [Vite Troubleshooting -- File watching behavior](https://vite.dev/guide/troubleshooting) -- HIGH confidence
-- [Vite HMR internals -- chokidar and module graph](https://deepwiki.com/vitejs/vite/5-hot-module-replacement-(hmr)) -- MEDIUM confidence
-- [react-resizable-panels v4](https://github.com/bvaughn/react-resizable-panels) -- HIGH confidence
-- [shadcn/ui Resizable v4 API mismatch](https://github.com/shadcn-ui/ui/issues/9136) -- MEDIUM confidence (known bug as of Dec 2025)
+- [Tailwind v4 Dark Mode documentation](https://tailwindcss.com/docs/dark-mode) -- custom-variant, prefers-color-scheme, class strategy -- HIGH confidence
+- [Tailwind v4 Theme Variables](https://tailwindcss.com/docs/theme) -- @theme inline, CSS variable integration -- HIGH confidence
+- [Tailwind v4 dark mode CSS variables discussion](https://github.com/tailwindlabs/tailwindcss/discussions/15083) -- :root / .dark variable pattern with @theme inline -- MEDIUM confidence
+- [shadcn/ui Vite Dark Mode guide](https://ui.shadcn.com/docs/dark-mode/vite) -- ThemeProvider implementation for Vite apps -- HIGH confidence
+- [Motion SVG animation docs](https://motion.dev/docs/react-svg-animation) -- pathLength, line drawing -- HIGH confidence
+- [Motion scroll animations docs](https://motion.dev/docs/react-scroll-animations) -- useScroll, useTransform, scroll-linked -- HIGH confidence
+- [Embla Carousel React setup](https://www.embla-carousel.com/docs/get-started/react) -- hook API, DOM structure, CSS -- HIGH confidence
+- [Embla + Framer Motion integration issues](https://github.com/davidjerleke/embla-carousel/issues/317) -- potential animation conflicts -- MEDIUM confidence
+- [CSS gradient animation performance](https://digitalthriveai.com/en-us/resources/web-development/the-state-of-changing-gradients-with-css-transitions-and-animations/) -- opacity layering technique -- MEDIUM confidence
+- [Web Animation Performance Tier List (Motion)](https://motion.dev/magazine/web-animation-performance-tier-list) -- compositor-friendly properties -- HIGH confidence
+- [BuildUI Animated Tabs recipe](https://buildui.com/recipes/animated-tabs) -- layoutId pill pattern -- HIGH confidence
+- [Lenis smooth scroll](https://github.com/darkroomengineering/lenis) -- Lenis + Motion integration -- HIGH confidence
+
+---
+*Architecture research for: v1.2 UI Polish & Interactivity*
+*Researched: 2026-03-26*

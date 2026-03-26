@@ -1,12 +1,12 @@
-# Stack Research: v1.1 Dev-Mode Admin Panel
+# Stack Research: v1.2 UI Polish & Interactivity
 
-**Domain:** Local dev-mode content admin panel with live preview, form editing, and asset uploads
-**Researched:** 2026-03-24
+**Domain:** Portfolio visual upgrade -- animated gradient hero, dark/light mode, carousel, animated timeline, glassmorphic tabs
+**Researched:** 2026-03-26
 **Confidence:** HIGH
 
 ## Context
 
-This research covers ONLY the new libraries and patterns needed for v1.1. The existing validated stack (Vite 8, React 19, Tailwind v4, Motion, Lenis, shadcn/ui, react-pdf, Vercel, TypeScript) is not re-evaluated. The admin panel writes to `src/data/*.ts` files and `public/` assets during development, and must be completely excluded from production builds.
+This research covers ONLY the new libraries, CSS techniques, and configuration changes needed for v1.2. The existing validated stack (Vite 8, React 19, Tailwind v4, Motion 12, Lenis, shadcn/ui with Base UI, react-pdf, Zod v4, react-resizable-panels, sonner, Vercel) is not re-evaluated. The v1.1 admin panel additions (react-hook-form, @hookform/resolvers, react-dropzone, busboy) are also not revisited.
 
 ## Recommended Stack Additions
 
@@ -14,173 +14,180 @@ This research covers ONLY the new libraries and patterns needed for v1.1. The ex
 
 | Technology | Version | Purpose | Why Recommended |
 |------------|---------|---------|-----------------|
-| Custom Vite plugin | N/A (authored in-project) | Dev-server API endpoints for file writes and uploads | Vite's `configureServer` hook gives direct access to the Connect middleware stack. A custom plugin is the canonical way to add REST endpoints to the dev server without adding a separate backend process. Zero dependencies beyond Node.js `fs` module. |
-| react-hook-form | ^7.72.0 | Form state management for all 9 content editors | shadcn/ui's Form component is built on react-hook-form. The project already uses shadcn/ui, so this is the natural pairing. Supports React 19 (peer dep: `^16.8.0 \|\| ^17 \|\| ^18 \|\| ^19`). Uncontrolled-by-default architecture means re-renders are scoped to individual fields, not entire forms. |
-| zod | ^4.3.6 | Schema validation for content data before writing to disk | TypeScript-first validation that generates types. Zod v4 is faster and smaller than v3. Zod schemas mirror the existing `src/types/data.ts` interfaces, providing runtime validation that catches errors before they corrupt data files. |
-| @hookform/resolvers | ^5.2.2 | Connects Zod schemas to react-hook-form | The official bridge between react-hook-form and Zod. Supports both Zod v3 and v4 with auto-detection. |
-| react-dropzone | ^15.0.0 | Drag-and-drop file upload zone in the browser | Headless hook-based API (`useDropzone`) with no opinionated UI -- pairs perfectly with shadcn/ui styling. 5M+ weekly downloads, React 19 peer dep support added in v14.3.6+. Handles file type filtering, size limits, and multiple file selection. |
-| formidable | ^3.5.2 | Server-side multipart form parsing in Vite plugin | Parses `multipart/form-data` from upload requests inside the Vite dev middleware. Works with raw Node.js `IncomingMessage` (Connect-compatible) without Express. Formidable is battle-tested (since 2011), supports streaming, and writes to configurable upload directories. |
+| embla-carousel-react | ^8.6.0 | Horizontal project carousel (Gallery6 pattern) | Lightweight (3.4KB gzipped), hook-based API (`useEmblaCarousel`), zero UI opinions so it pairs seamlessly with existing Tailwind + Motion styling. Explicitly supports React 19 in peer deps (`^19.0.0`). 6M+ weekly downloads, the de facto carousel for shadcn/ui ecosystems. The project needs swipe-capable horizontal scroll with dot navigation and featured-first ordering -- Embla's snap-point system handles this perfectly. |
+| embla-carousel | ^8.6.0 | Core engine (auto-installed as dependency of embla-carousel-react) | Not installed directly -- pulled in as a dependency. Listed here for version awareness. |
 
-### shadcn/ui Components to Add
+### Supporting Libraries
 
-These components are already available via the `shadcn` CLI (v4.1.0 installed). They need to be added to `src/components/ui/` using `npx shadcn@latest add [component]`.
+| Library | Version | Purpose | When to Use |
+|---------|---------|---------|-------------|
+| embla-carousel-autoplay | ^8.6.0 | Optional auto-advance for project carousel | Only if the design calls for auto-scrolling between project cards. The Gallery6 reference does not require it -- omit unless user requests it. Can be added later without API changes. |
 
-| Component | Purpose | Why Needed |
-|-----------|---------|------------|
-| `input` | Text fields for titles, URLs, descriptions | Basic form primitive for string content editing |
-| `textarea` | Multi-line text for summaries, narratives | Project summaries and descriptions require multi-line input |
-| `select` | Dropdowns for domain, icon picker | Project domain selection (RF, Analog, Digital, Fabrication) |
-| `switch` | Boolean toggles for `featured` flag | Projects have a `featured: boolean` field |
-| `field` | Form field wrapper with label/error | shadcn/ui v4's form field component for accessible forms |
-| `tabs` | Content type selector (Projects, Papers, Skills, etc.) | Navigate between the 9 different content editors |
-| `badge` | Tag display for techStack arrays | Visual display of tech stack items in array editors |
-| `separator` | Visual dividers between form sections | Clean separation between form groups |
-| `resizable` | Split-pane layout (editor + preview) | Built on react-resizable-panels. Provides the side-by-side editor/preview layout. |
-| `scroll-area` | Scrollable preview panel | Independent scroll for the preview pane |
+### CSS-Only Capabilities (No New Libraries)
 
-### No New Development Tools Required
+The remaining v1.2 features require **zero new npm packages**. They are achievable with the existing stack:
 
-The existing dev tooling (Vite 8, TypeScript 5.9, Vitest 4.1, ESLint) covers all testing and linting needs for the admin panel code.
+| Feature | Approach | Why No Library Needed |
+|---------|----------|----------------------|
+| Animated radial gradient hero | CSS `@property` + `@keyframes` on oklch color stops | CSS `@property` has 96% browser support. Animating registered custom properties (typed as `<color>`) produces smooth gradient color interpolation on the compositor thread -- no JS frame loop. The existing oklch color system maps directly. |
+| System-preference dark/light mode | Tailwind v4 default `dark:` variant (media strategy) + CSS variable overrides in `:root` / `@media (prefers-color-scheme: dark)` | Tailwind v4 uses `prefers-color-scheme` by default with zero config. The current `@custom-variant dark (&:is(.dark *))` line must be **removed** to restore the default media-query behavior. No JS theme provider needed -- PROJECT.md explicitly scopes out manual toggle. |
+| Animated glassmorphic tabs | Motion `layoutId` for active tab indicator + CSS `backdrop-filter: blur()` | Motion 12 (already installed) provides `layoutId` for shared layout animations. `backdrop-filter` has 95%+ browser support. No tab library needed -- build with Base UI or raw `<button>` + `role="tablist"`. |
+| Scroll-triggered timeline with glowing SVG nodes | Motion `useScroll`, `useTransform`, `motion.path` with `pathLength`, SVG `filter` for glow | Motion 12 already provides all scroll-linked animation primitives (`useScroll`, `useTransform`, `useMotionValueEvent`). SVG glow uses `<filter>` with `feGaussianBlur` + `feColorMatrix` -- same pattern as existing `feTurbulence` noise texture. Zero new dependencies. |
+| Unified blended background | CSS gradients with shared color variables across sections | Pure CSS. Sections share `--background` variable values that transition through the page. No library. |
+
+### Development Tools
+
+No new development tools required. Existing Vite 8, TypeScript 5.9, Vitest 4.1, and ESLint cover all needs.
 
 ## Installation
 
 ```bash
-# New runtime dependencies (form handling + validation)
-npm install react-hook-form@^7.72.0 zod@^4.3.6 @hookform/resolvers@^5.2.2 react-dropzone@^15.0.0
+# Single new runtime dependency
+npm install embla-carousel-react@^8.6.0
 
-# New dev dependency (server-side multipart parsing, only used in Vite plugin)
-npm install -D formidable@^3.5.2 @types/formidable@^3.4.5
-
-# Add shadcn/ui components (no npm install needed, copies to src/components/ui/)
-npx shadcn@latest add input textarea select switch field tabs badge separator resizable scroll-area
+# Optional (only if auto-scroll is desired)
+# npm install embla-carousel-autoplay@^8.6.0
 ```
 
-## Architecture Decisions
+That is the entire install. Everything else is CSS and existing Motion APIs.
 
-### Routing: No Router Library -- Use Hash-Based Conditional Rendering
+## Configuration Changes
 
-The portfolio is a single-page scroll app with no existing router. Adding react-router or wouter for a single dev-only route is unnecessary overhead.
+### Dark Mode: Switch from Selector to Media Strategy
 
-**Approach:** Use `window.location.hash` with `import.meta.env.DEV` gating:
+**Current state** in `src/styles/app.css`:
+```css
+@custom-variant dark (&:is(.dark *));
+```
 
-```typescript
-// In main.tsx or App.tsx
-if (import.meta.env.DEV && window.location.hash === '#/admin') {
-  // Lazy-load admin panel
-  const AdminPanel = React.lazy(() => import('./admin/AdminPanel'));
-  // Render admin instead of portfolio
+**Required change:** Remove this line entirely. Tailwind v4's built-in `dark:` variant defaults to `@media (prefers-color-scheme: dark)`, which is exactly what the project needs (system-preference only, no toggle).
+
+**Then add** dark theme CSS variables:
+```css
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: oklch(0.145 0.01 250);
+    --foreground: oklch(0.93 0.005 250);
+    --card: oklch(0.18 0.01 250);
+    --card-foreground: oklch(0.93 0.005 250);
+    /* ... remaining token overrides */
+  }
 }
 ```
 
-- `import.meta.env.DEV` is statically replaced by Vite -- the entire admin code path is tree-shaken from production builds
-- `React.lazy()` ensures admin panel code is code-split even in dev
-- Navigate to `http://localhost:5173/#/admin` during development
-- Zero additional dependencies
+This approach:
+- Uses zero JavaScript (no flash of wrong theme)
+- Requires no ThemeProvider wrapper
+- Works with SSR/prerender (Vercel)
+- Leverages the existing oklch color system
+- Is the Tailwind v4 documented default behavior
 
-### Live Preview: Same-Process Re-Render via Vite HMR
+### Remove next-themes
 
-**Do NOT use an iframe.** The admin panel and the portfolio preview share the same Vite dev server and React process. When the admin panel writes updated data to `src/data/*.ts`, Vite's HMR automatically detects the file change and hot-reloads the affected modules. The preview panel simply renders the same portfolio components with the current data imports.
+`next-themes` is currently installed but never imported or used anywhere in the codebase. It is a Next.js-specific library and is incompatible with Vite's architecture (requires Next.js `<Script>` injection to prevent flash). Since v1.2 uses pure CSS media queries for dark mode (no manual toggle), `next-themes` should be removed.
 
-**Approach:** Resizable split pane with editor on left, portfolio component preview on right. Both sides are React components in the same app. Data edits trigger file writes, HMR picks up the file changes, and the preview re-renders automatically.
+```bash
+npm uninstall next-themes
+```
 
-Benefits:
-- Zero custom preview infrastructure
-- Real HMR speed (typically <100ms)
-- Preview uses exact same components as production
-- No iframe cross-origin or styling isolation issues
+### Animated Gradient: CSS @property Registration
 
-### File Write API: Custom Vite Plugin with Connect Middleware
+Register custom properties for gradient color stops so the browser can interpolate them:
 
-The Vite plugin uses `configureServer` to add REST API endpoints:
+```css
+@property --gradient-start {
+  syntax: "<color>";
+  initial-value: oklch(0.55 0.15 250);
+  inherits: false;
+}
 
-```typescript
-// vite-plugin-admin-api.ts
-export function adminApiPlugin(): Plugin {
-  return {
-    name: 'admin-api',
-    apply: 'serve', // Only active in dev mode
-    configureServer(server) {
-      // POST /api/admin/content/:type -- write data file
-      // POST /api/admin/upload -- handle file upload
-      // GET /api/admin/content/:type -- read current data
-      server.middlewares.use('/api/admin', handler);
-    },
-  };
+@property --gradient-end {
+  syntax: "<color>";
+  initial-value: oklch(0.385 0.136 295);
+  inherits: false;
+}
+
+@keyframes breathe {
+  0%, 100% { --gradient-start: oklch(0.55 0.15 250); --gradient-end: oklch(0.385 0.136 295); }
+  50% { --gradient-start: oklch(0.45 0.12 270); --gradient-end: oklch(0.50 0.10 280); }
 }
 ```
 
-Key design points:
-- `apply: 'serve'` ensures the plugin is completely inert during `vite build`
-- Uses Node.js `fs.writeFile` to write TypeScript data files
-- Uses `formidable` to parse multipart uploads and write to `public/`
-- JSON request bodies for content updates (no special parser needed beyond built-in `JSON.parse` on the request stream)
-
-### Content Serialization: TypeScript Code Generation
-
-When writing back to `src/data/*.ts`, the admin panel must produce valid TypeScript that matches the existing file format (typed exports with `import type` statements).
-
-**Approach:** Template-based serialization in the Vite plugin:
-
-```typescript
-function serializeDataFile(type: string, data: unknown): string {
-  const typeImport = typeImports[type]; // e.g., "import type { Project } from '../types/data';"
-  const exportName = exportNames[type]; // e.g., "projects"
-  const typeName = typeNames[type];     // e.g., "Project[]"
-  return `${typeImport}\n\nexport const ${exportName}: ${typeName} = ${JSON.stringify(data, null, 2)};\n`;
-}
-```
-
-This keeps data files clean, type-safe, and consistent with the existing format.
+This runs on the compositor thread and respects the existing `prefers-reduced-motion: reduce` guard.
 
 ## Alternatives Considered
 
 | Recommended | Alternative | When to Use Alternative |
 |-------------|-------------|-------------------------|
-| Custom Vite plugin for API | vite-plugin-fs | If you want a drop-in fs abstraction. Rejected because it exposes arbitrary filesystem access and the project only needs controlled writes to specific paths. |
-| react-hook-form + zod | React 19 `useActionState` + manual validation | For very simple forms (1-2 fields). Rejected because the admin has 9 content types with nested arrays, and react-hook-form's `useFieldArray` handles dynamic lists (techStack, skills, images) far better. |
-| react-dropzone | Native HTML5 drag-drop API | For a single file input with no UX requirements. Rejected because react-dropzone provides file type validation, preview thumbnails, and accessible keyboard support out of the box. |
-| formidable | multer v2.1.1 | If using Express. Multer is Express middleware; while it works with Connect, formidable's `form.parse(req)` API is cleaner for raw Node.js IncomingMessage objects in Vite's connect middleware. |
-| formidable | busboy | If you need streaming for very large files. Busboy is lower-level (event-based). For portfolio assets (images, PDFs under 20MB), formidable's simpler callback API is sufficient. |
-| Hash-based routing | wouter (1.5KB) | If the project grows to need multiple dev-only routes (e.g., separate /admin/analytics page). For a single admin route, a hash check is simpler. |
-| Same-process preview | iframe with separate Vite instance | If admin and portfolio need complete CSS/JS isolation. Rejected because they share the same design system and the iframe approach doubles server resources. |
+| embla-carousel-react v8.6.0 | Swiper.js | If you need 3D effects, parallax, or virtual slides for 100+ items. Swiper is 42KB gzipped vs Embla's 3.4KB. Overkill for 5-8 project cards. |
+| embla-carousel-react v8.6.0 | shadcn/ui Carousel component | shadcn/ui's Carousel wraps Embla anyway. Using Embla directly gives full control over the Gallery6 layout pattern without shadcn's opinionated wrapper markup. |
+| embla-carousel-react v8.6.0 (stable) | embla-carousel-react v9.0.0-rc01 | v9 RC adds SSR-first APIs and renamed methods (`scrollNext` -> `goToNext`). Not yet stable. Use v8 for production -- migration to v9 will be straightforward when stable (method renames only). |
+| CSS `@property` gradient animation | Motion `animate` on gradient background | Motion cannot interpolate CSS gradients (it would need to parse the gradient string). `@property` is the correct CSS-native approach for smooth gradient color animation. |
+| CSS `@media (prefers-color-scheme)` | next-themes ThemeProvider | next-themes requires a JS ThemeProvider, adds flash-prevention complexity, and is designed for Next.js. The project only needs system preference (no toggle), so pure CSS is simpler, faster, and has zero runtime cost. |
+| CSS `@media (prefers-color-scheme)` | Manual `matchMedia` listener + React context | Only needed if adding a manual toggle. PROJECT.md explicitly descopes dark mode toggle. Pure CSS is sufficient. |
+| Motion `layoutId` tabs | Headless UI / Radix Tabs | Would add a dependency for something achievable with 20 lines of accessible HTML + Motion animation. The project already has Motion installed. |
+| SVG `<filter>` for glow | CSS `box-shadow` with large spread | SVG filters produce authentic neon/glow rendering that `box-shadow` cannot match (color bleed, Gaussian falloff). The project already uses SVG filters for noise textures, so this is a consistent pattern. |
+| SVG `<filter>` for glow | Canvas 2D glow rendering | Canvas requires imperative drawing, breaks accessibility, and doesn't compose with React's declarative model. SVG filters are declarative and work inside JSX. |
 
 ## What NOT to Use
 
 | Avoid | Why | Use Instead |
 |-------|-----|-------------|
-| react-router / react-router-dom | 18.7KB gzipped for one dev-only route. Would persist in production bundle unless carefully code-split. Massive overkill for this use case. | Hash-based conditional with `import.meta.env.DEV` |
-| vite-plugin-fs | Exposes arbitrary filesystem read/write from the browser. Security risk even in dev mode. Unmaintained (last update 2023). | Custom Vite plugin with scoped, validated endpoints |
-| JSON files for content storage | Would require a migration from the existing TypeScript data files. Adds a build step to convert JSON to TS. The existing TS files work perfectly with Vite's HMR. | Continue writing TypeScript data files directly |
-| Full CMS (Sanity, Contentful, Strapi) | Violates the zero-cost constraint. Adds external service dependency. The content is static and lives in the repository. This is a dev-time editing tool, not a production CMS. | Local file-based editing via Vite plugin |
-| express as Vite middleware | Adding Express as a dependency just for body parsing is wasteful. Vite's internal Connect server is sufficient. Express would add ~600KB to node_modules. | Node.js built-in JSON parsing + formidable for multipart |
-| @tanstack/form | Newer but less mature ecosystem. shadcn/ui is designed around react-hook-form, not TanStack Form. Using TanStack Form would mean building all form UI from scratch instead of using shadcn/ui's existing Form component. | react-hook-form (shadcn/ui native integration) |
+| next-themes | Next.js-specific. Already installed but unused. Requires JS ThemeProvider. Project needs system-preference only (CSS handles this natively). | Remove it. Use Tailwind v4 default `dark:` media strategy. |
+| react-spring / @react-spring/web | Would duplicate Motion's capabilities. The project already uses Motion 12 extensively. Adding a second animation library creates bundle bloat and API inconsistency. | Motion 12 (already installed) handles all animation needs. |
+| GSAP / anime.js | Heavyweight animation libraries (GSAP is 30KB+ gzipped). Licensing complexity (GSAP has commercial restrictions). Motion already covers scroll-linked animations, layout transitions, and SVG path animation. | Motion 12 `useScroll` + `useTransform` + `motion.path`. |
+| Swiper.js | 42KB gzipped. Includes its own CSS framework, touch handling, and virtual DOM -- all redundant with the existing Tailwind + Motion + React setup. | embla-carousel-react (3.4KB gzipped, hook-based, no CSS opinions). |
+| keen-slider | Smaller than Swiper but less maintained than Embla. Missing TypeScript-first API. Embla has 10x the weekly downloads and is shadcn/ui's chosen carousel engine. | embla-carousel-react. |
+| @radix-ui/react-tabs | Would add a Radix dependency when the project standardized on Base UI (via shadcn v4). Mixing Radix and Base UI creates maintenance confusion. | Build tabs with Base UI Tabs or manual `role="tablist"` + Motion `layoutId`. |
+| tailwindcss-animate | Already replaced by tw-animate-css in the project. Don't re-add. | tw-animate-css (already installed). |
+| CSS `background-size` animation for gradient | Animating `background-size` forces layout recalculation (not composited). Causes jank on lower-end devices. | `@property` typed custom properties for color stop animation (runs on compositor). |
+| JavaScript `requestAnimationFrame` gradient loop | Unnecessary runtime cost. CSS animations run on the compositor thread without JS involvement. | Pure CSS `@keyframes` with `@property` registered color stops. |
+
+## Integration Points with Existing Stack
+
+### Embla + Motion
+Embla handles the carousel scroll mechanics (snap points, drag, swipe). Motion handles entry/exit animations on individual slides. Do not animate the Embla container with Motion -- let Embla own the horizontal scroll and use Motion only for per-slide fade/scale effects.
+
+### Embla + Tailwind
+Embla requires minimal CSS: `overflow: hidden` on the viewport, `display: flex` on the container. All other styling (gaps, widths, responsive breakpoints) is handled with Tailwind utility classes.
+
+### Dark Mode + oklch Colors
+The existing oklch color system maps perfectly to dark mode. oklch perceptual uniformity means you can derive dark variants by adjusting lightness values while keeping chroma and hue constant. Example: `oklch(0.985 0.002 90)` (light bg) becomes `oklch(0.145 0.01 250)` (dark bg).
+
+### Motion + SVG Timeline
+The existing Timeline component already uses `useScroll` + `useMotionValueEvent` + `motion.div` for progressive fill. The v1.2 upgrade adds `motion.path` for SVG connection lines and `motion.circle` for glowing nodes -- same scroll-linked pattern, just SVG elements instead of divs.
+
+### Glassmorphic Tabs + Tailwind
+`backdrop-filter: blur()` maps to Tailwind's `backdrop-blur-md` utility. The glassmorphic effect is: `bg-white/10 backdrop-blur-md border border-white/20` (light) or `bg-black/10 backdrop-blur-md border border-white/10` (dark). Use `dark:` variants for the dark theme overrides.
 
 ## Version Compatibility
 
 | Package | Compatible With | Notes |
 |---------|-----------------|-------|
-| react-hook-form@^7.72.0 | React 19.2.x | Peer dep explicitly includes `^19`. Works with React 19's concurrent features. |
-| zod@^4.3.6 | @hookform/resolvers@^5.2.2 | Resolvers v5 auto-detects Zod v3 vs v4 at runtime. Use Zod v4 for faster parsing and smaller bundle. |
-| react-dropzone@^15.0.0 | React 19.2.x | React 19 JSX type imports fixed in v14.3.6. Peer dep support confirmed. |
-| formidable@^3.5.2 | Node.js 18+ | Used only in Vite plugin (server-side). Compatible with Vite 8's Node.js requirements. |
-| shadcn/ui v4 components | react-hook-form ^7.x, Base UI | shadcn v4 uses Base UI (not Radix) for primitives. Form component wraps react-hook-form's Controller. |
-| react-resizable-panels@^4.7.5 | React 19, shadcn/ui v4 Resizable | shadcn/ui's Resizable component wraps this library. Install via `npx shadcn add resizable`. |
+| embla-carousel-react@8.6.0 | React 19.2.x | Peer dep: `^16.8.0 \|\| ^17.0.1 \|\| ^18.0.0 \|\| ^19.0.0 \|\| ^19.0.0-rc`. Verified via npm. |
+| embla-carousel@8.6.0 | embla-carousel-react@8.6.0 | Auto-installed as dependency. Versions are always matched (mono-repo release). |
+| embla-carousel-autoplay@8.6.0 | embla-carousel@8.6.0 | Same mono-repo, same version. Only install if auto-scroll needed. |
+| motion@12.38.0 | React 19.2.x, Vite 8 | Already installed and working. No changes needed. Provides `useScroll`, `useTransform`, `layoutId`, `motion.path`. |
+| Tailwind CSS 4.2.2 | CSS `@property`, `dark:` media variant | `@property` is processed by the browser (not Tailwind). Tailwind's `dark:` variant defaults to `prefers-color-scheme` media query when no `@custom-variant dark` is defined. |
+| CSS `@property` | 96% global browser support | Supported in Chrome 85+, Edge 85+, Firefox 128+, Safari 16.4+. The portfolio's target audience (tech recruiters, professors) overwhelmingly uses modern browsers. |
+| CSS `backdrop-filter` | 95%+ global browser support | Supported in all modern browsers. Include `-webkit-backdrop-filter` for older Safari versions (pre-16). |
 
 ## Sources
 
-- [Vite Plugin API - configureServer](https://vite.dev/guide/api-plugin) -- Official Vite docs on plugin hooks (HIGH confidence)
-- [Vite Env Variables](https://vite.dev/guide/env-and-mode) -- `import.meta.env.DEV` tree-shaking behavior (HIGH confidence)
-- [shadcn/ui Forms - React Hook Form](https://ui.shadcn.com/docs/forms/react-hook-form) -- Official shadcn/ui form integration docs (HIGH confidence)
-- [shadcn/ui Resizable](https://ui.shadcn.com/docs/components/radix/resizable) -- Built on react-resizable-panels (HIGH confidence)
-- [react-hook-form npm](https://www.npmjs.com/package/react-hook-form) -- v7.72.0, React 19 peer dep (HIGH confidence)
-- [react-hook-form RFC v8](https://github.com/orgs/react-hook-form/discussions/7433) -- v8 still in beta, stick with v7 (MEDIUM confidence)
-- [zod v4 release notes](https://zod.dev/v4) -- Zod 4.3.6 is current stable (HIGH confidence)
-- [@hookform/resolvers npm](https://www.npmjs.com/package/@hookform/resolvers) -- v5.2.2, Zod v4 auto-detection (HIGH confidence)
-- [react-dropzone releases](https://github.com/react-dropzone/react-dropzone/releases) -- v15.0.0 with React 19 support (HIGH confidence)
-- [formidable GitHub](https://github.com/node-formidable/formidable) -- v3.x for raw Node.js request parsing (HIGH confidence)
-- [vite-plugin-fs GitHub](https://github.com/StarLederer/vite-plugin-fs) -- Evaluated and rejected for security reasons (MEDIUM confidence)
-- [react-resizable-panels npm](https://www.npmjs.com/package/react-resizable-panels) -- v4.7.5 current (HIGH confidence)
+- [embla-carousel-react npm](https://www.npmjs.com/package/embla-carousel-react) -- v8.6.0 is `latest` tag, v9.0.0-rc01 is `next` tag (HIGH confidence, verified via `npm view`)
+- [embla-carousel-react peerDependencies](https://www.npmjs.com/package/embla-carousel-react) -- React `^19.0.0` confirmed via `npm view embla-carousel-react@8.6.0 peerDependencies` (HIGH confidence)
+- [Embla Carousel React docs](https://www.embla-carousel.com/docs/get-started/react) -- Hook-based API, plugin system (HIGH confidence)
+- [Embla v9 RC release notes](https://github.com/davidjerleke/embla-carousel/discussions/1271) -- v9 breaking changes, SSR improvements (MEDIUM confidence)
+- [Tailwind CSS v4 Dark Mode docs](https://tailwindcss.com/docs/dark-mode) -- Default media strategy, `@custom-variant` override mechanism (HIGH confidence)
+- [Tailwind v4 dark mode custom variant guide](https://schoen.world/n/tailwind-dark-mode-custom-variant) -- Combined media + selector approach (MEDIUM confidence)
+- [CSS @property browser support](https://caniuse.com/mdn-css_at-rules_property) -- 96% global coverage (HIGH confidence)
+- [CSS @property gradient animation guide](https://frontend-hero.com/how-to-animate-gradients-css) -- `@property` typed color stops for smooth gradient transitions (MEDIUM confidence)
+- [Motion scroll animations docs](https://www.framer.com/motion/scroll-animations/) -- `useScroll`, `useTransform`, scroll-linked patterns (HIGH confidence)
+- [Motion SVG path animation](https://dev.to/heres/scroll-svg-path-with-framer-motion-54el) -- `pathLength` + scroll progress pattern (MEDIUM confidence)
+- [Glassmorphism implementation guide](https://playground.halfaccessible.com/blog/glassmorphism-design-trend-implementation-guide) -- Performance best practices, blur limits (MEDIUM confidence)
+- [SVG glow with feGaussianBlur](https://vectosolve.com/blog/svg-filter-effects-guide) -- Filter primitive performance characteristics (MEDIUM confidence)
+- [next-themes GitHub](https://github.com/pacocoursey/next-themes) -- Next.js-specific, not designed for Vite (HIGH confidence)
 
 ---
-*Stack research for: v1.1 Dev-Mode Admin Panel*
-*Researched: 2026-03-24*
+*Stack research for: v1.2 UI Polish & Interactivity*
+*Researched: 2026-03-26*
