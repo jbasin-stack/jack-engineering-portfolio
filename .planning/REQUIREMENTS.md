@@ -87,37 +87,37 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| THEME-01 | — | Pending |
-| THEME-02 | — | Pending |
-| THEME-03 | — | Pending |
-| THEME-04 | — | Pending |
-| THEME-05 | — | Pending |
-| THEME-06 | — | Pending |
-| HERO-01 | — | Pending |
-| HERO-02 | — | Pending |
-| HERO-03 | — | Pending |
-| SKTL-01 | — | Pending |
-| SKTL-02 | — | Pending |
-| SKTL-03 | — | Pending |
-| SKTL-04 | — | Pending |
-| PROJ-01 | — | Pending |
-| PROJ-02 | — | Pending |
-| PROJ-03 | — | Pending |
-| PROJ-04 | — | Pending |
-| PROJ-05 | — | Pending |
-| TIME-01 | — | Pending |
-| TIME-02 | — | Pending |
-| TIME-03 | — | Pending |
-| TIME-04 | — | Pending |
-| CTFT-01 | — | Pending |
-| CTFT-02 | — | Pending |
-| CTFT-03 | — | Pending |
+| THEME-01 | Phase 12 | Pending |
+| THEME-02 | Phase 12 | Pending |
+| THEME-03 | Phase 12 | Pending |
+| THEME-04 | Phase 12 | Pending |
+| THEME-05 | Phase 12 | Pending |
+| THEME-06 | Phase 12 | Pending |
+| HERO-01 | Phase 13 | Pending |
+| HERO-02 | Phase 13 | Pending |
+| HERO-03 | Phase 13 | Pending |
+| SKTL-01 | Phase 14 | Pending |
+| SKTL-02 | Phase 14 | Pending |
+| SKTL-03 | Phase 14 | Pending |
+| SKTL-04 | Phase 14 | Pending |
+| PROJ-01 | Phase 14 | Pending |
+| PROJ-02 | Phase 14 | Pending |
+| PROJ-03 | Phase 14 | Pending |
+| PROJ-04 | Phase 14 | Pending |
+| PROJ-05 | Phase 14 | Pending |
+| TIME-01 | Phase 14 | Pending |
+| TIME-02 | Phase 14 | Pending |
+| TIME-03 | Phase 14 | Pending |
+| TIME-04 | Phase 14 | Pending |
+| CTFT-01 | Phase 15 | Pending |
+| CTFT-02 | Phase 15 | Pending |
+| CTFT-03 | Phase 15 | Pending |
 
 **Coverage:**
 - v1.2 requirements: 25 total
-- Mapped to phases: 0
-- Unmapped: 25
+- Mapped to phases: 25
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-26*
-*Last updated: 2026-03-26 after initial definition*
+*Last updated: 2026-03-26 after roadmap creation*
