@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: Content Admin Panel
-status: completed
-stopped_at: Completed 11-01-PLAN.md (Phase 11 complete)
-last_updated: "2026-03-26T20:47:32.534Z"
-last_activity: "2026-03-26 - Completed 11-01: Keyboard shortcut wiring and production guard"
+milestone: v1.2
+milestone_name: UI Polish & Interactivity
+status: active
+stopped_at: null
+last_updated: "2026-03-26"
+last_activity: "2026-03-26 — Milestone v1.2 started"
 progress:
-  total_phases: 4
-  completed_phases: 4
-  total_plans: 15
-  completed_plans: 15
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -21,12 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-26)
 
 **Core value:** Every visitor immediately understands Jack's range and depth as an electrical engineer, and can access the evidence without friction.
-**Current focus:** v1.1 shipped — planning next milestone
+**Current focus:** v1.2 UI Polish & Interactivity
 
 ## Current Position
 
-Milestone: v1.1 Content Admin Panel — SHIPPED 2026-03-26
-Next step: `/gsd:new-milestone` to define v1.2 or v2.0
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-03-26 — Milestone v1.2 started
 
 ## Performance Metrics
 

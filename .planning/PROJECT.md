@@ -33,9 +33,29 @@ Every visitor — recruiter, professor, or peer — immediately understands Jack
 
 ### Active
 
+- [ ] Animated radial gradient hero with breathing effect and blue-themed palette
+- [ ] System-preference dark/light mode with new blue-primary CSS variable theme
+- [ ] Unified consistent background across all sections (no hard color breaks)
+- [ ] Merged Skills & Tooling section with animated glassmorphic tabs per domain
+- [ ] Horizontal carousel for projects (featured project first position)
+- [ ] Vertical animated timeline with glowing nodes and scroll-triggered connection lines
+- [ ] "Let's Work Together" contact layout with direct links and clean footer
 - [ ] Replace placeholder PDFs with real papers and resume
 - [ ] Replace placeholder SVG thumbnails with actual project images
 - [ ] Replace portrait.jpg placeholder with real photo
+
+## Current Milestone: v1.2 UI Polish & Interactivity
+
+**Goal:** Elevate the portfolio's visual experience with cohesive theming, animated interactions, and modern component patterns inspired by 21st.dev references.
+
+**Target features:**
+- Animated gradient hero with breathing effect
+- System-preference light/dark mode with blue-primary theme
+- Unified background that blends smoothly across all sections
+- AnimatedTabs for merged Skills & Tooling (one tab per domain)
+- Gallery6 horizontal carousel for projects
+- Vertical animated timeline with glowing nodes and scroll-triggered paths
+- "Let's Work Together" contact section and clean footer
 
 ### Out of Scope
 
@@ -43,9 +63,9 @@ Every visitor — recruiter, professor, or peer — immediately understands Jack
 - Technical blog/notes — deferred to v2 (content creation overhead)
 - Certifications section — low priority for v1 launch
 - Open source contributions section — deferred to v2
-- Dark mode toggle — single cohesive theme for v1
+- Dark mode toggle — replaced by automatic system-preference matching in v1.2
 - Contact form backend — direct email link is sufficient
-- Hero aurora background — user removed as too distracting
+- Hero aurora background — replaced by animated radial gradient in v1.2
 - Coursework section on rendered page — user descoped (component built but excluded)
 - Mobile app — web-first approach
 - Particle effects / 3D backgrounds — contradicts minimalist philosophy
@@ -92,4 +112,4 @@ Placeholder static assets still need replacement with real content before sharin
 | useKeyboardShortcuts inside AdminShell (not App.tsx) | Direct access to save/dirty state without prop-drilling | ✓ Good — clean integration, no production leak |
 
 ---
-*Last updated: 2026-03-26 after v1.1 milestone*
+*Last updated: 2026-03-26 after v1.2 milestone start*
