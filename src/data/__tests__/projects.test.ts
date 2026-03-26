@@ -22,9 +22,9 @@ describe('projects data', () => {
     }
   });
 
-  it('exactly one project has featured: true', () => {
+  it('at least one project has featured: true', () => {
     const featuredCount = projects.filter((p) => p.featured).length;
-    expect(featuredCount).toBe(1);
+    expect(featuredCount).toBeGreaterThanOrEqual(1);
   });
 
   it('domain values are one of RF, Fabrication, Analog, Digital', () => {

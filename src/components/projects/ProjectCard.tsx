@@ -21,7 +21,7 @@ export function ProjectCard({
     <motion.div
       layout
       className={`rounded-xl bg-white shadow-lg overflow-hidden ${
-        isExpanded ? 'col-span-1 md:col-span-3' : ''
+        isExpanded || project.featured ? 'col-span-1 md:col-span-3' : ''
       }`}
       whileHover={{
         y: -2,
@@ -96,7 +96,24 @@ export function ProjectCard({
                 </div>
               </div>
             </div>
+          ) : project.featured ? (
+            /* Featured card: horizontal layout spanning full row */
+            <div className="flex flex-col md:flex-row">
+              <img
+                src={project.thumbnail}
+                alt={project.title}
+                className="w-full md:w-2/5 aspect-video object-cover"
+              />
+              <div className="p-5 flex-1">
+                <h3 className="font-bold text-ink">{project.title}</h3>
+                <p className="text-silicon-600 mt-1">{project.brief}</p>
+                <span className="inline-block rounded-full bg-silicon-50 px-3 py-1 text-xs font-medium text-silicon-600 mt-3">
+                  {project.domain}
+                </span>
+              </div>
+            </div>
           ) : (
+            /* Standard card: vertical layout */
             <>
               <img
                 src={project.thumbnail}
