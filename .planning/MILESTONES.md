@@ -1,5 +1,31 @@
 # Milestones
 
+## v1.1 Content Admin Panel (Shipped: 2026-03-26)
+
+**Phases:** 4 (8-11) | **Plans:** 15 | **Commits:** 82
+**Lines of code:** 7,737 (TypeScript/TSX/CSS) — +12,973 net additions
+**Timeline:** 2 days (2026-03-25 → 2026-03-26)
+**Stack additions:** Zod v4, react-resizable-panels v4, sonner, busboy, Prettier (codegen)
+
+**Delivered:** A local dev-mode admin interface with live preview for managing all portfolio content and assets — form-based editors for 9 content types, drag-drop uploads, keyboard shortcuts, and zero admin code in production builds.
+
+**Key accomplishments:**
+1. Custom Vite plugin with REST API for reading/writing all 9 content types with atomic file writes and HMR suppression
+2. Split-pane admin shell with live preview, resizable panels, and keyboard shortcuts (Ctrl+Shift+A, Ctrl+S, Escape)
+3. Drag-drop asset upload pipeline for images and PDFs with validation, kebab-case normalization, and data reference updates
+4. Form-based editors for all 9 content types with Zod validation, inline error display, and toast feedback
+5. Move-up/move-down item reordering, continuous-scroll PDF viewer, and featured project display
+6. Zero admin code in production builds — DEV-gated lazy imports enforced by automated tests
+
+**Requirements:** 23/23 complete
+**Tests:** 153 passing (23 test files), zero TypeScript errors
+
+**Tech debt:**
+- `ssrLoadModule` → `moduleRunner.import()` migration (when Vite deprecates old API)
+- Coursework section component exists but not rendered in portfolio (user decision pending)
+
+---
+
 ## v1.0 MVP (Shipped: 2026-03-24)
 
 **Phases:** 7 | **Plans:** 19 | **Commits:** 110

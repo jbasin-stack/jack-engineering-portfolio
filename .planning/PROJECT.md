@@ -2,7 +2,7 @@
 
 ## What This Is
 
-A high-performance, minimalist single-page portfolio for Jack Basinski, an Electrical & Computer Engineering student at the University of Washington. The site showcases semiconductor fabrication and system design expertise across analog, RF, and digital domains through interactive project cards, in-browser PDF viewing, and data-driven content sections. Built with Vite 8, React 19, Tailwind v4, and Motion — deployed on Vercel with auto-deploy.
+A high-performance, minimalist single-page portfolio for Jack Basinski, an Electrical & Computer Engineering student at the University of Washington. The site showcases semiconductor fabrication and system design expertise across analog, RF, and digital domains through interactive project cards, in-browser PDF viewing, and data-driven content sections. Includes a local dev-mode admin panel with live preview for managing all content and assets without hand-editing code. Built with Vite 8, React 19, Tailwind v4, and Motion — deployed on Vercel with auto-deploy.
 
 ## Core Value
 
@@ -25,13 +25,14 @@ Every visitor — recruiter, professor, or peer — immediately understands Jack
 - ✓ Semantic HTML with proper heading hierarchy and OG meta tags — v1.0
 - ✓ prefers-reduced-motion accessibility support — v1.0
 
+- ✓ Local dev-mode admin panel with form-based editors for all 9 content types — v1.1
+- ✓ Live split-pane preview (side-by-side editor + rendered view) — v1.1
+- ✓ Drag-drop asset upload (images, PDFs) with validation and normalization — v1.1
+- ✓ Direct file writes to src/data/*.ts and public/ assets via Vite dev middleware — v1.1
+- ✓ Zero admin code in production builds (DEV-gated lazy imports) — v1.1
+
 ### Active
 
-- [ ] Local dev-mode admin panel for managing all content types
-- [ ] Live preview (side-by-side editor + rendered view)
-- [ ] Form-based editing for projects, papers, skills, tooling, timeline, hero, contact
-- [ ] Drag-drop asset upload (images, PDFs, resume)
-- [ ] Writes directly to src/data/*.ts and public/ assets
 - [ ] Replace placeholder PDFs with real papers and resume
 - [ ] Replace placeholder SVG thumbnails with actual project images
 - [ ] Replace portrait.jpg placeholder with real photo
@@ -49,24 +50,14 @@ Every visitor — recruiter, professor, or peer — immediately understands Jack
 - Mobile app — web-first approach
 - Particle effects / 3D backgrounds — contradicts minimalist philosophy
 
-## Current Milestone: v1.1 Content Admin Panel
-
-**Goal:** Add a local dev-mode admin interface with live preview for managing all portfolio content and assets without hand-editing TypeScript data files.
-
-**Target features:**
-- Form-based editors for all 9 content types (projects, papers, skills, tooling, timeline, hero, contact, navigation, coursework)
-- Live side-by-side preview while editing
-- Drag-drop asset uploads (images, PDFs, resume) to public/
-- Direct file writes to src/data/*.ts via Vite dev middleware
-- Admin route only available in dev mode (excluded from production build)
-
 ## Context
 
-Shipped v1.0 with 3,846 LOC TypeScript/TSX/CSS across 171 files.
-Tech stack: Vite 8, React 19, Tailwind v4, Motion (framer-motion successor), Lenis, shadcn/ui, react-pdf.
+Shipped v1.1 with 7,737 LOC TypeScript/TSX/CSS.
+Tech stack: Vite 8, React 19, Tailwind v4, Motion, Lenis, shadcn/ui, react-pdf, Zod v4, react-resizable-panels, sonner.
 Live at jack-engineering-portfolio.vercel.app with Vercel auto-deploy.
-57 requirements defined: 54 complete, 1 deferred (hero aurora), 2 descoped (coursework rendering).
-Placeholder static assets need replacement with real content before sharing widely.
+v1.0 requirements: 54/57 complete (1 deferred, 2 descoped). v1.1 requirements: 23/23 complete.
+153 tests passing across 23 test files, zero TypeScript errors.
+Placeholder static assets still need replacement with real content before sharing widely.
 
 ## Constraints
 
@@ -93,6 +84,12 @@ Placeholder static assets need replacement with real content before sharing wide
 | Coursework section descoped | User decision during visual checkpoint | ✓ Good — cleaner page, component preserved |
 | Hero aurora removed | User found too distracting | ✓ Good — typography-first hero is cleaner |
 | Uniform bento grid tiles | Cleaner than featured col-span-2 | ✓ Good — equal visual weight per project |
+| Custom Vite plugin over external CMS | Zero cost, 9 small files don't justify CMS overhead | ✓ Good — lightweight, fast dev cycle |
+| react-resizable-panels v4 directly (not shadcn wrapper) | shadcn Resizable has bug #9136 with v4 | ✓ Good — stable split-pane layout |
+| Parallel Zod schemas (not modifying v1.0 code) | Keep v1.0 data files untouched | ✓ Good — clean separation of concerns |
+| Atomic writes with Windows EPERM/EBUSY retry | Prevent file corruption on rapid saves | ✓ Good — no corruption in testing |
+| import.meta.env.DEV ternary for admin tree-shaking | Vite dead-code elimination at build time | ✓ Good — zero admin code in dist/ |
+| useKeyboardShortcuts inside AdminShell (not App.tsx) | Direct access to save/dirty state without prop-drilling | ✓ Good — clean integration, no production leak |
 
 ---
-*Last updated: 2026-03-24 after v1.1 milestone started*
+*Last updated: 2026-03-26 after v1.1 milestone*

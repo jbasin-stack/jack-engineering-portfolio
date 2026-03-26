@@ -47,21 +47,70 @@
 
 ---
 
+## Milestone: v1.1 — Content Admin Panel
+
+**Shipped:** 2026-03-26
+**Phases:** 4 (8-11) | **Plans:** 15 | **Sessions:** ~6
+
+### What Was Built
+- Custom Vite plugin with REST API for reading/writing all 9 content types with atomic file writes
+- Split-pane admin shell with live preview, resizable panels, and keyboard shortcuts
+- Drag-drop asset upload pipeline with validation, kebab-case normalization, and data reference updates
+- Form-based editors for all 9 content types with Zod validation, inline errors, and toast feedback
+- Item reordering, continuous-scroll PDF viewer, and featured project display
+- Production guard: zero admin code in dist/ via DEV-gated lazy imports
+
+### What Worked
+- Custom Vite plugin approach over external CMS — zero overhead, perfect fit for 9 small data files
+- UAT-driven gap closure: 3 UAT rounds caught real usability issues (middleware ordering, validation display, reorder UX)
+- Phase 11 as audit-driven gap closure — resolved 3 cross-phase integration issues (INT-01/02/03) cleanly
+- Consistent editor patterns (singleton vs list-type) made phases 10-02 and 10-03 very fast to implement
+- Average plan execution time stayed fast at ~3.5 min/plan despite increasing codebase complexity
+
+### What Was Inefficient
+- Keyboard shortcuts were wired with noop callbacks in Phase 9 and not caught until the milestone audit — should have been wired with real state from the start
+- Phase 10 needed 4 gap closure plans (10-04 through 10-07) on top of 3 core plans — the initial plan underestimated form integration complexity
+- Middleware registration order bug (10-04) could have been prevented by reading Vite middleware docs more carefully during Phase 8 research
+
+### Patterns Established
+- saveRef pattern for exposing save() from child editors to AdminShell without prop-drilling
+- dragCounter ref for preventing border flicker during drag-drop boundary crossings
+- existingIds ref to prevent auto-ID from changing existing item IDs on load
+- Pre-middleware registration (direct server.middlewares.use) to avoid SPA fallback interception
+- guardedSave with savingRef.current flag for concurrent-save protection on rapid Ctrl+S
+
+### Key Lessons
+1. **Wire real callbacks from the start, not noops** — INT-01/02/03 were all caused by placeholder callbacks that required a dedicated gap closure phase to fix
+2. **UAT rounds are high-ROI** — 3 UAT sessions caught 5 real issues that would have shipped as broken UX
+3. **Consistent patterns accelerate velocity** — list-type editors (10-02) averaged 2 min/plan because the pattern was established in 10-01
+4. **Audit before completion catches integration gaps that unit tests miss** — the milestone audit found 3 cross-phase wiring issues invisible to per-phase tests
+
+### Cost Observations
+- Model mix: ~50% sonnet (plan execution), ~40% opus (research, planning, audit, UAT), ~10% haiku (validation)
+- Sessions: ~6 across 2 days
+- Notable: 15 plans in 2 days (vs 19 plans in 5 days for v1.0) — velocity improved with established patterns
+
+---
+
 ## Cross-Milestone Trends
 
 ### Process Evolution
 
-| Milestone | Sessions | Phases | Key Change |
-|-----------|----------|--------|------------|
-| v1.0 | ~8 | 7 | Established gap closure phases as standard post-audit pattern |
+| Milestone | Sessions | Phases | Plans | Avg/Plan | Key Change |
+|-----------|----------|--------|-------|----------|------------|
+| v1.0 | ~8 | 7 | 19 | 4.3 min | Established gap closure phases as standard post-audit pattern |
+| v1.1 | ~6 | 4 | 15 | 3.5 min | UAT-driven gap closure + consistent editor patterns |
 
 ### Cumulative Quality
 
-| Milestone | Tests | Coverage | Zero-Dep Additions |
-|-----------|-------|----------|-------------------|
-| v1.0 | 17+ | Unit + data integrity | 0 (all deps intentional) |
+| Milestone | Tests | Coverage | Deps Added |
+|-----------|-------|----------|------------|
+| v1.0 | 17+ | Unit + data integrity | 0 (all intentional) |
+| v1.1 | 153 | Unit + integration + import guards | Zod v4, react-resizable-panels, sonner, busboy |
 
 ### Top Lessons (Verified Across Milestones)
 
 1. Data-driven architecture pays dividends across every phase
 2. Milestone audit before completion catches real shipping gaps
+3. Wire real implementations from the start — noop placeholders create integration debt
+4. Consistent patterns compound velocity across phases
