@@ -7,12 +7,15 @@ export const projects: Project[] = [
     brief: 'Sub-2 dB noise figure LNA targeting the n77 band at 3.5 GHz.',
     summary:
       'Designed a two-stage cascode LNA in 65 nm CMOS targeting 5G New Radio n77 band (3.3–4.2 GHz). Achieved a simulated noise figure of 1.8 dB with 18 dB gain using inductive source degeneration and optimized input matching. Layout was completed in Cadence Virtuoso with post-layout extraction confirming performance within 0.3 dB of schematic simulation.',
-    thumbnail: '/projects/lna-design.svg',
+    thumbnail: '/projects/lna-design.png',
     images: ['/projects/lna-design.svg', '/projects/lna-schematic.svg'],
     domain: 'RF',
     techStack: ['Cadence Virtuoso', 'Spectre RF', 'ADS', '65nm CMOS', 'S-parameter analysis'],
     links: [
-      { label: 'Report', url: '#' },
+      {
+        label: 'Report',
+        url: '#',
+      },
     ],
     featured: true,
   },
@@ -27,7 +30,10 @@ export const projects: Project[] = [
     domain: 'Fabrication',
     techStack: ['L-Edit', 'COMSOL', 'DRIE', 'SOI wafers', 'SEM characterization'],
     links: [
-      { label: 'Process Report', url: '#' },
+      {
+        label: 'Process Report',
+        url: '#',
+      },
     ],
     featured: false,
   },
@@ -42,7 +48,10 @@ export const projects: Project[] = [
     domain: 'Digital',
     techStack: ['Vivado', 'SystemVerilog', 'Artix-7', 'AXI-Stream', 'ModelSim'],
     links: [
-      { label: 'GitHub', url: '#' },
+      {
+        label: 'GitHub',
+        url: '#',
+      },
     ],
     featured: false,
   },
@@ -57,8 +66,11 @@ export const projects: Project[] = [
     domain: 'Analog',
     techStack: ['Altium Designer', 'LTspice', 'ADS1256', 'PCB layout', 'Noise analysis'],
     links: [
-      { label: 'Schematic', url: '#' },
+      {
+        label: 'Schematic',
+        url: '#',
+      },
     ],
-    featured: false,
+    featured: true,
   },
 ];
