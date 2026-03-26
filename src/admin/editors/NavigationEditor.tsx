@@ -3,10 +3,9 @@ import { z } from 'zod';
 import type { NavItem } from '@/types/data';
 import { useContentEditor } from '../useContentEditor';
 import { navItemSchema } from '../schemas';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { SectionHeader } from './shared/SectionHeader';
+import { FormField } from './shared/FormField';
 import { Plus, X } from 'lucide-react';
 
 interface NavigationEditorProps {
@@ -128,22 +127,20 @@ export function NavigationEditor({
 
           {/* Nav item fields */}
           <div className="grid grid-cols-2 gap-2">
-            <div className="space-y-1">
-              <Label className="text-xs">Label</Label>
-              <Input
-                value={item.label}
-                onChange={(e) => updateNavItem(i, 'label', e.target.value)}
-                placeholder="Label"
-              />
-            </div>
-            <div className="space-y-1">
-              <Label className="text-xs">Href</Label>
-              <Input
-                value={item.href}
-                onChange={(e) => updateNavItem(i, 'href', e.target.value)}
-                placeholder="#section"
-              />
-            </div>
+            <FormField
+              label="Label"
+              value={item.label}
+              onChange={(v) => updateNavItem(i, 'label', v)}
+              error={fieldErrors[`${i}.label`]}
+              required
+            />
+            <FormField
+              label="Href"
+              value={item.href}
+              onChange={(v) => updateNavItem(i, 'href', v)}
+              error={fieldErrors[`${i}.href`]}
+              required
+            />
           </div>
 
           {/* Children */}
@@ -153,30 +150,34 @@ export function NavigationEditor({
                 Children
               </span>
               {item.children.map((child, ci) => (
-                <div key={ci} className="flex items-start gap-2">
-                  <Input
-                    value={child.label}
-                    onChange={(e) =>
-                      updateChild(i, ci, 'label', e.target.value)
-                    }
-                    placeholder="Label"
-                    className="flex-1"
-                  />
-                  <Input
-                    value={child.href}
-                    onChange={(e) =>
-                      updateChild(i, ci, 'href', e.target.value)
-                    }
-                    placeholder="#section"
-                    className="flex-1"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => removeChild(i, ci)}
-                    className="mt-1.5 shrink-0 rounded-md p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
-                  >
-                    <X className="size-3.5" />
-                  </button>
+                <div key={ci} className="space-y-2">
+                  <div className="flex items-start gap-2">
+                    <div className="flex-1">
+                      <FormField
+                        label="Label"
+                        value={child.label}
+                        onChange={(v) => updateChild(i, ci, 'label', v)}
+                        error={fieldErrors[`${i}.children.${ci}.label`]}
+                        required
+                      />
+                    </div>
+                    <div className="flex-1">
+                      <FormField
+                        label="Href"
+                        value={child.href}
+                        onChange={(v) => updateChild(i, ci, 'href', v)}
+                        error={fieldErrors[`${i}.children.${ci}.href`]}
+                        required
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => removeChild(i, ci)}
+                      className="mt-6 shrink-0 rounded-md p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+                    >
+                      <X className="size-3.5" />
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -208,16 +209,6 @@ export function NavigationEditor({
         Add nav item
       </Button>
 
-      {/* Top-level validation errors */}
-      {fieldErrors &&
-        Object.keys(fieldErrors).length > 0 &&
-        Object.entries(fieldErrors).map(([key, errors]) =>
-          errors?.map((err, i) => (
-            <p key={`${key}-${i}`} className="text-sm text-red-500">
-              {err}
-            </p>
-          ))
-        )}
     </div>
   );
 }
