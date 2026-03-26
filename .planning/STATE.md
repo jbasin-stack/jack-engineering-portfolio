@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-03-24)
 Phase: 10 of 10 (Content Editors)
 Plan: 4 of 4 in current phase
 Status: Phase 10 Complete, v1.1 Milestone Complete (gap closure done)
-Last activity: 2026-03-26 — Quick task 1: data-lenis-prevent on admin panel for native scroll
+Last activity: 2026-03-26 - Completed quick task 1: Add scroll capture to admin control panel so scrolling over it scrolls the panel instead of the main page
 
 Progress: [██████████] 100% of v1.1 (11/11 plans)
 
@@ -101,6 +101,12 @@ Recent decisions affecting current work:
 - ~~Verify Prettier is installed as devDep before Phase 8 code generation work~~ (RESOLVED: prettier ^3.8.1 installed in 08-01)
 - Verify Sharp native binary on Windows before committing to image optimization
 - ~~Zod v4 error format differs from shadcn/ui docs examples (Zod v3 references)~~ (RESOLVED: using z.flattenError() standalone function in 10-01)
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 1 | Add scroll capture to admin control panel so scrolling over it scrolls the panel instead of the main page | 2026-03-26 | ae15a3c | [1-add-scroll-capture-to-admin-control-pane](./quick/1-add-scroll-capture-to-admin-control-pane/) |
 
 ## Session Continuity
 
