@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Content Admin Panel
-status: executing
-stopped_at: Completed 10-06-PLAN.md
-last_updated: "2026-03-26T18:50:46.884Z"
-last_activity: "2026-03-26 - Completed 10-06: item reorder buttons in all list-type editors"
+status: completed
+stopped_at: Completed 10-07-PLAN.md
+last_updated: "2026-03-26T18:51:44.823Z"
+last_activity: "2026-03-26 - Completed 10-07: PDF continuous scroll and featured projects full-row layout"
 progress:
   total_phases: 3
   completed_phases: 3
   total_plans: 14
   completed_plans: 14
-  percent: 93
+  percent: 100
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-24)
 
 **Core value:** Every visitor immediately understands Jack's range and depth as an electrical engineer, and can access the evidence without friction.
-**Current focus:** v1.1 milestone complete — all 9 content type editors functional (gap closure bugs fixed)
+**Current focus:** v1.1 milestone complete — all gap closure plans done (PDF scroll, featured projects, tests green)
 
 ## Current Position
 
 Phase: 10 of 10 (Content Editors)
-Plan: 6 of 7 in current phase
-Status: Executing gap closure plans
-Last activity: 2026-03-26 - Completed 10-06: item reorder buttons in all list-type editors
+Plan: 7 of 7 in current phase
+Status: Phase 10 Complete, all gap closure plans done
+Last activity: 2026-03-26 - Completed 10-07: PDF continuous scroll and featured projects full-row layout
 
-Progress: [█████████░] 93% of v1.1 (13/14 plans)
+Progress: [██████████] 100% of v1.1 (14/14 plans)
 
 ## Performance Metrics
 
@@ -59,6 +59,8 @@ Progress: [█████████░] 93% of v1.1 (13/14 plans)
 | Quick 01 | 1min | 1 task | 1 file |
 | Quick 02 | 1min | 1 task | 1 file |
 | Phase 10 P06 | 2min | 2 tasks | 7 files |
+| Phase 10 P05 | 3min | 2 tasks | 5 files |
+| Phase 10 P07 | 2min | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -96,6 +98,10 @@ Recent decisions affecting current work:
 - [Quick 02]: onWheel stopPropagation + overscroll-contain to fully isolate admin panel from Lenis root-mode window listener
 - [Phase 10]: Always-visible muted reorder arrows in ItemList for admin tool discoverability
 - [Phase 10]: Swap-based onReorder callback pattern: (from, to) => swap array + setActiveIndex(to) + onDirtyChange(true)
+- [Phase 10]: Custom issue.path.join('.') flattener over z.flattenError() for correct array-schema key matching
+- [Phase 10]: ring-1 ring-red-500 for visual error highlighting rather than relying solely on aria-invalid
+- [Phase 10]: Array.from loop for multi-page continuous scroll PDF rendering in react-pdf
+- [Phase 10]: Featured cards reuse expanded horizontal layout pattern with col-span-3 for full-row display
 
 ### Pending Todos
 
@@ -116,6 +122,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-26T18:50:31.212Z
-Stopped at: Completed 10-06-PLAN.md
+Last session: 2026-03-26T18:51:44.820Z
+Stopped at: Completed 10-07-PLAN.md
 Resume file: None
