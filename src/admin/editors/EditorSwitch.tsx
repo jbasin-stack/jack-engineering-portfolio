@@ -7,6 +7,8 @@ import { SkillsEditor } from './SkillsEditor';
 import { ToolingEditor } from './ToolingEditor';
 import { TimelineEditor } from './TimelineEditor';
 import { CourseworkEditor } from './CourseworkEditor';
+import { PapersEditor } from './PapersEditor';
+import { ProjectsEditor } from './ProjectsEditor';
 
 interface EditorSwitchProps {
   contentType: ContentTypeKey;
@@ -43,12 +45,19 @@ export function EditorSwitch({
       return (
         <CourseworkEditor onDirtyChange={onDirtyChange} saveRef={saveRef} />
       );
+    case 'papers':
+      return (
+        <PapersEditor onDirtyChange={onDirtyChange} saveRef={saveRef} />
+      );
+    case 'projects':
+      return (
+        <ProjectsEditor onDirtyChange={onDirtyChange} saveRef={saveRef} />
+      );
     default:
       return (
         <p className="text-sm text-gray-400">
-          Editor for{' '}
-          <span className="font-medium text-gray-600">{contentType}</span>{' '}
-          coming soon
+          Unknown content type:{' '}
+          <span className="font-medium text-gray-600">{contentType}</span>
         </p>
       );
   }
