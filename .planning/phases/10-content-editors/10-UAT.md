@@ -1,9 +1,9 @@
 ---
-status: complete
+status: resolved
 phase: 10-content-editors
 source: [10-01-SUMMARY.md, 10-02-SUMMARY.md, 10-03-SUMMARY.md]
 started: 2026-03-26T16:00:00Z
-updated: 2026-03-26T16:00:00Z
+updated: 2026-03-26T18:00:00Z
 ---
 
 ## Current Test
@@ -80,9 +80,17 @@ skipped: 10
 ## Gaps
 
 - truth: "Clicking content types in sidebar loads corresponding editor form with no placeholder text"
-  status: failed
+  status: resolved
   reason: "User reported: When I click on them, I just see ghosted outlines. It's like it's loading really slowly."
   severity: major
   test: 1
-  artifacts: []
-  missing: []
+  root_cause: "Admin API Vite plugin registers middleware AFTER Vite internals (returns function from configureServer), so SPA fallback intercepts /__admin-api/* requests and returns HTML instead of JSON. useContentEditor fetch gets HTML, json() parse throws, but no .catch() handler exists — loading stays true forever, editors stuck on animate-pulse skeleton."
+  artifacts:
+    - path: "vite-plugin-admin-api.ts"
+      issue: "configureServer returns a function (post-middleware), causing API routes to be intercepted by SPA fallback"
+    - path: "src/admin/useContentEditor.ts"
+      issue: "No .catch() on fetch chain — errors silently swallowed, loading never set to false"
+  missing:
+    - "Change configureServer to register middleware directly (pre-middleware) instead of returning a function"
+    - "Add .catch() handler to fetch chain in useContentEditor to show error toast and set loading=false"
+  debug_session: ".planning/debug/editors-ghosted-outlines.md"
