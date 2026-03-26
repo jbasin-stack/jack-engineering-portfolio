@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Content Admin Panel
-status: completed
-stopped_at: Completed 10-04-PLAN.md — gap closure bugs fixed, editors fully operational
-last_updated: "2026-03-26T17:57:29Z"
-last_activity: 2026-03-26 — Quick task 2 complete: wheel event stopPropagation + overscroll-contain on admin panel
+status: executing
+stopped_at: Completed 10-06-PLAN.md
+last_updated: "2026-03-26T18:50:46.884Z"
+last_activity: "2026-03-26 - Completed 10-06: item reorder buttons in all list-type editors"
 progress:
   total_phases: 3
   completed_phases: 3
-  total_plans: 11
-  completed_plans: 11
-  percent: 100
+  total_plans: 14
+  completed_plans: 14
+  percent: 93
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-03-24)
 ## Current Position
 
 Phase: 10 of 10 (Content Editors)
-Plan: 4 of 4 in current phase
-Status: Phase 10 Complete, v1.1 Milestone Complete (gap closure done)
-Last activity: 2026-03-26 - Completed quick task 2: Fix dual-scrolling bug with wheel event isolation from Lenis
+Plan: 6 of 7 in current phase
+Status: Executing gap closure plans
+Last activity: 2026-03-26 - Completed 10-06: item reorder buttons in all list-type editors
 
-Progress: [██████████] 100% of v1.1 (11/11 plans)
+Progress: [█████████░] 93% of v1.1 (13/14 plans)
 
 ## Performance Metrics
 
@@ -58,6 +58,7 @@ Progress: [██████████] 100% of v1.1 (11/11 plans)
 | Phase 10 P04 | 2min | 2 tasks | 2 files |
 | Quick 01 | 1min | 1 task | 1 file |
 | Quick 02 | 1min | 1 task | 1 file |
+| Phase 10 P06 | 2min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -93,6 +94,8 @@ Recent decisions affecting current work:
 - [Phase 10]: Pre-middleware vs post-middleware: direct server.middlewares.use() in configureServer to avoid SPA fallback interception
 - [Quick 01]: data-lenis-prevent on admin overlay motion.div for broad coverage of all child scroll areas
 - [Quick 02]: onWheel stopPropagation + overscroll-contain to fully isolate admin panel from Lenis root-mode window listener
+- [Phase 10]: Always-visible muted reorder arrows in ItemList for admin tool discoverability
+- [Phase 10]: Swap-based onReorder callback pattern: (from, to) => swap array + setActiveIndex(to) + onDirtyChange(true)
 
 ### Pending Todos
 
@@ -113,6 +116,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-26T18:04:23Z
-Stopped at: Completed quick task 2 — wheel event isolation from Lenis on admin panel
+Last session: 2026-03-26T18:50:31.212Z
+Stopped at: Completed 10-06-PLAN.md
 Resume file: None
