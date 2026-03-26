@@ -7,6 +7,11 @@ const cssContent = readFileSync(
   'utf-8',
 );
 
+const htmlContent = readFileSync(
+  resolve(__dirname, '..', '..', '..', 'index.html'),
+  'utf-8',
+);
+
 describe('dark mode CSS infrastructure', () => {
   it('has a .dark block with --background token', () => {
     // Match .dark { ... --background: ... } block
@@ -98,5 +103,26 @@ describe('color-scheme property', () => {
   it('sets color-scheme: dark in .dark block', () => {
     const darkBlock = cssContent.match(/\.dark\s*\{[^}]*color-scheme:\s*dark/s);
     expect(darkBlock).not.toBeNull();
+  });
+});
+
+describe('blocking script in index.html', () => {
+  it('contains prefers-color-scheme detection', () => {
+    expect(htmlContent).toContain('prefers-color-scheme');
+  });
+
+  it('adds .dark class to document element', () => {
+    expect(htmlContent).toContain("classList.add('dark')");
+  });
+
+  it('has no-transition class for FOUT prevention', () => {
+    expect(htmlContent).toContain('no-transition');
+  });
+
+  it('blocking script is in the <head> section before body', () => {
+    const scriptIndex = htmlContent.indexOf('prefers-color-scheme');
+    const bodyIndex = htmlContent.indexOf('<body>');
+    expect(scriptIndex).toBeLessThan(bodyIndex);
+    expect(scriptIndex).toBeGreaterThan(0);
   });
 });
