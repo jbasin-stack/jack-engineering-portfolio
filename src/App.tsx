@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState, useCallback } from 'react';
+import { lazy, Suspense, useState, useCallback, useEffect } from 'react';
 import { MotionConfig } from 'motion/react';
 import { SmoothScroll } from './components/layout/SmoothScroll';
 import { Hero } from './components/hero/Hero';
@@ -10,7 +10,6 @@ import { Timeline } from './components/sections/Timeline';
 import { ProjectsSection } from './components/projects/ProjectsSection';
 import { PapersSection } from './components/papers/PapersSection';
 import { Contact } from './components/sections/Contact';
-import { useKeyboardShortcuts } from './admin/useKeyboardShortcuts';
 
 /** Dev-only lazy import: tree-shaken to null in production builds */
 const AdminShell = import.meta.env.DEV
@@ -45,12 +44,18 @@ function App() {
     window.history.replaceState({}, '', url.toString());
   }, []);
 
-  // Noop handlers when panel is closed -- save/close only matter when open
-  const noop = useCallback(() => {}, []);
-
-  // Keyboard shortcuts always active (Ctrl+Shift+A toggle works when closed)
-  // In production, useKeyboardShortcuts is tree-shaken via dead-code elimination
-  useKeyboardShortcuts(adminOpen, toggleAdmin, noop, closeAdmin, false);
+  // DEV-only: Ctrl+Shift+A toggle shortcut (inline, not imported from admin/)
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+        e.preventDefault();
+        toggleAdmin();
+      }
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [toggleAdmin]);
 
   return (
     <MotionConfig reducedMotion="user">

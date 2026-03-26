@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useCallback } from 'react';
 import { Group, Panel, Separator } from 'react-resizable-panels';
 import { motion, AnimatePresence } from 'motion/react';
 import { X } from 'lucide-react';
@@ -6,6 +6,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { Button } from '@/components/ui/button';
 import { AdminNav } from './AdminNav';
 import { useAdminPanel } from './useAdminPanel';
+import { useKeyboardShortcuts } from './useKeyboardShortcuts';
 import { EditorSwitch } from './editors/EditorSwitch';
 
 interface AdminShellProps {
@@ -17,12 +18,24 @@ export default function AdminShell({ onClose }: AdminShellProps) {
   const { activeContentType, setActiveContentType, isDirty, setDirty } =
     useAdminPanel();
   const saveRef = useRef<(() => Promise<boolean>) | null>(null);
+  const savingRef = useRef(false);
 
   const handleSave = async () => {
     if (saveRef.current) {
       await saveRef.current();
     }
   };
+
+  // Save-in-progress guard for keyboard shortcut: skip if already saving or nothing dirty
+  const guardedSave = useCallback(async () => {
+    if (savingRef.current || !isDirty) return;
+    savingRef.current = true;
+    try {
+      await handleSave();
+    } finally {
+      savingRef.current = false;
+    }
+  }, [isDirty]);
 
   const handleDiscard = () => {
     setDirty(false);
@@ -37,6 +50,11 @@ export default function AdminShell({ onClose }: AdminShellProps) {
     }
     onClose();
   };
+
+  // Keyboard shortcuts: Ctrl+S and Escape handled here with real state.
+  // isOpen=true (AdminShell only renders when panel is open).
+  // onToggle is no-op (Ctrl+Shift+A toggle lives in App.tsx).
+  useKeyboardShortcuts(true, () => {}, guardedSave, handleClose, isDirty);
 
   return (
     <AnimatePresence>
