@@ -3,6 +3,10 @@ import type { ContentTypeKey } from '../useAdminPanel';
 import { HeroEditor } from './HeroEditor';
 import { ContactEditor } from './ContactEditor';
 import { NavigationEditor } from './NavigationEditor';
+import { SkillsEditor } from './SkillsEditor';
+import { ToolingEditor } from './ToolingEditor';
+import { TimelineEditor } from './TimelineEditor';
+import { CourseworkEditor } from './CourseworkEditor';
 
 interface EditorSwitchProps {
   contentType: ContentTypeKey;
@@ -24,6 +28,20 @@ export function EditorSwitch({
     case 'navigation':
       return (
         <NavigationEditor onDirtyChange={onDirtyChange} saveRef={saveRef} />
+      );
+    case 'skills':
+      return <SkillsEditor onDirtyChange={onDirtyChange} saveRef={saveRef} />;
+    case 'tooling':
+      return (
+        <ToolingEditor onDirtyChange={onDirtyChange} saveRef={saveRef} />
+      );
+    case 'timeline':
+      return (
+        <TimelineEditor onDirtyChange={onDirtyChange} saveRef={saveRef} />
+      );
+    case 'coursework':
+      return (
+        <CourseworkEditor onDirtyChange={onDirtyChange} saveRef={saveRef} />
       );
     default:
       return (
