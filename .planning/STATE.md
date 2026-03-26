@@ -5,7 +5,7 @@ milestone_name: Content Admin Panel
 status: completed
 stopped_at: Completed 10-04-PLAN.md — gap closure bugs fixed, editors fully operational
 last_updated: "2026-03-26T17:57:29Z"
-last_activity: 2026-03-26 — Quick task 1 complete: data-lenis-prevent on admin panel for native scroll
+last_activity: 2026-03-26 — Quick task 2 complete: wheel event stopPropagation + overscroll-contain on admin panel
 progress:
   total_phases: 3
   completed_phases: 3
@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-03-24)
 Phase: 10 of 10 (Content Editors)
 Plan: 4 of 4 in current phase
 Status: Phase 10 Complete, v1.1 Milestone Complete (gap closure done)
-Last activity: 2026-03-26 - Completed quick task 1: Add scroll capture to admin control panel so scrolling over it scrolls the panel instead of the main page
+Last activity: 2026-03-26 - Completed quick task 2: Fix dual-scrolling bug with wheel event isolation from Lenis
 
 Progress: [██████████] 100% of v1.1 (11/11 plans)
 
@@ -57,6 +57,7 @@ Progress: [██████████] 100% of v1.1 (11/11 plans)
 | Phase 10 P03 | 3min | 2 tasks | 3 files |
 | Phase 10 P04 | 2min | 2 tasks | 2 files |
 | Quick 01 | 1min | 1 task | 1 file |
+| Quick 02 | 1min | 1 task | 1 file |
 
 ## Accumulated Context
 
@@ -91,6 +92,7 @@ Recent decisions affecting current work:
 - [Phase 10]: Project images as preview cards with hover-reveal remove button plus append-mode UploadZone
 - [Phase 10]: Pre-middleware vs post-middleware: direct server.middlewares.use() in configureServer to avoid SPA fallback interception
 - [Quick 01]: data-lenis-prevent on admin overlay motion.div for broad coverage of all child scroll areas
+- [Quick 02]: onWheel stopPropagation + overscroll-contain to fully isolate admin panel from Lenis root-mode window listener
 
 ### Pending Todos
 
@@ -107,9 +109,10 @@ Recent decisions affecting current work:
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 1 | Add scroll capture to admin control panel so scrolling over it scrolls the panel instead of the main page | 2026-03-26 | ae15a3c | [1-add-scroll-capture-to-admin-control-pane](./quick/1-add-scroll-capture-to-admin-control-pane/) |
+| 2 | Fix dual-scrolling bug where admin panel scroll also scrolls background page | 2026-03-26 | ac41b15 | [2-fix-dual-scrolling-bug-where-admin-panel](./quick/2-fix-dual-scrolling-bug-where-admin-panel/) |
 
 ## Session Continuity
 
-Last session: 2026-03-26T17:57:29Z
-Stopped at: Completed quick task 1 — data-lenis-prevent on admin panel
+Last session: 2026-03-26T18:04:23Z
+Stopped at: Completed quick task 2 — wheel event isolation from Lenis on admin panel
 Resume file: None
