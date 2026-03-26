@@ -56,11 +56,12 @@ Full details: [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md)
   3. Scrolling from hero through all sections to footer shows one continuous background with no hard color breaks between sections
   4. Opening the PDF viewer (Dialog/Drawer) in both light and dark mode shows correctly styled chrome and readable content
   5. Toggling system preference between light and dark triggers a smooth color transition across all visible elements
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 12-01: TBD
-- [ ] 12-02: TBD
+- [ ] 12-01-PLAN.md — Color system, dark mode tokens, blocking script, transitions
+- [ ] 12-02-PLAN.md — Unified background, section cleanup, site component and PDF viewer theming
+- [ ] 12-03-PLAN.md — Admin panel dark mode theming
 
 ### Phase 13: Animated Hero Gradient
 **Goal**: The hero section makes a strong first impression with a subtle animated gradient that signals design craft
@@ -124,7 +125,7 @@ Phases execute in numeric order: 12 → 13 → 14 → 15
 | 9. Admin Shell, Preview, and Asset Pipeline | v1.1 | 3/3 | Complete | 2026-03-25 |
 | 10. Content Editors | v1.1 | 7/7 | Complete | 2026-03-26 |
 | 11. Keyboard Shortcut Wiring & Production Guard | v1.1 | 1/1 | Complete | 2026-03-26 |
-| 12. Theme Foundation & Unified Background | v1.2 | 0/? | Not started | - |
+| 12. Theme Foundation & Unified Background | v1.2 | 0/3 | Not started | - |
 | 13. Animated Hero Gradient | v1.2 | 0/? | Not started | - |
 | 14. Component Rebuilds | v1.2 | 0/? | Not started | - |
 | 15. Contact Footer & Cleanup | v1.2 | 0/? | Not started | - |
