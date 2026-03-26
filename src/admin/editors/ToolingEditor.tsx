@@ -63,8 +63,8 @@ export function ToolingEditor({ onDirtyChange, saveRef }: ToolingEditorProps) {
   if (loading) {
     return (
       <div className="space-y-4 animate-pulse">
-        <div className="h-3 w-20 rounded bg-gray-200" />
-        <div className="h-24 w-full rounded bg-gray-100" />
+        <div className="h-3 w-20 rounded bg-muted" />
+        <div className="h-24 w-full rounded bg-muted/50" />
       </div>
     );
   }

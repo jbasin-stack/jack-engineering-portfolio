@@ -132,8 +132,8 @@ export function ProjectsEditor({
   if (loading) {
     return (
       <div className="space-y-4 animate-pulse">
-        <div className="h-3 w-20 rounded bg-gray-200" />
-        <div className="h-24 w-full rounded bg-gray-100" />
+        <div className="h-3 w-20 rounded bg-muted" />
+        <div className="h-24 w-full rounded bg-muted/50" />
       </div>
     );
   }
@@ -168,8 +168,8 @@ export function ProjectsEditor({
 
           {/* Read-only auto-generated ID */}
           <div className="space-y-1.5">
-            <span className="text-sm font-medium text-gray-400">ID</span>
-            <p className="rounded bg-gray-50 px-3 py-2 text-sm text-gray-500">
+            <span className="text-sm font-medium text-muted-foreground">ID</span>
+            <p className="rounded bg-muted px-3 py-2 text-sm text-muted-foreground">
               {activeItem.id || '(auto-generated from title)'}
             </p>
           </div>
@@ -212,7 +212,7 @@ export function ProjectsEditor({
                 updateItem('featured', checked as boolean)
               }
             />
-            <span className="text-sm font-medium text-gray-700">
+            <span className="text-sm font-medium text-foreground">
               Featured project
             </span>
           </div>
@@ -240,13 +240,13 @@ export function ProjectsEditor({
 
           {/* Images gallery with remove buttons */}
           <div className="space-y-2">
-            <span className="text-sm font-medium text-gray-700">Images</span>
+            <span className="text-sm font-medium text-foreground">Images</span>
             {activeItem.images.length > 0 && (
               <div className="flex flex-wrap gap-2">
                 {activeItem.images.map((img, i) => (
                   <div
                     key={i}
-                    className="group relative rounded border border-gray-200 overflow-hidden"
+                    className="group relative rounded border border-border overflow-hidden"
                   >
                     <img
                       src={img}

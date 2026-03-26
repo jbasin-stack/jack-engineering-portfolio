@@ -31,9 +31,9 @@ export function NavigationEditor({
   if (loading || !data) {
     return (
       <div className="space-y-4 animate-pulse">
-        <div className="h-3 w-24 rounded bg-gray-200" />
-        <div className="h-24 w-full rounded bg-gray-100" />
-        <div className="h-24 w-full rounded bg-gray-100" />
+        <div className="h-3 w-24 rounded bg-muted" />
+        <div className="h-24 w-full rounded bg-muted/50" />
+        <div className="h-24 w-full rounded bg-muted/50" />
       </div>
     );
   }
@@ -109,17 +109,17 @@ export function NavigationEditor({
       {data.map((item, i) => (
         <div
           key={i}
-          className="rounded-lg border border-gray-200 bg-gray-50/50 p-3 space-y-3"
+          className="rounded-lg border border-border bg-muted/50 p-3 space-y-3"
         >
           {/* Nav item header with remove button */}
           <div className="flex items-center justify-between">
-            <span className="text-xs font-medium text-gray-500">
+            <span className="text-xs font-medium text-muted-foreground">
               Item {i + 1}
             </span>
             <button
               type="button"
               onClick={() => removeNavItem(i)}
-              className="rounded-md p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+              className="rounded-md p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
             >
               <X className="size-3.5" />
             </button>
@@ -145,8 +145,8 @@ export function NavigationEditor({
 
           {/* Children */}
           {item.children && item.children.length > 0 && (
-            <div className="ml-4 space-y-2 border-l-2 border-gray-200 pl-3">
-              <span className="text-xs font-medium text-gray-400">
+            <div className="ml-4 space-y-2 border-l-2 border-border pl-3">
+              <span className="text-xs font-medium text-muted-foreground">
                 Children
               </span>
               {item.children.map((child, ci) => (
@@ -173,7 +173,7 @@ export function NavigationEditor({
                     <button
                       type="button"
                       onClick={() => removeChild(i, ci)}
-                      className="mt-6 shrink-0 rounded-md p-1 text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600"
+                      className="mt-6 shrink-0 rounded-md p-1 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                     >
                       <X className="size-3.5" />
                     </button>
@@ -189,7 +189,7 @@ export function NavigationEditor({
             variant="ghost"
             size="sm"
             onClick={() => addChild(i)}
-            className="gap-1 text-xs text-gray-500"
+            className="gap-1 text-xs text-muted-foreground"
           >
             <Plus className="size-3" />
             Add child
@@ -203,7 +203,7 @@ export function NavigationEditor({
         variant="ghost"
         size="sm"
         onClick={addNavItem}
-        className="gap-1 text-gray-500"
+        className="gap-1 text-muted-foreground"
       >
         <Plus className="size-3.5" />
         Add nav item

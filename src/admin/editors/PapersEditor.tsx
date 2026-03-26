@@ -74,8 +74,8 @@ export function PapersEditor({ onDirtyChange, saveRef }: PapersEditorProps) {
   if (loading) {
     return (
       <div className="space-y-4 animate-pulse">
-        <div className="h-3 w-20 rounded bg-gray-200" />
-        <div className="h-24 w-full rounded bg-gray-100" />
+        <div className="h-3 w-20 rounded bg-muted" />
+        <div className="h-24 w-full rounded bg-muted/50" />
       </div>
     );
   }
@@ -109,8 +109,8 @@ export function PapersEditor({ onDirtyChange, saveRef }: PapersEditorProps) {
 
           {/* Read-only auto-generated ID */}
           <div className="space-y-1.5">
-            <span className="text-sm font-medium text-gray-400">ID</span>
-            <p className="rounded bg-gray-50 px-3 py-2 text-sm text-gray-500">
+            <span className="text-sm font-medium text-muted-foreground">ID</span>
+            <p className="rounded bg-muted px-3 py-2 text-sm text-muted-foreground">
               {activeItem.id || '(auto-generated from title)'}
             </p>
           </div>
