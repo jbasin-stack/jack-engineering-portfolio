@@ -19,10 +19,10 @@ Requirements for the Content Admin Panel milestone. Each maps to roadmap phases.
 
 - [x] **EDIT-01**: User can edit Hero section content (name, tagline, social links) via form
 - [x] **EDIT-02**: User can edit Contact section content (email, socials, resume path) via form
-- [ ] **EDIT-03**: User can edit Timeline entries (add, remove, modify milestones) via form
-- [ ] **EDIT-04**: User can edit Coursework entries via form
-- [ ] **EDIT-05**: User can edit Skills groups and individual skills via form
-- [ ] **EDIT-06**: User can edit Tooling categories and items via form
+- [x] **EDIT-03**: User can edit Timeline entries (add, remove, modify milestones) via form
+- [x] **EDIT-04**: User can edit Coursework entries via form
+- [x] **EDIT-05**: User can edit Skills groups and individual skills via form
+- [x] **EDIT-06**: User can edit Tooling categories and items via form
 - [x] **EDIT-07**: User can edit Navigation structure via form
 - [ ] **EDIT-08**: User can edit Papers (title, summary, PDF reference) via form
 - [ ] **EDIT-09**: User can edit Projects (all 10 fields including nested arrays) via form
@@ -85,10 +85,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INFRA-05 | Phase 8 | Complete |
 | EDIT-01 | Phase 10 | Complete |
 | EDIT-02 | Phase 10 | Complete |
-| EDIT-03 | Phase 10 | Pending |
-| EDIT-04 | Phase 10 | Pending |
-| EDIT-05 | Phase 10 | Pending |
-| EDIT-06 | Phase 10 | Pending |
+| EDIT-03 | Phase 10 | Complete |
+| EDIT-04 | Phase 10 | Complete |
+| EDIT-05 | Phase 10 | Complete |
+| EDIT-06 | Phase 10 | Complete |
 | EDIT-07 | Phase 10 | Complete |
 | EDIT-08 | Phase 10 | Pending |
 | EDIT-09 | Phase 10 | Pending |
