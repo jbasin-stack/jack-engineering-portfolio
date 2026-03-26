@@ -76,7 +76,12 @@ Plans:
   3. Submitting a form with invalid data (e.g., empty required field, malformed URL) shows inline validation errors and does not write to disk
   4. After a successful save, a toast notification confirms the save; after a validation error, a toast shows what went wrong
   5. The Projects editor supports adding/removing items in nested arrays (techStack, links, images) and uploading thumbnail images per project
-**Plans**: TBD
+**Plans:** 3 plans
+
+Plans:
+- [ ] 10-01-PLAN.md — Shared form infrastructure, Zod schemas, singleton editors (Hero, Contact, Navigation), and AdminShell wiring
+- [ ] 10-02-PLAN.md — List-type editors with simple items (Skills, Tooling, Timeline, Coursework)
+- [ ] 10-03-PLAN.md — Complex editors with nested arrays and uploads (Papers, Projects)
 
 ## Progress
 
@@ -93,4 +98,4 @@ Plans:
 | 7. Requirements Traceability Cleanup | v1.0 | 1/1 | Complete | 2026-03-24 |
 | 8. Admin Infrastructure | v1.1 | 4/4 | Complete | 2026-03-25 |
 | 9. Admin Shell, Preview, and Asset Pipeline | v1.1 | 3/3 | Complete | 2026-03-25 |
-| 10. Content Editors | v1.1 | 0/? | Not started | - |
+| 10. Content Editors | v1.1 | 0/3 | Not started | - |
