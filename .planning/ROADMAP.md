@@ -28,7 +28,7 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 
 - [x] **Phase 8: Admin Infrastructure** - Vite plugin API, TypeScript code generation, and dev/prod boundary
 - [x] **Phase 9: Admin Shell, Preview, and Asset Pipeline** - Split-pane layout with live preview and drag-drop asset uploads
-- [x] **Phase 10: Content Editors** - Form-based editors for all 9 content types with validation and feedback (completed 2026-03-26)
+- [ ] **Phase 10: Content Editors** - Form-based editors for all 9 content types with validation and feedback (UAT gap closure in progress)
 
 ## Phase Details
 
@@ -76,13 +76,16 @@ Plans:
   3. Submitting a form with invalid data (e.g., empty required field, malformed URL) shows inline validation errors and does not write to disk
   4. After a successful save, a toast notification confirms the save; after a validation error, a toast shows what went wrong
   5. The Projects editor supports adding/removing items in nested arrays (techStack, links, images) and uploading thumbnail images per project
-**Plans:** 4/4 plans complete
+**Plans:** 7 plans (4 complete, 3 gap closure)
 
 Plans:
 - [x] 10-01-PLAN.md — Shared form infrastructure, Zod schemas, singleton editors (Hero, Contact, Navigation), and AdminShell wiring
 - [x] 10-02-PLAN.md — List-type editors with simple items (Skills, Tooling, Timeline, Coursework)
 - [x] 10-03-PLAN.md — Complex editors with nested arrays and uploads (Papers, Projects)
-- [ ] 10-04-PLAN.md — Gap closure: fix middleware registration order and fetch error handling
+- [x] 10-04-PLAN.md — Gap closure: fix middleware registration order and fetch error handling
+- [ ] 10-05-PLAN.md — Gap closure: fix validation error flattener and add required field indicators
+- [ ] 10-06-PLAN.md — Gap closure: add move-up/move-down reorder to ItemList
+- [ ] 10-07-PLAN.md — Gap closure: continuous-scroll PDF viewer and featured project display
 
 ## Progress
 
@@ -99,4 +102,4 @@ Plans:
 | 7. Requirements Traceability Cleanup | v1.0 | 1/1 | Complete | 2026-03-24 |
 | 8. Admin Infrastructure | v1.1 | 4/4 | Complete | 2026-03-25 |
 | 9. Admin Shell, Preview, and Asset Pipeline | v1.1 | 3/3 | Complete | 2026-03-25 |
-| 10. Content Editors | 4/4 | Complete    | 2026-03-26 | 2026-03-26 |
+| 10. Content Editors | v1.1 | 4/7 | Gap Closure | — |
