@@ -46,7 +46,7 @@ export function NavDropdown({ item, activeSection, onNavigate }: NavDropdownProp
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-full left-0 mt-2 min-w-[160px] rounded-lg bg-white/90 backdrop-blur-[12px] border border-hairline border-silicon-200/30 py-2 shadow-lg shadow-ink/5"
+            className="absolute top-full left-0 mt-2 min-w-[160px] rounded-lg bg-background/90 backdrop-blur-[12px] border border-hairline border-border/30 py-2 shadow-lg shadow-ink/5"
           >
             {item.children?.map((child) => {
               const isChildActive = activeSection === child.href.replace('#', '');
@@ -57,7 +57,7 @@ export function NavDropdown({ item, activeSection, onNavigate }: NavDropdownProp
                   className={`block w-full px-4 py-2 text-left text-sm transition-colors ${
                     isChildActive
                       ? 'text-ink font-medium'
-                      : 'text-silicon-600 hover:text-ink hover:bg-silicon-50'
+                      : 'text-silicon-600 hover:text-ink hover:bg-muted'
                   }`}
                 >
                   {child.label}

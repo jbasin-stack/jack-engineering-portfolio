@@ -82,13 +82,13 @@ export function PdfViewer({ file, title, open, onOpenChange }: PdfViewerProps) {
 
   // Shared button style for toolbar controls
   const btnClass =
-    'rounded-lg p-2 hover:bg-silicon-50 text-silicon-600 transition-colors disabled:opacity-30 disabled:cursor-not-allowed';
+    'rounded-lg p-2 hover:bg-muted text-muted-foreground transition-colors disabled:opacity-30 disabled:cursor-not-allowed';
 
   // Toolbar rendered inside both Dialog and Drawer
   const toolbar = (
-    <div className="flex items-center justify-between border-b border-silicon-200/30 px-4 py-2">
+    <div className="flex items-center justify-between border-b border-border/30 px-4 py-2">
       {/* Page count */}
-      <span className="text-sm text-silicon-600">
+      <span className="text-sm text-muted-foreground">
         {numPages > 0 ? `${numPages} page${numPages !== 1 ? 's' : ''}` : 'Loading...'}
       </span>
 
@@ -102,7 +102,7 @@ export function PdfViewer({ file, title, open, onOpenChange }: PdfViewerProps) {
         >
           <ZoomOut size={18} />
         </button>
-        <span className="min-w-[3rem] text-center text-sm text-silicon-600">
+        <span className="min-w-[3rem] text-center text-sm text-muted-foreground">
           {zoomPercent}
         </span>
         <button
@@ -141,11 +141,11 @@ export function PdfViewer({ file, title, open, onOpenChange }: PdfViewerProps) {
     <div className="flex-1 overflow-auto">
       <div className="flex justify-center p-4">
         {loading && !error && (
-          <p className="py-12 text-center text-silicon-600">Loading...</p>
+          <p className="py-12 text-center text-muted-foreground">Loading...</p>
         )}
         {error && (
           <div className="flex flex-col items-center gap-4 py-12 text-center">
-            <p className="text-silicon-600">Failed to load PDF</p>
+            <p className="text-muted-foreground">Failed to load PDF</p>
             <a
               href={file}
               download

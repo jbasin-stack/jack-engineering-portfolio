@@ -40,7 +40,7 @@ export function MobileMenu({ isOpen, onClose, onNavigate }: MobileMenuProps) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3, ease: easing.out }}
-          className="fixed inset-0 z-[60] bg-white/95 backdrop-blur-[20px]"
+          className="fixed inset-0 z-[60] bg-background/95 backdrop-blur-[20px]"
         >
           <div className="flex h-full flex-col px-6 py-4">
             {/* Top bar with logo and close button */}

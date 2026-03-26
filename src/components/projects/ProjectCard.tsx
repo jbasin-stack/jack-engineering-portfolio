@@ -20,7 +20,7 @@ export function ProjectCard({
   return (
     <motion.div
       layout
-      className={`rounded-xl bg-white shadow-lg overflow-hidden ${
+      className={`rounded-xl bg-card shadow-lg overflow-hidden ${
         isExpanded || project.featured ? 'col-span-1 md:col-span-3' : ''
       }`}
       whileHover={{

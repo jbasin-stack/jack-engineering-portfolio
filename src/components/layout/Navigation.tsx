@@ -49,7 +49,7 @@ export function Navigation() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.4, ease: easing.out }}
-            className="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur-[12px] border-b border-hairline border-silicon-200/30"
+            className="fixed top-0 inset-x-0 z-50 bg-background/80 backdrop-blur-[12px] border-b border-hairline border-border/30"
           >
             <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
               {/* Logo -- scrolls to top */}
