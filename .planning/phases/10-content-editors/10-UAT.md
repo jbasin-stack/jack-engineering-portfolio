@@ -1,5 +1,5 @@
 ---
-status: complete
+status: diagnosed
 phase: 10-content-editors
 source: [10-01-SUMMARY.md, 10-02-SUMMARY.md, 10-03-SUMMARY.md]
 started: 2026-03-26T16:00:00Z
@@ -98,37 +98,90 @@ skipped: 0
   reason: "User reported: No drag-to-reorder or date-based auto-sort for timeline items. Validation error just says 'check highlighted fields' but no fields are visibly highlighted. Wants red stars for required fields and inline error messages across all editors."
   severity: major
   test: 7
-  artifacts: []
-  missing: []
+  root_cause: "ItemList has no reorder capability (no drag-and-drop, no move buttons, no onReorder prop). Timeline date field is freeform string making auto-sort non-trivial. z.flattenError() produces wrong key format for array schemas — editors look up '0.title' but flattenError returns '0' with message array."
+  artifacts:
+    - path: "src/admin/editors/shared/ItemList.tsx"
+      issue: "No reorder capability — only has items, activeIndex, onSelect, getLabel, onAdd props"
+    - path: "src/admin/useContentEditor.ts"
+      issue: "z.flattenError() produces wrong keys for array schemas, breaking error display in 7/9 editors"
+    - path: "src/admin/editors/shared/FormField.tsx"
+      issue: "No required prop or red star indicator"
+  missing:
+    - "Add move-up/move-down buttons or @dnd-kit drag reorder to ItemList"
+    - "Replace z.flattenError() with custom flattener using issue.path.join('.') for dotted keys"
+    - "Add required prop with red asterisk to FormField, TagInput, StructuredArrayField"
+  debug_session: ".planning/debug/timeline-ordering-validation.md"
 
 - truth: "Coursework items can be reordered in the editor"
   status: failed
   reason: "User reported: Would like to rearrange coursework items. Coursework section not yet displayed on the public site — user unsure if they want it."
   severity: minor
   test: 8
-  artifacts: []
-  missing: []
+  root_cause: "Same ItemList gap — no reorder props or drag library. Coursework.tsx component exists and is functional but never imported/rendered in App.tsx. No DnD dependency in package.json."
+  artifacts:
+    - path: "src/admin/editors/shared/ItemList.tsx"
+      issue: "No reorder capability"
+    - path: "src/components/sections/Coursework.tsx"
+      issue: "Complete component, never rendered in App.tsx"
+    - path: "src/App.tsx"
+      issue: "Missing Coursework import and render"
+  missing:
+    - "Reorder fix shared with Test 7 (ItemList upgrade)"
+    - "User decision needed: add Coursework to App.tsx or keep admin-only"
+  debug_session: ".planning/debug/coursework-reorder.md"
 
 - truth: "Papers PDF viewer allows continuous scrolling through pages"
   status: failed
   reason: "User reported: PDF viewer uses page-by-page clicking instead of continuous scroll. Prefers scrollable view."
   severity: minor
   test: 9
-  artifacts: []
-  missing: []
+  root_cause: "PdfViewer.tsx renders exactly one <Page> at a time (line 196) controlled by pageNumber state with prev/next buttons. Design-level issue — component was built with single-page pagination from the start. react-pdf v10.4.1 fully supports rendering multiple Page components."
+  artifacts:
+    - path: "src/components/pdf/PdfViewer.tsx"
+      issue: "Single <Page pageNumber={pageNumber} /> render — only shows one page at a time"
+  missing:
+    - "Replace single Page with loop rendering all pages"
+    - "Remove pageNumber state and prev/next navigation buttons"
+    - "Existing overflow-auto container will handle scrolling automatically"
+  debug_session: ".planning/debug/pdf-viewer-scroll.md"
 
 - truth: "Featured projects take up a full row in the projects grid"
   status: failed
   reason: "User reported: Featured project tag doesn't visually differentiate. Wants featured projects to span a full row."
   severity: minor
   test: 10
-  artifacts: []
-  missing: []
+  root_cause: "featured boolean is fully wired in data layer and admin editor, but ProjectCard.tsx and ProjectsSection.tsx completely ignore it. Original col-span-2 treatment was intentionally removed during Phase 03-04 in favor of 'uniform tile sizing'. The field has been a no-op on the public site since."
+  artifacts:
+    - path: "src/components/projects/ProjectCard.tsx"
+      issue: "No reference to 'featured' anywhere in the 120-line file"
+    - path: "src/components/projects/ProjectsSection.tsx"
+      issue: "No reference to 'featured' — no grid-level differentiation"
+    - path: "src/data/__tests__/projects.test.ts"
+      issue: "Test expects exactly 1 featured project but data has 2"
+  missing:
+    - "Apply md:col-span-3 to featured cards with horizontal image+content layout"
+    - "Reconcile test expecting 1 featured project"
+  debug_session: ".planning/debug/featured-project-display.md"
 
 - truth: "Validation error highlighting is consistent across all editors"
   status: failed
   reason: "User reported: Some editors show highlighted fields on validation error, others don't. Inconsistent behavior."
   severity: major
   test: 11
-  artifacts: []
-  missing: []
+  root_cause: "Three independent issues: (1) z.flattenError() key mismatch for array schemas — 7/9 editors broken, (2) No required field indicators anywhere — no red stars on FormField/TagInput/StructuredArrayField, (3) NavigationEditor bypasses FormField entirely — uses raw Input/Label with no aria-invalid or inline errors."
+  artifacts:
+    - path: "src/admin/useContentEditor.ts"
+      issue: "z.flattenError() produces {0: [...]} not {'0.title': [...]}"
+    - path: "src/admin/editors/shared/FormField.tsx"
+      issue: "No required prop or visual indicator"
+    - path: "src/admin/editors/shared/TagInput.tsx"
+      issue: "No required prop or visual indicator"
+    - path: "src/admin/editors/shared/StructuredArrayField.tsx"
+      issue: "No required prop or visual indicator"
+    - path: "src/admin/editors/NavigationEditor.tsx"
+      issue: "Bypasses FormField — raw inputs, errors dumped at bottom"
+  missing:
+    - "Custom error flattener using issue.path.join('.') in useContentEditor.ts"
+    - "Add required prop with red asterisk to FormField, TagInput, StructuredArrayField"
+    - "Refactor NavigationEditor to use FormField for consistent error display"
+  debug_session: ".planning/debug/validation-inconsistency.md"
