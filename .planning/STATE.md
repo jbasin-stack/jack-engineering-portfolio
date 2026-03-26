@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: UI Polish & Interactivity
 status: executing
-stopped_at: Completed 12-02-PLAN.md
-last_updated: "2026-03-26T22:47:22Z"
-last_activity: 2026-03-26 — Completed 12-02 unified background & site component theming
+stopped_at: Completed 12-03-PLAN.md (Phase 12 complete)
+last_updated: "2026-03-26T22:49:26Z"
+last_activity: 2026-03-26 — Completed 12-03 admin panel semantic token migration
 progress:
   total_phases: 4
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 2
+  completed_plans: 3
   percent: 67
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-03-26)
 ## Current Position
 
 Phase: 12 of 15 (Theme Foundation & Unified Background)
-Plan: 3 of 3
-Status: Executing
-Last activity: 2026-03-26 — Completed 12-02 unified background & site component theming
+Plan: 3 of 3 (complete)
+Status: Phase 12 Complete
+Last activity: 2026-03-26 — Completed 12-03 admin panel semantic token migration
 
-Progress: [███████░░░] 67%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -47,6 +47,7 @@ Progress: [███████░░░] 67%
 | 8-11 (v1.1) | 15 | ~60min | ~4min |
 | 12-01 | 1 | 3min | 3min |
 | 12-02 | 1 | 3min | 3min |
+| 12-03 | 1 | 5min | 5min |
 
 *Updated after each plan completion*
 
@@ -68,6 +69,8 @@ Recent decisions affecting current work:
 - [v1.2 Research]: data-lenis-prevent on Embla viewport to prevent Lenis hijacking carousel scroll
 - [12-02]: Replaced motion.section with plain section + motion.div to preserve animation while removing NoisyBackground
 - [12-02]: PdfViewer toolbar uses zero hardcoded palette references -- all semantic tokens
+- [12-03]: Skeleton loaders use bg-muted/bg-muted/50 pattern for visibility in both modes
+- [12-03]: Admin panel now uses only semantic tokens -- zero hardcoded gray classes remain
 
 ### Pending Todos
 
@@ -81,6 +84,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-26T22:47:22Z
-Stopped at: Completed 12-02-PLAN.md
-Resume file: .planning/phases/12-theme-foundation-unified-background/12-02-SUMMARY.md
+Last session: 2026-03-26T22:49:26Z
+Stopped at: Completed 12-03-PLAN.md (Phase 12 complete)
+Resume file: .planning/phases/12-theme-foundation-unified-background/12-03-SUMMARY.md
