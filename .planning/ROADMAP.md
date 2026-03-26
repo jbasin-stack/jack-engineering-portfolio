@@ -29,7 +29,7 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 - [x] **Phase 8: Admin Infrastructure** - Vite plugin API, TypeScript code generation, and dev/prod boundary
 - [x] **Phase 9: Admin Shell, Preview, and Asset Pipeline** - Split-pane layout with live preview and drag-drop asset uploads
 - [x] **Phase 10: Content Editors** - Form-based editors for all 9 content types with validation and feedback (UAT gap closure in progress) (completed 2026-03-26)
-- [ ] **Phase 11: Keyboard Shortcut Wiring & Production Guard** - Gate dev-only imports, wire Ctrl+S save and Escape dirty confirmation
+- [x] **Phase 11: Keyboard Shortcut Wiring & Production Guard** - Gate dev-only imports, wire Ctrl+S save and Escape dirty confirmation (completed 2026-03-26)
 
 ## Phase Details
 
@@ -98,7 +98,7 @@ Plans:
   2. Pressing Ctrl+S while an editor has unsaved changes triggers save and shows a success toast
   3. Pressing Escape while an editor has unsaved changes shows a confirmation dialog before closing
   4. All existing tests continue to pass
-**Plans:** 1 plan
+**Plans:** 1/1 plans complete
 
 Plans:
 - [ ] 11-01-PLAN.md — Wire keyboard shortcuts to real state, gate admin imports from production builds
@@ -119,4 +119,4 @@ Plans:
 | 8. Admin Infrastructure | v1.1 | 4/4 | Complete | 2026-03-25 |
 | 9. Admin Shell, Preview, and Asset Pipeline | v1.1 | 3/3 | Complete | 2026-03-25 |
 | 10. Content Editors | v1.1 | 7/7 | Complete | 2026-03-26 |
-| 11. Keyboard Shortcut Wiring & Production Guard | v1.1 | 0/1 | Pending | — |
+| 11. Keyboard Shortcut Wiring & Production Guard | 1/1 | Complete   | 2026-03-26 | — |

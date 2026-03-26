@@ -3,9 +3,9 @@ gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: Content Admin Panel
 status: completed
-stopped_at: Phase 11 context gathered
+stopped_at: Completed 11-01-PLAN.md
 last_updated: "2026-03-26T19:21:39.845Z"
-last_activity: "2026-03-26 - Completed 10-07: PDF continuous scroll and featured projects full-row layout"
+last_activity: "2026-03-26 - Completed 11-01: Keyboard shortcut wiring and production guard"
 progress:
   total_phases: 4
   completed_phases: 3
@@ -21,22 +21,22 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-24)
 
 **Core value:** Every visitor immediately understands Jack's range and depth as an electrical engineer, and can access the evidence without friction.
-**Current focus:** v1.1 milestone complete — all gap closure plans done (PDF scroll, featured projects, tests green)
+**Current focus:** v1.1 milestone complete — all audit items closed (keyboard shortcuts wired, production guard verified)
 
 ## Current Position
 
-Phase: 10 of 10 (Content Editors)
-Plan: 7 of 7 in current phase
-Status: Phase 10 Complete, all gap closure plans done
-Last activity: 2026-03-26 - Completed 10-07: PDF continuous scroll and featured projects full-row layout
+Phase: 11 of 11 (Keyboard Shortcut Wiring & Production Guard)
+Plan: 1 of 1 in current phase
+Status: Phase 11 Complete, all v1.1 audit items closed
+Last activity: 2026-03-26 - Completed 11-01: Keyboard shortcut wiring and production guard
 
-Progress: [██████████] 100% of v1.1 (14/14 plans)
+Progress: [██████████] 100% of v1.1 (15/15 plans)
 
 ## Performance Metrics
 
 **Velocity:**
 - Total plans completed: 19 (v1.0)
-- v1.1 plans completed: 11
+- v1.1 plans completed: 12
 
 **By Phase:**
 
@@ -61,6 +61,7 @@ Progress: [██████████] 100% of v1.1 (14/14 plans)
 | Phase 10 P06 | 2min | 2 tasks | 7 files |
 | Phase 10 P05 | 3min | 2 tasks | 5 files |
 | Phase 10 P07 | 2min | 2 tasks | 4 files |
+| Phase 11 P01 | 3min | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -102,6 +103,9 @@ Recent decisions affecting current work:
 - [Phase 10]: ring-1 ring-red-500 for visual error highlighting rather than relying solely on aria-invalid
 - [Phase 10]: Array.from loop for multi-page continuous scroll PDF rendering in react-pdf
 - [Phase 10]: Featured cards reuse expanded horizontal layout pattern with col-span-3 for full-row display
+- [Phase 11]: useKeyboardShortcuts called inside AdminShell (not App.tsx) for direct access to save/dirty state
+- [Phase 11]: Inline Ctrl+Shift+A handler in App.tsx useEffect behind import.meta.env.DEV guard (no admin import)
+- [Phase 11]: guardedSave with savingRef.current flag to prevent concurrent saves from rapid Ctrl+S
 
 ### Pending Todos
 
@@ -122,6 +126,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-26T19:21:39.843Z
-Stopped at: Phase 11 context gathered
-Resume file: .planning/phases/11-keyboard-shortcut-wiring-and-production-guard/11-CONTEXT.md
+Last session: 2026-03-26T19:39:31Z
+Stopped at: Completed 11-01-PLAN.md (Phase 11 complete)
+Resume file: .planning/phases/11-keyboard-shortcut-wiring-and-production-guard/11-01-SUMMARY.md
