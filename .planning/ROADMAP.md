@@ -29,6 +29,7 @@ Full details: [milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md)
 - [x] **Phase 8: Admin Infrastructure** - Vite plugin API, TypeScript code generation, and dev/prod boundary
 - [x] **Phase 9: Admin Shell, Preview, and Asset Pipeline** - Split-pane layout with live preview and drag-drop asset uploads
 - [x] **Phase 10: Content Editors** - Form-based editors for all 9 content types with validation and feedback (UAT gap closure in progress) (completed 2026-03-26)
+- [ ] **Phase 11: Keyboard Shortcut Wiring & Production Guard** - Gate dev-only imports, wire Ctrl+S save and Escape dirty confirmation
 
 ## Phase Details
 
@@ -87,9 +88,23 @@ Plans:
 - [ ] 10-06-PLAN.md — Gap closure: add move-up/move-down reorder to ItemList
 - [ ] 10-07-PLAN.md — Gap closure: continuous-scroll PDF viewer and featured project display
 
+### Phase 11: Keyboard Shortcut Wiring & Production Guard
+**Goal**: Keyboard shortcuts (Ctrl+S, Escape) work end-to-end and dev-only imports are excluded from production builds
+**Depends on**: Phase 10
+**Requirements**: INFRA-01 (hardening)
+**Gap Closure:** Closes INT-01, INT-02, INT-03 and flows "Ctrl+S save", "Escape dirty confirmation" from v1.1 audit
+**Success Criteria** (what must be TRUE):
+  1. `vite build` produces a dist/ folder with zero references to `useKeyboardShortcuts` (verified by grep)
+  2. Pressing Ctrl+S while an editor has unsaved changes triggers save and shows a success toast
+  3. Pressing Escape while an editor has unsaved changes shows a confirmation dialog before closing
+  4. All existing tests continue to pass
+
+Plans:
+- [ ] 11-01-PLAN.md — (pending)
+
 ## Progress
 
-**Execution Order:** Phases execute in numeric order: 8 → 9 → 10
+**Execution Order:** Phases execute in numeric order: 8 → 9 → 10 → 11
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -102,4 +117,5 @@ Plans:
 | 7. Requirements Traceability Cleanup | v1.0 | 1/1 | Complete | 2026-03-24 |
 | 8. Admin Infrastructure | v1.1 | 4/4 | Complete | 2026-03-25 |
 | 9. Admin Shell, Preview, and Asset Pipeline | v1.1 | 3/3 | Complete | 2026-03-25 |
-| 10. Content Editors | 7/7 | Complete    | 2026-03-26 | — |
+| 10. Content Editors | v1.1 | 7/7 | Complete | 2026-03-26 |
+| 11. Keyboard Shortcut Wiring & Production Guard | v1.1 | 0/0 | Pending | — |
