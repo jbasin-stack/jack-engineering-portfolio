@@ -9,11 +9,11 @@ Requirements for UI Polish & Interactivity milestone. Each maps to roadmap phase
 
 ### Theme & Background
 
-- [ ] **THEME-01**: Site automatically applies dark or light theme based on user's system preference (prefers-color-scheme)
-- [ ] **THEME-02**: Blue-primary oklch color variable system with light and dark mode definitions
+- [x] **THEME-01**: Site automatically applies dark or light theme based on user's system preference (prefers-color-scheme)
+- [x] **THEME-02**: Blue-primary oklch color variable system with light and dark mode definitions
 - [ ] **THEME-03**: Unified continuous background across all sections with no hard color breaks between them
-- [ ] **THEME-04**: Theme switch triggers smooth 300ms CSS transitions on background, text, and border colors
-- [ ] **THEME-05**: Dark mode FOUT prevented via blocking script that applies theme class before React mounts
+- [x] **THEME-04**: Theme switch triggers smooth 300ms CSS transitions on background, text, and border colors
+- [x] **THEME-05**: Dark mode FOUT prevented via blocking script that applies theme class before React mounts
 - [ ] **THEME-06**: PDF viewer (Dialog/Drawer) styled correctly in both light and dark modes
 
 ### Hero
@@ -87,11 +87,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| THEME-01 | Phase 12 | Pending |
-| THEME-02 | Phase 12 | Pending |
+| THEME-01 | Phase 12 | Complete |
+| THEME-02 | Phase 12 | Complete |
 | THEME-03 | Phase 12 | Pending |
-| THEME-04 | Phase 12 | Pending |
-| THEME-05 | Phase 12 | Pending |
+| THEME-04 | Phase 12 | Complete |
+| THEME-05 | Phase 12 | Complete |
 | THEME-06 | Phase 12 | Pending |
 | HERO-01 | Phase 13 | Pending |
 | HERO-02 | Phase 13 | Pending |
