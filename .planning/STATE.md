@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: UI Polish & Interactivity
 status: executing
-stopped_at: Completed 12-01-PLAN.md
-last_updated: "2026-03-26T22:40:44Z"
-last_activity: 2026-03-26 — Completed 12-01 color system & dark mode infrastructure
+stopped_at: Completed 12-02-PLAN.md
+last_updated: "2026-03-26T22:47:22Z"
+last_activity: 2026-03-26 — Completed 12-02 unified background & site component theming
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
-  percent: 33
+  completed_plans: 2
+  percent: 67
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-03-26)
 ## Current Position
 
 Phase: 12 of 15 (Theme Foundation & Unified Background)
-Plan: 2 of 3
+Plan: 3 of 3
 Status: Executing
-Last activity: 2026-03-26 — Completed 12-01 color system & dark mode infrastructure
+Last activity: 2026-03-26 — Completed 12-02 unified background & site component theming
 
-Progress: [███░░░░░░░] 33%
+Progress: [███████░░░] 67%
 
 ## Performance Metrics
 
@@ -46,6 +46,7 @@ Progress: [███░░░░░░░] 33%
 | 1-7 (v1.0) | 19 | -- | -- |
 | 8-11 (v1.1) | 15 | ~60min | ~4min |
 | 12-01 | 1 | 3min | 3min |
+| 12-02 | 1 | 3min | 3min |
 
 *Updated after each plan completion*
 
@@ -65,6 +66,8 @@ Recent decisions affecting current work:
 - [12-01]: Gradient uses CSS custom properties for transitionable stops
 - [v1.2 Research]: GPU-composited opacity-layered gradients for hero animation (not background-size animation)
 - [v1.2 Research]: data-lenis-prevent on Embla viewport to prevent Lenis hijacking carousel scroll
+- [12-02]: Replaced motion.section with plain section + motion.div to preserve animation while removing NoisyBackground
+- [12-02]: PdfViewer toolbar uses zero hardcoded palette references -- all semantic tokens
 
 ### Pending Todos
 
@@ -78,6 +81,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-26T22:40:44Z
-Stopped at: Completed 12-01-PLAN.md
-Resume file: .planning/phases/12-theme-foundation-unified-background/12-01-SUMMARY.md
+Last session: 2026-03-26T22:47:22Z
+Stopped at: Completed 12-02-PLAN.md
+Resume file: .planning/phases/12-theme-foundation-unified-background/12-02-SUMMARY.md
