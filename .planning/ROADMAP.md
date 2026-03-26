@@ -98,9 +98,10 @@ Plans:
   2. Pressing Ctrl+S while an editor has unsaved changes triggers save and shows a success toast
   3. Pressing Escape while an editor has unsaved changes shows a confirmation dialog before closing
   4. All existing tests continue to pass
+**Plans:** 1 plan
 
 Plans:
-- [ ] 11-01-PLAN.md — (pending)
+- [ ] 11-01-PLAN.md — Wire keyboard shortcuts to real state, gate admin imports from production builds
 
 ## Progress
 
@@ -118,4 +119,4 @@ Plans:
 | 8. Admin Infrastructure | v1.1 | 4/4 | Complete | 2026-03-25 |
 | 9. Admin Shell, Preview, and Asset Pipeline | v1.1 | 3/3 | Complete | 2026-03-25 |
 | 10. Content Editors | v1.1 | 7/7 | Complete | 2026-03-26 |
-| 11. Keyboard Shortcut Wiring & Production Guard | v1.1 | 0/0 | Pending | — |
+| 11. Keyboard Shortcut Wiring & Production Guard | v1.1 | 0/1 | Pending | — |
