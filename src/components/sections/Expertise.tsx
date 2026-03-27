@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { skillGroups } from '../../data/skills';
 import { toolingGroups } from '../../data/tooling';
@@ -41,9 +41,41 @@ const domainMapping = [
 // Derive tab list from mapping (data-driven default: first domain)
 const tabs = domainMapping.map(({ id, label }) => ({ id, label }));
 
+// Direction-aware slide variants for tab content transitions
+// direction: +1 (forward/right) or -1 (backward/left)
+const slideVariants = {
+  initial: (direction: number) => ({
+    x: direction * 60,
+    opacity: 0,
+    scale: 0.96,
+    filter: 'blur(8px)',
+  }),
+  animate: {
+    x: 0,
+    opacity: 1,
+    scale: 1,
+    filter: 'blur(0px)',
+  },
+  exit: (direction: number) => ({
+    x: direction * -60,
+    opacity: 0,
+    scale: 0.96,
+    filter: 'blur(8px)',
+  }),
+};
+
 /** Merged Skills + Tooling section with 4 domain tabs */
 export function Expertise() {
   const [activeTab, setActiveTab] = useState(tabs[0].id);
+  const directionRef = useRef(0);
+
+  // Compute slide direction based on tab index delta
+  function handleTabChange(newTabId: string) {
+    const oldIndex = tabs.findIndex((t) => t.id === activeTab);
+    const newIndex = tabs.findIndex((t) => t.id === newTabId);
+    directionRef.current = newIndex > oldIndex ? 1 : -1;
+    setActiveTab(newTabId);
+  }
 
   const activeDomain = domainMapping.find((d) => d.id === activeTab)!;
   const skills =
@@ -74,19 +106,21 @@ export function Expertise() {
             <AnimatedTabs
               tabs={tabs}
               activeTab={activeTab}
-              onChange={setActiveTab}
+              onChange={handleTabChange}
             />
           </motion.div>
 
           {/* Tab content panels */}
-          <AnimatePresence mode="wait">
+          <AnimatePresence mode="wait" custom={directionRef.current}>
             <motion.div
               key={activeTab}
+              custom={directionRef.current}
               role="tabpanel"
               id={`panel-${activeTab}`}
-              initial={{ opacity: 0, scale: 0.96, filter: 'blur(8px)' }}
-              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, scale: 0.96, filter: 'blur(8px)' }}
+              variants={slideVariants}
+              initial="initial"
+              animate="animate"
+              exit="exit"
               transition={{ duration: 0.25, ease: easing.out }}
               className="mt-6 min-h-[200px] rounded-xl backdrop-blur-md bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/10 p-6"
             >
