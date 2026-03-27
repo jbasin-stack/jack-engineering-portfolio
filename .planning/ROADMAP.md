@@ -42,6 +42,7 @@ Full details: [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md)
 - [x] **Phase 12: Theme Foundation & Unified Background** - Blue-primary color system with system-preference dark/light mode and seamless page-spanning background (completed 2026-03-26)
 - [x] **Phase 13: Animated Hero Gradient** - Breathing radial gradient behind hero content that blends into the unified background (completed 2026-03-27)
 - [x] **Phase 14: Component Rebuilds** - Animated glassmorphic tabs (merged Skills & Tooling), horizontal project carousel, and scroll-triggered SVG timeline with glowing nodes (completed 2026-03-27)
+- [ ] **Phase 14.1: Timeline Overhaul (INSERTED)** - Editorial-style timeline with large year anchors, varied image layouts, accent connector line, and whileInView fade-in animations
 - [ ] **Phase 15: Contact Footer & Cleanup** - Clean contact links section, minimal footer, deprecated component removal, and production build verification
 
 ## Phase Details
@@ -95,6 +96,25 @@ Plans:
 - [x] 14-04-PLAN.md — [Gap closure] Directional sliding animation for Expertise tab content (GAP-01)
 - [x] 14-05-PLAN.md — [Gap closure] Carousel card visual polish, sizing fix, and scroll jitter fix (GAP-03, GAP-04, GAP-05)
 
+### Phase 14.1: Timeline Overhaul (INSERTED)
+
+**Goal:** The timeline section is rebuilt as an editorial-style layout with large year anchors, varied image layout modes, generous spacing, a thin accent connector line with animated dot markers, and whileInView fade-in animations — replacing the cramped SVG path approach with a premium editorial feel
+**Depends on:** Phase 14
+**Requirements**: TL-DATA, TL-CLEANUP, TL-TEST, TL-LAYOUT, TL-YEAR, TL-CONNECTOR, TL-ANIMATE
+**Success Criteria** (what must be TRUE):
+  1. Timeline displays all 8 entries with large accent-colored year text as the primary visual anchor
+  2. Each entry shows bold title and description with generous vertical spacing (py-16 to py-20)
+  3. A thin accent-blue vertical line runs along the left edge with small dot markers at each entry position
+  4. Entries fade and slide up as they scroll into viewport, dots animate in with their entry
+  5. Text-only layout (no images yet) looks polished — not like something is missing
+  6. Reduced motion preference eliminates animations
+  7. Mobile responsive at 375px with no overflow
+**Plans**: 2 plans
+
+Plans:
+- [ ] 14.1-01-PLAN.md — Data model update (optional image field), pulse-ring CSS cleanup, and editorial test scaffold
+- [ ] 14.1-02-PLAN.md — Complete Timeline.tsx replacement with editorial layout and visual verification
+
 ### Phase 15: Contact Footer & Cleanup
 **Goal**: The page ends with a polished contact section and clean footer, and the codebase has no dead code from replaced components
 **Depends on**: Phase 13, Phase 14
@@ -112,7 +132,7 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 12 → 13 → 14 → 15
+Phases execute in numeric order: 12 → 13 → 14 → 14.1 → 15
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
@@ -130,4 +150,5 @@ Phases execute in numeric order: 12 → 13 → 14 → 15
 | 12. Theme Foundation & Unified Background | v1.2 | 3/3 | Complete | 2026-03-26 |
 | 13. Animated Hero Gradient | v1.2 | 1/1 | Complete | 2026-03-27 |
 | 14. Component Rebuilds | v1.2 | Complete    | 2026-03-27 | 2026-03-27 |
+| 14.1 Timeline Overhaul | v1.2 | 0/2 | Planning complete | - |
 | 15. Contact Footer & Cleanup | v1.2 | 0/? | Not started | - |

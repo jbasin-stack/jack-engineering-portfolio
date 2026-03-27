@@ -37,12 +37,22 @@ Requirements for UI Polish & Interactivity milestone. Each maps to roadmap phase
 - [x] **PROJ-04**: Clicking a carousel card opens the existing project detail Dialog/Drawer with PDF viewer
 - [x] **PROJ-05**: Carousel coexists with Lenis smooth scroll (data-lenis-prevent on viewport)
 
-### Timeline
+### Timeline (Phase 14 — superseded by Phase 14.1)
 
-- [x] **TIME-01**: Vertical SVG path that draws progressively as user scrolls, driven by scroll position
-- [x] **TIME-02**: Glowing circular node markers at each timeline entry that activate on scroll
-- [x] **TIME-03**: Active nodes display pulsing ring animation (expanding circle with fading opacity)
-- [x] **TIME-04**: Timeline entry content fades in as its corresponding node activates
+- [x] ~~**TIME-01**: Vertical SVG path that draws progressively as user scrolls, driven by scroll position~~ (superseded by TL-CONNECTOR)
+- [x] ~~**TIME-02**: Glowing circular node markers at each timeline entry that activate on scroll~~ (superseded by TL-CONNECTOR)
+- [x] ~~**TIME-03**: Active nodes display pulsing ring animation (expanding circle with fading opacity)~~ (removed — TL-CLEANUP)
+- [x] ~~**TIME-04**: Timeline entry content fades in as its corresponding node activates~~ (superseded by TL-ANIMATE)
+
+### Timeline Overhaul (Phase 14.1 — replaces TIME-01 through TIME-04)
+
+- [ ] **TL-DATA**: TimelineMilestone data model includes optional image field; Zod schema updated to match
+- [ ] **TL-CLEANUP**: pulse-ring CSS keyframe removed from app.css (no longer used after editorial rebuild)
+- [ ] **TL-TEST**: Timeline test scaffold rewritten for editorial component structure (8 entries, year extraction, connector, dots)
+- [ ] **TL-LAYOUT**: Entries use 3 cycling layout variants (large/half/overlay) with graceful text-only fallback
+- [ ] **TL-YEAR**: Large accent-colored year text extracted from date field as primary visual anchor per entry
+- [ ] **TL-CONNECTOR**: Thin accent-blue vertical line (1-2px) on left edge with small filled dot markers (4-6px) at each entry
+- [ ] **TL-ANIMATE**: Entries fade + slide up on viewport entry via whileInView; dots scale in with entry content; reduced motion respected
 
 ### Contact & Footer
 
@@ -80,6 +90,8 @@ Explicitly excluded. Documented to prevent scope creep.
 | Infinite loop carousel | Only 4 projects; loop causes immediate content repetition |
 | SVG morphing on timeline nodes | Over-engineered; simple glow transitions are more elegant |
 | Contact form | Direct links are sufficient; no backend needed |
+| Timeline entry category tags | Not needed for 8 milestones (deferred from Phase 14.1) |
+| Admin image upload for timeline | Future enhancement after images are available (deferred from Phase 14.1) |
 
 ## Traceability
 
@@ -105,19 +117,26 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PROJ-03 | Phase 14 | Complete |
 | PROJ-04 | Phase 14 | Complete |
 | PROJ-05 | Phase 14 | Complete |
-| TIME-01 | Phase 14 | Complete |
-| TIME-02 | Phase 14 | Complete |
-| TIME-03 | Phase 14 | Complete |
-| TIME-04 | Phase 14 | Complete |
+| TIME-01 | Phase 14 | Superseded by TL-CONNECTOR |
+| TIME-02 | Phase 14 | Superseded by TL-CONNECTOR |
+| TIME-03 | Phase 14 | Superseded by TL-CLEANUP |
+| TIME-04 | Phase 14 | Superseded by TL-ANIMATE |
+| TL-DATA | Phase 14.1 | Pending |
+| TL-CLEANUP | Phase 14.1 | Pending |
+| TL-TEST | Phase 14.1 | Pending |
+| TL-LAYOUT | Phase 14.1 | Pending |
+| TL-YEAR | Phase 14.1 | Pending |
+| TL-CONNECTOR | Phase 14.1 | Pending |
+| TL-ANIMATE | Phase 14.1 | Pending |
 | CTFT-01 | Phase 15 | Pending |
 | CTFT-02 | Phase 15 | Pending |
 | CTFT-03 | Phase 15 | Pending |
 
 **Coverage:**
-- v1.2 requirements: 25 total
-- Mapped to phases: 25
+- v1.2 requirements: 32 total (25 original + 7 timeline overhaul)
+- Mapped to phases: 32
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-26*
-*Last updated: 2026-03-26 after roadmap creation*
+*Last updated: 2026-03-27 after Phase 14.1 planning*
