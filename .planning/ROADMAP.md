@@ -41,7 +41,7 @@ Full details: [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md)
 
 - [x] **Phase 12: Theme Foundation & Unified Background** - Blue-primary color system with system-preference dark/light mode and seamless page-spanning background (completed 2026-03-26)
 - [x] **Phase 13: Animated Hero Gradient** - Breathing radial gradient behind hero content that blends into the unified background (completed 2026-03-27)
-- [x] **Phase 14: Component Rebuilds** - Animated glassmorphic tabs (merged Skills & Tooling), horizontal project carousel, and scroll-triggered SVG timeline with glowing nodes (completed 2026-03-27)
+- [ ] **Phase 14: Component Rebuilds** - Animated glassmorphic tabs (merged Skills & Tooling), horizontal project carousel, and scroll-triggered SVG timeline with glowing nodes (gap closure in progress)
 - [ ] **Phase 15: Contact Footer & Cleanup** - Clean contact links section, minimal footer, deprecated component removal, and production build verification
 
 ## Phase Details
@@ -86,12 +86,14 @@ Plans:
   3. Clicking a project card in the carousel opens the existing project detail Dialog/Drawer with PDF viewer
   4. Scrolling past the timeline draws a vertical SVG path progressively with glowing nodes that pulse and activate as their entries come into view
   5. The carousel scrolls independently without conflicting with Lenis page-level smooth scroll
-**Plans**: 3 plans
+**Plans**: 5 plans
 
 Plans:
-- [ ] 14-01-PLAN.md — Expertise tabbed section (merged Skills+Tooling) with glassmorphic panels and nav wiring
-- [ ] 14-02-PLAN.md — Timeline SVG rebuild with scroll-drawn path and glowing pulse-activated nodes
-- [ ] 14-03-PLAN.md — Project carousel with Embla, featured-first cards, and Lenis coexistence
+- [x] 14-01-PLAN.md — Expertise tabbed section (merged Skills+Tooling) with glassmorphic panels and nav wiring
+- [x] 14-02-PLAN.md — Timeline SVG rebuild with scroll-drawn path and glowing pulse-activated nodes
+- [x] 14-03-PLAN.md — Project carousel with Embla, featured-first cards, and Lenis coexistence
+- [ ] 14-04-PLAN.md — [Gap closure] Directional sliding animation for Expertise tab content (GAP-01)
+- [ ] 14-05-PLAN.md — [Gap closure] Carousel card visual polish, sizing fix, and scroll jitter fix (GAP-03, GAP-04, GAP-05)
 
 ### Phase 15: Contact Footer & Cleanup
 **Goal**: The page ends with a polished contact section and clean footer, and the codebase has no dead code from replaced components
@@ -125,7 +127,7 @@ Phases execute in numeric order: 12 → 13 → 14 → 15
 | 9. Admin Shell, Preview, and Asset Pipeline | v1.1 | 3/3 | Complete | 2026-03-25 |
 | 10. Content Editors | v1.1 | 7/7 | Complete | 2026-03-26 |
 | 11. Keyboard Shortcut Wiring & Production Guard | v1.1 | 1/1 | Complete | 2026-03-26 |
-| 12. Theme Foundation & Unified Background | 3/3 | Complete    | 2026-03-26 | - |
-| 13. Animated Hero Gradient | 1/1 | Complete    | 2026-03-27 | - |
-| 14. Component Rebuilds | 3/3 | Complete   | 2026-03-27 | - |
+| 12. Theme Foundation & Unified Background | v1.2 | 3/3 | Complete | 2026-03-26 |
+| 13. Animated Hero Gradient | v1.2 | 1/1 | Complete | 2026-03-27 |
+| 14. Component Rebuilds | v1.2 | 3/5 | Gap closure | - |
 | 15. Contact Footer & Cleanup | v1.2 | 0/? | Not started | - |
