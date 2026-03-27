@@ -86,12 +86,12 @@ Plans:
   3. Clicking a project card in the carousel opens the existing project detail Dialog/Drawer with PDF viewer
   4. Scrolling past the timeline draws a vertical SVG path progressively with glowing nodes that pulse and activate as their entries come into view
   5. The carousel scrolls independently without conflicting with Lenis page-level smooth scroll
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 14-01: TBD
-- [ ] 14-02: TBD
-- [ ] 14-03: TBD
+- [ ] 14-01-PLAN.md — Expertise tabbed section (merged Skills+Tooling) with glassmorphic panels and nav wiring
+- [ ] 14-02-PLAN.md — Timeline SVG rebuild with scroll-drawn path and glowing pulse-activated nodes
+- [ ] 14-03-PLAN.md — Project carousel with Embla, featured-first cards, and Lenis coexistence
 
 ### Phase 15: Contact Footer & Cleanup
 **Goal**: The page ends with a polished contact section and clean footer, and the codebase has no dead code from replaced components
@@ -127,5 +127,5 @@ Phases execute in numeric order: 12 → 13 → 14 → 15
 | 11. Keyboard Shortcut Wiring & Production Guard | v1.1 | 1/1 | Complete | 2026-03-26 |
 | 12. Theme Foundation & Unified Background | 3/3 | Complete    | 2026-03-26 | - |
 | 13. Animated Hero Gradient | 1/1 | Complete    | 2026-03-27 | - |
-| 14. Component Rebuilds | v1.2 | 0/? | Not started | - |
+| 14. Component Rebuilds | v1.2 | 0/3 | Not started | - |
 | 15. Contact Footer & Cleanup | v1.2 | 0/? | Not started | - |
