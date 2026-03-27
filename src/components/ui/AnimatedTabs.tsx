@@ -37,7 +37,7 @@ export function AnimatedTabs({ tabs, activeTab, onChange }: AnimatedTabsProps) {
                 layoutId="active-tab-indicator"
                 className="absolute inset-0 rounded-lg bg-white/80 shadow-sm dark:bg-white/10"
                 style={{ zIndex: -1 }}
-                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+                transition={{ type: 'spring', stiffness: 250, damping: 28 }}
               />
             )}
             <span className="relative z-10">{tab.label}</span>

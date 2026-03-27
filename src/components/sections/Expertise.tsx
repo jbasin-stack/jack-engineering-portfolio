@@ -43,24 +43,22 @@ const tabs = domainMapping.map(({ id, label }) => ({ id, label }));
 
 // Direction-aware slide variants for tab content transitions
 // direction: +1 (forward/right) or -1 (backward/left)
+// Uses subtle 40px offset with light blur for a buttery smooth feel
 const slideVariants = {
   initial: (direction: number) => ({
-    x: direction * 60,
+    x: direction * 40,
     opacity: 0,
-    scale: 0.96,
-    filter: 'blur(8px)',
+    filter: 'blur(4px)',
   }),
   animate: {
     x: 0,
     opacity: 1,
-    scale: 1,
     filter: 'blur(0px)',
   },
   exit: (direction: number) => ({
-    x: direction * -60,
+    x: direction * -40,
     opacity: 0,
-    scale: 0.96,
-    filter: 'blur(8px)',
+    filter: 'blur(4px)',
   }),
 };
 
@@ -121,7 +119,7 @@ export function Expertise() {
               initial="initial"
               animate="animate"
               exit="exit"
-              transition={{ duration: 0.25, ease: easing.out }}
+              transition={{ duration: 0.3, ease: easing.inOut }}
               className="mt-6 min-h-[200px] rounded-xl backdrop-blur-md bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/10 p-6"
             >
               <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
