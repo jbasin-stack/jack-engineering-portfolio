@@ -35,7 +35,7 @@ Full details: [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md)
 
 </details>
 
-### 🚧 v1.2 UI Polish & Interactivity (In Progress)
+### v1.2 UI Polish & Interactivity (In Progress)
 
 **Milestone Goal:** Elevate the portfolio's visual experience with cohesive theming, animated interactions, and modern component patterns — so every visitor immediately feels the craft behind the engineering.
 
@@ -71,10 +71,10 @@ Plans:
   1. The hero section displays a breathing radial gradient animation behind the text content that pulses subtly
   2. The gradient uses the blue-primary palette and blends seamlessly into the unified page background below
   3. Enabling prefers-reduced-motion in OS settings shows a static gradient with no animation
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 13-01: TBD
+- [ ] 13-01-PLAN.md — Hero gradient CSS custom properties, breathing keyframes, reduced-motion fallback, and gradient div
 
 ### Phase 14: Component Rebuilds
 **Goal**: The three highest-impact interactive sections are rebuilt with modern animated patterns that make the portfolio feel premium
@@ -126,6 +126,6 @@ Phases execute in numeric order: 12 → 13 → 14 → 15
 | 10. Content Editors | v1.1 | 7/7 | Complete | 2026-03-26 |
 | 11. Keyboard Shortcut Wiring & Production Guard | v1.1 | 1/1 | Complete | 2026-03-26 |
 | 12. Theme Foundation & Unified Background | 3/3 | Complete    | 2026-03-26 | - |
-| 13. Animated Hero Gradient | v1.2 | 0/? | Not started | - |
+| 13. Animated Hero Gradient | v1.2 | 0/1 | Not started | - |
 | 14. Component Rebuilds | v1.2 | 0/? | Not started | - |
 | 15. Contact Footer & Cleanup | v1.2 | 0/? | Not started | - |
