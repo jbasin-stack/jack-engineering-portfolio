@@ -1,145 +1,155 @@
-import { useRef, useState } from 'react';
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useMotionValueEvent,
-  type MotionValue,
-} from 'motion/react';
+import { motion, type Variants } from 'motion/react';
+import clsx from 'clsx';
+import { easing } from '../../styles/motion';
 import { milestones } from '../../data/timeline';
 import type { TimelineMilestone } from '../../types/data';
 
-// Individual timeline node -- activates once when scroll reaches its threshold
-function TimelineNode({
+// Layout variants cycle through entries for visual variety when images are present
+type LayoutVariant = 'large' | 'half' | 'overlay';
+const LAYOUT_CYCLE: LayoutVariant[] = ['large', 'half', 'overlay'];
+
+// Extract 4-digit year from date string like "Sep 2021"
+function extractYear(date: string): string {
+  const match = date.match(/\d{4}/);
+  return match ? match[0] : date;
+}
+
+// Timeline-specific animation variants
+const entryVariants: Variants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.12 } },
+};
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: easing.out },
+  },
+};
+
+const dotVariant: Variants = {
+  hidden: { opacity: 0, scale: 0 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.4, ease: easing.out },
+  },
+};
+
+// Single timeline entry with year anchor, title, description, and optional image
+function TimelineEntry({
   milestone,
-  threshold,
-  scrollYProgress,
+  index,
 }: {
   milestone: TimelineMilestone;
-  threshold: number;
-  scrollYProgress: MotionValue<number>;
+  index: number;
 }) {
-  // One-shot activation: fires setState exactly once, never resets
-  const [hasActivated, setHasActivated] = useState(false);
-
-  useMotionValueEvent(scrollYProgress, 'change', (latest) => {
-    if (!hasActivated && latest >= threshold) {
-      setHasActivated(true);
-    }
-  });
-
-  // Continuous content animation driven by MotionValues (no per-frame setState)
-  const contentOpacity = useTransform(
-    scrollYProgress,
-    [threshold - 0.05, threshold + 0.02],
-    [0, 1],
-  );
-  const contentY = useTransform(
-    scrollYProgress,
-    [threshold - 0.05, threshold + 0.02],
-    [8, 0],
-  );
+  const variant = LAYOUT_CYCLE[index % LAYOUT_CYCLE.length];
+  const year = extractYear(milestone.date);
+  const hasImage = !!milestone.image;
 
   return (
-    <div className="relative pb-12 last:pb-0">
-      {/* Node circle -- hollow when inactive, filled accent with glow when active */}
-      <div
-        className={`absolute -left-[21px] top-1 h-3 w-3 rounded-full border-2 transition-all duration-300 ${
-          hasActivated
-            ? 'border-accent bg-accent shadow-[0_0_12px_oklch(0.55_0.15_250/0.4)]'
-            : 'border-silicon-200 bg-cleanroom'
-        }`}
-      >
-        {/* One-shot pulse ring -- expands and fades on activation */}
-        {hasActivated && (
-          <span className="absolute inset-0 animate-[pulse-ring_1.5s_ease-out_forwards] rounded-full border-2 border-accent/30" />
-        )}
-      </div>
+    <motion.article
+      variants={entryVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      className="relative py-16 pl-10 md:py-20 md:pl-14"
+    >
+      {/* Dot marker on the connector line */}
+      <motion.div
+        variants={dotVariant}
+        data-testid="timeline-dot"
+        className="absolute left-0 top-20 h-[6px] w-[6px] -translate-x-1/2 rounded-full bg-accent md:top-24"
+      />
 
-      {/* Milestone content -- fades in and slides up via useTransform */}
-      <motion.div style={{ opacity: contentOpacity, y: contentY }}>
-        <span className="text-sm text-silicon-400">{milestone.date}</span>
-        <h3 className="mt-1 text-lg font-semibold text-ink">
-          {milestone.title}
-        </h3>
-        <p className="mt-1 text-silicon-600">{milestone.description}</p>
-      </motion.div>
-    </div>
+      {/* Year anchor */}
+      <motion.span
+        variants={fadeUp}
+        className={clsx(
+          'block font-bold text-accent/80',
+          // Large variant gets bigger year text when no image
+          !hasImage && variant === 'large'
+            ? 'text-6xl md:text-8xl'
+            : 'text-5xl md:text-7xl',
+        )}
+      >
+        {year}
+      </motion.span>
+
+      {/* Title */}
+      <motion.h3
+        variants={fadeUp}
+        className="mt-3 text-xl font-semibold text-ink md:text-2xl"
+      >
+        {milestone.title}
+      </motion.h3>
+
+      {/* Description */}
+      <motion.p
+        variants={fadeUp}
+        className="mt-2 max-w-2xl text-base leading-relaxed text-silicon-600 md:text-lg"
+      >
+        {milestone.description}
+      </motion.p>
+
+      {/* Image section -- only rendered when image exists */}
+      {hasImage && (
+        <motion.div variants={fadeUp}>
+          {variant === 'large' && (
+            <div className="mt-6 w-full">
+              <img
+                src={milestone.image}
+                alt={milestone.title}
+                className="aspect-video w-full rounded-lg object-cover"
+              />
+            </div>
+          )}
+
+          {variant === 'half' && (
+            <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
+              <img
+                src={milestone.image}
+                alt={milestone.title}
+                className="aspect-video w-full rounded-lg object-cover"
+              />
+            </div>
+          )}
+
+          {variant === 'overlay' && (
+            <div className="relative mt-6 aspect-[3/2] w-full overflow-hidden rounded-lg">
+              <img
+                src={milestone.image}
+                alt={milestone.title}
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+            </div>
+          )}
+        </motion.div>
+      )}
+    </motion.article>
   );
 }
 
 export function Timeline() {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  // Track scroll progress of the timeline container through the viewport
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start 0.8', 'end 0.6'],
-  });
-
   return (
     <section id="timeline" className="px-6 py-24">
       <div className="mx-auto max-w-5xl">
         <h2 className="text-2xl font-bold text-ink">Timeline</h2>
 
-        <div ref={containerRef} className="relative mt-12 pl-10">
-          {/* SVG path container -- positioned absolutely on the left */}
-          <svg
-            className="absolute left-0 top-0 h-full w-6"
-            viewBox="0 0 24 100"
-            preserveAspectRatio="none"
-            fill="none"
-            aria-hidden="true"
-          >
-            <defs>
-              {/* Gradient stroke: accent-600 at top to accent-400 at bottom */}
-              <linearGradient
-                id="timeline-gradient"
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
-              >
-                <stop
-                  offset="0%"
-                  stopColor="var(--color-accent)"
-                  stopOpacity="1"
-                />
-                <stop
-                  offset="100%"
-                  stopColor="var(--color-accent)"
-                  stopOpacity="0.6"
-                />
-              </linearGradient>
-            </defs>
+        <div className="relative mt-12">
+          {/* Thin accent connector line running the full height */}
+          <div
+            data-testid="timeline-connector"
+            className="absolute bottom-0 left-[3px] top-0 w-[1.5px] bg-accent/30"
+          />
 
-            {/* Undrawn track -- faint dashed line showing full path */}
-            <path
-              d="M 12 0 V 100"
-              stroke="var(--color-silicon-200)"
-              strokeWidth={1}
-              strokeDasharray="4 4"
-              vectorEffect="non-scaling-stroke"
-            />
-
-            {/* Drawn progress path -- fills as user scrolls */}
-            <motion.path
-              d="M 12 0 V 100"
-              stroke="url(#timeline-gradient)"
-              strokeWidth={2}
-              style={{ pathLength: scrollYProgress }}
-              vectorEffect="non-scaling-stroke"
-            />
-          </svg>
-
-          {/* Milestone nodes */}
+          {/* Milestone entries */}
           {milestones.map((milestone, i) => (
-            <TimelineNode
-              key={milestone.title}
-              milestone={milestone}
-              threshold={i / Math.max(milestones.length - 1, 1)}
-              scrollYProgress={scrollYProgress}
-            />
+            <TimelineEntry key={milestone.title} milestone={milestone} index={i} />
           ))}
         </div>
       </div>

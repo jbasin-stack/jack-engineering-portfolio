@@ -27,10 +27,11 @@ describe('Timeline section', () => {
   // Will pass after Plan 02 implements editorial Timeline
   it('displays extracted year for each entry', () => {
     render(<Timeline />);
-    expect(screen.getByText('2021')).toBeDefined();
-    expect(screen.getByText('2022')).toBeDefined();
-    expect(screen.getByText('2023')).toBeDefined();
-    expect(screen.getByText('2024')).toBeDefined();
+    // Years may appear multiple times (e.g. two entries in 2022)
+    expect(screen.getAllByText('2021').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('2022').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('2023').length).toBeGreaterThanOrEqual(1);
+    expect(screen.getAllByText('2024').length).toBeGreaterThanOrEqual(1);
   });
 
   // Will pass after Plan 02 implements editorial Timeline
