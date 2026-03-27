@@ -6,7 +6,7 @@ import { Navigation } from './components/layout/Navigation';
 import { WhoAmI } from './components/sections/WhoAmI';
 import { Expertise } from './components/sections/Expertise';
 import { Timeline } from './components/sections/Timeline';
-import { ProjectsSection } from './components/projects/ProjectsSection';
+import { ProjectCarousel } from './components/projects/ProjectCarousel';
 import { PapersSection } from './components/papers/PapersSection';
 import { Contact } from './components/sections/Contact';
 
@@ -71,7 +71,7 @@ function App() {
           <Expertise />
           <Timeline />
 
-          <ProjectsSection />
+          <ProjectCarousel />
           <PapersSection />
         </main>
         <footer>

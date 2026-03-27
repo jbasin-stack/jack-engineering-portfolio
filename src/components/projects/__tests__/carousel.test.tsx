@@ -7,8 +7,28 @@ vi.mock('embla-carousel-react', () => ({
   default: () => [vi.fn(), null],
 }));
 
-// Mock IntersectionObserver for Motion whileInView support in jsdom
+// Mock lenis/react to avoid scroll context issues in jsdom
+vi.mock('lenis/react', () => ({
+  useLenis: () => null,
+}));
+
+// Mock matchMedia for useIsMobile hook in jsdom
 beforeAll(() => {
+  Object.defineProperty(window, 'matchMedia', {
+    writable: true,
+    value: vi.fn().mockImplementation((query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    })),
+  });
+
+  // Mock IntersectionObserver for Motion whileInView support in jsdom
   globalThis.IntersectionObserver = class IntersectionObserver {
     constructor(private cb: IntersectionObserverCallback) {}
     observe() { /* noop */ }
