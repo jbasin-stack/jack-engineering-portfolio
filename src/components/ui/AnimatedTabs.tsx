@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-import { motion } from 'motion/react';
 
 interface Tab {
   id: string;
@@ -12,61 +11,93 @@ interface AnimatedTabsProps {
   onChange: (id: string) => void;
 }
 
-/** Reusable tab bar with a single persistent sliding indicator */
+/** Vercel-style tab bar with hover highlight and sliding active underline */
 export function AnimatedTabs({ tabs, activeTab, onChange }: AnimatedTabsProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [hoverStyle, setHoverStyle] = useState<{ left: string; width: string }>({
+    left: '0px',
+    width: '0px',
+  });
+  const [activeStyle, setActiveStyle] = useState<{ left: string; width: string }>({
+    left: '0px',
+    width: '0px',
+  });
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  // Measure the active tab button and position the indicator
+  const activeIndex = tabs.findIndex((t) => t.id === activeTab);
+
+  // Position hover highlight
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    const activeIndex = tabs.findIndex((t) => t.id === activeTab);
-    const buttons = container.querySelectorAll<HTMLButtonElement>('[role="tab"]');
-    const activeButton = buttons[activeIndex];
-
-    if (activeButton) {
-      setIndicatorStyle({
-        left: activeButton.offsetLeft,
-        width: activeButton.offsetWidth,
-      });
+    if (hoveredIndex !== null) {
+      const el = tabRefs.current[hoveredIndex];
+      if (el) {
+        setHoverStyle({ left: `${el.offsetLeft}px`, width: `${el.offsetWidth}px` });
+      }
     }
-  }, [activeTab, tabs]);
+  }, [hoveredIndex]);
+
+  // Position active underline
+  useEffect(() => {
+    const el = tabRefs.current[activeIndex];
+    if (el) {
+      setActiveStyle({ left: `${el.offsetLeft}px`, width: `${el.offsetWidth}px` });
+    }
+  }, [activeIndex]);
+
+  // Initialize position on mount
+  useEffect(() => {
+    requestAnimationFrame(() => {
+      const el = tabRefs.current[activeIndex >= 0 ? activeIndex : 0];
+      if (el) {
+        setActiveStyle({ left: `${el.offsetLeft}px`, width: `${el.offsetWidth}px` });
+      }
+    });
+  }, []);
 
   return (
     <div
-      ref={containerRef}
       role="tablist"
       className="relative inline-flex w-full rounded-xl bg-silicon-50/50 dark:bg-silicon-200/10 p-1 backdrop-blur-sm"
     >
-      {/* Single sliding indicator -- always mounted, animates position */}
-      <motion.div
-        className="absolute top-1 bottom-1 rounded-lg bg-white/80 shadow-sm dark:bg-white/10"
-        animate={{
-          left: indicatorStyle.left,
-          width: indicatorStyle.width,
-        }}
-        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-      />
+      <div className="relative w-full">
+        {/* Hover highlight pill */}
+        <div
+          className="absolute top-0 bottom-0 rounded-lg bg-silicon-100/80 dark:bg-white/10 transition-all duration-300 ease-out"
+          style={{
+            ...hoverStyle,
+            opacity: hoveredIndex !== null ? 1 : 0,
+          }}
+        />
 
-      {tabs.map((tab) => {
-        const isActive = tab.id === activeTab;
-        return (
-          <button
-            key={tab.id}
-            role="tab"
-            aria-selected={isActive}
-            aria-controls={`panel-${tab.id}`}
-            onClick={() => onChange(tab.id)}
-            className={`relative z-10 flex-1 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-              isActive ? 'text-ink' : 'text-silicon-600 hover:text-ink'
-            }`}
-          >
-            {tab.label}
-          </button>
-        );
-      })}
+        {/* Active indicator pill */}
+        <div
+          className="absolute top-1 bottom-1 rounded-md bg-white/80 shadow-sm dark:bg-white/10 transition-all duration-300 ease-out"
+          style={activeStyle}
+        />
+
+        {/* Tab buttons */}
+        <div className="relative flex items-center">
+          {tabs.map((tab, index) => (
+            <button
+              key={tab.id}
+              ref={(el) => { tabRefs.current[index] = el; }}
+              role="tab"
+              aria-selected={index === activeIndex}
+              aria-controls={`panel-${tab.id}`}
+              className={`relative z-10 flex-1 rounded-lg px-3 py-2 cursor-pointer transition-colors duration-300 text-sm font-medium whitespace-nowrap flex items-center justify-center ${
+                index === activeIndex
+                  ? 'text-ink'
+                  : 'text-silicon-600 hover:text-ink'
+              }`}
+              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              onClick={() => onChange(tab.id)}
+            >
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

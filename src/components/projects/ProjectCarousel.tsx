@@ -24,7 +24,7 @@ export function ProjectCarousel() {
     dragFree: false,
     loop: false,
     slidesToScroll: 1,
-    duration: prefersReducedMotion ? 0 : 25,
+    duration: prefersReducedMotion ? 0 : 300,
   });
 
   // Arrow button visibility state
