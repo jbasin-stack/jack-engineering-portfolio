@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: UI Polish & Interactivity
-status: completed
-stopped_at: Phase 14.1 context gathered
-last_updated: "2026-03-27T22:31:20.152Z"
-last_activity: 2026-03-27 — Completed 14-04 Tab slide animation (gap closure)
+status: executing
+stopped_at: Completed 14.1-01 data model + CSS cleanup + test scaffold
+last_updated: "2026-03-27T22:54:43.000Z"
+last_activity: 2026-03-27 — Completed 14.1-01 data model, CSS cleanup, test scaffold
 progress:
   total_phases: 5
   completed_phases: 3
-  total_plans: 9
-  completed_plans: 9
+  total_plans: 11
+  completed_plans: 10
   percent: 100
 ---
 
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-26)
 
 **Core value:** Every visitor immediately understands Jack's range and depth as an electrical engineer, and can access the evidence without friction.
-**Current focus:** Phase 15 — Contact Footer & Cleanup (Phase 14 complete)
+**Current focus:** Phase 14.1 — Timeline Overhaul (inserted after Phase 14)
 
 ## Current Position
 
-Phase: 15 of 15 (Contact Footer & Cleanup)
-Plan: 0 of ? (Phase 15 not yet started)
-Status: Phase 14 Complete (all 5 plans including gap closure 14-04, 14-05)
-Last activity: 2026-03-27 — Completed 14-04 Tab slide animation (gap closure)
+Phase: 14.1 (Timeline Overhaul)
+Plan: 1 of 2 complete
+Status: Executing Phase 14.1 — Plan 01 complete, Plan 02 next
+Last activity: 2026-03-27 — Completed 14.1-01 data model, CSS cleanup, test scaffold
 
-Progress: [██████████] 100%
+Progress: [█████████░] 91%
 
 ## Performance Metrics
 
@@ -56,6 +56,7 @@ Progress: [██████████] 100%
 | Phase 14 P03 | 9min | 3 tasks | 5 files |
 | Phase 14 P05 | 5min | 3 tasks | 3 files |
 | Phase 14 P04 | 42min | 2 tasks | 3 files |
+| Phase 14.1 P01 | 3min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -98,6 +99,8 @@ Recent decisions affecting current work:
 - [Phase 14-05]: oklch accent glow in whileHover boxShadow for consistent accent theming
 - [Phase 14]: Replaced Motion layoutId tab indicator with Vercel-style pure CSS transitions -- smoother, simpler
 - [Phase 14]: Content panel tuned to 40px slide, 4px blur, 0.3s inOut easing after 3 user feedback iterations
+- [Phase 14.1-01]: Ship without image data: image field optional, no existing milestones receive images yet
+- [Phase 14.1-01]: Wave-0 test scaffold: 4/5 tests intentionally fail until Plan 02 editorial Timeline lands
 
 ### Pending Todos
 
@@ -111,6 +114,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-27T22:31:20.149Z
-Stopped at: Phase 14.1 context gathered
-Resume file: .planning/phases/14.1-timeline-overhaul/14.1-CONTEXT.md
+Last session: 2026-03-27T22:53:53Z
+Stopped at: Completed 14.1-01 data model + CSS cleanup + test scaffold
+Resume file: .planning/phases/14.1-timeline-overhaul/14.1-01-SUMMARY.md

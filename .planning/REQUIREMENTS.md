@@ -46,9 +46,9 @@ Requirements for UI Polish & Interactivity milestone. Each maps to roadmap phase
 
 ### Timeline Overhaul (Phase 14.1 — replaces TIME-01 through TIME-04)
 
-- [ ] **TL-DATA**: TimelineMilestone data model includes optional image field; Zod schema updated to match
-- [ ] **TL-CLEANUP**: pulse-ring CSS keyframe removed from app.css (no longer used after editorial rebuild)
-- [ ] **TL-TEST**: Timeline test scaffold rewritten for editorial component structure (8 entries, year extraction, connector, dots)
+- [x] **TL-DATA**: TimelineMilestone data model includes optional image field; Zod schema updated to match
+- [x] **TL-CLEANUP**: pulse-ring CSS keyframe removed from app.css (no longer used after editorial rebuild)
+- [x] **TL-TEST**: Timeline test scaffold rewritten for editorial component structure (8 entries, year extraction, connector, dots)
 - [ ] **TL-LAYOUT**: Entries use 3 cycling layout variants (large/half/overlay) with graceful text-only fallback
 - [ ] **TL-YEAR**: Large accent-colored year text extracted from date field as primary visual anchor per entry
 - [ ] **TL-CONNECTOR**: Thin accent-blue vertical line (1-2px) on left edge with small filled dot markers (4-6px) at each entry
@@ -121,9 +121,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TIME-02 | Phase 14 | Superseded by TL-CONNECTOR |
 | TIME-03 | Phase 14 | Superseded by TL-CLEANUP |
 | TIME-04 | Phase 14 | Superseded by TL-ANIMATE |
-| TL-DATA | Phase 14.1 | Pending |
-| TL-CLEANUP | Phase 14.1 | Pending |
-| TL-TEST | Phase 14.1 | Pending |
+| TL-DATA | Phase 14.1 | Complete |
+| TL-CLEANUP | Phase 14.1 | Complete |
+| TL-TEST | Phase 14.1 | Complete |
 | TL-LAYOUT | Phase 14.1 | Pending |
 | TL-YEAR | Phase 14.1 | Pending |
 | TL-CONNECTOR | Phase 14.1 | Pending |
