@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: UI Polish & Interactivity
-status: executing
-stopped_at: Completed 14-01-PLAN.md
-last_updated: "2026-03-27T17:22:48.428Z"
-last_activity: 2026-03-27 — Completed 14-02 Timeline SVG rebuild
+status: completed
+stopped_at: Completed 14-03-PLAN.md (Phase 14 Complete)
+last_updated: "2026-03-27T17:35:34.179Z"
+last_activity: 2026-03-27 — Completed 14-03 Project Carousel
 progress:
   total_phases: 4
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 7
-  completed_plans: 6
-  percent: 71
+  completed_plans: 7
+  percent: 100
 ---
 
 # Project State
@@ -21,21 +21,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-26)
 
 **Core value:** Every visitor immediately understands Jack's range and depth as an electrical engineer, and can access the evidence without friction.
-**Current focus:** Phase 14 — Component Rebuilds
+**Current focus:** Phase 14 — Component Rebuilds (Complete)
 
 ## Current Position
 
 Phase: 14 of 15 (Component Rebuilds)
-Plan: 2 of 3 (14-02 complete)
-Status: Phase 14 In Progress
-Last activity: 2026-03-27 — Completed 14-02 Timeline SVG rebuild
+Plan: 3 of 3 (14-03 complete)
+Status: Phase 14 Complete
+Last activity: 2026-03-27 — Completed 14-03 Project Carousel
 
-Progress: [███████░░░] 71%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 35 (19 v1.0 + 15 v1.1 + 1 v1.2)
+- Total plans completed: 38 (19 v1.0 + 15 v1.1 + 4 v1.2)
 - v1.1 average duration: ~4 min/plan
 - Total execution time: ~3.5 hours across v1.0 + v1.1
 
@@ -53,6 +53,7 @@ Progress: [███████░░░] 71%
 
 *Updated after each plan completion*
 | Phase 14 P01 | 4min | 3 tasks | 7 files |
+| Phase 14 P03 | 9min | 3 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -82,6 +83,10 @@ Recent decisions affecting current work:
 - [Phase 14-01]: Domain merge mapping as static array with getTools() accessors for data-driven tab content
 - [Phase 14-01]: Test files with JSX require .tsx extension for oxc transform in vitest
 - [Phase 14-01]: IntersectionObserver mock required in jsdom for Motion whileInView tests
+- [Phase 14-03]: embla-carousel-react useEmblaCarousel hook for carousel state (align, containScroll, dragFree)
+- [Phase 14-03]: Featured projects sorted first with 60% desktop width vs 40% for standard cards
+- [Phase 14-03]: data-lenis-prevent on Embla viewport + touchAction pan-y for Lenis coexistence
+- [Phase 14-03]: Reduced motion: Embla duration set to 0 for instant transitions
 
 ### Pending Todos
 
@@ -95,6 +100,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-27T17:22:36.016Z
-Stopped at: Completed 14-01-PLAN.md
+Last session: 2026-03-27T17:35:34.174Z
+Stopped at: Completed 14-03-PLAN.md (Phase 14 Complete)
 Resume file: None

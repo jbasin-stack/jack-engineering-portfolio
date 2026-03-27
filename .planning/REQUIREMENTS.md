@@ -31,11 +31,11 @@ Requirements for UI Polish & Interactivity milestone. Each maps to roadmap phase
 
 ### Projects
 
-- [ ] **PROJ-01**: Projects displayed in a horizontal carousel with drag/swipe and arrow button navigation
-- [ ] **PROJ-02**: Featured project appears in first carousel position with visual emphasis
-- [ ] **PROJ-03**: Carousel cards show project image, title, and summary with hover scale effect
-- [ ] **PROJ-04**: Clicking a carousel card opens the existing project detail Dialog/Drawer with PDF viewer
-- [ ] **PROJ-05**: Carousel coexists with Lenis smooth scroll (data-lenis-prevent on viewport)
+- [x] **PROJ-01**: Projects displayed in a horizontal carousel with drag/swipe and arrow button navigation
+- [x] **PROJ-02**: Featured project appears in first carousel position with visual emphasis
+- [x] **PROJ-03**: Carousel cards show project image, title, and summary with hover scale effect
+- [x] **PROJ-04**: Clicking a carousel card opens the existing project detail Dialog/Drawer with PDF viewer
+- [x] **PROJ-05**: Carousel coexists with Lenis smooth scroll (data-lenis-prevent on viewport)
 
 ### Timeline
 
@@ -100,11 +100,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | SKTL-02 | Phase 14 | Complete |
 | SKTL-03 | Phase 14 | Complete |
 | SKTL-04 | Phase 14 | Complete |
-| PROJ-01 | Phase 14 | Pending |
-| PROJ-02 | Phase 14 | Pending |
-| PROJ-03 | Phase 14 | Pending |
-| PROJ-04 | Phase 14 | Pending |
-| PROJ-05 | Phase 14 | Pending |
+| PROJ-01 | Phase 14 | Complete |
+| PROJ-02 | Phase 14 | Complete |
+| PROJ-03 | Phase 14 | Complete |
+| PROJ-04 | Phase 14 | Complete |
+| PROJ-05 | Phase 14 | Complete |
 | TIME-01 | Phase 14 | Complete |
 | TIME-02 | Phase 14 | Complete |
 | TIME-03 | Phase 14 | Complete |
