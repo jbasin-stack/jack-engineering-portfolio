@@ -39,10 +39,10 @@ Requirements for UI Polish & Interactivity milestone. Each maps to roadmap phase
 
 ### Timeline
 
-- [ ] **TIME-01**: Vertical SVG path that draws progressively as user scrolls, driven by scroll position
-- [ ] **TIME-02**: Glowing circular node markers at each timeline entry that activate on scroll
-- [ ] **TIME-03**: Active nodes display pulsing ring animation (expanding circle with fading opacity)
-- [ ] **TIME-04**: Timeline entry content fades in as its corresponding node activates
+- [x] **TIME-01**: Vertical SVG path that draws progressively as user scrolls, driven by scroll position
+- [x] **TIME-02**: Glowing circular node markers at each timeline entry that activate on scroll
+- [x] **TIME-03**: Active nodes display pulsing ring animation (expanding circle with fading opacity)
+- [x] **TIME-04**: Timeline entry content fades in as its corresponding node activates
 
 ### Contact & Footer
 
@@ -105,10 +105,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PROJ-03 | Phase 14 | Pending |
 | PROJ-04 | Phase 14 | Pending |
 | PROJ-05 | Phase 14 | Pending |
-| TIME-01 | Phase 14 | Pending |
-| TIME-02 | Phase 14 | Pending |
-| TIME-03 | Phase 14 | Pending |
-| TIME-04 | Phase 14 | Pending |
+| TIME-01 | Phase 14 | Complete |
+| TIME-02 | Phase 14 | Complete |
+| TIME-03 | Phase 14 | Complete |
+| TIME-04 | Phase 14 | Complete |
 | CTFT-01 | Phase 15 | Pending |
 | CTFT-02 | Phase 15 | Pending |
 | CTFT-03 | Phase 15 | Pending |

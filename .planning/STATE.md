@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: UI Polish & Interactivity
-status: completed
-stopped_at: Phase 14 context gathered
-last_updated: "2026-03-27T16:45:14.217Z"
-last_activity: 2026-03-27 — Completed 13-01 hero breathing gradient
+status: executing
+stopped_at: Completed 14-02-PLAN.md
+last_updated: "2026-03-27T17:21:10.615Z"
+last_activity: 2026-03-27 — Completed 14-02 Timeline SVG rebuild
 progress:
   total_phases: 4
   completed_phases: 2
-  total_plans: 4
-  completed_plans: 4
-  percent: 100
+  total_plans: 7
+  completed_plans: 5
+  percent: 71
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-26)
 
 **Core value:** Every visitor immediately understands Jack's range and depth as an electrical engineer, and can access the evidence without friction.
-**Current focus:** Phase 13 — Animated Hero Gradient
+**Current focus:** Phase 14 — Component Rebuilds
 
 ## Current Position
 
-Phase: 13 of 15 (Animated Hero Gradient)
-Plan: 1 of 1 (complete)
-Status: Phase 13 Complete
-Last activity: 2026-03-27 — Completed 13-01 hero breathing gradient
+Phase: 14 of 15 (Component Rebuilds)
+Plan: 2 of 3 (14-02 complete)
+Status: Phase 14 In Progress
+Last activity: 2026-03-27 — Completed 14-02 Timeline SVG rebuild
 
-Progress: [██████████] 100%
+Progress: [███████░░░] 71%
 
 ## Performance Metrics
 
@@ -49,6 +49,7 @@ Progress: [██████████] 100%
 | 12-02 | 1 | 3min | 3min |
 | 12-03 | 1 | 5min | 5min |
 | 13-01 | 1 | 3min | 3min |
+| 14-02 | 1 | 2min | 2min |
 
 *Updated after each plan completion*
 
@@ -74,6 +75,9 @@ Recent decisions affecting current work:
 - [12-03]: Admin panel now uses only semantic tokens -- zero hardcoded gray classes remain
 - [13-01]: Hero gradient uses pure CSS @keyframes opacity animation (0.3-0.5, 7s, ease-in-out) -- zero JS runtime cost
 - [13-01]: oklch hue 298 (purple) at center, hue 250 (blue) at edges for UW brand connection
+- [14-02]: SVG motion.path with pathLength for scroll-driven timeline drawing (replaces div scaleY)
+- [14-02]: One-shot useState + useTransform pattern eliminates 8 setState calls per scroll frame
+- [14-02]: pulse-ring @keyframes in app.css global scope (consistent with hero-breathe pattern)
 
 ### Pending Todos
 
@@ -87,6 +91,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-27T16:45:14.214Z
-Stopped at: Phase 14 context gathered
-Resume file: .planning/phases/14-component-rebuilds/14-CONTEXT.md
+Last session: 2026-03-27T17:21:10.613Z
+Stopped at: Completed 14-02-PLAN.md
+Resume file: None
