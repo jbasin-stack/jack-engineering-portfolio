@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: UI Polish & Interactivity
 status: executing
-stopped_at: Completed 14-02-PLAN.md
-last_updated: "2026-03-27T17:21:10.615Z"
+stopped_at: Completed 14-01-PLAN.md
+last_updated: "2026-03-27T17:22:48.428Z"
 last_activity: 2026-03-27 — Completed 14-02 Timeline SVG rebuild
 progress:
   total_phases: 4
   completed_phases: 2
   total_plans: 7
-  completed_plans: 5
+  completed_plans: 6
   percent: 71
 ---
 
@@ -52,6 +52,7 @@ Progress: [███████░░░] 71%
 | 14-02 | 1 | 2min | 2min |
 
 *Updated after each plan completion*
+| Phase 14 P01 | 4min | 3 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -78,6 +79,9 @@ Recent decisions affecting current work:
 - [14-02]: SVG motion.path with pathLength for scroll-driven timeline drawing (replaces div scaleY)
 - [14-02]: One-shot useState + useTransform pattern eliminates 8 setState calls per scroll frame
 - [14-02]: pulse-ring @keyframes in app.css global scope (consistent with hero-breathe pattern)
+- [Phase 14-01]: Domain merge mapping as static array with getTools() accessors for data-driven tab content
+- [Phase 14-01]: Test files with JSX require .tsx extension for oxc transform in vitest
+- [Phase 14-01]: IntersectionObserver mock required in jsdom for Motion whileInView tests
 
 ### Pending Todos
 
@@ -91,6 +95,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-27T17:21:10.613Z
-Stopped at: Completed 14-02-PLAN.md
+Last session: 2026-03-27T17:22:36.016Z
+Stopped at: Completed 14-01-PLAN.md
 Resume file: None

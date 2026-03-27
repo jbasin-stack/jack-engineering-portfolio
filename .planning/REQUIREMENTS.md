@@ -24,10 +24,10 @@ Requirements for UI Polish & Interactivity milestone. Each maps to roadmap phase
 
 ### Skills & Tooling
 
-- [ ] **SKTL-01**: Skills and Tooling sections merged into a single tabbed section with one tab per domain
-- [ ] **SKTL-02**: Animated sliding tab indicator using Motion layoutId
-- [ ] **SKTL-03**: Tab content panels use glassmorphic styling (backdrop-blur, semi-transparent background, subtle border)
-- [ ] **SKTL-04**: Tab content animates in with blur/scale/opacity transition on tab switch
+- [x] **SKTL-01**: Skills and Tooling sections merged into a single tabbed section with one tab per domain
+- [x] **SKTL-02**: Animated sliding tab indicator using Motion layoutId
+- [x] **SKTL-03**: Tab content panels use glassmorphic styling (backdrop-blur, semi-transparent background, subtle border)
+- [x] **SKTL-04**: Tab content animates in with blur/scale/opacity transition on tab switch
 
 ### Projects
 
@@ -96,10 +96,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | HERO-01 | Phase 13 | Complete |
 | HERO-02 | Phase 13 | Complete |
 | HERO-03 | Phase 13 | Complete |
-| SKTL-01 | Phase 14 | Pending |
-| SKTL-02 | Phase 14 | Pending |
-| SKTL-03 | Phase 14 | Pending |
-| SKTL-04 | Phase 14 | Pending |
+| SKTL-01 | Phase 14 | Complete |
+| SKTL-02 | Phase 14 | Complete |
+| SKTL-03 | Phase 14 | Complete |
+| SKTL-04 | Phase 14 | Complete |
 | PROJ-01 | Phase 14 | Pending |
 | PROJ-02 | Phase 14 | Pending |
 | PROJ-03 | Phase 14 | Pending |
