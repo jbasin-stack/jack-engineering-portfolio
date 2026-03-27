@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: UI Polish & Interactivity
 status: in-progress
-stopped_at: Completed 14-05-PLAN.md (Gap closure)
-last_updated: "2026-03-27T21:20:00.000Z"
+stopped_at: Completed 14-04-PLAN.md (Phase 14 fully complete, Phase 15 remaining)
+last_updated: "2026-03-27T21:39:22.085Z"
 last_activity: 2026-03-27 — Completed 14-05 Carousel gap closure
 progress:
   total_phases: 4
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 9
-  completed_plans: 8
+  completed_plans: 9
   percent: 89
 ---
 
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-26)
 
 **Core value:** Every visitor immediately understands Jack's range and depth as an electrical engineer, and can access the evidence without friction.
-**Current focus:** Phase 14 — Component Rebuilds (gap closure complete)
+**Current focus:** Phase 15 — Contact Footer & Cleanup (Phase 14 complete)
 
 ## Current Position
 
-Phase: 14 of 15 (Component Rebuilds)
-Plan: 5 of 5 (14-05 complete — gap closure)
-Status: Phase 14 Complete (including gap closure plans 14-04, 14-05)
-Last activity: 2026-03-27 — Completed 14-05 Carousel gap closure
+Phase: 15 of 15 (Contact Footer & Cleanup)
+Plan: 0 of ? (Phase 15 not yet started)
+Status: Phase 14 Complete (all 5 plans including gap closure 14-04, 14-05)
+Last activity: 2026-03-27 — Completed 14-04 Tab slide animation (gap closure)
 
-Progress: [█████████░] 89%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -55,6 +55,7 @@ Progress: [█████████░] 89%
 | Phase 14 P01 | 4min | 3 tasks | 7 files |
 | Phase 14 P03 | 9min | 3 tasks | 5 files |
 | Phase 14 P05 | 5min | 3 tasks | 3 files |
+| Phase 14 P04 | 42min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -91,6 +92,8 @@ Recent decisions affecting current work:
 - [Phase 14-05]: Removed data-lenis-prevent; Embla uses pointer events not wheel events, no conflict with Lenis vertical scroll
 - [Phase 14-05]: Center-aligned carousel with 55%/38% sizing makes one card visually dominant
 - [Phase 14-05]: oklch accent glow in whileHover boxShadow for consistent accent theming
+- [Phase 14]: Replaced Motion layoutId tab indicator with Vercel-style pure CSS transitions -- smoother, simpler
+- [Phase 14]: Content panel tuned to 40px slide, 4px blur, 0.3s inOut easing after 3 user feedback iterations
 
 ### Pending Todos
 
@@ -104,6 +107,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-27T21:20:00.000Z
-Stopped at: Completed 14-05-PLAN.md (Gap closure complete)
+Last session: 2026-03-27T21:39:22.083Z
+Stopped at: Completed 14-04-PLAN.md (Gap closure - tab slide animation)
 Resume file: None

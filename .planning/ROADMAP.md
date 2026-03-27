@@ -41,7 +41,7 @@ Full details: [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md)
 
 - [x] **Phase 12: Theme Foundation & Unified Background** - Blue-primary color system with system-preference dark/light mode and seamless page-spanning background (completed 2026-03-26)
 - [x] **Phase 13: Animated Hero Gradient** - Breathing radial gradient behind hero content that blends into the unified background (completed 2026-03-27)
-- [ ] **Phase 14: Component Rebuilds** - Animated glassmorphic tabs (merged Skills & Tooling), horizontal project carousel, and scroll-triggered SVG timeline with glowing nodes (gap closure in progress)
+- [x] **Phase 14: Component Rebuilds** - Animated glassmorphic tabs (merged Skills & Tooling), horizontal project carousel, and scroll-triggered SVG timeline with glowing nodes (completed 2026-03-27)
 - [ ] **Phase 15: Contact Footer & Cleanup** - Clean contact links section, minimal footer, deprecated component removal, and production build verification
 
 ## Phase Details
@@ -92,7 +92,7 @@ Plans:
 - [x] 14-01-PLAN.md — Expertise tabbed section (merged Skills+Tooling) with glassmorphic panels and nav wiring
 - [x] 14-02-PLAN.md — Timeline SVG rebuild with scroll-drawn path and glowing pulse-activated nodes
 - [x] 14-03-PLAN.md — Project carousel with Embla, featured-first cards, and Lenis coexistence
-- [ ] 14-04-PLAN.md — [Gap closure] Directional sliding animation for Expertise tab content (GAP-01)
+- [x] 14-04-PLAN.md — [Gap closure] Directional sliding animation for Expertise tab content (GAP-01)
 - [x] 14-05-PLAN.md — [Gap closure] Carousel card visual polish, sizing fix, and scroll jitter fix (GAP-03, GAP-04, GAP-05)
 
 ### Phase 15: Contact Footer & Cleanup
@@ -129,5 +129,5 @@ Phases execute in numeric order: 12 → 13 → 14 → 15
 | 11. Keyboard Shortcut Wiring & Production Guard | v1.1 | 1/1 | Complete | 2026-03-26 |
 | 12. Theme Foundation & Unified Background | v1.2 | 3/3 | Complete | 2026-03-26 |
 | 13. Animated Hero Gradient | v1.2 | 1/1 | Complete | 2026-03-27 |
-| 14. Component Rebuilds | v1.2 | 4/5 | Gap closure | - |
+| 14. Component Rebuilds | v1.2 | 5/5 | Complete | 2026-03-27 |
 | 15. Contact Footer & Cleanup | v1.2 | 0/? | Not started | - |
