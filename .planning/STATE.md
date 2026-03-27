@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: UI Polish & Interactivity
-status: completed
-stopped_at: Completed 14-03-PLAN.md (Phase 14 Complete)
-last_updated: "2026-03-27T17:35:34.179Z"
-last_activity: 2026-03-27 — Completed 14-03 Project Carousel
+status: in-progress
+stopped_at: Completed 14-05-PLAN.md (Gap closure)
+last_updated: "2026-03-27T21:20:00.000Z"
+last_activity: 2026-03-27 — Completed 14-05 Carousel gap closure
 progress:
   total_phases: 4
-  completed_phases: 3
-  total_plans: 7
-  completed_plans: 7
-  percent: 100
+  completed_phases: 2
+  total_plans: 9
+  completed_plans: 8
+  percent: 89
 ---
 
 # Project State
@@ -21,21 +21,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-26)
 
 **Core value:** Every visitor immediately understands Jack's range and depth as an electrical engineer, and can access the evidence without friction.
-**Current focus:** Phase 14 — Component Rebuilds (Complete)
+**Current focus:** Phase 14 — Component Rebuilds (gap closure complete)
 
 ## Current Position
 
 Phase: 14 of 15 (Component Rebuilds)
-Plan: 3 of 3 (14-03 complete)
-Status: Phase 14 Complete
-Last activity: 2026-03-27 — Completed 14-03 Project Carousel
+Plan: 5 of 5 (14-05 complete — gap closure)
+Status: Phase 14 Complete (including gap closure plans 14-04, 14-05)
+Last activity: 2026-03-27 — Completed 14-05 Carousel gap closure
 
-Progress: [██████████] 100%
+Progress: [█████████░] 89%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 38 (19 v1.0 + 15 v1.1 + 4 v1.2)
+- Total plans completed: 40 (19 v1.0 + 15 v1.1 + 6 v1.2)
 - v1.1 average duration: ~4 min/plan
 - Total execution time: ~3.5 hours across v1.0 + v1.1
 
@@ -54,6 +54,7 @@ Progress: [██████████] 100%
 *Updated after each plan completion*
 | Phase 14 P01 | 4min | 3 tasks | 7 files |
 | Phase 14 P03 | 9min | 3 tasks | 5 files |
+| Phase 14 P05 | 5min | 3 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -87,6 +88,9 @@ Recent decisions affecting current work:
 - [Phase 14-03]: Featured projects sorted first with 60% desktop width vs 40% for standard cards
 - [Phase 14-03]: data-lenis-prevent on Embla viewport + touchAction pan-y for Lenis coexistence
 - [Phase 14-03]: Reduced motion: Embla duration set to 0 for instant transitions
+- [Phase 14-05]: Removed data-lenis-prevent; Embla uses pointer events not wheel events, no conflict with Lenis vertical scroll
+- [Phase 14-05]: Center-aligned carousel with 55%/38% sizing makes one card visually dominant
+- [Phase 14-05]: oklch accent glow in whileHover boxShadow for consistent accent theming
 
 ### Pending Todos
 
@@ -100,6 +104,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-27T17:35:34.174Z
-Stopped at: Completed 14-03-PLAN.md (Phase 14 Complete)
+Last session: 2026-03-27T21:20:00.000Z
+Stopped at: Completed 14-05-PLAN.md (Gap closure complete)
 Resume file: None

@@ -93,7 +93,7 @@ Plans:
 - [x] 14-02-PLAN.md — Timeline SVG rebuild with scroll-drawn path and glowing pulse-activated nodes
 - [x] 14-03-PLAN.md — Project carousel with Embla, featured-first cards, and Lenis coexistence
 - [ ] 14-04-PLAN.md — [Gap closure] Directional sliding animation for Expertise tab content (GAP-01)
-- [ ] 14-05-PLAN.md — [Gap closure] Carousel card visual polish, sizing fix, and scroll jitter fix (GAP-03, GAP-04, GAP-05)
+- [x] 14-05-PLAN.md — [Gap closure] Carousel card visual polish, sizing fix, and scroll jitter fix (GAP-03, GAP-04, GAP-05)
 
 ### Phase 15: Contact Footer & Cleanup
 **Goal**: The page ends with a polished contact section and clean footer, and the codebase has no dead code from replaced components
@@ -129,5 +129,5 @@ Phases execute in numeric order: 12 → 13 → 14 → 15
 | 11. Keyboard Shortcut Wiring & Production Guard | v1.1 | 1/1 | Complete | 2026-03-26 |
 | 12. Theme Foundation & Unified Background | v1.2 | 3/3 | Complete | 2026-03-26 |
 | 13. Animated Hero Gradient | v1.2 | 1/1 | Complete | 2026-03-27 |
-| 14. Component Rebuilds | v1.2 | 3/5 | Gap closure | - |
+| 14. Component Rebuilds | v1.2 | 4/5 | Gap closure | - |
 | 15. Contact Footer & Cleanup | v1.2 | 0/? | Not started | - |
