@@ -135,6 +135,10 @@
   /* Gradient custom properties for unified background */
   --gradient-top: var(--color-cleanroom);
   --gradient-bottom: var(--color-silicon-50);
+
+  /* Hero gradient custom properties */
+  --hero-gradient-center: oklch(0.65 0.12 298);
+  --hero-gradient-edge: oklch(0.55 0.15 250);
 }
 
 .dark {
@@ -191,6 +195,10 @@
   /* Gradient custom properties for dark unified background */
   --gradient-top: oklch(0.16 0.025 250);
   --gradient-bottom: oklch(0.12 0.020 250);
+
+  /* Hero gradient custom properties (dark) */
+  --hero-gradient-center: oklch(0.35 0.10 298);
+  --hero-gradient-edge: oklch(0.30 0.12 250);
 }
 
 @layer base {
@@ -229,8 +237,28 @@
   }
 }
 
+@keyframes hero-breathe {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.5; }
+}
+
+.hero-gradient {
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    var(--hero-gradient-center) 0%,
+    var(--hero-gradient-edge) 35%,
+    transparent 70%
+  );
+  animation: hero-breathe 7s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-aurora {
     animation: none;
+  }
+
+  .hero-gradient {
+    animation: none;
+    opacity: 0.4;
   }
 }
