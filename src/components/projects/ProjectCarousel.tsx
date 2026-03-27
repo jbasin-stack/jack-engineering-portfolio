@@ -19,7 +19,7 @@ export function ProjectCarousel() {
   const prefersReducedMotion = useReducedMotion();
 
   const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: 'start',
+    align: 'center',
     containScroll: 'trimSnaps',
     dragFree: false,
     loop: false,
@@ -97,8 +97,8 @@ export function ProjectCarousel() {
             <ChevronLeft size={20} />
           </button>
 
-          {/* Embla viewport with Lenis prevention */}
-          <div ref={emblaRef} className="overflow-hidden" data-lenis-prevent>
+          {/* Embla viewport -- no data-lenis-prevent; Embla uses pointer events, Lenis uses wheel events */}
+          <div ref={emblaRef} className="overflow-hidden" style={{ overscrollBehaviorX: 'contain' }}>
             <div
               className="flex gap-4"
               style={{ touchAction: 'pan-y pinch-zoom' }}
@@ -108,8 +108,8 @@ export function ProjectCarousel() {
                   key={project.id}
                   className={
                     project.featured
-                      ? 'flex-[0_0_85%] md:flex-[0_0_60%] min-w-0'
-                      : 'flex-[0_0_85%] md:flex-[0_0_40%] min-w-0'
+                      ? 'flex-[0_0_85%] md:flex-[0_0_55%] min-w-0'
+                      : 'flex-[0_0_85%] md:flex-[0_0_38%] min-w-0'
                   }
                 >
                   <CarouselCard

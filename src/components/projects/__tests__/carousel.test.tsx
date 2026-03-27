@@ -76,10 +76,11 @@ describe('ProjectCarousel', () => {
     expect(section).toBeDefined();
   });
 
-  it('embla viewport has data-lenis-prevent', () => {
-    // PROJ-05: Lenis coexistence via data-lenis-prevent attribute
+  it('carousel coexists with Lenis via touch-action', () => {
+    // PROJ-05: Lenis coexistence -- touchAction pan-y delegates vertical scroll to browser/Lenis
     render(<ProjectCarousel />);
-    const viewport = document.querySelector('[data-lenis-prevent]');
-    expect(viewport).not.toBeNull();
+    const container = document.querySelector('[style*="touch-action"]') ||
+      document.querySelector('[style*="touchAction"]');
+    expect(container).not.toBeNull();
   });
 });
