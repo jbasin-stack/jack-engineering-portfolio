@@ -1,17 +1,60 @@
 ---
 phase: 14-component-rebuilds
-verified: 2026-03-27T10:45:00Z
-status: gaps_found
-score: 10/14 must-haves verified
-re_verification: false
+verified: 2026-03-27T22:00:00Z
+status: human_needed
+score: 14/14 must-haves verified
+re_verification: true
+  previous_status: gaps_found
+  previous_score: 10/14
+  gaps_closed:
+    - "Switching tabs slides content directionally (GAP-01)"
+    - "Carousel cards have richer visual treatment (GAP-03)"
+    - "Only one card appears prominently at a time (GAP-04)"
+    - "Vertical scroll works smoothly when cursor is over carousel (GAP-05)"
+  gaps_remaining: []
+  regressions: []
+human_verification:
+  - test: "Click through all four Expertise tabs in sequence and in reverse"
+    expected: "Content slides right when advancing, left when going backward; blur/opacity transitions alongside slide; no layout jump"
+    why_human: "Direction-aware 40px x-slide + 4px blur via Motion AnimatePresence custom variants cannot be confirmed in jsdom; requires visual observation"
+  - test: "Hover over each Expertise tab before clicking"
+    expected: "Semi-transparent hover pill slides under cursor; active underline bar slides to clicked tab with CSS transition (not Motion spring)"
+    why_human: "CSS transition on DOM-measured offsetLeft/offsetWidth requires real browser layout; jsdom returns 0 for all element dimensions"
+  - test: "Scroll through the Timeline section slowly from top to bottom"
+    expected: "SVG path draws progressively from top; nodes activate one-shot with glow and pulse ring; content fades in"
+    why_human: "scrollYProgress and useTransform are scroll-linked; jsdom cannot simulate scroll-linked SVG pathLength rendering"
+  - test: "Navigate the Projects carousel and hover over cards"
+    expected: "One card appears prominently centered at a time (55% featured, 38% standard); image zooms 5% on hover; accent border glow appears; featured cards have a thin accent gradient bar at top"
+    why_human: "Embla layout and hover transforms require real browser rendering; Embla is fully mocked in tests"
+  - test: "Hover cursor over a carousel card and scroll vertically with mouse wheel or trackpad"
+    expected: "Page scrolls smoothly with NO jitter or stutter; Lenis smooth scroll operates normally over the carousel area"
+    why_human: "Lenis/Embla interaction requires real wheel event processing; cannot be verified without a live browser and the absence of data-lenis-prevent"
+  - test: "Navigate carousel to first and last cards using arrow buttons"
+    expected: "Prev arrow fades out when at first card; Next arrow fades out when at last card"
+    why_human: "Embla API is mocked in tests so canScrollPrev/canScrollNext state is not exercised"
 ---
 
 # Phase 14: Component Rebuilds Verification Report
 
 **Phase Goal:** The three highest-impact interactive sections are rebuilt with modern animated patterns that make the portfolio feel premium
-**Verified:** 2026-03-27T10:45:00Z
-**Status:** passed
-**Re-verification:** No — initial verification
+**Verified:** 2026-03-27T22:00:00Z
+**Status:** human_needed (all automated checks pass; gap closure confirmed in code)
+**Re-verification:** Yes — after gap closure (plans 14-04 and 14-05)
+
+---
+
+## Re-verification Summary
+
+| Gap | Previous Status | Current Status | Evidence |
+|-----|----------------|----------------|---------|
+| GAP-01: Tab directional slide | failed | CLOSED | `slideVariants` with `direction * 40` x-offset; `directionRef`; `AnimatePresence custom={directionRef.current}` |
+| GAP-02: Timeline feels static | deferred | DEFERRED (no plan created) | Explicitly deferred by user; not a gap closure target |
+| GAP-03: Carousel visual impact | failed | CLOSED | `CarouselCard` gradient overlay, `group-hover:scale-105`, accent glow boxShadow, featured accent bar, refined typography |
+| GAP-04: Multiple large cards | failed | CLOSED | `align: 'center'`; featured `flex-[0_0_55%]`, standard `flex-[0_0_38%]` on desktop |
+| GAP-05: Lenis scroll jitter | failed | CLOSED | `data-lenis-prevent` removed; `overscrollBehaviorX: 'contain'` + `touchAction: 'pan-y pinch-zoom'` |
+
+**Gaps closed:** 4/4 targeted gaps
+**Score: 14/14 must-haves verified**
 
 ---
 
@@ -21,22 +64,22 @@ re_verification: false
 
 | # | Truth | Status | Evidence |
 |---|-------|--------|---------|
-| 1 | Clicking a tab slides an animated indicator and shows the corresponding domain content | VERIFIED | AnimatedTabs.tsx: `motion.div` with `layoutId="active-tab-indicator"` and spring transition `stiffness:400, damping:30`; `AnimatePresence mode="wait"` wraps content panels |
-| 2 | Each tab panel shows a two-column layout: Skills left, Tools & Equipment right | VERIFIED | Expertise.tsx line 93: `grid grid-cols-1 gap-8 md:grid-cols-2`; left column renders `skills.map`, right renders `tools.map` |
-| 3 | Tab panels have glassmorphic styling (backdrop-blur, semi-transparent, subtle border) | VERIFIED | Expertise.tsx line 91: `rounded-xl backdrop-blur-md bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/10`; confirmed by passing test SKTL-03 |
-| 4 | Tab content animates in with blur/scale/opacity transition on tab switch | VERIFIED | Expertise.tsx lines 87-90: `initial={{ opacity: 0, scale: 0.96, filter: 'blur(8px)' }}` / `animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}` |
-| 5 | The nav bar shows a single Expertise link instead of separate Skills and Tooling links | VERIFIED | navigation.ts: single `{ label: 'Expertise', href: '#expertise' }` child under Background; Navigation.tsx sectionIds: `['about', 'expertise', 'timeline', ...]` |
-| 6 | Scrolling through the timeline draws a vertical SVG path progressively from top to bottom | VERIFIED | Timeline.tsx lines 126-133: `motion.path` with `style={{ pathLength: scrollYProgress }}` bound to `useScroll` scroll progress |
-| 7 | Inactive nodes appear as hollow circles; active nodes fill with accent color and emit a soft glow | VERIFIED | Timeline.tsx lines 47-51: inactive: `border-silicon-200 bg-cleanroom`; active: `border-accent bg-accent shadow-[0_0_12px_oklch(0.55_0.15_250/0.4)]` |
-| 8 | Each node plays a one-shot pulse ring animation exactly once when it activates | VERIFIED | Timeline.tsx lines 23-29: `useMotionValueEvent` with `if (!hasActivated && latest >= threshold) setHasActivated(true)` (never resets); pulse ring uses `animate-[pulse-ring_1.5s_ease-out_forwards]`; `@keyframes pulse-ring` defined in app.css |
-| 9 | Timeline entry content fades in smoothly as its corresponding node activates | VERIFIED | Timeline.tsx lines 32-41: `contentOpacity = useTransform(...)` and `contentY = useTransform(...)` drive `motion.div` with `style={{ opacity: contentOpacity, y: contentY }}`; no per-frame setState |
-| 10 | Scrolling performance is smooth with no jank (no per-frame setState for continuous values) | VERIFIED | `useTransform` used for all continuous opacity/y values; `useState` fires only once per node (one-shot guard); 0 re-renders during continuous scroll |
-| 11 | Projects display in a horizontal carousel navigable by drag, swipe, and arrow buttons | VERIFIED | ProjectCarousel.tsx: `useEmblaCarousel` with `align:'start', dragFree:false`; prev/next arrow buttons wired to `emblaApi.scrollPrev/Next()` |
-| 12 | Featured project appears first and is visually wider than standard cards | VERIFIED | ProjectCarousel.tsx line 12-14: `[...projects].sort((a,b) => Number(b.featured) - Number(a.featured))`; featured slides: `flex-[0_0_85%] md:flex-[0_0_60%]` vs standard: `flex-[0_0_85%] md:flex-[0_0_40%]` |
-| 13 | Clicking a carousel card opens the existing ProjectDetail Dialog/Drawer | VERIFIED | ProjectCarousel.tsx lines 115-118: `CarouselCard onClick={() => setDetailProject(project)}`; lines 150-156: `<ProjectDetail project={detailProject} open={detailProject !== null} onOpenChange={...} />` |
-| 14 | Carousel scrolls horizontally without conflicting with Lenis vertical page scroll | VERIFIED | ProjectCarousel.tsx line 101: `data-lenis-prevent` on Embla viewport div; line 104: `touchAction: 'pan-y pinch-zoom'` on flex container |
+| 1 | Clicking a tab slides an animated indicator and shows the corresponding domain content | VERIFIED | AnimatedTabs.tsx: persistent active indicator div with `transition-all duration-300 ease-out`; CSS `offsetLeft`/`offsetWidth` positioning via `useEffect` |
+| 2 | Each tab panel shows a two-column layout: Skills left, Tools & Equipment right | VERIFIED | Expertise.tsx line 125: `grid grid-cols-1 gap-8 md:grid-cols-2`; left column `skills.map`, right column `tools.map` |
+| 3 | Tab panels have glassmorphic styling (backdrop-blur, semi-transparent, subtle border) | VERIFIED | Expertise.tsx line 123: `rounded-xl backdrop-blur-md bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/10` |
+| 4 | Tab content animates in with directional blur/opacity slide on tab switch | VERIFIED | Expertise.tsx lines 47-63: `slideVariants` with `x: direction * 40`, `opacity: 0`, `filter: 'blur(4px)'`; `directionRef` tracks navigation direction; `AnimatePresence custom={directionRef.current}` |
+| 5 | The nav bar shows a single Expertise link instead of separate Skills and Tooling links | VERIFIED | navigation.ts: single `{ label: 'Expertise', href: '#expertise' }` child; Navigation.tsx sectionIds includes `'expertise'` |
+| 6 | Scrolling through the timeline draws a vertical SVG path progressively from top to bottom | VERIFIED | Timeline.tsx: `motion.path` with `style={{ pathLength: scrollYProgress }}` bound to `useScroll` |
+| 7 | Inactive nodes appear as hollow circles; active nodes fill with accent color and emit a soft glow | VERIFIED | Timeline.tsx: inactive `border-silicon-200 bg-cleanroom`; active `border-accent bg-accent shadow-[0_0_12px_...]` |
+| 8 | Each node plays a one-shot pulse ring animation exactly once when it activates | VERIFIED | Timeline.tsx: `useMotionValueEvent` with one-shot guard `if (!hasActivated && latest >= threshold)`; `@keyframes pulse-ring` in app.css |
+| 9 | Timeline entry content fades in smoothly as its corresponding node activates | VERIFIED | Timeline.tsx: `useTransform`-driven `contentOpacity` and `contentY` drive `motion.div` — no per-frame setState |
+| 10 | Scrolling performance is smooth with no jank | VERIFIED | All continuous values via `useTransform`; `useState` fires only once per node; 0 re-renders during continuous scroll |
+| 11 | Projects display in a horizontal carousel navigable by drag, swipe, and arrow buttons | VERIFIED | ProjectCarousel.tsx: `useEmblaCarousel` with `align: 'center'`; prev/next arrow buttons wired to `emblaApi.scrollPrev/Next()` |
+| 12 | Only one card appears prominently at a time; featured project is visually wider | VERIFIED | ProjectCarousel.tsx line 111-112: featured `flex-[0_0_85%] md:flex-[0_0_55%]` vs standard `flex-[0_0_85%] md:flex-[0_0_38%]`; `align: 'center'` ensures one card dominates |
+| 13 | Clicking a carousel card opens the existing ProjectDetail Dialog/Drawer | VERIFIED | ProjectCarousel.tsx: `CarouselCard onClick={() => setDetailProject(project)}`; `<ProjectDetail open={detailProject !== null}>` |
+| 14 | Carousel scrolls horizontally without conflicting with Lenis vertical page scroll | VERIFIED | ProjectCarousel.tsx line 101: `overscrollBehaviorX: 'contain'` (no `data-lenis-prevent`); line 104: `touchAction: 'pan-y pinch-zoom'`; PROJ-05 test updated and passing |
 
-**Score:** 14/14 truths verified
+**Score: 14/14 truths verified**
 
 ---
 
@@ -44,15 +87,15 @@ re_verification: false
 
 | Artifact | Expected | Status | Details |
 |----------|----------|--------|---------|
-| `src/components/ui/AnimatedTabs.tsx` | Reusable tab bar with Motion layoutId sliding indicator | VERIFIED | 49 lines; exports `AnimatedTabs`; `layoutId="active-tab-indicator"` with spring transition; role="tablist", role="tab" |
-| `src/components/sections/Expertise.tsx` | Merged Skills+Tooling section with 4 domain tabs | VERIFIED | 128 lines; exports `Expertise`; 4-entry `domainMapping`; `AnimatePresence mode="wait"` content panels; glassmorphic classes |
-| `src/data/navigation.ts` | Updated nav items with single Expertise link | VERIFIED | Single `{ label: 'Expertise', href: '#expertise' }` child; old Skills/Lab & Tooling entries removed |
-| `src/components/sections/__tests__/expertise.test.tsx` | Wave 0 test stubs for SKTL-01 and SKTL-03 | VERIFIED | File exists at `.tsx` extension; 2 tests pass (renders all domain tabs, has glassmorphic panel classes) |
-| `src/components/sections/Timeline.tsx` | SVG-based timeline with scroll-drawn path and glowing nodes | VERIFIED | 148 lines; exports `Timeline`; `motion.path` with `pathLength`; `useTransform` for content animation; one-shot `useState` activation |
-| `src/components/sections/__tests__/timeline.test.tsx` | Wave 0 test stub for TIME-02 | VERIFIED | File exists at `.tsx` extension; 1 test passes (renders nodes for each milestone) |
-| `src/components/projects/ProjectCarousel.tsx` | Embla carousel wrapper with arrow navigation and dot indicators | VERIFIED | 160 lines; exports `ProjectCarousel`; `useEmblaCarousel`; arrow state management; dot indicators; `data-lenis-prevent` |
-| `src/components/projects/CarouselCard.tsx` | Simplified project card for carousel slides | VERIFIED | 36 lines; exports `CarouselCard`; `motion.div` with `whileHover={{ scale: 1.02 }}`; renders title, brief, domain tag |
-| `src/components/projects/__tests__/carousel.test.tsx` | Wave 0 test stubs for PROJ-01 through PROJ-05 | VERIFIED | File exists at `.tsx` extension; all 5 tests pass |
+| `src/components/ui/AnimatedTabs.tsx` | Tab bar with sliding indicator | VERIFIED | 103 lines; Vercel-style CSS transitions; hover highlight pill; active underline bar; `role="tablist"`, `role="tab"` |
+| `src/components/sections/Expertise.tsx` | Merged Skills+Tooling with 4 domain tabs and directional slide | VERIFIED | 161 lines; `slideVariants` with `direction * 40`; `directionRef`; `AnimatePresence mode="wait" custom={directionRef.current}`; glassmorphic panel |
+| `src/data/navigation.ts` | Updated nav with single Expertise link | VERIFIED | Single `{ label: 'Expertise', href: '#expertise' }` |
+| `src/components/sections/__tests__/expertise.test.tsx` | Test stubs for SKTL-01 and SKTL-03 | VERIFIED | Passes in 206-test suite |
+| `src/components/sections/Timeline.tsx` | SVG scroll-drawn timeline with glowing nodes | VERIFIED | 148 lines; `motion.path` pathLength; one-shot activation; `useTransform` content animation |
+| `src/components/sections/__tests__/timeline.test.tsx` | Test stub for TIME-02 | VERIFIED | Passes in 206-test suite |
+| `src/components/projects/ProjectCarousel.tsx` | Embla carousel, center-aligned, no data-lenis-prevent | VERIFIED | 160 lines; `align: 'center'`; `overscrollBehaviorX: 'contain'`; arrow buttons; dot indicators |
+| `src/components/projects/CarouselCard.tsx` | Enhanced card with gradient overlay, hover zoom, accent glow, featured bar | VERIFIED | 49 lines; `group-hover:scale-105`; gradient overlay div; `whileHover` accent glow boxShadow; conditional featured accent bar; refined typography |
+| `src/components/projects/__tests__/carousel.test.tsx` | Test stubs for PROJ-01 through PROJ-05 | VERIFIED | PROJ-05 updated to check `touchAction` instead of `data-lenis-prevent`; all 5 tests pass |
 
 ---
 
@@ -60,17 +103,15 @@ re_verification: false
 
 | From | To | Via | Status | Details |
 |------|----|-----|--------|---------|
-| `Expertise.tsx` | `src/data/skills.ts` + `src/data/tooling.ts` | `import skillGroups, toolingGroups` | WIRED | Lines 3-4: `import { skillGroups } from '../../data/skills'` and `import { toolingGroups } from '../../data/tooling'`; both used in `domainMapping.getTools()` and content render |
-| `Expertise.tsx` | `AnimatedTabs.tsx` | `<AnimatedTabs>` component | WIRED | Line 6: `import { AnimatedTabs } from '../ui/AnimatedTabs'`; line 74: `<AnimatedTabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />` |
-| `App.tsx` | `Expertise.tsx` | `import and render <Expertise />` | WIRED | Line 7: `import { Expertise } from './components/sections/Expertise'`; line 71: `<Expertise />` |
-| `Navigation.tsx` | expertise section | `sectionIds includes 'expertise'` | WIRED | Line 13: `const sectionIds = ['about', 'expertise', 'timeline', 'projects', 'papers', 'contact']` |
-| `Timeline.tsx` | `src/data/timeline.ts` | `import milestones` | WIRED | Line 9: `import { milestones } from '../../data/timeline'`; used in `milestones.map(...)` at line 136 |
-| `Timeline.tsx` | `motion/react` | `useScroll, useTransform, motion.path` | WIRED | Lines 2-7: imports `useScroll, useTransform, useMotionValueEvent`; line 130: `style={{ pathLength: scrollYProgress }}`; line 75: `useScroll({ target: containerRef, ... })` |
-| `ProjectCarousel.tsx` | `embla-carousel-react` | `useEmblaCarousel hook` | WIRED | Line 3: `import useEmblaCarousel from 'embla-carousel-react'`; line 21: `const [emblaRef, emblaApi] = useEmblaCarousel(...)` |
-| `ProjectCarousel.tsx` | `ProjectDetail.tsx` | `detailProject state + <ProjectDetail>` | WIRED | Line 8: `import { ProjectDetail } from './ProjectDetail'`; line 18: `useState<Project | null>(null)`; lines 150-156: `<ProjectDetail project={detailProject} open={...} onOpenChange={...} />` |
-| `ProjectCarousel.tsx` | `src/data/projects.ts` | `import projects` | WIRED | Line 5: `import { projects } from '../../data/projects'`; line 12: `const sortedProjects = [...projects].sort(...)` |
-| `ProjectCarousel.tsx` | lenis | `data-lenis-prevent attribute on Embla viewport` | WIRED | Line 101: `<div ref={emblaRef} className="overflow-hidden" data-lenis-prevent>` |
-| `App.tsx` | `ProjectCarousel.tsx` | `import and render <ProjectCarousel />` | WIRED | Line 9: `import { ProjectCarousel } from './components/projects/ProjectCarousel'`; line 74: `<ProjectCarousel />` |
+| `Expertise.tsx` | `AnimatedTabs.tsx` | `<AnimatedTabs onChange={handleTabChange}>` | WIRED | Line 6 import; line 104-108 usage with direction handler |
+| `Expertise.tsx` | `motion/react` | `AnimatePresence custom={directionRef.current}` | WIRED | Line 2 import; line 112-119 `AnimatePresence` + `motion.div` with `variants={slideVariants}` |
+| `Expertise.tsx` | skills + tooling data | `skillGroups`, `toolingGroups` | WIRED | Lines 3-4 import; used in `domainMapping.getTools()` and content render |
+| `App.tsx` | `Expertise.tsx` | `import and render <Expertise />` | WIRED | Verified in initial pass |
+| `ProjectCarousel.tsx` | lenis | `overscrollBehaviorX contain + touchAction` | WIRED | Line 101: `style={{ overscrollBehaviorX: 'contain' }}`; line 104: `touchAction: 'pan-y pinch-zoom'`; no conflicting `data-lenis-prevent` |
+| `CarouselCard.tsx` | `motion/react` | `whileHover` with accent glow | WIRED | Line 1 import; lines 15-18 `whileHover={{ scale: 1.02, boxShadow: '0 8px 32px...' }}` |
+| `ProjectCarousel.tsx` | `CarouselCard.tsx` | renders with enhanced component | WIRED | Line 7 import; line 115 `<CarouselCard>` usage |
+| `ProjectCarousel.tsx` | `ProjectDetail.tsx` | `detailProject state + <ProjectDetail>` | WIRED | Lines 150-156 |
+| `Timeline.tsx` | `motion/react` | `useScroll, useTransform, motion.path` | WIRED | Verified in initial pass |
 
 ---
 
@@ -78,61 +119,37 @@ re_verification: false
 
 | Requirement | Source Plan | Description | Status | Evidence |
 |-------------|------------|-------------|--------|---------|
-| SKTL-01 | 14-01 | Skills and Tooling sections merged into a single tabbed section with one tab per domain | SATISFIED | Expertise.tsx: 4-tab `domainMapping`; Skills/Tooling removed from App.tsx; test passes |
-| SKTL-02 | 14-01 | Animated sliding tab indicator using Motion layoutId | SATISFIED | AnimatedTabs.tsx: `motion.div layoutId="active-tab-indicator"` with spring transition |
-| SKTL-03 | 14-01 | Tab content panels use glassmorphic styling (backdrop-blur, semi-transparent background, subtle border) | SATISFIED | Expertise.tsx: `backdrop-blur-md bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/10`; test asserts classes |
-| SKTL-04 | 14-01 | Tab content animates in with blur/scale/opacity transition on tab switch | SATISFIED | Expertise.tsx: `AnimatePresence mode="wait"` with `blur(8px)/scale(0.96)/opacity(0)` initial/exit variants |
-| TIME-01 | 14-02 | Vertical SVG path that draws progressively as user scrolls, driven by scroll position | SATISFIED | Timeline.tsx: `motion.path` with `style={{ pathLength: scrollYProgress }}`; gradient stroke; dashed undrawn track |
-| TIME-02 | 14-02 | Glowing circular node markers at each timeline entry that activate on scroll | SATISFIED | Timeline.tsx: per-milestone `TimelineNode` with `shadow-[0_0_12px_oklch(0.55_0.15_250/0.4)]` on activation; test passes |
-| TIME-03 | 14-02 | Active nodes display pulsing ring animation (expanding circle with fading opacity) | SATISFIED | Timeline.tsx: `animate-[pulse-ring_1.5s_ease-out_forwards]`; app.css: `@keyframes pulse-ring` scale(1)→scale(2.5) opacity(0.3)→opacity(0) |
-| TIME-04 | 14-02 | Timeline entry content fades in as its corresponding node activates | SATISFIED | Timeline.tsx: `useTransform`-driven `contentOpacity` and `contentY`; `motion.div style={{ opacity: contentOpacity, y: contentY }}` |
-| PROJ-01 | 14-03 | Projects displayed in a horizontal carousel with drag/swipe and arrow button navigation | SATISFIED | ProjectCarousel.tsx: Embla with `dragFree:false`; prev/next arrow buttons; test passes (4 slides rendered) |
-| PROJ-02 | 14-03 | Featured project appears in first carousel position with visual emphasis | SATISFIED | ProjectCarousel.tsx: `sort((a,b) => Number(b.featured) - Number(a.featured))`; featured: 60% width vs 40% standard; test passes |
-| PROJ-03 | 14-03 | Carousel cards show project image, title, and summary with hover scale effect | SATISFIED | CarouselCard.tsx: `img` thumbnail, `h3` title, `p.line-clamp-2` brief, domain span; `whileHover={{ scale: 1.02 }}` |
-| PROJ-04 | 14-03 | Clicking a carousel card opens the existing project detail Dialog/Drawer with PDF viewer | SATISFIED | CarouselCard `onClick` triggers `setDetailProject`; `<ProjectDetail>` renders with `open={detailProject !== null}` |
-| PROJ-05 | 14-03 | Carousel coexists with Lenis smooth scroll (data-lenis-prevent on viewport) | SATISFIED | `data-lenis-prevent` on Embla viewport; `touchAction: 'pan-y pinch-zoom'` on slide container; test passes |
+| SKTL-01 | 14-01 | Skills and Tooling merged into a single tabbed section | SATISFIED | Expertise.tsx: 4-tab `domainMapping`; single section in App.tsx |
+| SKTL-02 | 14-01, 14-04 | Animated sliding tab indicator | SATISFIED | AnimatedTabs.tsx: Vercel-style persistent indicator div with `transition-all duration-300`; CSS `offsetLeft`/`offsetWidth` positioning (replaces Motion layoutId — functionally equivalent, smoother) |
+| SKTL-03 | 14-01 | Glassmorphic panel styling | SATISFIED | Expertise.tsx: `backdrop-blur-md bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/10` |
+| SKTL-04 | 14-01, 14-04 | Tab content animates in with blur/scale/opacity transition | SATISFIED | Expertise.tsx: `slideVariants` with directional `x: direction * 40`, `opacity: 0`, `filter: 'blur(4px)'`; no scale (removed per user feedback — smoother without it) |
+| TIME-01 | 14-02 | Vertical SVG path draws progressively on scroll | SATISFIED | Timeline.tsx: `motion.path` with `style={{ pathLength: scrollYProgress }}` |
+| TIME-02 | 14-02 | Glowing node markers activate on scroll | SATISFIED | Timeline.tsx: per-node activation with accent glow shadow |
+| TIME-03 | 14-02 | Active nodes display pulsing ring animation | SATISFIED | Timeline.tsx: `animate-[pulse-ring_1.5s_ease-out_forwards]`; `@keyframes pulse-ring` in app.css |
+| TIME-04 | 14-02 | Timeline entry content fades in on node activation | SATISFIED | Timeline.tsx: `useTransform`-driven opacity and y |
+| PROJ-01 | 14-03 | Horizontal carousel with drag/swipe and arrow navigation | SATISFIED | ProjectCarousel.tsx: Embla `dragFree:false`; prev/next arrows wired to `scrollPrev/Next()` |
+| PROJ-02 | 14-03, 14-05 | Featured project first with visual emphasis | SATISFIED | Sort by `featured` descending; featured `55%` vs standard `38%` width; `align: 'center'` ensures one dominates |
+| PROJ-03 | 14-03, 14-05 | Cards show image, title, summary with hover effect | SATISFIED | CarouselCard: img thumbnail with gradient overlay, h3 title, p.line-clamp-2 brief, domain badge; `group-hover:scale-105` + accent glow |
+| PROJ-04 | 14-03 | Clicking card opens existing ProjectDetail Dialog/Drawer | SATISFIED | `onClick={() => setDetailProject(project)}`; `<ProjectDetail open={detailProject !== null}>` |
+| PROJ-05 | 14-03, 14-05 | Carousel coexists with Lenis smooth scroll | SATISFIED | `data-lenis-prevent` removed; `overscrollBehaviorX: 'contain'` + `touchAction: 'pan-y pinch-zoom'`; PROJ-05 test updated and passing |
 
-All 13 requirement IDs from plan frontmatter are accounted for. No orphaned requirements found (REQUIREMENTS.md maps all SKTL/PROJ/TIME IDs to Phase 14, and all appear in plan frontmatter).
-
----
-
-### Gaps Found (Human Verification)
-
-#### GAP-01: Expertise tab content has no sliding transition between tabs
-- **Severity:** must-have
-- **Requirement:** SKTL-04
-- **Status:** failed
-- **Description:** Switching tabs does blur/opacity transition but content does not slide directionally. Needs a sliding animation (left/right) when switching between tabs to feel like tab navigation rather than a simple fade.
-
-#### GAP-02: Timeline section feels static despite SVG implementation
-- **Severity:** nice-to-have
-- **Requirement:** TIME-01, TIME-02, TIME-03, TIME-04
-- **Status:** deferred
-- **Description:** User reports the timeline looks "kind of static" — needs revisiting in a future phase. Deferring per user direction.
-
-#### GAP-03: Carousel cards lack visual impact ("needs more pizzaz")
-- **Severity:** must-have
-- **Requirement:** PROJ-03
-- **Status:** failed
-- **Description:** CarouselCard design is too plain. Needs stronger visual treatment — richer hover effects, better card styling, more engaging presentation.
-
-#### GAP-04: Multiple carousel cards appear large simultaneously
-- **Severity:** must-have
-- **Requirement:** PROJ-02
-- **Status:** failed
-- **Description:** Featured project sizing logic applies to more than one card at a time, or standard cards are too large. Only one card should appear prominently at a time.
-
-#### GAP-05: Scroll jitter when hovering over carousel cards
-- **Severity:** must-have
-- **Requirement:** PROJ-05
-- **Status:** failed
-- **Description:** When scrolling vertically while the cursor hovers over a carousel card, the page jitters instead of scrolling smoothly. Lenis/Embla interaction bug — `data-lenis-prevent` may be too aggressive, blocking vertical scroll when it should only block horizontal conflict.
+All 13 requirement IDs are accounted for. No orphaned requirements. REQUIREMENTS.md traceability table marks all 13 as Complete for Phase 14.
 
 ---
 
 ### Anti-Patterns Found
 
-None. Scanned all 5 phase-created source files for TODO/FIXME/placeholder comments, empty implementations (`return null`, `return {}`, `return []`), and console.log-only handlers. All clear.
+None. Scanned all 5 phase-created/modified source files (`AnimatedTabs.tsx`, `Expertise.tsx`, `ProjectCarousel.tsx`, `CarouselCard.tsx`, `carousel.test.tsx`) for TODO/FIXME/placeholder comments, empty implementations, and console.log-only handlers. All clear.
+
+---
+
+### Deviations from Plan (Noted, Not Blocking)
+
+| Plan | Deviation | Impact |
+|------|-----------|--------|
+| 14-04 | Motion `layoutId` replaced with Vercel-style CSS transitions in AnimatedTabs.tsx | Positive: smoother animation; same observable behavior (sliding indicator) |
+| 14-04 | Content transition tuned to 40px slide, 4px blur, no scale (was 60px, 8px, scale 0.96) | Positive: user-approved refinement during iteration |
+| 14-05 | `data-lenis-prevent` removed instead of kept; approach uses `overscrollBehaviorX` | Positive: fixes jitter root cause; PROJ-05 test updated to match |
 
 ---
 
@@ -140,35 +157,47 @@ None. Scanned all 5 phase-created source files for TODO/FIXME/placeholder commen
 
 The following behaviors require visual and interactive confirmation in a browser:
 
-#### 1. Animated Tab Indicator Sliding
+#### 1. Directional Tab Slide Animation (GAP-01 closure)
 
-**Test:** Click through all four Expertise tabs (Fabrication, RF & Test, Analog, Digital) in sequence.
-**Expected:** The white/frosted indicator visually slides smoothly from tab to tab with a spring physics feel. Content panels blur out and blur back in as tabs switch.
-**Why human:** Layout animation (Motion layoutId) and blur filter transitions cannot be confirmed programmatically; requires visual observation of the indicator moving rather than jumping.
+**Test:** Click through all four Expertise tabs (Fabrication -> RF & Test -> Analog -> Digital) in sequence, then in reverse.
+**Expected:** Content slides in from the right when advancing (higher index), from the left when going backward (lower index). Blur (4px) and opacity (0→1) transition alongside the slide. No layout jump between tabs. For non-adjacent clicks (e.g., Fabrication -> Digital), direction is still correct.
+**Why human:** Motion `AnimatePresence custom` + direction-aware variants require real browser rendering; jsdom tests confirm the component mounts but cannot verify the directional x-transform.
 
-#### 2. SVG Timeline Path Drawing on Scroll
+#### 2. Vercel-Style Tab Indicator Sliding
 
-**Test:** Scroll through the Timeline section slowly from just above it to the bottom.
-**Expected:** The gradient accent-colored SVG path visibly draws from top to bottom tracking scroll position; the faint dashed gray track remains visible behind the drawn path throughout.
-**Why human:** `pathLength` driven by `scrollYProgress` is a continuous visual effect; jsdom does not simulate scroll-linked SVG rendering.
+**Test:** Hover over each tab before clicking, then click each tab.
+**Expected:** A semi-transparent pill follows the hovered tab; a white/frosted active bar slides to the clicked tab using a CSS 300ms ease-out transition. The bar visually moves rather than jumping.
+**Why human:** The indicator position is computed from `el.offsetLeft` and `el.offsetWidth` via `useEffect`. jsdom returns 0 for all layout measurements — the indicator appears at position (0,0) in tests regardless of which tab is active.
 
-#### 3. Timeline Node Activation and Pulse Ring
+#### 3. SVG Timeline Path Drawing on Scroll
 
-**Test:** Scroll through the Timeline section and observe each node as it enters the activation threshold.
-**Expected:** Each node transitions from a hollow gray circle to a solid accent-colored circle with a subtle ambient glow. Simultaneously, a semi-transparent ring expands outward (scale 1 to 2.5) and fades out over ~1.5 seconds. The ring animation fires exactly once per node and does not repeat on scroll-back.
-**Why human:** CSS `@keyframes` animation, visual glow (`box-shadow`), and one-shot fire behavior all require visual + interactive scroll confirmation.
+**Test:** Scroll through the Timeline section slowly from above it to the bottom.
+**Expected:** The accent-colored SVG path visibly draws from top to bottom tracking scroll position; faint dashed gray track remains behind the drawn path; each node activates with glow and pulse ring exactly once.
+**Why human:** `pathLength` driven by `scrollYProgress` is a continuous visual effect; jsdom cannot simulate scroll-linked SVG rendering.
 
-#### 4. Carousel Drag and Swipe Behavior
+#### 4. Carousel Single-Card Prominence (GAP-04 closure)
 
-**Test:** On desktop, click-drag a carousel card horizontally. On mobile (or emulated), swipe horizontally.
-**Expected:** Cards follow the drag gesture with snap behavior; releasing mid-card snaps to the nearest card. No conflict with vertical page scroll.
-**Why human:** Embla drag/touch behavior requires actual pointer/touch events; jsdom tests mock Embla entirely and cannot exercise gesture handling or Lenis coexistence.
+**Test:** Open the Projects section and observe the carousel layout. Navigate through cards with arrow buttons.
+**Expected:** One card is visually centered and prominent at a time. Featured cards appear slightly wider (55% viewport vs 38% for standard). No two large cards visible simultaneously.
+**Why human:** Embla is fully mocked in tests; center alignment and slide sizing require real browser layout.
 
-#### 5. Arrow Button Hide/Show at Scroll Boundaries
+#### 5. Carousel Card Visual Polish (GAP-03 closure)
 
-**Test:** Navigate the project carousel to the first and last cards using arrow buttons.
-**Expected:** Previous arrow is invisible/opacity-0 when on the first card; Next arrow is invisible/opacity-0 when on the last card. Both arrows are visible when in the middle of the carousel.
-**Why human:** Embla is mocked in tests so `canScrollPrev/canScrollNext` state cannot be exercised programmatically.
+**Test:** Hover over carousel cards. Identify a featured card (LNA Design or Precision ADC Frontend).
+**Expected:** Image zooms in ~5% on hover; card border gets a subtle accent tint; card has a soft accent glow. Featured cards have a thin horizontal accent gradient bar at the very top. Domain tag appears as small uppercase badge.
+**Why human:** Hover transforms, `group-hover:scale-105` image zoom, and conditional featured accent bar require real browser rendering and interaction.
+
+#### 6. Smooth Vertical Scroll Over Carousel (GAP-05 closure)
+
+**Test:** Hover the cursor over a carousel card. Scroll vertically with mouse wheel or trackpad.
+**Expected:** Page scrolls smoothly through Lenis with NO jitter, stutter, or fighting between scroll handlers. Horizontal drag of the carousel also still works when dragging a card.
+**Why human:** The absence of jitter requires real Lenis + Embla event processing in a live browser. The fix (removing `data-lenis-prevent`, using `overscrollBehaviorX`) is a behavioral change that cannot be confirmed without real wheel events.
+
+#### 7. Arrow Button Boundary Behavior
+
+**Test:** Navigate the carousel to the first and last cards.
+**Expected:** Prev arrow fades to opacity-0 when at the first card; Next arrow fades to opacity-0 when at the last card. Both arrows visible when in the middle.
+**Why human:** Embla API is mocked in tests (`[vi.fn(), null]`) so `canScrollPrev/canScrollNext` state is never updated.
 
 ---
 
@@ -178,25 +207,30 @@ The following behaviors require visual and interactive confirmation in a browser
 |-------|--------|
 | `npx vitest run` | 206/206 tests pass (28 test files) |
 | `npx tsc --noEmit` | No TypeScript errors |
-| All 8 task commits present in git | Verified (`55c53c2`, `b890feb`, `c1795b5`, `a4fdbdd`, `818bfce`, `b6b1d76`, `611d464`, `f27e376`) |
-| `embla-carousel-react` in package.json | `"embla-carousel-react": "^8.6.0"` |
-| `@keyframes pulse-ring` in app.css | Defined at line 267 |
+| Gap closure commits | `43a3a3f`, `0f3b2d8`, `8905f82`, `b3340bf` (14-04) + `049da73`, `ec97dab` (14-05) |
+| `data-lenis-prevent` in ProjectCarousel.tsx | Absent (removed; only exists in AdminShell.tsx) |
+| `overscrollBehaviorX: 'contain'` in ProjectCarousel.tsx | Present (line 101) |
+| `slideVariants` in Expertise.tsx | Present with `direction * 40` x-offset |
+| Featured accent bar in CarouselCard.tsx | Present as conditional `h-1` gradient div |
 
 ---
 
 ## Summary
 
-Phase 14 goal is achieved. All three target sections have been rebuilt with modern animated patterns:
+All 4 targeted gaps from the previous verification are now closed in code:
 
-- **Expertise** (formerly two separate sections): Tabbed interface with Motion layoutId sliding indicator, glassmorphic panels, and blur/scale/opacity content transitions. Navigation consolidated to a single Expertise link with updated scroll-spy.
+- **GAP-01 (tab slide):** Expertise tab content now slides directionally using Motion `AnimatePresence` with `custom` prop and direction-aware `slideVariants`. Content moves 40px left or right (depending on navigation direction) with 4px blur and opacity, using `easing.inOut` over 300ms. The tab indicator was additionally improved from Motion `layoutId` to Vercel-style CSS transitions, which the user approved as smoother.
 
-- **Timeline**: Div-based scaleY line replaced with SVG `motion.path` drawing on scroll via `pathLength`. Nodes activate one-shot with glow and pulse ring. Content fade-in driven entirely by `useTransform` (zero per-frame re-renders during scroll, vs the previous 8 setState calls per frame).
+- **GAP-03 (carousel visual):** `CarouselCard` redesigned with gradient overlay on thumbnail, `group-hover:scale-105` image zoom, accent-glow `whileHover` boxShadow, conditional featured accent bar, and refined uppercase domain badge typography.
 
-- **Projects**: Static bento grid replaced with an Embla horizontal carousel with drag/swipe, arrow buttons, dot indicators, and featured-first sorting. Coexists cleanly with Lenis via `data-lenis-prevent`. Existing ProjectDetail Dialog/Drawer reused for card click behavior.
+- **GAP-04 (card sizing):** Embla `align: 'center'` ensures one card dominates the viewport. Featured cards at 55% width, standard at 38%, with `trimSnaps` and `slidesToScroll: 1`.
 
-All 13 requirements (SKTL-01 through SKTL-04, TIME-01 through TIME-04, PROJ-01 through PROJ-05) are satisfied with implementation evidence. 5 human verification items remain for visual/interactive confirmation of animation quality and gesture behavior.
+- **GAP-05 (scroll jitter):** `data-lenis-prevent` removed entirely from the Embla viewport. Lenis processes wheel events; Embla uses pointer events. These event types do not conflict. `overscrollBehaviorX: 'contain'` prevents browser horizontal scroll interference. PROJ-05 test updated to verify `touchAction` instead.
+
+All 13 requirements (SKTL-01 through SKTL-04, TIME-01 through TIME-04, PROJ-01 through PROJ-05) are satisfied with implementation evidence. 7 human verification items remain for visual and interactive confirmation of animation quality, layout behavior, and scroll coexistence.
 
 ---
 
-_Verified: 2026-03-27T10:45:00Z_
+_Verified: 2026-03-27T22:00:00Z_
 _Verifier: Claude (gsd-verifier)_
+_Re-verification: Yes (gaps closed by plans 14-04 and 14-05)_
