@@ -2,7 +2,7 @@
 phase: 14
 slug: component-rebuilds
 status: draft
-nyquist_compliant: false
+nyquist_compliant: true
 wave_0_complete: false
 created: 2026-03-27
 ---
@@ -38,19 +38,22 @@ created: 2026-03-27
 
 | Task ID | Plan | Wave | Requirement | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|-----------|-------------------|-------------|--------|
-| 14-01-01 | 01 | 1 | SKTL-01 | unit | `npx vitest run src/components/sections/__tests__/expertise.test.ts -t "renders all domain tabs"` | ❌ W0 | ⬜ pending |
+| 14-01-00 | 01 | 1 | SKTL-01, SKTL-03 | stub | `npx vitest run src/components/sections/__tests__/expertise.test.ts --reporter=verbose` | W0 task | ⬜ pending |
+| 14-01-01 | 01 | 1 | SKTL-01 | unit | `npx vitest run src/components/sections/__tests__/expertise.test.ts -t "renders all domain tabs"` | W0 dep | ⬜ pending |
 | 14-01-02 | 01 | 1 | SKTL-02 | manual-only | Visual verification — layoutId animation cannot be asserted in jsdom | N/A | ⬜ pending |
-| 14-01-03 | 01 | 1 | SKTL-03 | unit | `npx vitest run src/components/sections/__tests__/expertise.test.ts -t "glassmorphic"` | ❌ W0 | ⬜ pending |
+| 14-01-03 | 01 | 1 | SKTL-03 | unit | `npx vitest run src/components/sections/__tests__/expertise.test.ts -t "glassmorphic"` | W0 dep | ⬜ pending |
 | 14-01-04 | 01 | 1 | SKTL-04 | manual-only | AnimatePresence animation cannot be meaningfully tested in jsdom | N/A | ⬜ pending |
-| 14-02-01 | 02 | 1 | PROJ-01 | unit | `npx vitest run src/components/projects/__tests__/carousel.test.ts -t "renders all project slides"` | ❌ W0 | ⬜ pending |
-| 14-02-02 | 02 | 1 | PROJ-02 | unit | `npx vitest run src/components/projects/__tests__/carousel.test.ts -t "featured project first"` | ❌ W0 | ⬜ pending |
-| 14-02-03 | 02 | 1 | PROJ-03 | unit | `npx vitest run src/components/projects/__tests__/carousel.test.ts -t "card content"` | ❌ W0 | ⬜ pending |
-| 14-02-04 | 02 | 1 | PROJ-04 | unit | `npx vitest run src/components/projects/__tests__/carousel.test.ts -t "opens detail"` | ❌ W0 | ⬜ pending |
-| 14-02-05 | 02 | 1 | PROJ-05 | unit | `npx vitest run src/components/projects/__tests__/carousel.test.ts -t "data-lenis-prevent"` | ❌ W0 | ⬜ pending |
-| 14-03-01 | 03 | 2 | TIME-01 | manual-only | Scroll-linked pathLength requires real scroll environment | N/A | ⬜ pending |
-| 14-03-02 | 03 | 2 | TIME-02 | unit | `npx vitest run src/components/sections/__tests__/timeline.test.ts -t "renders nodes"` | ❌ W0 | ⬜ pending |
-| 14-03-03 | 03 | 2 | TIME-03 | manual-only | CSS animation requires visual verification | N/A | ⬜ pending |
-| 14-03-04 | 03 | 2 | TIME-04 | manual-only | Scroll-linked opacity requires real scroll environment | N/A | ⬜ pending |
+| 14-02-00 | 02 | 1 | TIME-02 | stub | `npx vitest run src/components/sections/__tests__/timeline.test.ts --reporter=verbose` | W0 task | ⬜ pending |
+| 14-02-01 | 02 | 1 | TIME-01 | manual-only | Scroll-linked pathLength requires real scroll environment | N/A | ⬜ pending |
+| 14-02-02 | 02 | 1 | TIME-02 | unit | `npx vitest run src/components/sections/__tests__/timeline.test.ts -t "renders nodes"` | W0 dep | ⬜ pending |
+| 14-02-03 | 02 | 1 | TIME-03 | manual-only | CSS animation requires visual verification | N/A | ⬜ pending |
+| 14-02-04 | 02 | 1 | TIME-04 | manual-only | Scroll-linked opacity requires real scroll environment | N/A | ⬜ pending |
+| 14-03-00 | 03 | 2 | PROJ-01 to PROJ-05 | stub | `npx vitest run src/components/projects/__tests__/carousel.test.ts --reporter=verbose` | W0 task | ⬜ pending |
+| 14-03-01 | 03 | 2 | PROJ-01 | unit | `npx vitest run src/components/projects/__tests__/carousel.test.ts -t "renders all project slides"` | W0 dep | ⬜ pending |
+| 14-03-02 | 03 | 2 | PROJ-02 | unit | `npx vitest run src/components/projects/__tests__/carousel.test.ts -t "featured project first"` | W0 dep | ⬜ pending |
+| 14-03-03 | 03 | 2 | PROJ-03 | unit | `npx vitest run src/components/projects/__tests__/carousel.test.ts -t "card content"` | W0 dep | ⬜ pending |
+| 14-03-04 | 03 | 2 | PROJ-04 | unit | `npx vitest run src/components/projects/__tests__/carousel.test.ts -t "opens detail"` | W0 dep | ⬜ pending |
+| 14-03-05 | 03 | 2 | PROJ-05 | unit | `npx vitest run src/components/projects/__tests__/carousel.test.ts -t "data-lenis-prevent"` | W0 dep | ⬜ pending |
 
 *Status: ⬜ pending · ✅ green · ❌ red · ⚠️ flaky*
 
@@ -58,9 +61,11 @@ created: 2026-03-27
 
 ## Wave 0 Requirements
 
-- [ ] `src/components/sections/__tests__/expertise.test.ts` — stubs for SKTL-01, SKTL-03
-- [ ] `src/components/projects/__tests__/carousel.test.ts` — stubs for PROJ-01 through PROJ-05
-- [ ] `src/components/sections/__tests__/timeline.test.ts` — stubs for TIME-02
+- [ ] `src/components/sections/__tests__/expertise.test.ts` — stubs for SKTL-01, SKTL-03 (Plan 01 Task 0)
+- [ ] `src/components/sections/__tests__/timeline.test.ts` — stubs for TIME-02 (Plan 02 Task 0)
+- [ ] `src/components/projects/__tests__/carousel.test.ts` — stubs for PROJ-01 through PROJ-05 (Plan 03 Task 0)
+
+*Each plan's Task 0 creates its own test stubs before the implementation tasks run.*
 
 *Existing infrastructure covers framework needs: Vitest 4.1 + jsdom configured, @testing-library/react available, existing test patterns in src/data/__tests__/*
 
@@ -80,11 +85,11 @@ created: 2026-03-27
 
 ## Validation Sign-Off
 
-- [ ] All tasks have `<automated>` verify or Wave 0 dependencies
-- [ ] Sampling continuity: no 3 consecutive tasks without automated verify
-- [ ] Wave 0 covers all MISSING references
-- [ ] No watch-mode flags
-- [ ] Feedback latency < 15s
-- [ ] `nyquist_compliant: true` set in frontmatter
+- [x] All tasks have `<automated>` verify or Wave 0 dependencies
+- [x] Sampling continuity: no 3 consecutive tasks without automated verify
+- [x] Wave 0 covers all MISSING references
+- [x] No watch-mode flags
+- [x] Feedback latency < 15s
+- [x] `nyquist_compliant: true` set in frontmatter
 
-**Approval:** pending
+**Approval:** approved (revised 2026-03-27)
