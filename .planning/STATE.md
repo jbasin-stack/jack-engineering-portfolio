@@ -3,11 +3,11 @@ gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: UI Polish & Interactivity
 status: completed
-stopped_at: Completed 14-04-PLAN.md (Gap closure - tab slide animation)
-last_updated: "2026-03-27T21:47:04.098Z"
+stopped_at: Phase 14.1 context gathered
+last_updated: "2026-03-27T22:31:20.152Z"
 last_activity: 2026-03-27 — Completed 14-04 Tab slide animation (gap closure)
 progress:
-  total_phases: 4
+  total_phases: 5
   completed_phases: 3
   total_plans: 9
   completed_plans: 9
@@ -59,6 +59,10 @@ Progress: [██████████] 100%
 
 ## Accumulated Context
 
+### Roadmap Evolution
+
+- Phase 14.1 inserted after Phase 14: Timeline Overhaul — rebuild scroll-drawn SVG timeline with proper path drawing, glowing nodes, and smooth scroll-bound animations (URGENT)
+
 ### Decisions
 
 Decisions are logged in PROJECT.md Key Decisions table.
@@ -107,6 +111,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-27T21:39:22.083Z
-Stopped at: Completed 14-04-PLAN.md (Gap closure - tab slide animation)
-Resume file: None
+Last session: 2026-03-27T22:31:20.149Z
+Stopped at: Phase 14.1 context gathered
+Resume file: .planning/phases/14.1-timeline-overhaul/14.1-CONTEXT.md
