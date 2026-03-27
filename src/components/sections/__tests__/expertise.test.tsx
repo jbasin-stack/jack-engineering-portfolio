@@ -1,6 +1,20 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Expertise } from '../Expertise';
+
+// Mock IntersectionObserver for Motion whileInView support in jsdom
+beforeAll(() => {
+  globalThis.IntersectionObserver = class IntersectionObserver {
+    constructor(private cb: IntersectionObserverCallback) {}
+    observe() { /* noop */ }
+    unobserve() { /* noop */ }
+    disconnect() { /* noop */ }
+    readonly root = null;
+    readonly rootMargin = '';
+    readonly thresholds = [] as number[];
+    takeRecords() { return []; }
+  } as unknown as typeof globalThis.IntersectionObserver;
+});
 
 describe('Expertise section', () => {
   it('renders all domain tabs', () => {

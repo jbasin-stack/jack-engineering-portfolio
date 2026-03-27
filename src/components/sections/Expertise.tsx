@@ -1,0 +1,128 @@
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { skillGroups } from '../../data/skills';
+import { toolingGroups } from '../../data/tooling';
+import { sectionVariants, fadeUpVariant, easing } from '../../styles/motion';
+import { AnimatedTabs } from '../ui/AnimatedTabs';
+
+// Domain merge mapping: each domain combines a skill group with relevant tools
+const domainMapping = [
+  {
+    id: 'fabrication',
+    label: 'Fabrication',
+    skillDomain: 'Fabrication',
+    getTools: () =>
+      toolingGroups.find((g) => g.category === 'Fabrication Processes')?.items ?? [],
+  },
+  {
+    id: 'rf-test',
+    label: 'RF & Test',
+    skillDomain: 'RF',
+    getTools: () =>
+      toolingGroups.find((g) => g.category === 'Lab Equipment')?.items ?? [],
+  },
+  {
+    id: 'analog',
+    label: 'Analog',
+    skillDomain: 'Analog',
+    getTools: () =>
+      (toolingGroups.find((g) => g.category === 'EDA Tools')?.items ?? []).filter(
+        (item) => item !== 'Xilinx Vivado'
+      ),
+  },
+  {
+    id: 'digital',
+    label: 'Digital',
+    skillDomain: 'Digital',
+    getTools: () => ['Xilinx Vivado'],
+  },
+] as const;
+
+// Derive tab list from mapping (data-driven default: first domain)
+const tabs = domainMapping.map(({ id, label }) => ({ id, label }));
+
+/** Merged Skills + Tooling section with 4 domain tabs */
+export function Expertise() {
+  const [activeTab, setActiveTab] = useState(tabs[0].id);
+
+  const activeDomain = domainMapping.find((d) => d.id === activeTab)!;
+  const skills =
+    skillGroups.find((g) => g.domain === activeDomain.skillDomain)?.skills ?? [];
+  const tools = activeDomain.getTools();
+
+  return (
+    <section className="px-6 py-24">
+      <motion.div
+        id="expertise"
+        role="region"
+        aria-label="Expertise"
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.15 }}
+      >
+        <div className="mx-auto max-w-5xl">
+          <motion.h2
+            className="text-2xl font-bold text-ink"
+            variants={fadeUpVariant}
+          >
+            Expertise
+          </motion.h2>
+
+          {/* Tab bar */}
+          <motion.div className="mt-8" variants={fadeUpVariant}>
+            <AnimatedTabs
+              tabs={tabs}
+              activeTab={activeTab}
+              onChange={setActiveTab}
+            />
+          </motion.div>
+
+          {/* Tab content panels */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTab}
+              role="tabpanel"
+              id={`panel-${activeTab}`}
+              initial={{ opacity: 0, scale: 0.96, filter: 'blur(8px)' }}
+              animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, scale: 0.96, filter: 'blur(8px)' }}
+              transition={{ duration: 0.25, ease: easing.out }}
+              className="mt-6 min-h-[200px] rounded-xl backdrop-blur-md bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/10 p-6"
+            >
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                {/* Skills column */}
+                <div>
+                  <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-ink">
+                    Skills
+                  </h3>
+                  <ul className="space-y-2">
+                    {skills.map((skill) => (
+                      <li key={skill} className="text-silicon-600">
+                        {skill}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                {/* Tools & Equipment column */}
+                <div>
+                  <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-ink">
+                    Tools & Equipment
+                  </h3>
+                  <ul className="space-y-2">
+                    {tools.map((tool) => (
+                      <li key={tool} className="text-silicon-600">
+                        {tool}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+      </motion.div>
+    </section>
+  );
+}
