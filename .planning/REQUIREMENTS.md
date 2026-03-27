@@ -18,9 +18,9 @@ Requirements for UI Polish & Interactivity milestone. Each maps to roadmap phase
 
 ### Hero
 
-- [ ] **HERO-01**: Animated radial gradient background with breathing opacity animation behind hero content
-- [ ] **HERO-02**: Gradient uses blue-primary palette colors and blends smoothly into the unified page background
-- [ ] **HERO-03**: Gradient animation respects prefers-reduced-motion (static gradient fallback)
+- [x] **HERO-01**: Animated radial gradient background with breathing opacity animation behind hero content
+- [x] **HERO-02**: Gradient uses blue-primary palette colors and blends smoothly into the unified page background
+- [x] **HERO-03**: Gradient animation respects prefers-reduced-motion (static gradient fallback)
 
 ### Skills & Tooling
 
@@ -93,9 +93,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | THEME-04 | Phase 12 | Complete |
 | THEME-05 | Phase 12 | Complete |
 | THEME-06 | Phase 12 | Complete |
-| HERO-01 | Phase 13 | Pending |
-| HERO-02 | Phase 13 | Pending |
-| HERO-03 | Phase 13 | Pending |
+| HERO-01 | Phase 13 | Complete |
+| HERO-02 | Phase 13 | Complete |
+| HERO-03 | Phase 13 | Complete |
 | SKTL-01 | Phase 14 | Pending |
 | SKTL-02 | Phase 14 | Pending |
 | SKTL-03 | Phase 14 | Pending |

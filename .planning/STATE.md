@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: UI Polish & Interactivity
-status: completed
-stopped_at: Phase 13 context gathered
-last_updated: "2026-03-26T23:15:52.166Z"
-last_activity: 2026-03-26 — Completed 12-03 admin panel semantic token migration
+status: in-progress
+stopped_at: Completed 13-01 hero gradient implementation
+last_updated: "2026-03-27T15:59:31Z"
+last_activity: 2026-03-27 — Completed 13-01 hero breathing gradient
 progress:
   total_phases: 4
-  completed_phases: 1
-  total_plans: 3
-  completed_plans: 3
+  completed_phases: 2
+  total_plans: 4
+  completed_plans: 4
   percent: 100
 ---
 
@@ -21,21 +21,21 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-26)
 
 **Core value:** Every visitor immediately understands Jack's range and depth as an electrical engineer, and can access the evidence without friction.
-**Current focus:** Phase 12 — Theme Foundation & Unified Background
+**Current focus:** Phase 13 — Animated Hero Gradient
 
 ## Current Position
 
-Phase: 12 of 15 (Theme Foundation & Unified Background)
-Plan: 3 of 3 (complete)
-Status: Phase 12 Complete
-Last activity: 2026-03-26 — Completed 12-03 admin panel semantic token migration
+Phase: 13 of 15 (Animated Hero Gradient)
+Plan: 1 of 1 (complete)
+Status: Phase 13 Complete
+Last activity: 2026-03-27 — Completed 13-01 hero breathing gradient
 
 Progress: [██████████] 100%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 34 (19 v1.0 + 15 v1.1)
+- Total plans completed: 35 (19 v1.0 + 15 v1.1 + 1 v1.2)
 - v1.1 average duration: ~4 min/plan
 - Total execution time: ~3.5 hours across v1.0 + v1.1
 
@@ -48,6 +48,7 @@ Progress: [██████████] 100%
 | 12-01 | 1 | 3min | 3min |
 | 12-02 | 1 | 3min | 3min |
 | 12-03 | 1 | 5min | 5min |
+| 13-01 | 1 | 3min | 3min |
 
 *Updated after each plan completion*
 
@@ -71,6 +72,8 @@ Recent decisions affecting current work:
 - [12-02]: PdfViewer toolbar uses zero hardcoded palette references -- all semantic tokens
 - [12-03]: Skeleton loaders use bg-muted/bg-muted/50 pattern for visibility in both modes
 - [12-03]: Admin panel now uses only semantic tokens -- zero hardcoded gray classes remain
+- [13-01]: Hero gradient uses pure CSS @keyframes opacity animation (0.3-0.5, 7s, ease-in-out) -- zero JS runtime cost
+- [13-01]: oklch hue 298 (purple) at center, hue 250 (blue) at edges for UW brand connection
 
 ### Pending Todos
 
@@ -84,6 +87,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-26T23:15:52.164Z
-Stopped at: Phase 13 context gathered
-Resume file: .planning/phases/13-animated-hero-gradient/13-CONTEXT.md
+Last session: 2026-03-27T15:59:31Z
+Stopped at: Completed 13-01 hero gradient implementation
+Resume file: .planning/phases/13-animated-hero-gradient/13-01-SUMMARY.md
