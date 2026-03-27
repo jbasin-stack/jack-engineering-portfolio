@@ -5,8 +5,7 @@ export const navItems: NavItem[] = [
     label: 'Background',
     href: '#about',
     children: [
-      { label: 'Skills', href: '#skills' },
-      { label: 'Lab & Tooling', href: '#tooling' },
+      { label: 'Expertise', href: '#expertise' },
       { label: 'Timeline', href: '#timeline' },
     ],
   },

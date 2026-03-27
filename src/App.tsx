@@ -4,8 +4,7 @@ import { SmoothScroll } from './components/layout/SmoothScroll';
 import { Hero } from './components/hero/Hero';
 import { Navigation } from './components/layout/Navigation';
 import { WhoAmI } from './components/sections/WhoAmI';
-import { Skills } from './components/sections/Skills';
-import { Tooling } from './components/sections/Tooling';
+import { Expertise } from './components/sections/Expertise';
 import { Timeline } from './components/sections/Timeline';
 import { ProjectsSection } from './components/projects/ProjectsSection';
 import { PapersSection } from './components/papers/PapersSection';
@@ -69,8 +68,7 @@ function App() {
         <main>
           <Hero />
           <WhoAmI />
-          <Skills />
-          <Tooling />
+          <Expertise />
           <Timeline />
 
           <ProjectsSection />
