@@ -56,6 +56,7 @@ export const timelineMilestoneSchema = z.object({
   date: z.string().min(1),
   title: z.string().min(1),
   description: z.string().min(1),
+  image: z.string().optional(),
 });
 
 export const courseSchema = z.object({

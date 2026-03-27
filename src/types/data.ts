@@ -37,6 +37,7 @@ export interface TimelineMilestone {
   date: string;
   title: string;
   description: string;
+  image?: string;
 }
 
 export interface ContactData {

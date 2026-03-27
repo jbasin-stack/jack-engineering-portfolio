@@ -173,6 +173,25 @@ describe('timelineMilestoneSchema', () => {
       expect(flat.fieldErrors).toHaveProperty('title');
     }
   });
+
+  it('accepts milestone with optional image', () => {
+    const result = timelineMilestoneSchema.safeParse({
+      date: '2024-06',
+      title: 'Research internship',
+      description: 'Worked on RF circuits',
+      image: '/timeline/some-image.jpg',
+    });
+    expect(result.success).toBe(true);
+  });
+
+  it('accepts milestone without image field', () => {
+    const result = timelineMilestoneSchema.safeParse({
+      date: '2023-09',
+      title: 'Started UW',
+      description: 'Began studying ECE',
+    });
+    expect(result.success).toBe(true);
+  });
 });
 
 describe('courseSchema', () => {
