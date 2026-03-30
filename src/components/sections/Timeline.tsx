@@ -21,11 +21,11 @@ const entryVariants: Variants = {
 };
 
 const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 80 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: easing.out },
+    transition: { duration: 0.9, ease: easing.out },
   },
 };
 
@@ -34,7 +34,7 @@ const dotVariant: Variants = {
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.4, ease: easing.out },
+    transition: { duration: 0.5, ease: easing.out },
   },
 };
 
@@ -55,7 +55,7 @@ function TimelineEntry({
       variants={entryVariants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={{ once: true, amount: 0.5 }}
       className="relative py-16 pl-10 md:py-20 md:pl-14"
     >
       {/* Dot marker on the connector line */}
