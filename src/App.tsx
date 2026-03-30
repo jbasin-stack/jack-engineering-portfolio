@@ -9,6 +9,7 @@ import { Timeline } from './components/sections/Timeline';
 import { ProjectCarousel } from './components/projects/ProjectCarousel';
 import { PapersSection } from './components/papers/PapersSection';
 import { Contact } from './components/sections/Contact';
+import { Footer } from './components/layout/Footer';
 
 /** Dev-only lazy import: tree-shaken to null in production builds */
 const AdminShell = import.meta.env.DEV
@@ -76,6 +77,7 @@ function App() {
         </main>
         <footer>
           <Contact />
+          <Footer />
         </footer>
       </SmoothScroll>
     </MotionConfig>
