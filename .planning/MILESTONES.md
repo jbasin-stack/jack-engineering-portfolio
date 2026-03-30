@@ -1,5 +1,31 @@
 # Milestones
 
+## v1.2 UI Polish & Interactivity (Shipped: 2026-03-30)
+
+**Phases:** 5 (12-15 + 14.1) | **Plans:** 13 | **Commits:** 86
+**Lines of code:** 8,253 (TypeScript/TSX/CSS) — +12,654 insertions / -2,265 deletions
+**Timeline:** 5 days (2026-03-26 → 2026-03-30)
+**Stack additions:** embla-carousel-react
+
+**Delivered:** A cohesive visual experience with automatic dark/light mode, animated hero gradient, glassmorphic tabbed Expertise section, horizontal project carousel, editorial-style timeline, and clean contact/footer — elevating the portfolio from functional to premium.
+
+**Key accomplishments:**
+1. Blue-primary oklch color system with automatic dark/light mode, FOUT-free blocking script, and 300ms smooth theme transitions
+2. Breathing radial gradient hero animation (CSS-only, zero JS runtime cost) with reduced-motion fallback
+3. Merged Skills & Tooling into glassmorphic tabbed Expertise section with direction-aware slide animations
+4. Embla-powered horizontal project carousel with center-aligned featured-first layout and Lenis coexistence
+5. Editorial-style timeline with large year anchors, accent connector line with animated dots, and whileInView animations
+6. Clean contact section with 4 hover-animated links and minimal copyright footer; 4 deprecated effect components removed
+
+**Requirements:** 32/32 complete
+**Tests:** 204 passing (28 test files), zero TypeScript errors (1 pre-existing TS2345 in Expertise.tsx — runtime correct)
+
+**Tech debt accepted:**
+- 4 orphaned files (Skills.tsx, Tooling.tsx, ProjectsSection.tsx, ProjectCard.tsx) — superseded but not deleted
+- TS2345 type narrowing in Expertise.tsx line 75 — pre-existing, Vite build unaffected
+
+---
+
 ## v1.1 Content Admin Panel (Shipped: 2026-03-26)
 
 **Phases:** 4 (8-11) | **Plans:** 15 | **Commits:** 82
