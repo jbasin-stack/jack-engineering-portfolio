@@ -49,10 +49,10 @@ Requirements for UI Polish & Interactivity milestone. Each maps to roadmap phase
 - [x] **TL-DATA**: TimelineMilestone data model includes optional image field; Zod schema updated to match
 - [x] **TL-CLEANUP**: pulse-ring CSS keyframe removed from app.css (no longer used after editorial rebuild)
 - [x] **TL-TEST**: Timeline test scaffold rewritten for editorial component structure (8 entries, year extraction, connector, dots)
-- [ ] **TL-LAYOUT**: Entries use 3 cycling layout variants (large/half/overlay) with graceful text-only fallback
-- [ ] **TL-YEAR**: Large accent-colored year text extracted from date field as primary visual anchor per entry
-- [ ] **TL-CONNECTOR**: Thin accent-blue vertical line (1-2px) on left edge with small filled dot markers (4-6px) at each entry
-- [ ] **TL-ANIMATE**: Entries fade + slide up on viewport entry via whileInView; dots scale in with entry content; reduced motion respected
+- [x] **TL-LAYOUT**: Entries use 3 cycling layout variants (large/half/overlay) with graceful text-only fallback
+- [x] **TL-YEAR**: Large accent-colored year text extracted from date field as primary visual anchor per entry
+- [x] **TL-CONNECTOR**: Thin accent-blue vertical line (1-2px) on left edge with small filled dot markers (4-6px) at each entry
+- [x] **TL-ANIMATE**: Entries fade + slide up on viewport entry via whileInView; dots scale in with entry content; reduced motion respected
 
 ### Contact & Footer
 
@@ -124,10 +124,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TL-DATA | Phase 14.1 | Complete |
 | TL-CLEANUP | Phase 14.1 | Complete |
 | TL-TEST | Phase 14.1 | Complete |
-| TL-LAYOUT | Phase 14.1 | Pending |
-| TL-YEAR | Phase 14.1 | Pending |
-| TL-CONNECTOR | Phase 14.1 | Pending |
-| TL-ANIMATE | Phase 14.1 | Pending |
+| TL-LAYOUT | Phase 14.1 | Complete |
+| TL-YEAR | Phase 14.1 | Complete |
+| TL-CONNECTOR | Phase 14.1 | Complete |
+| TL-ANIMATE | Phase 14.1 | Complete |
 | CTFT-01 | Phase 15 | Pending |
 | CTFT-02 | Phase 15 | Pending |
 | CTFT-03 | Phase 15 | Pending |

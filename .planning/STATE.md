@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: UI Polish & Interactivity
 status: executing
-stopped_at: Completed 14.1-01 data model + CSS cleanup + test scaffold
-last_updated: "2026-03-27T22:54:43.000Z"
-last_activity: 2026-03-27 — Completed 14.1-01 data model, CSS cleanup, test scaffold
+stopped_at: Completed 14.1-02 editorial timeline component
+last_updated: "2026-03-30T19:00:35.383Z"
+last_activity: 2026-03-30 — Completed 14.1-02 editorial timeline component
 progress:
   total_phases: 5
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 11
-  completed_plans: 10
-  percent: 100
+  completed_plans: 11
+  percent: 91
 ---
 
 # Project State
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-26)
 
 **Core value:** Every visitor immediately understands Jack's range and depth as an electrical engineer, and can access the evidence without friction.
-**Current focus:** Phase 14.1 — Timeline Overhaul (inserted after Phase 14)
+**Current focus:** Phase 14.1 complete — ready for Phase 15 (Contact Footer & Cleanup)
 
 ## Current Position
 
-Phase: 14.1 (Timeline Overhaul)
-Plan: 1 of 2 complete
-Status: Executing Phase 14.1 — Plan 01 complete, Plan 02 next
-Last activity: 2026-03-27 — Completed 14.1-01 data model, CSS cleanup, test scaffold
+Phase: 14.1 (Timeline Overhaul) -- COMPLETE
+Plan: 2 of 2 complete
+Status: Phase 14.1 complete -- ready for Phase 15
+Last activity: 2026-03-30 — Completed 14.1-02 editorial timeline component
 
-Progress: [█████████░] 91%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -57,6 +57,7 @@ Progress: [█████████░] 91%
 | Phase 14 P05 | 5min | 3 tasks | 3 files |
 | Phase 14 P04 | 42min | 2 tasks | 3 files |
 | Phase 14.1 P01 | 3min | 3 tasks | 5 files |
+| Phase 14.1 P02 | 4min | 2 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -101,6 +102,8 @@ Recent decisions affecting current work:
 - [Phase 14]: Content panel tuned to 40px slide, 4px blur, 0.3s inOut easing after 3 user feedback iterations
 - [Phase 14.1-01]: Ship without image data: image field optional, no existing milestones receive images yet
 - [Phase 14.1-01]: Wave-0 test scaffold: 4/5 tests intentionally fail until Plan 02 editorial Timeline lands
+- [Phase 14.1]: Animation tuning: y:80 / duration:0.9s / viewport:0.5 for dramatic, visible scroll entrance (user-approved)
+- [Phase 14.1]: CSS div connector line replaces SVG path: simpler, Tailwind-styled, no scroll calculations
 
 ### Pending Todos
 
@@ -114,6 +117,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-27T22:53:53Z
-Stopped at: Completed 14.1-01 data model + CSS cleanup + test scaffold
-Resume file: .planning/phases/14.1-timeline-overhaul/14.1-01-SUMMARY.md
+Last session: 2026-03-30T19:00:35.378Z
+Stopped at: Completed 14.1-02 editorial timeline component
+Resume file: None
