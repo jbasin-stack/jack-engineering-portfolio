@@ -27,6 +27,8 @@ export function WhoAmI() {
                 <img
                   src={PORTRAIT_SRC}
                   alt="Jack Basinski"
+                  loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover"
                   onError={(e) => {
                     // Hide broken image if portrait not yet added

@@ -38,6 +38,9 @@ const domainMapping = [
   },
 ] as const;
 
+// Derive union type from the domain mapping ids
+type DomainTabId = (typeof domainMapping)[number]['id'];
+
 // Derive tab list from mapping (data-driven default: first domain)
 const tabs = domainMapping.map(({ id, label }) => ({ id, label }));
 
@@ -64,11 +67,11 @@ const slideVariants = {
 
 /** Merged Skills + Tooling section with 4 domain tabs */
 export function Expertise() {
-  const [activeTab, setActiveTab] = useState(tabs[0].id);
+  const [activeTab, setActiveTab] = useState<DomainTabId>(domainMapping[0].id);
   const directionRef = useRef(0);
 
   // Compute slide direction based on tab index delta
-  function handleTabChange(newTabId: string) {
+  function handleTabChange(newTabId: DomainTabId) {
     const oldIndex = tabs.findIndex((t) => t.id === activeTab);
     const newIndex = tabs.findIndex((t) => t.id === newTabId);
     directionRef.current = newIndex > oldIndex ? 1 : -1;
@@ -104,7 +107,7 @@ export function Expertise() {
             <AnimatedTabs
               tabs={tabs}
               activeTab={activeTab}
-              onChange={handleTabChange}
+              onChange={(id) => handleTabChange(id as DomainTabId)}
             />
           </motion.div>
 

@@ -56,6 +56,8 @@ export function ProjectDetail({ project, open, onOpenChange }: ProjectDetailProp
             key={src}
             src={src}
             alt={`${project.title} image ${i + 1}`}
+            loading="lazy"
+            decoding="async"
             className="w-full rounded-lg object-cover"
           />
         ))}

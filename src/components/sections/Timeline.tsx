@@ -103,6 +103,8 @@ function TimelineEntry({
               <img
                 src={milestone.image}
                 alt={milestone.title}
+                loading="lazy"
+                decoding="async"
                 className="aspect-video w-full rounded-lg object-cover"
               />
             </div>
@@ -113,6 +115,8 @@ function TimelineEntry({
               <img
                 src={milestone.image}
                 alt={milestone.title}
+                loading="lazy"
+                decoding="async"
                 className="aspect-video w-full rounded-lg object-cover"
               />
             </div>
@@ -123,6 +127,8 @@ function TimelineEntry({
               <img
                 src={milestone.image}
                 alt={milestone.title}
+                loading="lazy"
+                decoding="async"
                 className="h-full w-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
