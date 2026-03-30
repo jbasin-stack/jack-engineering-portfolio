@@ -25,9 +25,3 @@ export const fadeUpVariant: Variants = {
     transition: { duration: 0.6, ease: easing.out },
   },
 };
-
-// Layout animation transition for card expand/collapse
-export const layoutTransition = {
-  duration: 0.4,
-  ease: easing.out,
-};
