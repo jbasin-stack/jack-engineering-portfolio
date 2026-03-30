@@ -1,15 +1,19 @@
-import { useState } from 'react';
 import { motion } from 'motion/react';
-import { Mail, Download, Eye, Github, Linkedin } from 'lucide-react';
+import { Mail, Github, Linkedin, FileText } from 'lucide-react';
 import { sectionVariants, fadeUpVariant } from '../../styles/motion';
 import { contactData } from '../../data/contact';
-import { LazyPdfViewer } from '../pdf/LazyPdfViewer';
 
-// Icon lookup for data-driven social link rendering
-const iconMap = { Github, Linkedin } as const;
+// Icon lookup for data-driven link rendering
+const iconMap = { Mail, Github, Linkedin, FileText } as const;
 
 export function Contact() {
-  const [showResume, setShowResume] = useState(false);
+  // Unified links array: email, socials, and resume in one horizontal row
+  const links = [
+    { label: 'Email', href: `mailto:${contactData.email}`, icon: 'Mail' as const, external: false },
+    { label: 'GitHub', href: contactData.socialLinks[0].url, icon: 'Github' as const, external: true },
+    { label: 'LinkedIn', href: contactData.socialLinks[1].url, icon: 'Linkedin' as const, external: true },
+    { label: 'Resume', href: contactData.resumePath, icon: 'FileText' as const, download: true },
+  ];
 
   return (
     <div className="px-6 py-24">
@@ -27,7 +31,7 @@ export function Contact() {
             className="text-2xl font-bold text-ink"
             variants={fadeUpVariant}
           >
-            Get in Touch
+            Say Hello
           </motion.h2>
 
           {/* Tagline */}
@@ -38,68 +42,28 @@ export function Contact() {
             {contactData.tagline}
           </motion.p>
 
-          {/* Email -- semantic address element */}
-          <motion.div className="mt-8" variants={fadeUpVariant}>
-            <address className="not-italic">
-              <a
-                href={`mailto:${contactData.email}`}
-                className="inline-flex items-center gap-2 text-ink transition-colors duration-300 hover:text-accent"
-              >
-                <Mail size={18} strokeWidth={1.5} />
-                {contactData.email}
-              </a>
-            </address>
-          </motion.div>
-
-          {/* Resume actions -- view (primary) and download (secondary) */}
-          <motion.div className="mt-8 flex items-center justify-center gap-3" variants={fadeUpVariant}>
-            <button
-              type="button"
-              onClick={() => setShowResume(true)}
-              className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-medium text-white transition-opacity hover:opacity-90"
-            >
-              <Eye size={18} strokeWidth={1.5} />
-              View Resume
-            </button>
-            <a
-              href={contactData.resumePath}
-              download
-              className="inline-flex items-center gap-2 rounded-lg border border-silicon-200 px-6 py-3 text-sm font-medium text-ink transition-colors hover:bg-silicon-50"
-            >
-              <Download size={18} strokeWidth={1.5} />
-              Download
-            </a>
-          </motion.div>
-
-          {/* Social links */}
+          {/* 4 equal links in a horizontal row */}
           <motion.div
-            className="mt-8 flex items-center justify-center gap-4"
+            className="mt-8 flex flex-wrap items-center justify-center gap-6 sm:gap-8"
             variants={fadeUpVariant}
           >
-            {contactData.socialLinks.map((link) => {
-              const Icon = iconMap[link.icon as keyof typeof iconMap];
+            {links.map((link) => {
+              const Icon = iconMap[link.icon];
               return (
                 <a
-                  key={link.platform}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-silicon-400 transition-colors duration-300 hover:text-ink"
+                  key={link.label}
+                  href={link.href}
+                  {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  {...('download' in link && link.download ? { download: true } : {})}
+                  className="inline-flex items-center gap-2 text-silicon-400 transition-colors duration-300 hover:text-accent"
                 >
-                  <Icon size={20} strokeWidth={1.5} />
+                  <Icon size={18} strokeWidth={1.5} />
+                  {link.label}
                 </a>
               );
             })}
           </motion.div>
         </div>
-
-        {/* Resume PDF viewer */}
-        <LazyPdfViewer
-          file={contactData.resumePath}
-          title="Resume"
-          open={showResume}
-          onOpenChange={setShowResume}
-        />
       </motion.section>
     </div>
   );
