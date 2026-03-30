@@ -26,13 +26,6 @@
   --color-uw-purple-faint: oklch(0.917 0.029 306);
   --color-uw-gold: oklch(0.567 0.060 89);
 
-  /* Aurora animation */
-  --animate-aurora: aurora 60s linear infinite;
-  @keyframes aurora {
-    from { background-position: 50% 50%, 50% 50%; }
-    to { background-position: 350% 50%, 350% 50%; }
-  }
-
   /* Tracking */
   --tracking-architectural: 0.08em;
 
@@ -268,10 +261,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-aurora {
-    animation: none;
-  }
-
   .hero-gradient {
     animation: none;
     opacity: 0.4;
