@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: UI Polish & Interactivity
-status: in-progress
-stopped_at: Completed 15-01-PLAN.md
-last_updated: "2026-03-30T19:44:51.813Z"
-last_activity: 2026-03-30 — Completed 15-01 contact and footer components
+status: completed
+stopped_at: Completed 15-02-PLAN.md
+last_updated: "2026-03-30T20:13:14.033Z"
+last_activity: 2026-03-30 — Completed 15-02 deprecated effects cleanup
 progress:
   total_phases: 5
-  completed_phases: 4
-  total_plans: 11
-  completed_plans: 11
+  completed_phases: 5
+  total_plans: 13
+  completed_plans: 13
   percent: 100
 ---
 
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-26)
 
 **Core value:** Every visitor immediately understands Jack's range and depth as an electrical engineer, and can access the evidence without friction.
-**Current focus:** Phase 15 in progress — Contact refactored with 4 equal links, Footer component created
+**Current focus:** Phase 15 complete — Contact refactored, Footer created, deprecated effects cleaned up
 
 ## Current Position
 
 Phase: 15 (Contact Footer & Cleanup)
-Plan: 1 of 2 complete
-Status: Plan 15-01 complete -- Contact refactored, Footer created
-Last activity: 2026-03-30 — Completed 15-01 contact and footer components
+Plan: 2 of 2 complete
+Status: Phase 15 complete -- all deprecated effects removed, tests updated
+Last activity: 2026-03-30 — Completed 15-02 deprecated effects cleanup
 
-Progress: [█████████░] 50%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -59,6 +59,7 @@ Progress: [█████████░] 50%
 | Phase 14.1 P01 | 3min | 3 tasks | 5 files |
 | Phase 14.1 P02 | 4min | 2 tasks | 1 files |
 | Phase 15 P01 | 3min | 2 tasks | 3 files |
+| Phase 15 P02 | 4min | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -107,6 +108,7 @@ Recent decisions affecting current work:
 - [Phase 14.1]: CSS div connector line replaces SVG path: simpler, Tailwind-styled, no scroll calculations
 - [Phase 15-01]: Unified links array built inside Contact component (not data file) for mixed link types
 - [Phase 15-01]: Footer is static (no motion animations) -- quiet sign-off per design intent
+- [Phase 15]: Pre-existing tsc error in Expertise.tsx is out of scope -- logged as deferred
 
 ### Pending Todos
 
@@ -120,6 +122,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-30T20:05:39Z
-Stopped at: Completed 15-01-PLAN.md
-Resume file: .planning/phases/15-contact-footer-cleanup/15-01-SUMMARY.md
+Last session: 2026-03-30T20:13:14.021Z
+Stopped at: Completed 15-02-PLAN.md
+Resume file: None

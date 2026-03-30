@@ -43,7 +43,7 @@ Full details: [milestones/v1.1-ROADMAP.md](milestones/v1.1-ROADMAP.md)
 - [x] **Phase 13: Animated Hero Gradient** - Breathing radial gradient behind hero content that blends into the unified background (completed 2026-03-27)
 - [x] **Phase 14: Component Rebuilds** - Animated glassmorphic tabs (merged Skills & Tooling), horizontal project carousel, and scroll-triggered SVG timeline with glowing nodes (completed 2026-03-27)
 - [x] **Phase 14.1: Timeline Overhaul (INSERTED)** - Editorial-style timeline with large year anchors, varied image layouts, accent connector line, and whileInView fade-in animations (completed 2026-03-30)
-- [ ] **Phase 15: Contact Footer & Cleanup** - Clean contact links section, minimal footer, deprecated component removal, and production build verification
+- [x] **Phase 15: Contact Footer & Cleanup** - Clean contact links section, minimal footer, deprecated component removal, and production build verification (completed 2026-03-30)
 
 ## Phase Details
 
@@ -151,4 +151,4 @@ Phases execute in numeric order: 12 → 13 → 14 → 14.1 → 15
 | 13. Animated Hero Gradient | v1.2 | 1/1 | Complete | 2026-03-27 |
 | 14. Component Rebuilds | v1.2 | Complete    | 2026-03-27 | 2026-03-27 |
 | 14.1 Timeline Overhaul | 2/2 | Complete    | 2026-03-30 | - |
-| 15. Contact Footer & Cleanup | 1/2 | In Progress|  | - |
+| 15. Contact Footer & Cleanup | 2/2 | Complete   | 2026-03-30 | - |
