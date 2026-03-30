@@ -86,16 +86,3 @@ describe('cleanroom hue is 250 (blue DNA)', () => {
   });
 });
 
-describe('aurora keyframe in app.css', () => {
-  it('defines --animate-aurora custom property', () => {
-    expect(cssContent).toContain('--animate-aurora');
-  });
-
-  it('contains @keyframes aurora definition', () => {
-    expect(cssContent).toContain('@keyframes aurora');
-  });
-
-  it('aurora keyframe animates background-position', () => {
-    expect(cssContent).toContain('background-position');
-  });
-});

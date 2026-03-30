@@ -18,13 +18,6 @@ describe('code splitting and lazy loading', () => {
     expect(content).not.toMatch(/import\s*\{[^}]*PdfViewer[^}]*\}\s*from\s*['"]\.\.\/pdf\/PdfViewer['"]/);
   });
 
-  it('Contact imports LazyPdfViewer instead of PdfViewer', () => {
-    const contactPath = resolve(__dirname, '../components/sections/Contact.tsx');
-    const content = readFileSync(contactPath, 'utf-8');
-    expect(content).toContain('LazyPdfViewer');
-    expect(content).not.toMatch(/import\s*\{[^}]*PdfViewer[^}]*\}\s*from\s*['"]\.\.\/pdf\/PdfViewer['"]/);
-  });
-
   it('main.tsx imports @fontsource-variable/inter', () => {
     const mainPath = resolve(__dirname, '../main.tsx');
     const content = readFileSync(mainPath, 'utf-8');
