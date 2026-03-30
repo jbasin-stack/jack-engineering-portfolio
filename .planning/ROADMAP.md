@@ -123,11 +123,11 @@ Plans:
   1. The contact section displays direct links for email, LinkedIn, GitHub, and resume download, each with hover animation on its icon
   2. A clean minimal footer with copyright line appears at the bottom of the page
   3. Running `vite build` produces a production bundle with no references to deprecated components (NoisyBackground, AnimatedGridPattern) and no admin code
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 15-01: TBD
-- [ ] 15-02: TBD
+- [ ] 15-01-PLAN.md — Contact section refactor (Say Hello heading, 4 equal icon+label links, hover animations) and Footer component
+- [ ] 15-02-PLAN.md — Dead code cleanup (delete 4 effect components, remove aurora CSS, update tests, verify production build)
 
 ## Progress
 
@@ -151,4 +151,4 @@ Phases execute in numeric order: 12 → 13 → 14 → 14.1 → 15
 | 13. Animated Hero Gradient | v1.2 | 1/1 | Complete | 2026-03-27 |
 | 14. Component Rebuilds | v1.2 | Complete    | 2026-03-27 | 2026-03-27 |
 | 14.1 Timeline Overhaul | 2/2 | Complete    | 2026-03-30 | - |
-| 15. Contact Footer & Cleanup | v1.2 | 0/? | Not started | - |
+| 15. Contact Footer & Cleanup | v1.2 | 0/2 | Not started | - |
