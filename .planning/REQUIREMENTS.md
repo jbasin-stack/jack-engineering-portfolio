@@ -56,9 +56,9 @@ Requirements for UI Polish & Interactivity milestone. Each maps to roadmap phase
 
 ### Contact & Footer
 
-- [ ] **CTFT-01**: Clean contact section with direct links for email, LinkedIn, GitHub, and resume download
-- [ ] **CTFT-02**: Social link icons with hover animation
-- [ ] **CTFT-03**: Clean minimal footer with copyright line
+- [x] **CTFT-01**: Clean contact section with direct links for email, LinkedIn, GitHub, and resume download
+- [x] **CTFT-02**: Social link icons with hover animation
+- [x] **CTFT-03**: Clean minimal footer with copyright line
 
 ## Future Requirements
 
@@ -128,9 +128,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TL-YEAR | Phase 14.1 | Complete |
 | TL-CONNECTOR | Phase 14.1 | Complete |
 | TL-ANIMATE | Phase 14.1 | Complete |
-| CTFT-01 | Phase 15 | Pending |
-| CTFT-02 | Phase 15 | Pending |
-| CTFT-03 | Phase 15 | Pending |
+| CTFT-01 | Phase 15 | Complete |
+| CTFT-02 | Phase 15 | Complete |
+| CTFT-03 | Phase 15 | Complete |
 
 **Coverage:**
 - v1.2 requirements: 32 total (25 original + 7 timeline overhaul)

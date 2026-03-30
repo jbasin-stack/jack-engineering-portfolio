@@ -2,10 +2,10 @@
 gsd_state_version: 1.0
 milestone: v1.2
 milestone_name: UI Polish & Interactivity
-status: completed
-stopped_at: Phase 15 context gathered
+status: in-progress
+stopped_at: Completed 15-01-PLAN.md
 last_updated: "2026-03-30T19:44:51.813Z"
-last_activity: 2026-03-30 — Completed 14.1-02 editorial timeline component
+last_activity: 2026-03-30 — Completed 15-01 contact and footer components
 progress:
   total_phases: 5
   completed_phases: 4
@@ -21,16 +21,16 @@ progress:
 See: .planning/PROJECT.md (updated 2026-03-26)
 
 **Core value:** Every visitor immediately understands Jack's range and depth as an electrical engineer, and can access the evidence without friction.
-**Current focus:** Phase 14.1 complete — ready for Phase 15 (Contact Footer & Cleanup)
+**Current focus:** Phase 15 in progress — Contact refactored with 4 equal links, Footer component created
 
 ## Current Position
 
-Phase: 14.1 (Timeline Overhaul) -- COMPLETE
-Plan: 2 of 2 complete
-Status: Phase 14.1 complete -- ready for Phase 15
-Last activity: 2026-03-30 — Completed 14.1-02 editorial timeline component
+Phase: 15 (Contact Footer & Cleanup)
+Plan: 1 of 2 complete
+Status: Plan 15-01 complete -- Contact refactored, Footer created
+Last activity: 2026-03-30 — Completed 15-01 contact and footer components
 
-Progress: [██████████] 100%
+Progress: [█████████░] 50%
 
 ## Performance Metrics
 
@@ -58,6 +58,7 @@ Progress: [██████████] 100%
 | Phase 14 P04 | 42min | 2 tasks | 3 files |
 | Phase 14.1 P01 | 3min | 3 tasks | 5 files |
 | Phase 14.1 P02 | 4min | 2 tasks | 1 files |
+| Phase 15 P01 | 3min | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -104,6 +105,8 @@ Recent decisions affecting current work:
 - [Phase 14.1-01]: Wave-0 test scaffold: 4/5 tests intentionally fail until Plan 02 editorial Timeline lands
 - [Phase 14.1]: Animation tuning: y:80 / duration:0.9s / viewport:0.5 for dramatic, visible scroll entrance (user-approved)
 - [Phase 14.1]: CSS div connector line replaces SVG path: simpler, Tailwind-styled, no scroll calculations
+- [Phase 15-01]: Unified links array built inside Contact component (not data file) for mixed link types
+- [Phase 15-01]: Footer is static (no motion animations) -- quiet sign-off per design intent
 
 ### Pending Todos
 
@@ -117,6 +120,6 @@ Recent decisions affecting current work:
 
 ## Session Continuity
 
-Last session: 2026-03-30T19:44:51.810Z
-Stopped at: Phase 15 context gathered
-Resume file: .planning/phases/15-contact-footer-cleanup/15-CONTEXT.md
+Last session: 2026-03-30T20:05:39Z
+Stopped at: Completed 15-01-PLAN.md
+Resume file: .planning/phases/15-contact-footer-cleanup/15-01-SUMMARY.md
