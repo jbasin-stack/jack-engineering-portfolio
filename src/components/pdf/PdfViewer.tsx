@@ -138,7 +138,7 @@ export function PdfViewer({ file, title, open, onOpenChange }: PdfViewerProps) {
 
   // PDF display area (shared between Dialog and Drawer)
   const pdfContent = (
-    <div className="flex-1 overflow-auto">
+    <div className="flex-1 overflow-auto" data-lenis-prevent>
       <div className="flex justify-center p-4">
         {loading && !error && (
           <p className="py-12 text-center text-muted-foreground">Loading...</p>

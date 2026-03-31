@@ -109,7 +109,7 @@ export function ProjectDetail({ project, open, onOpenChange }: ProjectDetailProp
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="max-h-[95vh] overflow-y-auto p-0">
+        <DrawerContent className="max-h-[95vh] overflow-y-auto p-0" data-lenis-prevent>
           <DrawerHeader className="p-6 pb-0">
             <DrawerTitle className="text-xl font-bold text-ink">
               {project.title}
@@ -126,7 +126,7 @@ export function ProjectDetail({ project, open, onOpenChange }: ProjectDetailProp
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto sm:max-w-4xl">
+      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto sm:max-w-4xl" data-lenis-prevent>
         <DialogHeader>
           <DialogTitle className="text-xl font-bold text-ink">
             {project.title}
