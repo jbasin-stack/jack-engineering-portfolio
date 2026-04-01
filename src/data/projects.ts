@@ -2,6 +2,25 @@ import type { Project } from '../types/data';
 
 export const projects: Project[] = [
   {
+    id: 'schottky-diode-fabrication',
+    title: 'Schottky Diode Fabrication',
+    brief: 'Semiconductor device fabrication from wafer to characterization',
+    summary:
+      ' Fabricated Schottky diodes at the Washington Nanofabrication Facility using full DELM (Deposition, Etch, Lithography, Metrology) processes. Patterned features ranging from 5-100µm on 4-inch wafers and characterized device behavior through 4-terminal impedance measurements, film thickness verification, and IV performance analysis. Achieved ideality factors within 20% of theoretical predictions.',
+    thumbnail: '/projects/schottky-diode-fabrication.jpg',
+    images: ['/projects/schottky-diode-fabrication.jpg'],
+    domain: 'Semiconductor Fabrication',
+    techStack: [
+      'Photolithography',
+      'Thin-film Deposition',
+      '4PP profilometry',
+      'PECVD',
+      'ICP Etch',
+    ],
+    links: [],
+    featured: false,
+  },
+  {
     id: 'lna-design',
     title: 'Low-Noise Amplifier for 5G NR',
     brief: 'Sub-2 dB noise figure LNA targeting the n77 band at 3.5 GHz.',
@@ -17,7 +36,7 @@ export const projects: Project[] = [
         url: '#',
       },
     ],
-    featured: true,
+    featured: false,
   },
   {
     id: 'mems-accelerometer',
@@ -71,6 +90,6 @@ export const projects: Project[] = [
         url: '#',
       },
     ],
-    featured: true,
+    featured: false,
   },
 ];

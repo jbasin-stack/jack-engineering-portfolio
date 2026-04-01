@@ -71,7 +71,12 @@ async function updateDataReference(
     // Find the item by id and update the relevant field
     const item = data.find((i: Record<string, unknown>) => i.id === context.itemId);
     if (item) {
-      item[context.field] = targetPath;
+      // Append to array fields (e.g. images: string[]), assign to scalar fields (e.g. thumbnail: string)
+      if (Array.isArray(item[context.field])) {
+        (item[context.field] as string[]).push(targetPath);
+      } else {
+        item[context.field] = targetPath;
+      }
     } else {
       return false;
     }
