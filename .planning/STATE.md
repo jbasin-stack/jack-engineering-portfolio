@@ -5,7 +5,7 @@ milestone_name: UI Polish & Interactivity
 status: shipped
 stopped_at: Milestone v1.2 completed and archived
 last_updated: "2026-04-01T20:39:48.000Z"
-last_activity: 2026-04-01 - Completed quick task 8: Fix project viewer negative space
+last_activity: 2026-04-01 - Completed quick task 8: Fix project viewer negative space when multiple images present
 progress:
   total_phases: 5
   completed_phases: 5
