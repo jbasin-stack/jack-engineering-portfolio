@@ -177,7 +177,8 @@ export function adminApiPlugin(): Plugin {
                   // Normalize filename and determine target path
                   const normalizedName = toKebabCase(fileName);
                   const ext = extname(normalizedName);
-                  const targetPath = getUploadPath(context.contentType, context.field, context.itemId, ext);
+                  const baseName = normalizedName.replace(/\.[^.]+$/, '');
+                  const targetPath = getUploadPath(context.contentType, context.field, context.itemId, ext, baseName);
 
                   // Write file to public/ FIRST (before data update to prevent race condition)
                   const fullPath = resolve(server.config.root, 'public', targetPath.replace(/^\//, ''));
