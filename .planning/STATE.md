@@ -4,8 +4,8 @@ milestone: v1.2
 milestone_name: UI Polish & Interactivity
 status: shipped
 stopped_at: Milestone v1.2 completed and archived
-last_updated: "2026-04-01T20:28:00.000Z"
-last_activity: 2026-04-01 - Completed quick task 6: Fix blank page when clicking projects
+last_updated: "2026-04-01T20:39:48.000Z"
+last_activity: 2026-04-01 - Completed quick task 7: Fix admin panel image upload overwriting
 progress:
   total_phases: 5
   completed_phases: 5
@@ -55,9 +55,10 @@ None active. All v1.2 blockers resolved.
 | 4 | Fix paper viewer and project detail scroll blocking | 2026-03-31 | 82b0fb1 | [4-the-paper-viewer-wont-let-me-scroll-down](./quick/4-the-paper-viewer-wont-let-me-scroll-down/) |
 | 5 | Add Vercel deploy scripts to package.json | 2026-03-31 | 40f4e8d | [5-add-a-feature-to-quickly-push-changes-to](./quick/5-add-a-feature-to-quickly-push-changes-to/) |
 | 6 | Fix blank page when clicking projects | 2026-04-01 | c4f4a1d | [6-fix-blank-page-when-clicking-projects-af](./quick/6-fix-blank-page-when-clicking-projects-af/) |
+| 7 | Fix admin panel image upload overwriting | 2026-04-01 | fa3d63c | [7-fix-admin-panel-image-upload-overwriting](./quick/7-fix-admin-panel-image-upload-overwriting/) |
 
 ## Session Continuity
 
 Last session: 2026-04-01
-Stopped at: Completed quick task 6: Fix blank page when clicking projects
+Stopped at: Completed quick task 7: Fix admin panel image upload overwriting
 Resume file: None
