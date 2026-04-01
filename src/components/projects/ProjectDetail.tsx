@@ -63,8 +63,8 @@ export function ProjectDetail({ project, open, onOpenChange }: ProjectDetailProp
         ))}
       </div>
 
-      {/* Content column */}
-      <div className="flex flex-col gap-4">
+      {/* Content column — sticky on desktop so it stays pinned while scrolling through images */}
+      <div className="flex flex-col gap-4 md:sticky md:top-6 md:self-start">
         {/* Domain pill */}
         <span className="inline-block w-fit rounded-full bg-silicon-50 px-3 py-1 text-xs font-medium text-silicon-600">
           {project.domain}
