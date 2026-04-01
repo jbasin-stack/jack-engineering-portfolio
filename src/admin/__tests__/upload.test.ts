@@ -72,4 +72,22 @@ describe('getUploadPath', () => {
   it('routes contact resume to /resume.{ext}', () => {
     expect(getUploadPath('contact', 'resumePath', undefined, '.pdf')).toBe('/resume.pdf');
   });
+
+  it('routes project images with fileName to /projects/{id}-{fileName}.{ext}', () => {
+    expect(getUploadPath('projects', 'images', 'lna-design', '.jpg', 'diagram')).toBe(
+      '/projects/lna-design-diagram.jpg',
+    );
+  });
+
+  it('produces unique paths for different image fileNames', () => {
+    expect(getUploadPath('projects', 'images', 'lna-design', '.png', 'schematic')).toBe(
+      '/projects/lna-design-schematic.png',
+    );
+  });
+
+  it('falls back to /projects/{id}.{ext} when images field has no fileName', () => {
+    expect(getUploadPath('projects', 'images', 'lna-design', '.jpg')).toBe(
+      '/projects/lna-design.jpg',
+    );
+  });
 });

@@ -66,9 +66,18 @@ export function getUploadPath(
   field: string,
   itemId: string | undefined,
   ext: string,
+  fileName?: string,
 ): string {
-  // Project assets route to /projects/{id}.{ext}
-  if (contentType === 'projects' && (field === 'thumbnail' || field === 'images')) {
+  // Project thumbnail: /projects/{id}.{ext}
+  if (contentType === 'projects' && field === 'thumbnail') {
+    return `/projects/${itemId}${ext}`;
+  }
+
+  // Project images: include fileName for uniqueness when provided
+  if (contentType === 'projects' && field === 'images') {
+    if (fileName) {
+      return `/projects/${itemId}-${fileName}${ext}`;
+    }
     return `/projects/${itemId}${ext}`;
   }
 
