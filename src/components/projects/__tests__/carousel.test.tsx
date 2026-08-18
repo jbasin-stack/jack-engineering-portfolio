@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { ProjectCarousel } from '../ProjectCarousel';
+import { projects } from '../../../data/projects';
 
 // Mock embla-carousel-react to avoid DOM measurement issues in jsdom
 vi.mock('embla-carousel-react', () => ({
@@ -45,9 +46,9 @@ describe('ProjectCarousel', () => {
   it('renders all project slides', () => {
     // PROJ-01: All projects are rendered as slides
     render(<ProjectCarousel />);
-    // 4 projects in data -- each should have its title rendered
+    // each project in data should have its title rendered
     const titles = screen.getAllByRole('heading', { level: 3 });
-    expect(titles.length).toBe(4);
+    expect(titles.length).toBe(projects.length);
   });
 
   it('featured project appears first', () => {

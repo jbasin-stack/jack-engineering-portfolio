@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeAll } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Timeline } from '../Timeline';
+import { milestones } from '../../../data/timeline';
 
 // Mock IntersectionObserver for Motion whileInView support in jsdom
 beforeAll(() => {
@@ -21,17 +22,17 @@ describe('Timeline section', () => {
   it('renders all 8 milestone entries', () => {
     render(<Timeline />);
     const articles = document.querySelectorAll('article');
-    expect(articles.length).toBe(8);
+    expect(articles.length).toBe(milestones.length);
   });
 
   // Will pass after Plan 02 implements editorial Timeline
   it('displays extracted year for each entry', () => {
     render(<Timeline />);
     // Years may appear multiple times (e.g. two entries in 2022)
-    expect(screen.getAllByText('2021').length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText('2022').length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText('2023').length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText('2024').length).toBeGreaterThanOrEqual(1);
+    const years = [...new Set(milestones.map((m) => m.date.split(' ')[1]))];
+    for (const year of years) {
+      expect(screen.getAllByText(year).length).toBeGreaterThanOrEqual(1);
+    }
   });
 
   // Will pass after Plan 02 implements editorial Timeline
@@ -45,7 +46,7 @@ describe('Timeline section', () => {
   it('renders dot markers for each entry', () => {
     render(<Timeline />);
     const dots = document.querySelectorAll('[data-testid="timeline-dot"]');
-    expect(dots.length).toBe(8);
+    expect(dots.length).toBe(milestones.length);
   });
 
   it('renders section heading', () => {

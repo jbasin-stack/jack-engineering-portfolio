@@ -2,9 +2,11 @@ import { describe, it, expect } from 'vitest';
 import { projects } from '../projects';
 
 describe('projects data', () => {
-  it('is an array of 3-5 entries', () => {
-    expect(projects.length).toBeGreaterThanOrEqual(3);
-    expect(projects.length).toBeLessThanOrEqual(5);
+  // Breadth floors were dropped when the v1.0 placeholder projects were removed;
+  // the list now tracks real work only and grows via the admin panel.
+  it('is a non-empty array of at most 12 entries', () => {
+    expect(projects.length).toBeGreaterThanOrEqual(1);
+    expect(projects.length).toBeLessThanOrEqual(12);
   });
 
   it('each project has all required fields', () => {
@@ -27,8 +29,15 @@ describe('projects data', () => {
     expect(featuredCount).toBeGreaterThanOrEqual(1);
   });
 
-  it('domain values are one of RF, Fabrication, Analog, Digital', () => {
-    const validDomains = ['RF', 'Fabrication', 'Analog', 'Digital'];
+  it('domain values are drawn from the known domain vocabulary', () => {
+    const validDomains = [
+      'RF',
+      'Fabrication',
+      'Semiconductor Fabrication',
+      'Analog',
+      'Digital',
+      'Mixed-Signal',
+    ];
     for (const project of projects) {
       expect(validDomains).toContain(project.domain);
     }
@@ -55,8 +64,9 @@ describe('projects data', () => {
     }
   });
 
-  it('domains span at least 3 categories', () => {
+  it('every project declares a domain', () => {
     const uniqueDomains = new Set(projects.map((p) => p.domain));
-    expect(uniqueDomains.size).toBeGreaterThanOrEqual(3);
+    expect(uniqueDomains.size).toBeGreaterThanOrEqual(1);
+    expect(uniqueDomains.has('')).toBe(false);
   });
 });
