@@ -2,11 +2,6 @@ import type { TimelineMilestone } from '../types/data';
 
 export const milestones: TimelineMilestone[] = [
   {
-    date: 'Sep 2021',
-    title: 'Started at UW',
-    description: 'Began Electrical & Computer Engineering program at University of Washington',
-  },
-  {
     date: 'Mar 2022',
     title: 'First Circuit Lab',
     description: 'Built and characterized first analog amplifier circuit',
@@ -28,6 +23,11 @@ export const milestones: TimelineMilestone[] = [
   },
   {
     date: 'Sep 2023',
+    title: 'Joined UW Electrical and Computer Engineering',
+    description: 'Explored fundamentals. joined clubs. Misc projects ',
+  },
+  {
+    date: 'Sep 2023',
     title: 'VLSI Design',
     description: 'Created custom CMOS standard cell library in Cadence Virtuoso',
   },
@@ -40,5 +40,11 @@ export const milestones: TimelineMilestone[] = [
     date: 'Sep 2024',
     title: 'Senior Capstone',
     description: 'Leading mixed-signal design project for sensor interface',
+  },
+  {
+    date: 'Jun 2026',
+    title: 'Departmental Honors Project',
+    description:
+      'Built a closed-loop adaptive notch filter that detects an interference tone by FFT and retunes itself onto it over SPI',
   },
 ];

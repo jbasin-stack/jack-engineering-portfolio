@@ -2,13 +2,50 @@ import type { Project } from '../types/data';
 
 export const projects: Project[] = [
   {
+    id: 'anc-interference-cancellation',
+    title: 'Real-Time Adaptive Audio Interference Cancellation',
+    brief:
+      'Closed-loop system that hunts down an interference tone and retunes an analog notch filter onto it.',
+    summary:
+      'UW ECE Departmental Honors project (advised by Prof. H. Naghavi). A laptop plays music contaminated by a single interference tone; a Tektronix TDS2004B captures the waveform and computes its FFT; a Python detector windows the spectrum, finds the peak within 2-20 kHz, and requires it to persist across five consecutive frames before acting. The confirmed frequency is sent over serial to an Arduino Nano, which inverts f₀ = 1/(2πRC) to solve for the tap code D and drives an MCP4251 dual digital potentiometer over SPI. Those two wipers are the integrator resistors of a Tow–Thomas biquad built from four OP484 op-amps on ±5 V rails, so the notch center slides onto the interferer while the 10 kΩ feedback resistor and 10 nF capacitors hold bandwidth fixed at 1.59 kHz. Measured attenuation was −10 to −30 dB with Q ranging from 1.26 at 2 kHz to 12.6 at 20 kHz. Because the digipot only offers 256 taps, the notch sometimes lands up to ~1 kHz off target — a quantization limit the accompanying interactive explainer reproduces rather than hides.',
+    thumbnail: '/projects/anc-interference-cancellation.jpg',
+    images: [
+      '/projects/anc-interference-cancellation-spectrum.jpg',
+      '/projects/anc-interference-cancellation-diagram.jpg',
+      '/projects/anc-interference-cancellation-schematic.jpg',
+    ],
+    domain: 'Mixed-Signal',
+    techStack: [
+      'Tow–Thomas biquad',
+      'OP484',
+      'MCP4251 digipot',
+      'Arduino Nano',
+      'Python FFT',
+      'Tektronix TDS2004B',
+    ],
+    links: [
+      {
+        label: 'Interactive Explainer',
+        url: 'https://anc-visual.vercel.app',
+      },
+      {
+        label: 'Paper (PDF)',
+        url: '/papers/active-notch-filter.pdf',
+      },
+    ],
+    featured: true,
+  },
+  {
     id: 'schottky-diode-fabrication',
     title: 'Schottky Diode Fabrication',
     brief: 'Semiconductor device fabrication from wafer to characterization',
     summary:
       ' Fabricated Schottky diodes at the Washington Nanofabrication Facility using full DELM (Deposition, Etch, Lithography, Metrology) processes. Patterned features ranging from 5-100µm on 4-inch wafers and characterized device behavior through 4-terminal impedance measurements, film thickness verification, and IV performance analysis. Achieved ideality factors within 20% of theoretical predictions.',
     thumbnail: '/projects/schottky-diode-fabrication.jpg',
-    images: ['/projects/schottky-diode-fabrication.jpg'],
+    images: [
+      '/projects/schottky-diode-fabrication-diodeproject-processflow-1-page-0001.jpg',
+      '/projects/schottky-diode-fabrication-diodeproject-processflow-1-page-0002.jpg',
+    ],
     domain: 'Semiconductor Fabrication',
     techStack: [
       'Photolithography',
@@ -18,78 +55,6 @@ export const projects: Project[] = [
       'ICP Etch',
     ],
     links: [],
-    featured: false,
-  },
-  {
-    id: 'lna-design',
-    title: 'Low-Noise Amplifier for 5G NR',
-    brief: 'Sub-2 dB noise figure LNA targeting the n77 band at 3.5 GHz.',
-    summary:
-      'Designed a two-stage cascode LNA in 65 nm CMOS targeting 5G New Radio n77 band (3.3–4.2 GHz). Achieved a simulated noise figure of 1.8 dB with 18 dB gain using inductive source degeneration and optimized input matching. Layout was completed in Cadence Virtuoso with post-layout extraction confirming performance within 0.3 dB of schematic simulation.',
-    thumbnail: '/projects/lna-design.png',
-    images: ['/projects/lna-design.svg', '/projects/lna-schematic.svg'],
-    domain: 'RF',
-    techStack: ['Cadence Virtuoso', 'Spectre RF', 'ADS', '65nm CMOS', 'S-parameter analysis'],
-    links: [
-      {
-        label: 'Report',
-        url: '#',
-      },
-    ],
-    featured: false,
-  },
-  {
-    id: 'mems-accelerometer',
-    title: 'MEMS Capacitive Accelerometer',
-    brief: 'Surface-micromachined accelerometer with sub-mG resolution.',
-    summary:
-      'Fabricated a capacitive MEMS accelerometer using a 4-mask surface micromachining process on SOI wafers. The comb-drive structure achieves differential capacitance sensing with 0.5 mG resolution at 100 Hz bandwidth. Process included DRIE etching, oxide sacrificial release, and critical-point drying to prevent stiction.',
-    thumbnail: '/projects/mems-accelerometer.svg',
-    images: ['/projects/mems-accelerometer.svg', '/projects/mems-sem.svg'],
-    domain: 'Fabrication',
-    techStack: ['L-Edit', 'COMSOL', 'DRIE', 'SOI wafers', 'SEM characterization'],
-    links: [
-      {
-        label: 'Process Report',
-        url: '#',
-      },
-    ],
-    featured: false,
-  },
-  {
-    id: 'fpga-signal-processor',
-    title: 'FPGA Real-Time Signal Processor',
-    brief: 'Pipelined FFT engine on Xilinx Artix-7 for spectrum analysis.',
-    summary:
-      'Implemented a 1024-point pipelined radix-2 FFT processor on a Xilinx Artix-7 FPGA, operating at 200 MHz clock rate. The design processes I/Q samples from a 12-bit ADC and outputs magnitude-squared spectrum data over AXI-Stream. Resource utilization was optimized using block RAM for twiddle factors and DSP48 slices for butterfly multiply-accumulate operations.',
-    thumbnail: '/projects/fpga-processor.svg',
-    images: ['/projects/fpga-processor.svg', '/projects/fpga-block-diagram.svg'],
-    domain: 'Digital',
-    techStack: ['Vivado', 'SystemVerilog', 'Artix-7', 'AXI-Stream', 'ModelSim'],
-    links: [
-      {
-        label: 'GitHub',
-        url: '#',
-      },
-    ],
-    featured: false,
-  },
-  {
-    id: 'precision-adc-frontend',
-    title: 'Precision ADC Front-End',
-    brief: '24-bit delta-sigma ADC analog front-end for strain gauge bridges.',
-    summary:
-      'Designed a low-noise analog front-end for a 24-bit delta-sigma ADC (ADS1256) interfacing with Wheatstone bridge strain gauges. The circuit includes a chopper-stabilized instrumentation amplifier with 120 dB CMRR, programmable gain from 1 to 128, and a 4th-order anti-aliasing filter. Achieved 20-bit effective resolution at 30 SPS with less than 1 uV RMS input-referred noise.',
-    thumbnail: '/projects/adc-frontend.svg',
-    images: ['/projects/adc-frontend.svg', '/projects/adc-pcb.svg'],
-    domain: 'Analog',
-    techStack: ['Altium Designer', 'LTspice', 'ADS1256', 'PCB layout', 'Noise analysis'],
-    links: [
-      {
-        label: 'Schematic',
-        url: '#',
-      },
-    ],
     featured: false,
   },
 ];

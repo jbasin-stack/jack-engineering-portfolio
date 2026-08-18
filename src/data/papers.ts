@@ -9,15 +9,10 @@ export const papers: Paper[] = [
     pdfPath: '/papers/lna-design-paper.pdf',
   },
   {
-    id: 'mems-process-report',
-    title: 'Surface Micromachining of a Capacitive MEMS Accelerometer',
-    descriptor: 'EE 527 — MEMS Fabrication, Spring 2025',
-    pdfPath: '/papers/mems-process-report.pdf',
-  },
-  {
-    id: 'fpga-fft-paper',
-    title: 'Pipelined FFT Architecture for Real-Time Spectrum Analysis',
-    descriptor: 'EE 478 — Digital Systems Design, Autumn 2025',
-    pdfPath: '/papers/fpga-fft.pdf',
+    id: 'active-notch-filter',
+    title:
+      'Real-Time Adaptive Audio Interference Cancellation Using a Digitally Tunable Tow–Thomas Notch Filter',
+    descriptor: 'UW ECE Departmental Honors — advised by Prof. H. Naghavi, June 2026',
+    pdfPath: '/papers/active-notch-filter.pdf',
   },
 ];
