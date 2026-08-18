@@ -5,11 +5,26 @@ export const navItems: NavItem[] = [
     label: 'Background',
     href: '#about',
     children: [
-      { label: 'Expertise', href: '#expertise' },
-      { label: 'Timeline', href: '#timeline' },
+      {
+        label: 'Expertise',
+        href: '#expertise',
+      },
+      {
+        label: 'Timeline',
+        href: '#timeline',
+      },
     ],
   },
-  { label: 'Projects', href: '#projects' },
-  { label: 'Papers', href: '#papers' },
-  { label: 'Contact', href: '#contact' },
+  {
+    label: 'Projects',
+    href: '#projects',
+  },
+  {
+    label: 'Papers',
+    href: '#papers',
+  },
+  {
+    label: 'Vibe Coded Projects',
+    href: '#VCs',
+  },
 ];
