@@ -1,7 +1,7 @@
 import { type MutableRefObject, useMemo } from 'react';
 import { z } from 'zod';
 import type { NavItem } from '@/types/data';
-import { useContentEditor } from '../useContentEditor';
+import { useContentEditor, type FieldErrors } from '../useContentEditor';
 import { navItemSchema } from '../schemas';
 import { Button } from '@/components/ui/button';
 import { SectionHeader } from './shared/SectionHeader';
@@ -43,7 +43,7 @@ interface SortableChildProps {
   child: NavItem;
   navIndex: number;
   childIndex: number;
-  fieldErrors: Record<string, string | undefined>;
+  fieldErrors: FieldErrors;
   updateChild: (
     navIndex: number,
     childIndex: number,
@@ -130,7 +130,7 @@ interface SortableNavItemProps {
   id: string;
   item: NavItem;
   index: number;
-  fieldErrors: Record<string, string | undefined>;
+  fieldErrors: FieldErrors;
   updateNavItem: (index: number, field: keyof NavItem, value: string) => void;
   removeNavItem: (index: number) => void;
   updateChild: (
