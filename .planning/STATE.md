@@ -41,7 +41,7 @@ Progress: [██████████] 100% — SHIPPED
 
 ### Pending Todos
 
-3 pending todos in `.planning/todos/pending/`
+4 pending todos in `.planning/todos/pending/`
 
 ### Blockers/Concerns
 
