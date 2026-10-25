@@ -1,7 +1,6 @@
 import { motion } from 'motion/react';
 import { sectionVariants, fadeUpVariant } from '../../styles/motion';
 
-// Replace with your actual portrait image path (e.g., /portrait.jpg in public/)
 const PORTRAIT_SRC = '/portrait.jpg';
 
 export function WhoAmI() {
@@ -51,21 +50,22 @@ export function WhoAmI() {
                 className="mt-6 max-w-2xl text-lg leading-relaxed text-silicon-600"
                 variants={fadeUpVariant}
               >
-                I'm an ECE student at the University of Washington drawn to the
-                intersection of semiconductor fabrication and system-level design.
-                From cleanroom process development to mixed-signal circuit
-                architecture, I want to close the gap between how devices are made
-                and how they're used.
+                I'm a senior in Electrical & Computer Engineering at the University
+                of Washington, working where semiconductor fabrication meets analog
+                and mixed-signal circuit design. I lead the undergraduate research
+                assistants at the Washington Nanofabrication Facility, and I spent
+                summer 2026 as a photolithography process engineering intern at
+                Micron.
               </motion.p>
 
               <motion.p
                 className="mt-4 max-w-2xl text-lg leading-relaxed text-silicon-600"
                 variants={fadeUpVariant}
               >
-                My goal is to contribute to the next generation of hardware —
-                whether that's advancing fabrication processes, designing more
-                efficient analog interfaces, or building the tooling that connects
-                the two.
+                On the design side, I build analog circuits in Cadence and on the
+                bench. I'm heading toward high-speed and optical I/O circuits,
+                where fabrication variation turns into a circuit problem and
+                knowing how devices are made pays off.
               </motion.p>
             </div>
           </div>

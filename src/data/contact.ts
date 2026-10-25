@@ -1,8 +1,8 @@
 import type { ContactData } from '../types/data';
 
 export const contactData: ContactData = {
-  tagline: 'Open to internship and research opportunities',
-  email: 'jbasin@uw.edu | jack5b@outlook.com',
+  tagline: 'Open to Summer 2027 internships in analog/mixed-signal design and semiconductor process engineering',
+  email: 'jbasin@uw.edu',
   resumePath: '/resume.pdf',
   socialLinks: [
     {

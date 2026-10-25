@@ -4,23 +4,41 @@ export const skillGroups: SkillGroup[] = [
   {
     domain: 'Fabrication',
     skills: [
-      'Thin Film Deposition',
-      'Wet/Dry Etching',
-      'SEM/AFM Characterization',
-      'Cleanroom Protocol',
-      'Photolithography',
+      'Photolithography & Grayscale Lithography',
+      'Photoresist Spin-Curve Characterization',
+      'Thin-Film Deposition & Etch',
+      'Process Metrology',
+      'SPC & Process Characterization',
+      'ISO 5 Cleanroom Operations',
     ],
   },
   {
     domain: 'RF',
-    skills: ['S-Parameter Analysis', 'Impedance Matching', 'Filter Design', 'VNA Operation'],
+    skills: [
+      'Microstrip Antenna Design',
+      'Impedance Matching & Feed Networks',
+      'Full-Wave EM Simulation',
+      'S-Parameter Measurement',
+    ],
   },
   {
     domain: 'Analog',
-    skills: ['Circuit Analysis', 'Op-Amp Design', 'PCB Layout', 'SPICE Simulation'],
+    skills: [
+      'CMOS Amplifier Design',
+      'Active Filter Design',
+      'Op-Amp Circuits',
+      'SPICE Simulation',
+      'PCB Layout',
+    ],
   },
   {
     domain: 'Digital',
-    skills: ['Verilog/VHDL', 'FPGA Design', 'Embedded C', 'Digital Signal Processing'],
+    skills: [
+      'SystemVerilog',
+      'Pipelined CPU Design',
+      'FPGA Development',
+      'Embedded C (Arduino)',
+      'Python Instrument Control & FFT',
+    ],
   },
 ];

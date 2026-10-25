@@ -5,6 +5,14 @@ import { toolingGroups } from '../../data/tooling';
 import { sectionVariants, fadeUpVariant, easing } from '../../styles/motion';
 import { AnimatedTabs } from '../ui/AnimatedTabs';
 
+// EDA tools that belong under a tab other than Analog; everything else in
+// 'EDA Tools' falls through to Analog
+const RF_EDA = ['Ansys HFSS'];
+const DIGITAL_EDA = ['ModelSim'];
+
+const edaTools = () =>
+  toolingGroups.find((g) => g.category === 'EDA Tools')?.items ?? [];
+
 // Domain merge mapping: each domain combines a skill group with relevant tools
 const domainMapping = [
   {
@@ -18,23 +26,25 @@ const domainMapping = [
     id: 'rf-test',
     label: 'RF & Test',
     skillDomain: 'RF',
-    getTools: () =>
-      toolingGroups.find((g) => g.category === 'Lab Equipment')?.items ?? [],
+    getTools: () => [
+      ...edaTools().filter((item) => RF_EDA.includes(item)),
+      ...(toolingGroups.find((g) => g.category === 'Lab Equipment')?.items ?? []),
+    ],
   },
   {
     id: 'analog',
     label: 'Analog',
     skillDomain: 'Analog',
     getTools: () =>
-      (toolingGroups.find((g) => g.category === 'EDA Tools')?.items ?? []).filter(
-        (item) => item !== 'Xilinx Vivado'
+      edaTools().filter(
+        (item) => !RF_EDA.includes(item) && !DIGITAL_EDA.includes(item)
       ),
   },
   {
     id: 'digital',
     label: 'Digital',
     skillDomain: 'Digital',
-    getTools: () => ['Xilinx Vivado'],
+    getTools: () => edaTools().filter((item) => DIGITAL_EDA.includes(item)),
   },
 ] as const;
 

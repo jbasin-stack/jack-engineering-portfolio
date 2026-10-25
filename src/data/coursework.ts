@@ -2,43 +2,38 @@ import type { Course } from '../types/data';
 
 export const courses: Course[] = [
   {
-    code: 'EE 215',
-    name: 'Fundamentals of Electrical Engineering',
-    descriptor: 'Circuit analysis and linear systems fundamentals',
-  },
-  {
-    code: 'EE 233',
-    name: 'Circuit Theory',
-    descriptor: 'AC/DC circuit analysis with phasors and Laplace transforms',
-  },
-  {
-    code: 'EE 271',
-    name: 'Digital Circuits and Systems',
-    descriptor: 'Boolean logic, combinational and sequential circuits',
-  },
-  {
-    code: 'EE 331',
-    name: 'Devices and Circuits I',
-    descriptor: 'Semiconductor physics and MOSFET device modeling',
-  },
-  {
     code: 'EE 332',
     name: 'Devices and Circuits II',
-    descriptor: 'Amplifier design and frequency response analysis',
+    descriptor: 'Analog CMOS circuit design in Cadence Virtuoso',
   },
   {
-    code: 'EE 341',
-    name: 'Electromagnetic Theory',
-    descriptor: 'Maxwell\'s equations and transmission line theory',
+    code: 'EE 333',
+    name: 'Analog Embedded Systems',
+    descriptor: 'Op-amp and active filter design with microcontroller control',
   },
   {
-    code: 'EE 475',
-    name: 'Introduction to VLSI',
-    descriptor: 'CMOS circuit design and layout fundamentals',
+    code: 'EE 393',
+    name: 'Advanced Technical Communication',
+    descriptor: 'Team-written NSF SBIR Phase I proposal',
   },
   {
-    code: 'EE 478',
-    name: 'Computer-Aided Design for VLSI',
-    descriptor: 'Automated design flow and physical verification',
+    code: 'EE 464',
+    name: 'Antenna Analysis and Design',
+    descriptor: 'Microstrip antenna and array design in Ansys HFSS',
+  },
+  {
+    code: 'EE 435',
+    name: 'Linear Integrated Circuits',
+    descriptor: 'Analog integrated circuit building blocks',
+  },
+  {
+    code: 'EE 487',
+    name: 'Introduction to Photonics',
+    descriptor: 'Optical and photonic device fundamentals',
+  },
+  {
+    code: 'EE 536',
+    name: 'Analog IC Design (Graduate)',
+    descriptor: 'Graduate-level analog integrated circuit design',
   },
 ];

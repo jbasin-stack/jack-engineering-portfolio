@@ -40,7 +40,7 @@ export const projects: Project[] = [
     title: 'Schottky Diode Fabrication',
     brief: 'Semiconductor device fabrication from wafer to characterization',
     summary:
-      ' Fabricated Schottky diodes at the Washington Nanofabrication Facility using full DELM (Deposition, Etch, Lithography, Metrology) processes. Patterned features ranging from 5-100µm on 4-inch wafers and characterized device behavior through 4-terminal impedance measurements, film thickness verification, and IV performance analysis. Achieved ideality factors within 20% of theoretical predictions.',
+      'Fabricated Schottky diodes on 100 mm silicon wafers at the Washington Nanofabrication Facility through a full DELM (Deposition, Etch, Lithography, Metrology) flow: PECVD oxide, contact photolithography, ICP oxide etch, and Al/Cr evaporation with lift-off. Patterned features from 5 to 100 µm, tracked sheet resistance, oxide thickness, and etch depth at each step, and characterized the finished devices with I-V and capacitance measurements on a probe station.',
     thumbnail: '/projects/schottky-diode-fabrication.jpg',
     images: [
       '/projects/schottky-diode-fabrication-diodeproject-processflow-1-page-0001.jpg',
@@ -50,7 +50,8 @@ export const projects: Project[] = [
     techStack: [
       'Photolithography',
       'Thin-film Deposition',
-      '4PP profilometry',
+      '4-Point Probe',
+      'Profilometry',
       'PECVD',
       'ICP Etch',
     ],

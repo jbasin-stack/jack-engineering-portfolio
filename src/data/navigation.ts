@@ -24,7 +24,7 @@ export const navItems: NavItem[] = [
     href: '#papers',
   },
   {
-    label: 'Vibe Coded Projects',
-    href: '#VCs',
+    label: 'Contact',
+    href: '#contact',
   },
 ];

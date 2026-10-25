@@ -3,7 +3,7 @@ import type { HeroData } from '../types/data';
 export const heroData: HeroData = {
   name: 'Jack Basinski',
   subtitle: 'Electrical & Computer Engineering · UW',
-  narrative: 'Bridging semiconductor architecture, design, and manufacturing',
+  narrative: 'Bridging semiconductor fabrication and analog/mixed-signal circuit design',
   socialLinks: [
     {
       platform: 'GitHub',
