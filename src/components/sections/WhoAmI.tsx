@@ -1,7 +1,9 @@
 import { motion } from 'motion/react';
+import { ArrowUpRight } from 'lucide-react';
 import { sectionVariants, fadeUpVariant } from '../../styles/motion';
 
 const PORTRAIT_SRC = '/portrait.jpg';
+const FIELD_GUIDE_URL = 'https://semiconductor-field-guide.vercel.app';
 
 export function WhoAmI() {
   return (
@@ -67,6 +69,39 @@ export function WhoAmI() {
                 where fabrication variation turns into a circuit problem and
                 knowing how devices are made pays off.
               </motion.p>
+
+              <motion.a
+                href={FIELD_GUIDE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group mt-8 flex max-w-2xl flex-col gap-4 rounded-2xl border border-silicon-200 bg-silicon-50 p-4 transition-colors hover:border-accent sm:flex-row sm:items-center"
+                variants={fadeUpVariant}
+              >
+                <img
+                  src="/projects/semiconductor-field-guide.jpg"
+                  alt=""
+                  loading="lazy"
+                  decoding="async"
+                  className="aspect-video w-full shrink-0 rounded-lg object-cover sm:w-48"
+                />
+                <div className="min-w-0">
+                  <h3 className="font-semibold text-ink">
+                    Semiconductor Field Guide
+                  </h3>
+                  <p className="mt-1 leading-relaxed text-silicon-600">
+                    I always want to share the resources that made me successful
+                    with other people. Here's a little field guide I made.
+                    Hopefully you find it as enjoyable as I do!
+                  </p>
+                  <span className="mt-2 inline-flex items-center gap-1 text-sm font-medium text-accent">
+                    Visit the field guide
+                    <ArrowUpRight
+                      aria-hidden="true"
+                      className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    />
+                  </span>
+                </div>
+              </motion.a>
             </div>
           </div>
         </div>
