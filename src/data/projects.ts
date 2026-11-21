@@ -58,4 +58,27 @@ export const projects: Project[] = [
     links: [],
     featured: false,
   },
+  {
+    id: 'semiconductor-field-guide',
+    title: 'Semiconductor Field Guide',
+    brief:
+      'A curated guide to learning the chip industry, with an animated walkthrough of how a chip is made.',
+    summary:
+      'A multi-page guide to the YouTube channels, Substack newsletters, podcasts, and books I actually use to follow the semiconductor industry, built from my own subscriptions. Each section filters by tags (study, history, fabrication, chip design…). A Chip basics page breaks the value chain into step-by-step stages that link to those resources, with a glossary whose terms open in place. "Journey of a chip" is a nine-stage scroll-driven walkthrough (specs, RTL, circuit, layout, masks, fab, wafer test, packaging, shipping) where one object morphs from a layout into masks, a wafer, a die, and a packaged chip, all animated with CSS 3D driven by scroll progress. Plain HTML, CSS, and ES modules with no framework or build step, deployed on Vercel.',
+    thumbnail: '/projects/semiconductor-field-guide.jpg',
+    images: ['/projects/semiconductor-field-guide-journey.jpg', '/projects/semiconductor-field-guide-basics.jpg'],
+    domain: 'Web Development',
+    techStack: ['HTML / CSS / ES modules', 'CSS 3D transforms', 'Scroll-driven animation', 'Node test runner', 'Vercel'],
+    links: [
+      {
+        label: 'Visit the Field Guide',
+        url: 'https://semiconductor-field-guide.vercel.app',
+      },
+      {
+        label: 'Journey of a Chip',
+        url: 'https://semiconductor-field-guide.vercel.app/journey.html',
+      },
+    ],
+    featured: false,
+  },
 ];

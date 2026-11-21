@@ -37,6 +37,7 @@ describe('projects data', () => {
       'Analog',
       'Digital',
       'Mixed-Signal',
+      'Web Development',
     ];
     for (const project of projects) {
       expect(validDomains).toContain(project.domain);

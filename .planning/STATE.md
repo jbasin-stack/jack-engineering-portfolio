@@ -63,3 +63,4 @@ None active. All v1.2 blockers resolved.
 Last session: 2026-04-01
 Stopped at: Completed quick task 8: Fix project viewer negative space
 Resume file: None
+| 2026-11-20 | fast | Add Semiconductor Field Guide project linking semiconductor-field-guide.vercel.app | ✅ |
